@@ -6,6 +6,7 @@ import TechText from "@/components/TechText";
 import Sidebar from "@/components/Sidebar";
 import RoverWireframe3D from "@/components/RoverWireframe3D";
 import HudBox from "@/components/HudBox";
+import BottomDock from "@/components/BottomDock";
 
 export default function Home() {
   return (
@@ -57,7 +58,7 @@ export default function Home() {
       <div className="relative z-10 flex-1 w-full flex flex-col items-center justify-center -mt-2 sm:-mt-4 pointer-events-none px-4 pl-14 sm:pl-20">
         {/* Subtle Silver Glow Spotlight in Rover Background */}
         <div
-          className="absolute top-[44%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[380px] sm:w-[660px] sm:h-[480px] pointer-events-none z-0 opacity-85"
+          className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[380px] sm:w-[660px] sm:h-[480px] pointer-events-none z-0 opacity-85"
           style={{
             background:
               "radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.30) 0%, rgba(225, 235, 250, 0.15) 35%, rgba(180, 200, 225, 0.04) 62%, transparent 75%)",
@@ -79,8 +80,8 @@ export default function Home() {
             />
           </div>
 
-          {/* Rover 3D Canvas */}
-          <div className="relative z-10 w-full max-w-4xl sm:max-w-5xl h-[380px] sm:h-[440px] lg:h-[480px] flex items-center justify-center pointer-events-none">
+          {/* Rover 3D Canvas (Shifted slightly upward) */}
+          <div className="relative z-10 w-full max-w-4xl sm:max-w-5xl h-[380px] sm:h-[440px] lg:h-[480px] flex items-center justify-center pointer-events-none -translate-y-6 sm:-translate-y-8">
             <RoverWireframe3D />
           </div>
 
@@ -96,8 +97,8 @@ export default function Home() {
             />
           </div>
 
-          {/* EST Tag (Positioned cleanly in the lower right) */}
-          <div className="hidden lg:block absolute right-2 xl:right-8 bottom-12 xl:bottom-16 w-[260px] xl:w-[290px] h-[36px] xl:h-[40px] opacity-85 z-20 pointer-events-auto hover:opacity-100 transition-opacity">
+          {/* EST Tag (Positioned cleanly below the right HUD box) */}
+          <div className="hidden lg:block absolute right-4 xl:right-10 top-[62%] xl:top-[64%] -translate-y-1/2 w-[260px] xl:w-[290px] h-[36px] xl:h-[40px] opacity-85 z-20 pointer-events-auto hover:opacity-100 transition-opacity">
             <HudBox compact={true} title="EST. 2001 // BIT MESRA" />
           </div>
         </div>
@@ -130,17 +131,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Bottom Action Area: About Us & Contact Us */}
-      <footer className="relative z-20 w-full pb-6 sm:pb-8 flex flex-col items-center pointer-events-none pl-14 sm:pl-0">
-        <div className="pointer-events-auto flex items-center gap-4 sm:gap-6 mb-4">
-          <button className="group relative px-7 sm:px-9 py-2.5 sm:py-3 rounded-full bg-white text-black font-arcade text-[8px] sm:text-[9.5px] tracking-wider uppercase transition-all duration-300 hover:bg-slate-200 hover:shadow-[0_0_24px_rgba(255,255,255,0.7)] active:scale-95 cursor-pointer">
-            About Us
-          </button>
-          <button className="group relative px-7 sm:px-9 py-2.5 sm:py-3 rounded-full bg-black/60 border border-white/30 text-white font-arcade text-[8px] sm:text-[9.5px] tracking-wider uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:border-white/60 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer">
-            Contact Us
-          </button>
-        </div>
-      </footer>
+      {/* Bottom Smooth Trapezoid Dock with Action Buttons */}
+      <BottomDock />
     </main>
   );
 }
