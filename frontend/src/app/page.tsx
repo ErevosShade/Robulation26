@@ -54,6 +54,11 @@ export default function Home() {
         </div>
       </header>
 
+      {/* Top Right Corner Tech Box: EST. 2001 // BIT MESRA (Extreme Top Right Corner) */}
+      <div className="fixed top-0 right-0 z-40 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
+        <HudBox compact={true} title="EST. 2001 // BIT MESRA" />
+      </div>
+
       {/* 3D CAD Wireframe Rover Flanked by Sci-Fi HUD Callout Boxes */}
       <div className="relative z-10 flex-1 w-full flex flex-col items-center justify-center -mt-2 sm:-mt-4 pointer-events-none px-4 pl-14 sm:pl-20">
         {/* Subtle Silver Glow Spotlight in Rover Background */}
@@ -69,11 +74,10 @@ export default function Home() {
         {/* Center Container holding Rover & Flanking Desktop HUD Boxes */}
         <div className="relative w-full max-w-[1400px] h-full flex items-center justify-center">
           {/* Left HUD Callout Box (Lower) */}
-          <div className="hidden lg:block absolute left-2 xl:left-8 top-[55%] -translate-y-1/2 w-[340px] xl:w-[380px] h-[125px] xl:h-[135px] z-20 pointer-events-auto">
+          <div className="hidden lg:block absolute left-2 xl:left-8 top-[55%] -translate-y-1/2 w-[350px] xl:w-[390px] h-[128px] xl:h-[138px] z-20 pointer-events-auto">
             <HudBox
               variant="shape1"
               leaderSide="right"
-              badge="AFFILIATION // 01"
               title="BIT MESRA"
               subtitle="OFFICIAL ROBOTICS CLUB"
               description="STUDENT HUB FOR AUTONOMOUS SYSTEMS & MECHATRONICS."
@@ -86,20 +90,14 @@ export default function Home() {
           </div>
 
           {/* Right HUD Callout Box (Upper Right) */}
-          <div className="hidden lg:block absolute right-2 xl:right-8 top-[36%] -translate-y-1/2 w-[340px] xl:w-[380px] h-[125px] xl:h-[135px] z-20 pointer-events-auto">
+          <div className="hidden lg:block absolute right-2 xl:right-8 top-[36%] -translate-y-1/2 w-[350px] xl:w-[390px] h-[128px] xl:h-[138px] z-20 pointer-events-auto">
             <HudBox
               variant="shape2"
               leaderSide="left"
-              badge="CORE DIRECTIVE // 02"
               title="PIONEERING INNOVATION"
               subtitle="REDEFINING ROBOTICS"
               description="ADVANCED PLANETARY EXPLORER & AI TELEMETRY."
             />
-          </div>
-
-          {/* EST Tag (Positioned cleanly below the right HUD box) */}
-          <div className="hidden lg:block absolute right-4 xl:right-10 top-[62%] xl:top-[64%] -translate-y-1/2 w-[260px] xl:w-[290px] h-[36px] xl:h-[40px] opacity-85 z-20 pointer-events-auto hover:opacity-100 transition-opacity">
-            <HudBox compact={true} title="EST. 2001 // BIT MESRA" />
           </div>
         </div>
 
@@ -109,24 +107,17 @@ export default function Home() {
             <HudBox
               variant="shape1"
               leaderSide="right"
-              badge="AFFILIATION // 01"
               title="BIT MESRA"
               subtitle="OFFICIAL ROBOTICS CLUB"
             />
           </div>
-          <div className="w-full sm:w-1/2 flex flex-col gap-1">
-            <div className="h-[120px]">
-              <HudBox
-                variant="shape2"
-                leaderSide="left"
-                badge="DIRECTIVE // 02"
-                title="PIONEERING INNOVATION"
-                subtitle="REDEFINING ROBOTICS"
-              />
-            </div>
-            <div className="h-[32px] w-4/5 self-end opacity-75 mt-4">
-               <HudBox compact={true} title="EST. 2001 // BIT MESRA" />
-            </div>
+          <div className="w-full sm:w-1/2 h-[120px]">
+            <HudBox
+              variant="shape2"
+              leaderSide="left"
+              title="PIONEERING INNOVATION"
+              subtitle="REDEFINING ROBOTICS"
+            />
           </div>
         </div>
       </div>
