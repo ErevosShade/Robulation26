@@ -48,7 +48,7 @@ export default function Sidebar() {
       <div className="relative w-13 sm:w-15 py-6 px-1.5 flex flex-col items-center filter drop-shadow-[0_12px_36px_rgba(0,0,0,0.7)]">
         {/* Glassmorphic Background with Smooth Rounded Trapezoid Shape */}
         <div
-          className="absolute inset-0 bg-[#090a0f]/80 backdrop-blur-2xl"
+          className="absolute inset-0 bg-[#06090e]/35 backdrop-blur-md"
           style={{ clipPath: 'url(#smoothTrapeClip)' }}
         />
 

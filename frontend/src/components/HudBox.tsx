@@ -64,8 +64,8 @@ export default function HudBox({
             </linearGradient>
           </defs>
 
-          {/* Dark Glass Backdrop Fill */}
-          <path d={compactPath} fill="rgba(6, 9, 14, 0.90)" />
+          {/* Semi-Transparent Dark Glass Backdrop Fill */}
+          <path d={compactPath} fill="rgba(6, 9, 14, 0.65)" />
 
           {/* Outer Frame Stroke */}
           <path
@@ -201,8 +201,8 @@ export default function HudBox({
           /* VARIATION A: Bottom-Left Widget (Leader Line points RIGHT to Rover) */
           /* ============================================================= */
           <>
-            {/* Dark Glass Backdrop Fill */}
-            <path d={pathA} fill="rgba(6, 9, 14, 0.90)" />
+            {/* Semi-Transparent Dark Glass Backdrop Fill */}
+            <path d={pathA} fill="rgba(6, 9, 14, 0.65)" />
 
             {/* Outer Frame Stroke */}
             <path
@@ -295,8 +295,8 @@ export default function HudBox({
           /* VARIATION B: Bottom-Right Widget (Leader Line points LEFT to Rover) */
           /* ============================================================= */
           <>
-            {/* Dark Glass Backdrop Fill */}
-            <path d={pathB} fill="rgba(6, 9, 14, 0.90)" />
+            {/* Semi-Transparent Dark Glass Backdrop Fill */}
+            <path d={pathB} fill="rgba(6, 9, 14, 0.65)" />
 
             {/* Outer Frame Stroke */}
             <path
@@ -393,7 +393,7 @@ export default function HudBox({
 
       {/* Content Area Inside the HUD Box - Clean Safe Area Position with rightward text shift */}
       <div
-        className={`absolute top-[22px] bottom-[18px] flex flex-col justify-center pointer-events-auto overflow-hidden text-left ${
+        className={`absolute top-[22px] bottom-[18px] flex flex-col justify-center pointer-events-auto overflow-visible text-left ${
           !isVariationB
             ? 'left-[36px] sm:left-[42px] right-[76px] sm:right-[88px]'
             : 'left-[102px] sm:left-[114px] xl:left-[120px] right-[16px] sm:right-[22px]'
