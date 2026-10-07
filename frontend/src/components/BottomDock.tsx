@@ -47,13 +47,13 @@ export default function BottomDock() {
         <div className="relative z-10 flex items-center justify-center gap-3 sm:gap-4 px-6 pt-1">
           <button
             type="button"
-            className="group relative px-5 sm:px-6 py-2 rounded-lg bg-white text-black font-arcade text-[8px] sm:text-[9px] tracking-wider uppercase transition-all duration-300 hover:bg-slate-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.7)] active:scale-95 cursor-pointer font-bold"
+            className="group relative px-5 sm:px-6 py-2 rounded-lg bg-white text-black font-modern text-[10px] sm:text-[11px] font-bold tracking-widest uppercase transition-all duration-300 hover:bg-slate-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.7)] active:scale-95 cursor-pointer"
           >
             About Us
           </button>
           <button
             type="button"
-            className="group relative px-5 sm:px-6 py-2 rounded-lg bg-white/10 border border-white/25 text-white font-arcade text-[8px] sm:text-[9px] tracking-wider uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer"
+            className="group relative px-5 sm:px-6 py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[10px] sm:text-[11px] font-semibold tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer"
           >
             Contact Us
           </button>
