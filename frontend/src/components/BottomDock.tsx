@@ -1,10 +1,19 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 
-export default function BottomDock() {
+interface BottomDockProps {
+  theme?: 'light' | 'dark';
+}
+
+export default function BottomDock({
+  theme = 'dark',
+}: BottomDockProps) {
+  const isLight = theme === 'light';
+
   return (
-    <div className="fixed bottom-0 left-1/2 -translate-x-1/2 z-40 select-none pointer-events-auto">
+    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-30 select-none pointer-events-auto">
       {/* Hidden SVG definition for smooth clip-path */}
       <svg width="0" height="0" className="absolute">
         <defs>
@@ -15,10 +24,18 @@ export default function BottomDock() {
       </svg>
 
       {/* Trapezoid Container with Smooth Rounded Corners and Edge Slant */}
-      <div className="relative w-[320px] sm:w-[370px] h-[52px] sm:h-[58px] flex items-center justify-center filter drop-shadow-[0_-10px_30px_rgba(0,0,0,0.8)]">
+      <div
+        className={`relative w-[340px] sm:w-[410px] h-[54px] sm:h-[60px] flex items-center justify-center filter ${
+          isLight
+            ? 'drop-shadow-[0_-8px_25px_rgba(15,23,42,0.12)]'
+            : 'drop-shadow-[0_-10px_30px_rgba(0,0,0,0.8)]'
+        }`}
+      >
         {/* Glassmorphic Background with Smooth Rounded Trapezoid Shape */}
         <div
-          className="absolute inset-0 bg-[#090a0f]/80 backdrop-blur-2xl"
+          className={`absolute inset-0 backdrop-blur-2xl ${
+            isLight ? 'bg-white/90' : 'bg-[#090a0f]/80'
+          }`}
           style={{ clipPath: 'url(#bottomTrapeClip)' }}
         />
 
@@ -30,33 +47,50 @@ export default function BottomDock() {
         >
           <defs>
             <linearGradient id="bottomTrapeStroke" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stopColor="rgba(255, 255, 255, 0.12)" />
-              <stop offset="50%" stopColor="rgba(255, 255, 255, 0.35)" />
-              <stop offset="100%" stopColor="rgba(255, 255, 255, 0.50)" />
+              <stop
+                offset="0%"
+                stopColor={isLight ? "rgba(15, 23, 42, 0.15)" : "rgba(255, 255, 255, 0.12)"}
+              />
+              <stop
+                offset="50%"
+                stopColor={isLight ? "rgba(82, 39, 255, 0.45)" : "rgba(82, 39, 255, 0.35)"}
+              />
+              <stop
+                offset="100%"
+                stopColor={isLight ? "rgba(255, 159, 252, 0.65)" : "rgba(255, 159, 252, 0.50)"}
+              />
             </linearGradient>
           </defs>
           <path
             d="M 0,100 C 1.5,65 3.5,30 6,12 C 7.5,3 9.5,0 12,0 L 88,0 C 90.5,0 92.5,3 94,12 C 96.5,30 98.5,65 100,100"
             fill="none"
             stroke="url(#bottomTrapeStroke)"
-            strokeWidth="1.2"
+            strokeWidth="1.3"
           />
         </svg>
 
         {/* Smooth Rectangular Action Buttons */}
         <div className="relative z-10 flex items-center justify-center gap-3 sm:gap-4 px-6 pt-1">
-          <button
-            type="button"
-            className="group relative px-5 sm:px-6 py-2 rounded-lg bg-white text-black font-modern text-[10px] sm:text-[11px] font-bold tracking-widest uppercase transition-all duration-300 hover:bg-slate-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.7)] active:scale-95 cursor-pointer"
+          <Link
+            href="/about"
+            className="group relative px-4 sm:px-6 py-2 rounded-lg bg-white text-black font-modern text-[10px] sm:text-[11px] font-bold tracking-widest uppercase transition-all duration-300 hover:bg-slate-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.7)] active:scale-95 cursor-pointer"
           >
             About Us
-          </button>
-          <button
-            type="button"
-            className="group relative px-5 sm:px-6 py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[10px] sm:text-[11px] font-semibold tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer"
+          </Link>
+
+          <Link
+            href="/events"
+            className="group relative px-4 sm:px-5 py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[10px] sm:text-[11px] font-semibold tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer"
           >
-            Contact Us
-          </button>
+            RoboSaga &apos;26
+          </Link>
+
+          <Link
+            href="/contact"
+            className="group relative px-4 sm:px-5 py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[10px] sm:text-[11px] font-semibold tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer"
+          >
+            Contact
+          </Link>
         </div>
       </div>
     </div>

@@ -4,178 +4,280 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-export default function RoverWireframe3D() {
-  const mountRef = useRef<HTMLDivElement>(null);
-  const [loadingProgress, setLoadingProgress] = useState<number>(0);
+interface RoverWireframe3DProps {
+  modelPath?: string;
+  onProgress?: (progress: number, stage: string) => void;
+  onLoaded?: () => void;
+}
+
+export default function RoverWireframe3D({
+  modelPath = '/curiosity.glb',
+  onProgress,
+  onLoaded,
+}: RoverWireframe3DProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [loaded, setLoaded] = useState<boolean>(false);
 
   useEffect(() => {
-    const mount = mountRef.current;
-    if (!mount) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    const width = mount.clientWidth || 800;
-    const height = mount.clientHeight || 500;
+    // Purge any stale canvas elements from previous mounts (e.g. React StrictMode)
+    container.innerHTML = '';
 
-    // Scene & Camera
-    const scene = new THREE.Scene();
-    scene.background = null;
+    const width = container.clientWidth || 800;
+    const height = container.clientHeight || 500;
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
 
-    const camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 100);
-    camera.position.set(4.0, 2.5, 4.6);
-    camera.lookAt(0, 0, 0);
+    let isDisposed = false;
+    let worker: Worker | null = null;
+    let mainRenderer: THREE.WebGLRenderer | null = null;
+    let mainAnimationId: number | null = null;
 
-    const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: true,
-      powerPreference: 'high-performance',
-    });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    mount.appendChild(renderer.domElement);
+    // Dynamically create a brand-new canvas for this mount lifecycle
+    let activeCanvas = document.createElement('canvas');
+    activeCanvas.className = 'w-full h-full pointer-events-none transition-opacity duration-700 opacity-0 block';
+    container.appendChild(activeCanvas);
 
-    // Root Group for the NASA Rover
-    const roverGroup = new THREE.Group();
-    roverGroup.rotation.y = 0.35;
-    scene.add(roverGroup);
+    const markLoaded = () => {
+      activeCanvas.classList.remove('opacity-0');
+      activeCanvas.classList.add('opacity-100');
+      setLoaded(true);
+      onLoaded?.();
+    };
 
-    // CAD Wireframe Materials: Crisp clean white lines
-    const lineMat = new THREE.LineBasicMaterial({
-      color: 0xffffff,
-      transparent: true,
-      opacity: 0.9,
-      depthTest: true,
-    });
+    // =========================================================================
+    // 1. OFF-MAIN-THREAD WORKER EXECUTION (OffscreenCanvas)
+    // Runs Three.js rendering, GLTF parsing & EdgesGeometry off the main thread.
+    // =========================================================================
+    const supportsOffscreen =
+      typeof activeCanvas.transferControlToOffscreen === 'function' &&
+      typeof Worker !== 'undefined';
 
-    // High-opacity dark body (0.97) to cleanly occlude messy interior/back-face wireframes
-    const occludeMat = new THREE.MeshBasicMaterial({
-      color: 0x05070a,
-      transparent: true,
-      opacity: 0.97,
-      polygonOffset: true,
-      polygonOffsetFactor: 1,
-      polygonOffsetUnits: 1,
-    });
+    let workerStarted = false;
 
-    // Balanced scale: little bigger than 3.2
-    const FIXED_SCALE = 3.7;
-
-    // Load Official NASA Curiosity Rover 3D Model
-    const loader = new GLTFLoader();
-    loader.load(
-      '/curiosity.glb',
-      (gltf) => {
-        const model = gltf.scene;
-
-        // Traverse all meshes and simplify geometry:
-        // Use threshold angle of 48 degrees to keep clean structural lines
-        model.traverse((child) => {
-          if ((child as THREE.Mesh).isMesh) {
-            const mesh = child as THREE.Mesh;
-            mesh.material = occludeMat;
-
-            const edges = new THREE.EdgesGeometry(mesh.geometry, 48);
-            const lineSegments = new THREE.LineSegments(edges, lineMat);
-            mesh.add(lineSegments);
-          }
+    if (supportsOffscreen) {
+      try {
+        // Instantiate the Worker FIRST before transferring control.
+        // If worker instantiation fails, canvas has NOT been transferred.
+        const w = new Worker(new URL('../workers/rover.worker.ts', import.meta.url), {
+          type: 'module',
         });
 
-        // Compute Bounding Box & Center NASA Rover with Balanced Scale
-        const box = new THREE.Box3().setFromObject(model);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3());
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = FIXED_SCALE / maxDim;
+        const offscreen = activeCanvas.transferControlToOffscreen();
+        worker = w;
+        workerStarted = true;
 
-        model.position.x = -center.x * scale;
-        model.position.y = -center.y * scale;
-        model.position.z = -center.z * scale;
-        model.scale.setScalar(scale);
+        worker.onmessage = (e: MessageEvent<{ type: string; error?: string }>) => {
+          if (isDisposed) return;
+          if (e.data.type === 'loaded') {
+            markLoaded();
+          } else if (e.data.type === 'error') {
+            console.error('[RoverWireframe3D] Worker reported error:', e.data.error);
+          }
+        };
 
-        roverGroup.add(model);
-        setLoaded(true);
-      },
-      (xhr) => {
-        if (xhr.total > 0) {
-          setLoadingProgress(Math.round((xhr.loaded / xhr.total) * 100));
+        const absoluteModelUrl = new URL(modelPath, window.location.href).href;
+
+        worker.postMessage(
+          {
+            type: 'init',
+            canvas: offscreen,
+            width,
+            height,
+            pixelRatio,
+            modelPath: absoluteModelUrl,
+          },
+          [offscreen]
+        );
+
+        const onPointerMove = (e: MouseEvent) => {
+          if (!worker || isDisposed) return;
+          const nx = (e.clientX / window.innerWidth) * 2 - 1;
+          const ny = (e.clientY / window.innerHeight) * 2 - 1;
+          worker.postMessage({ type: 'pointermove', x: nx, y: ny });
+        };
+
+        const handleResize = () => {
+          if (!worker || isDisposed || !container) return;
+          const w = container.clientWidth || 800;
+          const h = container.clientHeight || 500;
+          worker.postMessage({ type: 'resize', width: w, height: h });
+        };
+
+        window.addEventListener('mousemove', onPointerMove, { passive: true });
+        window.addEventListener('resize', handleResize, { passive: true });
+
+        return () => {
+          isDisposed = true;
+          window.removeEventListener('mousemove', onPointerMove);
+          window.removeEventListener('resize', handleResize);
+          if (worker) {
+            worker.postMessage({ type: 'dispose' });
+            worker.terminate();
+            worker = null;
+          }
+          if (container.contains(activeCanvas)) {
+            container.removeChild(activeCanvas);
+          }
+        };
+      } catch (err) {
+        console.warn(
+          '[RoverWireframe3D] OffscreenCanvas worker initialization failed, switching to main thread fallback:',
+          err
+        );
+        // If canvas was already transferred before the error was thrown, remove it
+        if (container.contains(activeCanvas)) {
+          container.removeChild(activeCanvas);
         }
-      },
-      (err) => {
-        console.error('Failed to load curiosity.glb:', err);
       }
-    );
+    }
 
-    // Cursor tracking: Rover turns towards cursor direction
-    const targetRotation = { x: 0, y: 0.35 };
+    // =========================================================================
+    // 2. MAIN-THREAD FALLBACK (If OffscreenCanvas or Worker is unavailable)
+    // =========================================================================
+    if (!workerStarted) {
+      // Create a fresh, untransferred canvas for the main thread WebGLRenderer
+      activeCanvas = document.createElement('canvas');
+      activeCanvas.className = 'w-full h-full pointer-events-none transition-opacity duration-700 opacity-0 block';
+      container.appendChild(activeCanvas);
 
-    const onPointerMove = (e: MouseEvent) => {
-      const nx = (e.clientX / window.innerWidth) * 2 - 1;
-      const ny = (e.clientY / window.innerHeight) * 2 - 1;
+      const scene = new THREE.Scene();
+      scene.background = null;
 
-      targetRotation.y = 0.35 + nx * 0.75;
-      targetRotation.x = -ny * 0.35;
-    };
+      const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
+      camera.position.set(3.8, 2.2, 4.4);
+      camera.lookAt(0, 0, 0);
 
-    window.addEventListener('mousemove', onPointerMove);
+      const renderer = new THREE.WebGLRenderer({
+        canvas: activeCanvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance',
+      });
+      mainRenderer = renderer;
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(pixelRatio);
 
-    // Animation Loop: Smooth lerp towards cursor look direction
-    let animationId: number;
+      const modelGroup = new THREE.Group();
+      modelGroup.rotation.y = 0.45;
+      scene.add(modelGroup);
 
-    const animate = () => {
-      animationId = requestAnimationFrame(animate);
+      const lineMat = new THREE.LineBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.88,
+        depthTest: true,
+      });
 
-      roverGroup.rotation.y += (targetRotation.y - roverGroup.rotation.y) * 0.06;
-      roverGroup.rotation.x += (targetRotation.x - roverGroup.rotation.x) * 0.06;
+      const occludeMat = new THREE.MeshBasicMaterial({
+        color: 0x05070a,
+        transparent: true,
+        opacity: 0.96,
+        polygonOffset: true,
+        polygonOffsetFactor: 1,
+        polygonOffsetUnits: 1,
+      });
 
-      renderer.render(scene, camera);
-    };
+      const FIXED_SCALE = 3.6;
+      const loader = new GLTFLoader();
 
-    animate();
+      loader.load(
+        modelPath,
+        (gltf) => {
+          if (isDisposed) return;
+          const model = gltf.scene;
 
-    // Resize Handler
-    const handleResize = () => {
-      if (!mount) return;
-      const w = mount.clientWidth;
-      const h = mount.clientHeight;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
-    };
+          model.traverse((child) => {
+            if ((child as THREE.Mesh).isMesh) {
+              const mesh = child as THREE.Mesh;
+              mesh.material = occludeMat;
+              const edges = new THREE.EdgesGeometry(mesh.geometry, 48);
+              const lineSegments = new THREE.LineSegments(edges, lineMat);
+              mesh.add(lineSegments);
+            }
+          });
 
-    window.addEventListener('resize', handleResize);
+          const box = new THREE.Box3().setFromObject(model);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const scale = FIXED_SCALE / maxDim;
 
-    return () => {
-      cancelAnimationFrame(animationId);
-      window.removeEventListener('mousemove', onPointerMove);
-      window.removeEventListener('resize', handleResize);
-      renderer.dispose();
-      if (mount.contains(renderer.domElement)) {
-        mount.removeChild(renderer.domElement);
-      }
-    };
-  }, []);
+          model.position.x = -center.x * scale;
+          model.position.y = -center.y * scale;
+          model.position.z = -center.z * scale;
+          model.scale.setScalar(scale);
+
+          modelGroup.add(model);
+          markLoaded();
+        },
+        undefined,
+        (err) => console.error('[RoverWireframe3D] Fallback 3D loader error:', err)
+      );
+
+      const clock = new THREE.Clock();
+      const mouseOffset = { x: 0, y: 0 };
+      const targetMouseOffset = { x: 0, y: 0 };
+
+      const onPointerMove = (e: MouseEvent) => {
+        const nx = (e.clientX / window.innerWidth) * 2 - 1;
+        const ny = (e.clientY / window.innerHeight) * 2 - 1;
+        targetMouseOffset.x = nx * 0.55;
+        targetMouseOffset.y = -ny * 0.28;
+      };
+
+      window.addEventListener('mousemove', onPointerMove, { passive: true });
+
+      const animate = () => {
+        mainAnimationId = requestAnimationFrame(animate);
+        const elapsed = clock.getElapsedTime();
+
+        mouseOffset.x += (targetMouseOffset.x - mouseOffset.x) * 0.05;
+        mouseOffset.y += (targetMouseOffset.y - mouseOffset.y) * 0.05;
+
+        modelGroup.rotation.y = elapsed * 0.16 + mouseOffset.x;
+        modelGroup.rotation.x = mouseOffset.y + Math.sin(elapsed * 0.8) * 0.03;
+        modelGroup.rotation.z = Math.cos(elapsed * 0.7) * 0.025;
+        modelGroup.position.y = Math.sin(elapsed * 1.3) * 0.09;
+
+        renderer.render(scene, camera);
+      };
+
+      animate();
+
+      const handleResize = () => {
+        if (!container || isDisposed) return;
+        const w = container.clientWidth || 800;
+        const h = container.clientHeight || 500;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      };
+
+      window.addEventListener('resize', handleResize, { passive: true });
+
+      return () => {
+        isDisposed = true;
+        if (mainAnimationId !== null) {
+          cancelAnimationFrame(mainAnimationId);
+        }
+        window.removeEventListener('mousemove', onPointerMove);
+        window.removeEventListener('resize', handleResize);
+        if (mainRenderer) {
+          mainRenderer.dispose();
+        }
+        if (container.contains(activeCanvas)) {
+          container.removeChild(activeCanvas);
+        }
+      };
+    }
+  }, [modelPath, onLoaded]);
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center select-none pointer-events-none">
-      {!loaded && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 font-mono text-xs text-zinc-400 z-10 pointer-events-none">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-            <span className="tracking-widest uppercase">
-              CALIBRATING NASA CURIOSITY SCHEMATIC... {loadingProgress}%
-            </span>
-          </div>
-          <div className="w-48 h-1 bg-white/10 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-white transition-all duration-200"
-              style={{ width: `${loadingProgress}%` }}
-            />
-          </div>
-        </div>
-      )}
-      <div
-        ref={mountRef}
-        className="w-full h-full flex items-center justify-center pointer-events-none"
-      />
-    </div>
+    <div
+      ref={containerRef}
+      className="relative w-full h-full flex items-center justify-center select-none pointer-events-none"
+    />
   );
 }

@@ -13,6 +13,165 @@
   .animate-svg-tracer {
     animation: svg-tracer 4s linear infinite;
   }
+
+  /* Kinetic Typography Shimmer */
+  .animate-text-shimmer {
+    background: linear-gradient(
+      110deg,
+      #ffffff 0%,
+      #ffffff 35%,
+      #FF9FFC 50%,
+      #5227FF 65%,
+      #ffffff 80%,
+      #ffffff 100%
+    );
+    background-size: 250% 100%;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: text-shimmer 7s ease-in-out infinite;
+  }
+
+  /* Zero-G Gentle Floating */
+  .animate-float-slow {
+    animation: float-slow 4.5s ease-in-out infinite;
+  }
+
+  /* Equalizer Telemetry Bars */
+  .animate-equalizer-1 {
+    animation: eq-bounce 1s ease-in-out infinite alternate;
+  }
+  .animate-equalizer-2 {
+    animation: eq-bounce 1.3s ease-in-out infinite alternate 0.2s;
+  }
+  .animate-equalizer-3 {
+    animation: eq-bounce 0.9s ease-in-out infinite alternate 0.4s;
+  }
+  .animate-equalizer-4 {
+    animation: eq-bounce 1.4s ease-in-out infinite alternate 0.1s;
+  }
+
+  /* ─── Scroll-Reveal Entrance ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger children offsets */
+  .reveal-stagger > .reveal:nth-child(1) { transition-delay: 0ms; }
+  .reveal-stagger > .reveal:nth-child(2) { transition-delay: 80ms; }
+  .reveal-stagger > .reveal:nth-child(3) { transition-delay: 160ms; }
+  .reveal-stagger > .reveal:nth-child(4) { transition-delay: 240ms; }
+  .reveal-stagger > .reveal:nth-child(5) { transition-delay: 320ms; }
+  .reveal-stagger > .reveal:nth-child(6) { transition-delay: 400ms; }
+  .reveal-stagger > .reveal:nth-child(7) { transition-delay: 480ms; }
+  .reveal-stagger > .reveal:nth-child(8) { transition-delay: 560ms; }
+
+  /* Slide-in from left */
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-36px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-left.revealed {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Slide-in from right */
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(36px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-right.revealed {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Scale-up entrance */
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.92);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-scale.revealed {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* ─── Laser Scanline Sweep ─── */
+  .animate-scanline {
+    animation: scanline-sweep 3.5s linear infinite;
+  }
+
+  /* ─── Reticle Targeting Lock ─── */
+  .animate-reticle-lock {
+    animation: reticle-lock 2.5s ease-in-out infinite;
+  }
+
+  /* ─── Pulse Ring Expansion ─── */
+  .animate-pulse-ring {
+    animation: pulse-ring 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  /* ─── Counter Digit Roll ─── */
+  .animate-counter-pulse {
+    animation: counter-pulse 0.3s ease-out;
+  }
+
+  /* ─── Typing Cursor Blink ─── */
+  .animate-cursor-blink {
+    animation: cursor-blink 1s step-end infinite;
+  }
+
+  /* ─── Orbital Ring Rotation ─── */
+  .animate-orbit {
+    animation: orbital-spin 12s linear infinite;
+  }
+
+  /* ─── Glitch Horizontal Shift ─── */
+  .animate-glitch {
+    animation: glitch-shift 4s ease-in-out infinite;
+  }
+}
+
+/* ─── Core Animation Keyframes ─── */
+
+@keyframes text-shimmer {
+  0% {
+    background-position: 150% 0;
+  }
+  100% {
+    background-position: -150% 0;
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes eq-bounce {
+  0% {
+    height: 3px;
+  }
+  100% {
+    height: 14px;
+  }
 }
 
 @keyframes svg-tracer {
@@ -22,6 +181,80 @@
   100% {
     stroke-dashoffset: 0;
   }
+}
+
+/* ─── Extended Motion Keyframes ─── */
+
+@keyframes scanline-sweep {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes reticle-lock {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes counter-pulse {
+  0% {
+    transform: scale(1.15);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes orbital-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes glitch-shift {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-2px); }
+  40% { transform: translateX(2px); }
+  60% { transform: translateX(-1px); }
+  80% { transform: translateX(1px); }
 }
 
 @custom-variant dark (&:is(.dark *));

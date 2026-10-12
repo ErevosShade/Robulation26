@@ -8,12 +8,19 @@ node_modules/
 !.yarn/releases
 !.yarn/versions
 
+# Temporary Scraped Data & Scratch Files
+scraped_*.html
+scratch/
+.tempmediaStorage/
+
 # Next.js & Build Outputs
 .next/
 out/
 build/
 dist/
 .turbo/
+.wrangler/
+.open-next/
 
 # Testing & Coverage
 coverage/
