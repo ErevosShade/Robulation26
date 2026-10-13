@@ -107,17 +107,17 @@ export default function Home() {
               strokeWidth={2}
               gradient={true}
               color="#ffffff"
-              accentColor="#E2E8F0"
+              accentColor="#FF9FFC"
               className="w-full h-full"
             />
           </div>
 
           <p className="relative font-mono text-[10px] sm:text-[11.5px] font-bold tracking-[0.25em] uppercase mt-1">
-            <span className="bg-gradient-to-r from-slate-300 via-white to-slate-400 bg-clip-text text-transparent transition-opacity duration-700 ease-out group-hover/hero:opacity-70">
+            <span className="text-slate-400 transition-opacity duration-700 ease-out group-hover/hero:opacity-0">
               AUTONOMOUS MECHATRONICS &bull; ABU ROBOCON &bull; ROBOSAGA FEST
             </span>
             <span
-              className="absolute inset-0 bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent drop-shadow-[0_0_14px_rgba(255,255,255,0.7)] opacity-0 transition-opacity duration-700 ease-out group-hover/hero:opacity-100 pointer-events-none select-none text-center"
+              className="absolute inset-0 bg-gradient-to-r from-[#FF9FFC] via-white to-[#5227FF] bg-clip-text text-transparent drop-shadow-[0_0_14px_rgba(255,159,252,0.85)] opacity-0 transition-opacity duration-700 ease-out group-hover/hero:opacity-100 pointer-events-none select-none text-center"
               aria-hidden="true"
             >
               AUTONOMOUS MECHATRONICS &bull; ABU ROBOCON &bull; ROBOSAGA FEST
@@ -127,12 +127,12 @@ export default function Home() {
 
         {/* 3D CAD Wireframe Rover Flanked by Sci-Fi HUD Callout Boxes */}
         <div className="relative z-10 flex-1 w-full flex flex-col items-center justify-center -mt-2 sm:-mt-4 pointer-events-none px-4 pl-14 sm:pl-20">
-          {/* Subtle Ambient Glow Spotlight matching Silver & White Palette */}
+          {/* Subtle Ambient Glow Spotlight matching MoltenMetal Palette */}
           <div
             className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[380px] sm:w-[680px] sm:h-[500px] pointer-events-none z-0 opacity-70"
             style={{
               background:
-                'radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.12) 0%, rgba(148, 163, 184, 0.08) 40%, rgba(15, 23, 42, 0.02) 70%, transparent 80%)',
+                'radial-gradient(ellipse at 50% 50%, rgba(255, 159, 252, 0.22) 0%, rgba(82, 39, 255, 0.18) 40%, rgba(82, 39, 255, 0.03) 70%, transparent 80%)',
               filter: 'blur(22px)',
             }}
           />
