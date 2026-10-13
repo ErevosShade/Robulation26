@@ -169,8 +169,8 @@ const TechText = ({
         const grad = c.createLinearGradient(0, topY, 0, bottomY);
         grad.addColorStop(0, '#FFFFFF');
         grad.addColorStop(0.35, '#FFFFFF');
-        grad.addColorStop(0.72, '#D2D0DC');
-        grad.addColorStop(1, '#9C98A6');
+        grad.addColorStop(0.68, '#E2E8F0');
+        grad.addColorStop(1, '#94A3B8');
         c.fillStyle = grad;
         c.fillText(glyph.char, glyph.x, view.baseline);
       } else {

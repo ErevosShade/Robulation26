@@ -91,9 +91,10 @@ export default function Home() {
 
         {/* Top Header: Heavy Structural Architectural Title with TechText */}
         <header className="relative z-20 w-full pt-8 sm:pt-12 flex flex-col items-center pointer-events-none pl-14 sm:pl-0">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-2 pointer-events-auto backdrop-blur-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
-            <span>OFFICIAL ROBOTICS SOCIETY // TEAM PRATYUMNIS // BIT MESRA</span>
+          <div className="inline-flex items-center px-4 py-1.5 rounded-[2px] bg-white/[0.04] border border-white/20 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest uppercase mb-2 pointer-events-auto backdrop-blur-md">
+            <span className="bg-gradient-to-r from-slate-200 via-white to-slate-400 bg-clip-text text-transparent font-semibold">
+              OFFICIAL ROBOTICS SOCIETY // TEAM PRATYUMNIS // BIT MESRA
+            </span>
           </div>
 
           <div className="w-full max-w-3xl h-[60px] sm:h-[74px] px-4 pointer-events-auto flex items-center justify-center">
@@ -106,17 +107,17 @@ export default function Home() {
               strokeWidth={2}
               gradient={true}
               color="#ffffff"
-              accentColor="#FF9FFC"
+              accentColor="#E2E8F0"
               className="w-full h-full"
             />
           </div>
 
           <p className="relative font-mono text-[10px] sm:text-[11.5px] font-bold tracking-[0.25em] uppercase mt-1">
-            <span className="text-slate-400 transition-opacity duration-700 ease-out group-hover/hero:opacity-0">
+            <span className="bg-gradient-to-r from-slate-300 via-white to-slate-400 bg-clip-text text-transparent transition-opacity duration-700 ease-out group-hover/hero:opacity-70">
               AUTONOMOUS MECHATRONICS &bull; ABU ROBOCON &bull; ROBOSAGA FEST
             </span>
             <span
-              className="absolute inset-0 bg-gradient-to-r from-[#FF9FFC] via-white to-[#5227FF] bg-clip-text text-transparent drop-shadow-[0_0_14px_rgba(255,159,252,0.85)] opacity-0 transition-opacity duration-700 ease-out group-hover/hero:opacity-100 pointer-events-none select-none text-center"
+              className="absolute inset-0 bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent drop-shadow-[0_0_14px_rgba(255,255,255,0.7)] opacity-0 transition-opacity duration-700 ease-out group-hover/hero:opacity-100 pointer-events-none select-none text-center"
               aria-hidden="true"
             >
               AUTONOMOUS MECHATRONICS &bull; ABU ROBOCON &bull; ROBOSAGA FEST
@@ -126,12 +127,12 @@ export default function Home() {
 
         {/* 3D CAD Wireframe Rover Flanked by Sci-Fi HUD Callout Boxes */}
         <div className="relative z-10 flex-1 w-full flex flex-col items-center justify-center -mt-2 sm:-mt-4 pointer-events-none px-4 pl-14 sm:pl-20">
-          {/* Subtle Ambient Glow Spotlight matching MoltenMetal Palette */}
+          {/* Subtle Ambient Glow Spotlight matching Silver & White Palette */}
           <div
             className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[380px] sm:w-[680px] sm:h-[500px] pointer-events-none z-0 opacity-70"
             style={{
               background:
-                'radial-gradient(ellipse at 50% 50%, rgba(255, 159, 252, 0.22) 0%, rgba(82, 39, 255, 0.18) 40%, rgba(82, 39, 255, 0.03) 70%, transparent 80%)',
+                'radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.12) 0%, rgba(148, 163, 184, 0.08) 40%, rgba(15, 23, 42, 0.02) 70%, transparent 80%)',
               filter: 'blur(22px)',
             }}
           />
