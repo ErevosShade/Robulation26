@@ -11,6 +11,7 @@ interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
   reticle?: boolean;
   chamfer?: boolean;
   glowOnHover?: boolean;
+  transparent?: boolean;
 }
 
 export default function GlassCard({
@@ -22,6 +23,7 @@ export default function GlassCard({
   reticle = true,
   chamfer = false,
   glowOnHover = true,
+  transparent = false,
   ...props
 }: GlassCardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -54,8 +56,9 @@ export default function GlassCard({
           : ''
       } ${outerClassName}`}
       style={{
-        background:
-          'linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 50%, rgba(82, 39, 255, 0.15) 100%)',
+        background: transparent
+          ? 'transparent'
+          : 'linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 50%, rgba(82, 39, 255, 0.15) 100%)',
       }}
       {...props}
     >
@@ -73,7 +76,11 @@ export default function GlassCard({
 
       {/* Inner Machined Core (Double-Bezel) */}
       <div
-        className={`relative z-10 w-full h-full rounded-[calc(1.75rem-0.375rem)] bg-[#03060c]/80 backdrop-blur-xl p-6 sm:p-8 flex flex-col justify-between overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.18)] group-hover:bg-[#03060c]/70 transition-colors duration-500 ${className}`}
+        className={`relative z-10 w-full h-full rounded-[calc(1.75rem-0.375rem)] ${
+          transparent
+            ? 'bg-transparent border border-white/10'
+            : 'bg-[#03060c]/80 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.18)] group-hover:bg-[#03060c]/70'
+        } p-5 sm:p-6 flex flex-col justify-between overflow-hidden transition-colors duration-500 ${className}`}
       >
         {/* Subtle Laser Scanline sweep on hover */}
         <div className="pointer-events-none absolute -inset-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-r from-transparent via-white/[0.04] to-transparent group-hover:translate-x-full duration-1000 transform -skew-x-12" />

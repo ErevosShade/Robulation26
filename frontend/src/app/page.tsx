@@ -6,6 +6,7 @@ import Sidebar from '@/components/Sidebar';
 import TechText from '@/components/TechText';
 import RoverWireframe3D from '@/components/RoverWireframe3D';
 import HudBox from '@/components/HudBox';
+import AboutHeroSection from '@/components/AboutHeroSection';
 import BottomDock from '@/components/BottomDock';
 import StarBorder from '@/components/StarBorder';
 import MoltenMetal from '@/components/MoltenMetal';
@@ -36,7 +37,8 @@ import {
   Award,
   Users,
   Target,
-  Sparkles
+  Sparkles,
+  Crosshair
 } from 'lucide-react';
 
 export default function Home() {
@@ -207,115 +209,165 @@ export default function Home() {
           </div>
 
           <a
-            href="#legacy"
+            href="#about"
             className="flex items-center gap-1.5 font-mono text-[10px] text-slate-400 hover:text-white transition-colors pointer-events-auto ml-auto"
-            aria-label="Navigate to Legacy section"
+            aria-label="Navigate to About Us section"
           >
-            <span>LEGACY ARCHIVE</span>
+            <span>ABOUT US</span>
             <ChevronDown className="w-3.5 h-3.5 animate-bounce" />
           </a>
         </div>
       </section>
 
       {/* =====================================================================
+          2B. ABOUT US // TEAM PRATYUMNIS (Left HUD + Right Combat Bot Wireframe)
+      ===================================================================== */}
+      <AboutHeroSection />
+
+      {/* =====================================================================
           3. A LEGACY OF EXCELLENCE & AUTHENTIC STATS (robolutionbitm.in truth)
       ===================================================================== */}
       <section
         id="legacy"
-        className="relative z-20 py-24 sm:py-32 px-6 sm:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto"
+        className="relative z-20 py-20 sm:py-28 px-4 sm:px-8 lg:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto overflow-hidden select-none"
       >
-        <ScrollReveal>
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
-            <div>
-              <span className="font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase block mb-1">
-                <DecryptedText
-                  text="// CLUB HERITAGE • EST. 2001"
-                  animateOn="view"
-                  speed={30}
-                  sequential={true}
-                  characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-                  className="text-[#FF9FFC]"
-                />
-              </span>
-              <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
-                A LEGACY OF <span className="animate-text-shimmer">EXCELLENCE &amp; INNOVATION</span>
-              </h2>
-            </div>
-            <p className="font-modern text-sm text-slate-400 max-w-md leading-relaxed">
-              Founded over two decades ago at Birla Institute of Technology, Mesra, Robolution (Team Pratyumnis) has grown into Eastern India&apos;s most formidable collegiate robotics collective.
-            </p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12 items-center">
+          {/* =================================================================
+              LEFT HALF: DEDICATED GAP & VIEWPORT FOR UPCOMING USER PNG
+          ================================================================= */}
+          <div className="lg:col-span-6 xl:col-span-5 relative order-2 lg:order-1">
+            <ScrollReveal>
+              <div className="relative group rounded-[4px] bg-transparent border border-white/20 p-2 sm:p-3 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.25)]">
+                {/* Outer Framing Aerospace Chamfers */}
+                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-white/70 z-20 pointer-events-none" />
+                <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-white/70 z-20 pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-white/70 z-20 pointer-events-none" />
+                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-white/70 z-20 pointer-events-none" />
+
+                {/* Top Telemetry Bar */}
+                <div className="relative z-20 flex items-center justify-between px-3 py-1.5 bg-transparent border-b border-white/10 text-[9px] font-mono text-slate-300 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+                  <div className="flex items-center gap-2">
+                    <Crosshair className="w-3 h-3 text-[#FF9FFC] animate-spin" style={{ animationDuration: '10s' }} />
+                    <span className="tracking-widest uppercase font-bold text-white">
+                      DWG: ROB-ROBOCON-TRACK // ARTICULATED MANIPULATOR
+                    </span>
+                  </div>
+                  <span className="text-[#FF9FFC] font-mono text-[8.5px] uppercase font-bold">[ ABU ROBOCON ]</span>
+                </div>
+
+                {/* Tracked Manipulator Robot Image (Watermark Erased, 100% Alpha Transparent) */}
+                <div className="relative w-full aspect-[4/3] sm:aspect-[16/11] bg-transparent overflow-hidden flex items-center justify-center">
+                  <Image
+                    src="/tracked-bot-transparent.png"
+                    alt="Robolution Tracked Manipulator Robot CAD Wireframe"
+                    fill
+                    priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 45vw"
+                    className="object-contain filter contrast-125 brightness-110 transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                  />
+                </div>
+
+                {/* Bottom Status Bar */}
+                <div className="relative z-20 flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-3 py-2 bg-transparent border-t border-white/10 text-[9px] font-mono text-slate-300 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[#FF9FFC] font-bold">// ARCHITECTURE:</span>
+                    <span className="text-slate-100">CONTINUOUS TREAD CHASSIS &bull; END-EFFECTOR CLAW</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-slate-400">
+                    <span>BIT MESRA ROBOTICS</span>
+                    <span className="text-white">&bull;</span>
+                    <span className="text-[#FF9FFC]">TEAM PRATYUMNIS</span>
+                  </div>
+                </div>
+              </div>
+            </ScrollReveal>
           </div>
-        </ScrollReveal>
 
-        {/* Verified Club Track Record Metrics (Double-Bezel GlassCard with Dynamic Cursor Spotlight) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 reveal-stagger">
-          <ScrollReveal>
-            <GlassCard
-              badge="RECORD // 2001-2026"
-              spotlightColor="rgba(255, 159, 252, 0.25)"
-            >
-              <div>
-                <AnimatedCounter target={24} suffix="+" className="font-mono text-4xl sm:text-5xl font-black text-[#FF9FFC] tracking-tight block" />
-                <span className="font-modern font-bold text-sm sm:text-base text-white uppercase mt-3 block">
-                  Years of Excellence
+          {/* =================================================================
+              RIGHT HALF: EVERYTHING ALIGNED TO THE RIGHT SIDE (Header + 3 Cards)
+          ================================================================= */}
+          <div className="lg:col-span-6 xl:col-span-7 flex flex-col justify-center order-1 lg:order-2 space-y-6">
+            <ScrollReveal>
+              <div className="space-y-3">
+                <span className="font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase block drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                  <DecryptedText
+                    text="// CLUB HERITAGE • EST. 2001"
+                    animateOn="view"
+                    speed={30}
+                    sequential={true}
+                    characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
+                    className="text-[#FF9FFC]"
+                  />
                 </span>
-                <p className="font-mono text-[11px] text-slate-400 mt-2 leading-relaxed">
-                  Continuous collegiate engineering research and mechatronic design since our founding in 2001.
+                <h2 className="font-modern font-black text-2xl sm:text-4xl xl:text-5xl tracking-tight text-white uppercase drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
+                  A LEGACY OF <span className="animate-text-shimmer">EXCELLENCE &amp; INNOVATION</span>
+                </h2>
+                <p className="font-sans text-xs sm:text-sm text-slate-200 leading-relaxed drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+                  Founded over two decades ago at Birla Institute of Technology, Mesra, Robolution (Team Pratyumnis) has grown into Eastern India&apos;s most formidable collegiate robotics collective.
                 </p>
               </div>
-            </GlassCard>
-          </ScrollReveal>
+            </ScrollReveal>
 
-          <ScrollReveal delay={100}>
-            <GlassCard
-              badge="TALENT // ALUMNI"
-              spotlightColor="rgba(52, 211, 153, 0.25)"
-            >
-              <div>
-                <AnimatedCounter target={1000} suffix="+" className="font-mono text-4xl sm:text-5xl font-black text-emerald-400 tracking-tight block" />
-                <span className="font-modern font-bold text-sm sm:text-base text-white uppercase mt-3 block">
-                  Students Trained
-                </span>
-                <p className="font-mono text-[11px] text-slate-400 mt-2 leading-relaxed">
-                  Empowering undergraduates across mechanical, electronics, and CS with hands-on hardware training.
-                </p>
-              </div>
-            </GlassCard>
-          </ScrollReveal>
+            {/* 3 Remaining Verified Metrics Cards (Community Reach removed) - 100% Transparent */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4 reveal-stagger pt-2">
+              <ScrollReveal>
+                <GlassCard
+                  badge="RECORD // 2001-2026"
+                  spotlightColor="rgba(255, 159, 252, 0.25)"
+                  transparent={true}
+                  className="p-4 sm:p-5"
+                >
+                  <div>
+                    <AnimatedCounter target={24} suffix="+" className="font-mono text-3xl sm:text-4xl font-black text-[#FF9FFC] tracking-tight block drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+                    <span className="font-modern font-bold text-xs sm:text-sm text-white uppercase mt-2.5 block drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+                      Years of Excellence
+                    </span>
+                    <p className="font-mono text-[10px] text-slate-300 mt-1.5 leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+                      Continuous collegiate research and mechatronic design since 2001.
+                    </p>
+                  </div>
+                </GlassCard>
+              </ScrollReveal>
 
-          <ScrollReveal delay={200}>
-            <GlassCard
-              badge="ARENA // PODIUMS"
-              spotlightColor="rgba(251, 191, 36, 0.25)"
-            >
-              <div>
-                <AnimatedCounter target={50} suffix="+" className="font-mono text-4xl sm:text-5xl font-black text-amber-400 tracking-tight block" />
-                <span className="font-modern font-bold text-sm sm:text-base text-white uppercase mt-3 block">
-                  Competitions Won
-                </span>
-                <p className="font-mono text-[11px] text-slate-400 mt-2 leading-relaxed">
-                  Podiums at ABU Robocon India, Techfest IIT Bombay, Kshitij IIT Kharagpur, and national robot combat arenas.
-                </p>
-              </div>
-            </GlassCard>
-          </ScrollReveal>
+              <ScrollReveal delay={100}>
+                <GlassCard
+                  badge="TALENT // ALUMNI"
+                  spotlightColor="rgba(52, 211, 153, 0.25)"
+                  transparent={true}
+                  className="p-4 sm:p-5"
+                >
+                  <div>
+                    <AnimatedCounter target={1000} suffix="+" className="font-mono text-3xl sm:text-4xl font-black text-emerald-400 tracking-tight block drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+                    <span className="font-modern font-bold text-xs sm:text-sm text-white uppercase mt-2.5 block drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+                      Students Trained
+                    </span>
+                    <p className="font-mono text-[10px] text-slate-300 mt-1.5 leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+                      Empowering undergraduates with hands-on hardware training.
+                    </p>
+                  </div>
+                </GlassCard>
+              </ScrollReveal>
 
-          <ScrollReveal delay={300}>
-            <GlassCard
-              badge="NETWORK // LABS"
-              spotlightColor="rgba(168, 85, 247, 0.25)"
-            >
-              <div>
-                <AnimatedCounter target={500} suffix="+" className="font-mono text-4xl sm:text-5xl font-black text-purple-400 tracking-tight block" />
-                <span className="font-modern font-bold text-sm sm:text-base text-white uppercase mt-3 block">
-                  Community Reach
-                </span>
-                <p className="font-mono text-[11px] text-slate-400 mt-2 leading-relaxed">
-                  Active engineering network across robotics research labs, tech startups, and leading automotive firms.
-                </p>
-              </div>
-            </GlassCard>
-          </ScrollReveal>
+              <ScrollReveal delay={200}>
+                <GlassCard
+                  badge="ARENA // PODIUMS"
+                  spotlightColor="rgba(251, 191, 36, 0.25)"
+                  transparent={true}
+                  className="p-4 sm:p-5"
+                >
+                  <div>
+                    <AnimatedCounter target={50} suffix="+" className="font-mono text-3xl sm:text-4xl font-black text-amber-400 tracking-tight block drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+                    <span className="font-modern font-bold text-xs sm:text-sm text-white uppercase mt-2.5 block drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+                      Competitions Won
+                    </span>
+                    <p className="font-mono text-[10px] text-slate-300 mt-1.5 leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+                      Podiums at ABU Robocon, IIT Techfests, and national combat arenas.
+                    </p>
+                  </div>
+                </GlassCard>
+              </ScrollReveal>
+            </div>
+          </div>
         </div>
       </section>
 
