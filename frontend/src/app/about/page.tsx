@@ -176,42 +176,42 @@ export default function AboutPage() {
 
           <ScrollReveal delay={100}>
             <GlassCard
-              badge="ACTIVE CADRE"
+              badge="CAD RECORD"
               spotlightColor="rgba(82, 39, 255, 0.2)"
               className="p-6"
             >
               <div>
-                <AnimatedCounter target={80} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
-                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Active Members</span>
-                <p className="font-mono text-[11px] text-slate-400 mt-1">Undergraduate engineers across mechanical, ECE &amp; CS.</p>
+                <span className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block">100/100</span>
+                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Design Analysis</span>
+                <p className="font-mono text-[11px] text-slate-400 mt-1">Historic perfect score achieved at ABU Robocon.</p>
               </div>
             </GlassCard>
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
             <GlassCard
-              badge="PROTOTYPES"
+              badge="ACTIVE FLEET"
               spotlightColor="rgba(52, 211, 153, 0.2)"
               className="p-6"
             >
               <div>
-                <AnimatedCounter target={25} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
-                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Hardware Projects</span>
-                <p className="font-mono text-[11px] text-slate-400 mt-1">Combat bots, autonomous rovers, and delta arms.</p>
+                <AnimatedCounter target={9} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
+                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Robotics Platforms</span>
+                <p className="font-mono text-[11px] text-slate-400 mt-1">Combat bots, autonomous AMRs, and 6-DOF arms.</p>
               </div>
             </GlassCard>
           </ScrollReveal>
 
           <ScrollReveal delay={300}>
             <GlassCard
-              badge="BOOTCAMPS"
+              badge="ARENA HONORS"
               spotlightColor="rgba(251, 191, 36, 0.2)"
               className="p-6"
             >
               <div>
-                <AnimatedCounter target={15} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
-                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Workshops Hosted</span>
-                <p className="font-mono text-[11px] text-slate-400 mt-1">Training hundreds of freshmen in robotics yearly.</p>
+                <AnimatedCounter target={16} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
+                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">National Podiums</span>
+                <p className="font-mono text-[11px] text-slate-400 mt-1">Verified honors across SIH, Robocon, and Techfests.</p>
               </div>
             </GlassCard>
           </ScrollReveal>
@@ -242,7 +242,7 @@ export default function AboutPage() {
                 </h2>
               </div>
               <p className="font-modern text-sm text-slate-400 max-w-md leading-relaxed">
-                Bridging foundational theory with battlefield-ready hardware: custom CAD kinematics, PCB manufacturing, and embedded control.
+                Bridging foundational theory with competition-ready systems: autonomous navigation, combat robotics, drone technology, and embedded control.
               </p>
             </div>
           </ScrollReveal>
@@ -290,13 +290,13 @@ export default function AboutPage() {
                     RoboSaga 3-Day Fest
                   </h3>
                   <p className="font-modern text-sm text-slate-300 mt-4 leading-relaxed">
-                    Eastern India&apos;s premier annual techno-mechatronics extravaganza organized on the BIT Mesra campus. Featuring high-energy combat robot wars, line-tracking sprints, maze navigators, and design exhibitions.
+                    Eastern India&apos;s premier annual techno-management festival organized on the BIT Mesra campus. Featuring high-energy combat robot wars, line-tracking sprints, maze navigators, and multi-disciplinary exhibitions.
                   </p>
                 </div>
                 <div className="mt-8 pt-4 border-t border-white/10 font-mono text-[11px] text-slate-400 flex flex-wrap gap-2">
                   <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Robot Wars</span>
                   <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Maze Solvers</span>
-                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Tech Carnival</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Flagship Fest</span>
                 </div>
               </div>
             </GlassCard>
@@ -316,12 +316,12 @@ export default function AboutPage() {
                     Projects &amp; Robocon
                   </h3>
                   <p className="font-modern text-sm text-slate-300 mt-4 leading-relaxed">
-                    Engineering high-precision autonomous mechatronic systems for the prestigious ABU Robocon competition. Developing 4-wheel holonomic omni-drive bases, pneumatic projectile launchers, and computer vision guidance.
+                    Engineering high-precision autonomous mechatronic systems for ABU Robocon and national competitions. Developing holonomic omni-drive chassis, pneumatic ballistic launchers, and vision-guided robotics.
                   </p>
                 </div>
                 <div className="mt-8 pt-4 border-t border-white/10 font-mono text-[11px] text-slate-400 flex flex-wrap gap-2">
                   <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">ABU Robocon</span>
-                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Holonomic Drive</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Autonomous AMR</span>
                   <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">ROS &bull; Vision</span>
                 </div>
               </div>
@@ -416,12 +416,12 @@ export default function AboutPage() {
                 transparent={true}
               >
                 <div>
-                  <span className="font-mono text-3xl sm:text-4xl font-black text-[#FF9FFC]">&#8377;50,000</span>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-[#FF9FFC]">&#8377;1,50,000</span>
                   <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
                     MathWorks Award &amp; Rank
                   </h3>
                   <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
-                    Bagged the MathWorks National Award accompanied by a cash prize of &#8377;50,000, along with the title of Best Non-Quarterfinalist Team.
+                    Bagged the MathWorks National Award accompanied by a cash prize of &#8377;1,50,000, along with the title of Best Non-Quarterfinalist Team.
                   </p>
                 </div>
               </GlassCard>
@@ -470,7 +470,7 @@ export default function AboutPage() {
                 <div>
                   <span className="font-mono text-3xl sm:text-4xl font-black text-amber-400">3 DAYS</span>
                   <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
-                    Carnival of Mechatronics
+                    Techno-Management Fest
                   </h3>
                   <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
                     Our flagship techno-management festival bringing together collegiate hardware hackers, makers, and innovators across Eastern India.
