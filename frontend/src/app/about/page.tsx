@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Sidebar from '@/components/Sidebar';
 import HudBox from '@/components/HudBox';
@@ -24,7 +24,9 @@ import {
   ArrowUpRight,
   Flame,
   CheckCircle2,
-  Cpu
+  Cpu,
+  Wrench,
+  Trophy
 } from 'lucide-react';
 
 const values = [
@@ -118,6 +120,8 @@ const milestones = [
 ];
 
 export default function AboutPage() {
+  const [activeTab, setActiveTab] = useState<'robocon' | 'robosaga'>('robocon');
+
   return (
     <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-[#5227FF]/40 selection:text-[#FF9FFC] overflow-x-hidden">
       {/* Background MoltenMetal WebGL Caustics */}
@@ -329,6 +333,302 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
+
+        {/* =====================================================================
+            WHAT WE DO AT ROBOLUTION (Pillars / Disciplines)
+        ===================================================================== */}
+        <section
+          id="disciplines"
+          className="mb-24 sm:mb-28 relative"
+        >
+          <ScrollReveal>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
+              <div>
+                <span className="font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase block mb-1">
+                  <DecryptedText
+                    text="// INSTITUTIONAL DOMAINS"
+                    animateOn="view"
+                    speed={30}
+                    sequential={true}
+                    characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
+                    className="text-[#FF9FFC]"
+                  />
+                </span>
+                <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
+                  WHAT WE DO AT <span className="animate-text-shimmer">ROBOLUTION</span>
+                </h2>
+              </div>
+              <p className="font-modern text-sm text-slate-400 max-w-md leading-relaxed">
+                Bridging foundational theory with battlefield-ready hardware: custom CAD kinematics, PCB manufacturing, and embedded control.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          {/* 3 Pillars Bento Grid with Double-Bezel GlassCard */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+            {/* Pillar 1: Workshops & Training */}
+            <GlassCard
+              badge="FOUNDATIONAL LAB // 01"
+              spotlightColor="rgba(82, 39, 255, 0.25)"
+              transparent={true}
+            >
+              <div className="flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-12 h-12 rounded-xl bg-[#5227FF]/15 border border-[#5227FF]/30 flex items-center justify-center text-[#FF9FFC] mb-6 shadow-[0_0_15px_rgba(82,39,255,0.3)]">
+                    <Wrench className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-modern text-2xl font-bold text-white uppercase tracking-tight">
+                    Workshops &amp; Training
+                  </h3>
+                  <p className="font-modern text-sm text-slate-300 mt-4 leading-relaxed">
+                    Conducting intensive hands-on bootcamps throughout the academic year. From Arduino microcontrollers, sensor integration, and KiCAD PCB layout to advanced 3D printing and SolidWorks mechanical simulation.
+                  </p>
+                </div>
+                <div className="mt-8 pt-4 border-t border-white/10 font-mono text-[11px] text-slate-400 flex flex-wrap gap-2">
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Microcontrollers</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">3D Printing</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">PCB Design</span>
+                </div>
+              </div>
+            </GlassCard>
+
+            {/* Pillar 2: RoboSaga Annual Fest */}
+            <GlassCard
+              badge="FLAGSHIP ARENA // 02"
+              spotlightColor="rgba(244, 63, 94, 0.25)"
+              transparent={true}
+            >
+              <div className="flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 mb-6 shadow-[0_0_15px_rgba(244,63,94,0.3)]">
+                    <Flame className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-modern text-2xl font-bold text-white uppercase tracking-tight">
+                    RoboSaga 3-Day Fest
+                  </h3>
+                  <p className="font-modern text-sm text-slate-300 mt-4 leading-relaxed">
+                    Eastern India&apos;s premier annual techno-mechatronics extravaganza organized on the BIT Mesra campus. Featuring high-energy combat robot wars, line-tracking sprints, maze navigators, and design exhibitions.
+                  </p>
+                </div>
+                <div className="mt-8 pt-4 border-t border-white/10 font-mono text-[11px] text-slate-400 flex flex-wrap gap-2">
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Robot Wars</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Maze Solvers</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Tech Carnival</span>
+                </div>
+              </div>
+            </GlassCard>
+
+            {/* Pillar 3: Projects & Research (Team Pratyumnis) */}
+            <GlassCard
+              badge="COMPETITIVE WING // 03"
+              spotlightColor="rgba(52, 211, 153, 0.25)"
+              transparent={true}
+            >
+              <div className="flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6 shadow-[0_0_15px_rgba(52,211,153,0.3)]">
+                    <Cpu className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-modern text-2xl font-bold text-white uppercase tracking-tight">
+                    Projects &amp; Robocon
+                  </h3>
+                  <p className="font-modern text-sm text-slate-300 mt-4 leading-relaxed">
+                    Engineering high-precision autonomous mechatronic systems for the prestigious ABU Robocon competition. Developing 4-wheel holonomic omni-drive bases, pneumatic projectile launchers, and computer vision guidance.
+                  </p>
+                </div>
+                <div className="mt-8 pt-4 border-t border-white/10 font-mono text-[11px] text-slate-400 flex flex-wrap gap-2">
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">ABU Robocon</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Holonomic Drive</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">ROS &bull; Vision</span>
+                </div>
+              </div>
+            </GlassCard>
+          </div>
+        </section>
+
+        {/* =====================================================================
+            HALL OF FAME: AUTHENTIC NATIONAL COMPETITION HONORS
+        ===================================================================== */}
+        <section
+          id="arena"
+          className="mb-24 sm:mb-28 relative"
+        >
+          <ScrollReveal>
+            <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between mb-14 gap-6">
+              <div>
+                <span className="font-mono text-xs text-emerald-400 font-bold tracking-widest uppercase block mb-1">
+                  <DecryptedText
+                    text="// VERIFIED ARENA HONORS"
+                    animateOn="view"
+                    speed={30}
+                    sequential={true}
+                    characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
+                    className="text-emerald-400"
+                  />
+                </span>
+                <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
+                  COMPETITIVE <span className="animate-text-shimmer">ARENA HONORS</span>
+                </h2>
+              </div>
+
+              {/* Origin UI Style Segmented Navigation Tabs */}
+              <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-zinc-900/90 border border-zinc-800 shadow-inner font-mono text-xs">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('robocon')}
+                  className={`relative px-4 py-2 rounded-lg font-medium transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                    activeTab === 'robocon'
+                      ? 'bg-zinc-800 text-white shadow-sm border border-zinc-700/60'
+                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+                  }`}
+                >
+                  <Trophy className="w-3.5 h-3.5 text-[#FF9FFC]" />
+                  <span>ABU ROBOCON &amp; IITs</span>
+                  {activeTab === 'robocon' && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-pulse" />
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('robosaga')}
+                  className={`relative px-4 py-2 rounded-lg font-medium transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                    activeTab === 'robosaga'
+                      ? 'bg-zinc-800 text-white shadow-sm border border-zinc-700/60'
+                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+                  }`}
+                >
+                  <Flame className="w-3.5 h-3.5 text-rose-400" />
+                  <span>ROBOSAGA FEST</span>
+                  {activeTab === 'robosaga' && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />
+                  )}
+                </button>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          {activeTab === 'robocon' ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Honor 1: Robocon 2021 */}
+              <GlassCard
+                badge="ABU ROBOCON 2021"
+                spotlightColor="rgba(52, 211, 153, 0.25)"
+                transparent={true}
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-emerald-400">100 / 100</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    3D CAD Design Score
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    Awarded a perfect 100/100 score in 3D CAD design analysis by national and international judges for virtual kinematics, weight optimization, and stress simulation.
+                  </p>
+                </div>
+              </GlassCard>
+
+              {/* Honor 2: Robocon 2015 */}
+              <GlassCard
+                badge="ABU ROBOCON 2015"
+                spotlightColor="rgba(255, 159, 252, 0.25)"
+                transparent={true}
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-[#FF9FFC]">&#8377;50,000</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    MathWorks Award &amp; Rank
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    Bagged the MathWorks National Award accompanied by a cash prize of &#8377;50,000, along with the title of Best Non-Quarterfinalist Team.
+                  </p>
+                </div>
+              </GlassCard>
+
+              {/* Honor 3: Robocon 2013 */}
+              <GlassCard
+                badge="ABU ROBOCON 2013 // PUNE"
+                spotlightColor="rgba(251, 191, 36, 0.25)"
+                transparent={true}
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-amber-400">ROOKIE</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Best Rookie Team
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    Awarded Best Rookie Team at Balewadi Stadium, Pune in our debut Robocon campaign, surpassing established engineering institutions across India.
+                  </p>
+                </div>
+              </GlassCard>
+
+              {/* Honor 4: Techfest IIT Bombay 2015 */}
+              <GlassCard
+                badge="IIT BOMBAY // 2015"
+                spotlightColor="rgba(168, 85, 247, 0.25)"
+                transparent={true}
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-purple-400">2ND PRIZE</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Pixelate Vision Event
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    Clinched 2nd prize in the flagship image processing and computer-vision robotics event &lsquo;Pixelate&rsquo; at Techfest IIT Bombay.
+                  </p>
+                </div>
+              </GlassCard>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <GlassCard
+                badge="ANNUAL HOSTING"
+                spotlightColor="rgba(251, 191, 36, 0.25)"
+                transparent={true}
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-amber-400">3 DAYS</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Carnival of Mechatronics
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    Our flagship techno-management festival bringing together collegiate hardware hackers, makers, and innovators across Eastern India.
+                  </p>
+                </div>
+              </GlassCard>
+
+              <GlassCard
+                badge="ENCLOSED STEEL CAGE"
+                spotlightColor="rgba(244, 63, 94, 0.25)"
+                transparent={true}
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-rose-400">COMBAT</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Heavy Armor Combat Wars
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    High-kinetic spinner combat bots, wedge flippers, and armored chassis competing in a polycarbonate-reinforced combat arena.
+                  </p>
+                </div>
+              </GlassCard>
+
+              <GlassCard
+                badge="ATTENDEES &amp; ARENA"
+                spotlightColor="rgba(56, 189, 248, 0.25)"
+                transparent={true}
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-sky-400">1,000+</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    RoboSaga Participants
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    Workshops, autonomous line-tracking sprints, maze solving trials, and technical project exhibitions held on campus.
+                  </p>
+                </div>
+              </GlassCard>
+            </div>
+          )}
+        </section>
 
         {/* Expedition Timeline: Central Telemetry Bus with Left & Right Alternating Lanes */}
         <section className="mb-28 relative">
