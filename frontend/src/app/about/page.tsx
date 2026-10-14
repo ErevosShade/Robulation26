@@ -212,56 +212,56 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-24">
           <ScrollReveal>
             <GlassCard
-              badge="LEGACY // 2001-2026"
+              badge="LEGACY // 2001–2026"
               spotlightColor="rgba(255, 159, 252, 0.2)"
               className="p-6"
             >
               <div>
-                <AnimatedCounter target={24} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
-                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Years of Legacy</span>
-                <p className="font-mono text-[11px] text-slate-400 mt-1">Pioneering robotics at BIT Mesra since 2001.</p>
+                <AnimatedCounter target={25} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
+                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Years of Innovation</span>
+                <p className="font-mono text-[11px] text-slate-400 mt-1">Pioneering student robotics and R&amp;D at BIT Mesra.</p>
               </div>
             </GlassCard>
           </ScrollReveal>
 
           <ScrollReveal delay={100}>
             <GlassCard
-              badge="CAD RECORD"
-              spotlightColor="rgba(82, 39, 255, 0.2)"
+              badge="ACTIVE FLEET // BUILDS"
+              spotlightColor="rgba(52, 211, 153, 0.2)"
               className="p-6"
             >
               <div>
-                <span className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block">100/100</span>
-                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Design Analysis</span>
-                <p className="font-mono text-[11px] text-slate-400 mt-1">Historic perfect score achieved at ABU Robocon.</p>
+                <AnimatedCounter target={10} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-emerald-400 block" />
+                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Robotics Platforms</span>
+                <p className="font-mono text-[11px] text-slate-400 mt-1">Combat bots, AMRs, 6-DOF arms, hexapods, and UAVs.</p>
               </div>
             </GlassCard>
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
             <GlassCard
-              badge="ACTIVE FLEET"
-              spotlightColor="rgba(52, 211, 153, 0.2)"
+              badge="CORE STACK // LABS"
+              spotlightColor="rgba(56, 189, 248, 0.2)"
               className="p-6"
             >
               <div>
-                <AnimatedCounter target={9} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
-                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Robotics Platforms</span>
-                <p className="font-mono text-[11px] text-slate-400 mt-1">Combat bots, autonomous AMRs, and 6-DOF arms.</p>
+                <span className="font-mono text-3xl sm:text-5xl font-black text-sky-400 block">3 CORES</span>
+                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Engineering Subsystems</span>
+                <p className="font-mono text-[11px] text-slate-400 mt-1">Uniting mechanical CAD, embedded electronics, and autonomous AI.</p>
               </div>
             </GlassCard>
           </ScrollReveal>
 
           <ScrollReveal delay={300}>
             <GlassCard
-              badge="ARENA HONORS"
+              badge="OPERATIONS // SEASON"
               spotlightColor="rgba(251, 191, 36, 0.2)"
               className="p-6"
             >
               <div>
-                <AnimatedCounter target={16} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
-                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">National Podiums</span>
-                <p className="font-mono text-[11px] text-slate-400 mt-1">Verified honors across SIH, Robocon, and Techfests.</p>
+                <span className="font-mono text-3xl sm:text-5xl font-black text-amber-400 block">4 TRACKS</span>
+                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Flagship Initiatives</span>
+                <p className="font-mono text-[11px] text-slate-400 mt-1">ABU Robocon, IITB Robowars, ISRO ASCEND, and RoboSaga.</p>
               </div>
             </GlassCard>
           </ScrollReveal>

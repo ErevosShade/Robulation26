@@ -284,7 +284,7 @@ export default function Home() {
                 </h2>
 
                 <p className="font-sans text-xs sm:text-sm text-slate-200 leading-relaxed drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
-                  Founded in 2001 at BIT Mesra, <strong className="text-white font-semibold">Robolution (Team Pratyumnis)</strong> engineers autonomous systems and battle-tested combat robotics. As the institute&apos;s official representative at <strong className="text-white font-semibold">ABU ROBOCON</strong>, we hold a landmark <span className="text-emerald-400 font-mono font-bold">100/100 perfect score in 3D Design Analysis</span>, 16+ verified national honors, and organize <strong className="text-[#FF9FFC] font-semibold">RoboSaga</strong>, Eastern India&apos;s premier annual techno-management festival.
+                  Headquartered at BIT Mesra, <strong className="text-white font-semibold">Robolution (Team Pratyumnis)</strong> unites mechanical design, electronics, and AI to build autonomous systems and heavyweight combat robots. Beyond representing the institute at <strong className="text-white font-semibold">ABU ROBOCON</strong> and national arenas, we mentor future engineers through hands-on workshops and <strong className="text-[#FF9FFC] font-semibold">RoboSaga</strong>, our flagship annual techno-management festival.
                 </p>
               </div>
             </ScrollReveal>
@@ -293,18 +293,20 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4 reveal-stagger pt-1">
               <ScrollReveal>
                 <GlassCard
-                  badge="RECORD // 2001-2026"
+                  badge="VISION // 5 PILLARS"
                   spotlightColor="rgba(255, 159, 252, 0.25)"
                   transparent={true}
                   className="p-4 sm:p-5"
                 >
                   <div>
-                    <AnimatedCounter target={24} suffix="+" className="font-mono text-3xl sm:text-4xl font-black text-[#FF9FFC] tracking-tight block drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+                    <span className="font-mono text-2xl sm:text-3xl xl:text-4xl font-black text-[#FF9FFC] tracking-tight block drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                      5 DOMAINS
+                    </span>
                     <span className="font-modern font-bold text-xs sm:text-sm text-white uppercase mt-2 block drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
-                      Years of Excellence
+                      Interdisciplinary R&amp;D
                     </span>
                     <p className="font-mono text-[10px] text-slate-300 mt-1 leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
-                      Continuous mechatronic research and hardware builds since 2001.
+                      Uniting mechanical CAD, embedded electronics, computer vision, control, and AI.
                     </p>
                   </div>
                 </GlassCard>
@@ -312,20 +314,20 @@ export default function Home() {
 
               <ScrollReveal delay={100}>
                 <GlassCard
-                  badge="CAD RECORD // ROBOCON"
+                  badge="ECOSYSTEM // PARTNERS"
                   spotlightColor="rgba(52, 211, 153, 0.25)"
                   transparent={true}
                   className="p-4 sm:p-5"
                 >
                   <div>
-                    <span className="font-mono text-3xl sm:text-4xl font-black text-emerald-400 tracking-tight block drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                      100/100
+                    <span className="font-mono text-2xl sm:text-3xl xl:text-4xl font-black text-emerald-400 tracking-tight block drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                      6+ BRANDS
                     </span>
                     <span className="font-modern font-bold text-xs sm:text-sm text-white uppercase mt-2 block drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
-                      3D Design Analysis
+                      Industry &amp; Alumni Backing
                     </span>
                     <p className="font-mono text-[10px] text-slate-300 mt-1 leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
-                      Historic 2021 ABU Robocon score &amp; 2015 &#8377;150k MathWorks Award.
+                      Supported by NVIDIA, Texas Instruments, Gilbert Rugby, HRS, and BITOSA.
                     </p>
                   </div>
                 </GlassCard>
@@ -333,18 +335,20 @@ export default function Home() {
 
               <ScrollReveal delay={200}>
                 <GlassCard
-                  badge="ARENA // HONORS"
+                  badge="OPERATIONS // 2026–27"
                   spotlightColor="rgba(251, 191, 36, 0.25)"
                   transparent={true}
                   className="p-4 sm:p-5"
                 >
                   <div>
-                    <AnimatedCounter target={16} suffix="+" className="font-mono text-3xl sm:text-4xl font-black text-amber-400 tracking-tight block drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" />
+                    <span className="font-mono text-2xl sm:text-3xl xl:text-4xl font-black text-amber-400 tracking-tight block drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                      &#8377;11.8L
+                    </span>
                     <span className="font-modern font-bold text-xs sm:text-sm text-white uppercase mt-2 block drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
-                      National Honors &amp; Podiums
+                      Annual R&amp;D Scale
                     </span>
                     <p className="font-mono text-[10px] text-slate-300 mt-1 leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
-                      Verified titles &amp; finalists at SIH, IIT Bombay, IIT KGP &amp; Techniche.
+                      Powering Robocon, IITB Robowars, ISRO ASCEND UAVs, and RoboSaga.
                     </p>
                   </div>
                 </GlassCard>
