@@ -81,20 +81,11 @@ export default function AboutHeroSection() {
                 {/* Core Society Description */}
                 <div className="space-y-3 font-sans text-xs sm:text-[13px] leading-relaxed text-slate-200 font-normal drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">
                   <p>
-                    Founded over two decades ago at{' '}
-                    <strong className="text-white font-semibold">
-                      Birla Institute of Technology, Mesra
-                    </strong>{' '}
-                    under the Department of Production and Industrial Engineering,{' '}
-                    <strong className="text-[#FF9FFC] font-semibold">Robolution</strong> (Team
-                    Pratyumnis) represents Eastern India&apos;s apex collegiate robotics
-                    collective.
+                    Founded in 2001, <strong className="text-[#FF9FFC] font-semibold">Robolution</strong> is the official robotics and innovation club of{' '}
+                    <strong className="text-white font-semibold">BIT Mesra</strong>, one of India&apos;s leading engineering institutions.
                   </p>
                   <p>
-                    We engineer battle-tested mechatronics systems—from heavy-hitting 15kg/30kg
-                    combat battlebots built with hardened 4340 alloy steel drum spinners and Hardox
-                    ground feeder wedgelets, to autonomous navigation rovers and competition machines
-                    engineered for ABU Robocon.
+                    Also known as <strong className="text-white font-semibold">Team Pratyumnis</strong>, we bring together expertise in mechanical design, electronics, and programming to develop innovative robotic systems that compete at national and international levels.
                   </p>
                 </div>
 

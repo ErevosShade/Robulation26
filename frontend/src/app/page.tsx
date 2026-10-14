@@ -242,7 +242,7 @@ export default function Home() {
                     fill
                     priority
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 45vw"
-                    className="object-contain filter contrast-125 brightness-110 transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                    className="object-contain filter contrast-125 brightness-115 drop-shadow-[0_0_16px_rgba(255,255,255,0.22)] transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                   />
                 </div>
 
