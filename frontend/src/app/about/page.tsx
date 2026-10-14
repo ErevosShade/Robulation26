@@ -12,49 +12,13 @@ import DecryptedText from '@/components/DecryptedText';
 import ScrollReveal from '@/components/ScrollReveal';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import {
-  Compass,
-  Target,
-  Sparkles,
-  Shield,
-  Layers,
-  Award,
-  Users,
   ChevronRight,
   Mail,
-  ArrowUpRight,
   Flame,
-  CheckCircle2,
   Cpu,
   Wrench,
   Trophy
 } from 'lucide-react';
-
-const values = [
-  {
-    icon: Sparkles,
-    title: 'Innovation',
-    description: 'We experiment rapidly, iterate on real hardware, learn from mechanical failures, and build unconventional mechatronic solutions.',
-    tag: 'EXPLORE & EXPERIMENT'
-  },
-  {
-    icon: Users,
-    title: 'Teamwork',
-    description: 'Robots are complex multi-disciplinary systems. We solve hard cross-engineering challenges through trust, open communication, and shared ownership.',
-    tag: 'CROSS-DISCIPLINARY'
-  },
-  {
-    icon: Shield,
-    title: 'Discipline',
-    description: 'We value consistency, strict CAD documentation, electrical validation, finite-element testing, and high-standard manufacturing practices.',
-    tag: 'PRECISION & QA'
-  },
-  {
-    icon: Compass,
-    title: 'Growth',
-    description: 'Every senior engineer mentors junior recruits. We deliberately build an ecosystem that transforms curious freshmen into national-level builders.',
-    tag: 'CONTINUOUS EVOLUTION'
-  }
-];
 
 const milestones = [
   {
@@ -251,87 +215,6 @@ export default function AboutPage() {
               </div>
             </GlassCard>
           </ScrollReveal>
-        </div>
-
-        {/* Vision & Mission Cards with Double-Bezel GlassCard */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-24">
-          <GlassCard
-            badge="INSTITUTIONAL HORIZON // VISION"
-            spotlightColor="rgba(255, 159, 252, 0.25)"
-            className="p-8 sm:p-10"
-          >
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-[#5227FF]/20 border border-[#FF9FFC]/30 flex items-center justify-center text-[#FF9FFC] mb-6 shadow-[0_0_15px_rgba(82,39,255,0.3)]">
-                <Target className="w-6 h-6" />
-              </div>
-              <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
-                OUR VISION
-              </h2>
-              <p className="font-modern text-sm sm:text-base text-slate-200 mt-4 leading-relaxed">
-                To establish Robolution as one of India&apos;s most respected student robotics communities, known for groundbreaking technical depth, rigorous engineering discipline, and collaborative excellence on the national stage.
-              </p>
-            </div>
-          </GlassCard>
-
-          <GlassCard
-            badge="ACTIVE MANDATE // MISSION"
-            spotlightColor="rgba(82, 39, 255, 0.25)"
-            className="p-8 sm:p-10"
-          >
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-[#5227FF]/20 border border-[#FF9FFC]/30 flex items-center justify-center text-[#FF9FFC] mb-6 shadow-[0_0_15px_rgba(82,39,255,0.3)]">
-                <Compass className="w-6 h-6" />
-              </div>
-              <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
-                OUR MISSION
-              </h2>
-              <p className="font-modern text-sm sm:text-base text-slate-200 mt-4 leading-relaxed">
-                To create an ecosystem at BIT Mesra where students learn robotics by building, collaborate seamlessly across disciplines, and convert ambitious concepts into deployed, high-reliability engineering solutions.
-              </p>
-            </div>
-          </GlassCard>
-        </div>
-
-        {/* Core Values Section */}
-        <div className="mb-24">
-          <div className="mb-10">
-            <span className="font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase block mb-2">
-              <DecryptedText
-                text="// GUIDING PRINCIPLES • OPERATIONAL CODE"
-                animateOn="view"
-                speed={28}
-                sequential={true}
-                characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-                className="text-[#FF9FFC]"
-              />
-            </span>
-            <h2 className="font-modern font-black text-3xl sm:text-4xl text-white uppercase">
-              OUR <span className="animate-text-shimmer">CORE VALUES</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((v, i) => (
-              <GlassCard
-                key={i}
-                badge={v.tag}
-                spotlightColor="rgba(255, 159, 252, 0.2)"
-                className="p-8 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-10 h-10 rounded-xl bg-[#5227FF]/15 border border-[#5227FF]/30 flex items-center justify-center text-[#FF9FFC] mb-6 group-hover:scale-105 transition-transform shadow-[0_0_10px_rgba(82,39,255,0.2)]">
-                    <v.icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="font-modern font-bold text-xl text-white uppercase tracking-tight">
-                    {v.title}
-                  </h3>
-                  <p className="font-modern text-xs text-slate-300 mt-3 leading-relaxed">
-                    {v.description}
-                  </p>
-                </div>
-              </GlassCard>
-            ))}
-          </div>
         </div>
 
         {/* =====================================================================

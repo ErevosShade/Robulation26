@@ -15,6 +15,7 @@ import IslandButton from '@/components/IslandButton';
 import DecryptedText from '@/components/DecryptedText';
 import ScrollReveal from '@/components/ScrollReveal';
 import AnimatedCounter from '@/components/AnimatedCounter';
+import UnfurlingGallery from '@/components/ui/3d-parallax-unfurling-gallery';
 import {
   ChevronDown,
   Mail,
@@ -23,7 +24,7 @@ import {
 
 export default function Home() {
   return (
-    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-[#5227FF]/40 selection:text-[#FF9FFC] overflow-x-hidden">
+    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-[#5227FF]/40 selection:text-[#FF9FFC] overflow-x-clip">
       {/* =====================================================================
           FULL-PAGE BACKGROUND: <MoltenMetal /> REACT BITS WEBGL CAUSTICS
       ===================================================================== */}
@@ -347,6 +348,36 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* =====================================================================
+          3B. 3D PARALLAX UNFURLING GALLERY // HARDWARE IN MOTION
+      ===================================================================== */}
+      <section id="gallery-unfurl" className="relative z-20 w-full">
+        {/* Aerospace HUD Section Header */}
+        <div className="pt-24 pb-8 px-6 sm:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <span className="font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase block mb-1">
+              <DecryptedText
+                text="// 3D MATRIX TELEMETRY • LIVE CAPTURES"
+                animateOn="view"
+                speed={30}
+                sequential={true}
+                characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
+                className="text-[#FF9FFC]"
+              />
+            </span>
+            <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
+              HARDWARE <span className="animate-text-shimmer">IN MOTION</span>
+            </h2>
+          </div>
+          <p className="font-modern text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed font-mono">
+            // SCROLL DOWN TO UNFURL: 3D UNROLLING HARDWARE FLIGHT-DECK &amp; ARENA COMBAT CAPTURES.
+          </p>
+        </div>
+
+        {/* 3D Parallax Unfurling Matrix */}
+        <UnfurlingGallery embedded={true} />
       </section>
 
       {/* =====================================================================
