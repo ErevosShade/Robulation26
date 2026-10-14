@@ -351,7 +351,7 @@ export default function AboutPage() {
               </div>
             </GlassCard>
 
-            {/* Pillar 3: Projects & Research (Team Pratyumnis) */}
+            {/* Pillar 3: Robocon & ISRO Robotics (Team Pratyumnis) */}
             <GlassCard
               badge="COMPETITIVE WING // 03"
               spotlightColor="rgba(52, 211, 153, 0.25)"
@@ -363,15 +363,15 @@ export default function AboutPage() {
                     <Cpu className="w-6 h-6" />
                   </div>
                   <h3 className="font-modern text-2xl font-bold text-white uppercase tracking-tight">
-                    Projects &amp; Robocon
+                    Robocon &amp; ISRO Robotics
                   </h3>
                   <p className="font-modern text-sm text-slate-300 mt-4 leading-relaxed">
-                    Engineering high-precision autonomous mechatronic systems for ABU Robocon and national competitions. Developing holonomic omni-drive chassis, pneumatic ballistic launchers, and vision-guided robotics.
+                    Engineering high-precision autonomous mechatronic systems for ABU Robocon and ISRO Robotics. Developing holonomic omni-drive chassis, pneumatic ballistic launchers, and autonomous swarm guidance.
                   </p>
                 </div>
                 <div className="mt-8 pt-4 border-t border-white/10 font-mono text-[11px] text-slate-400 flex flex-wrap gap-2">
                   <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">ABU Robocon</span>
-                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Autonomous AMR</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">ISRO ASCEND</span>
                   <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">ROS &bull; Vision</span>
                 </div>
               </div>
@@ -589,9 +589,10 @@ export default function AboutPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <GlassCard
-                badge="ANNUAL HOSTING"
+                badge="ANNUAL HOSTING // BIT MESRA"
                 spotlightColor="rgba(251, 191, 36, 0.25)"
                 transparent={true}
+                className="!justify-start"
               >
                 <div>
                   <span className="font-mono text-3xl sm:text-4xl font-black text-amber-400">3 DAYS</span>
@@ -599,39 +600,41 @@ export default function AboutPage() {
                     Techno-Management Fest
                   </h3>
                   <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
-                    Our flagship techno-management festival bringing together collegiate hardware hackers, makers, and innovators across Eastern India.
+                    Flagship campus festival uniting student engineers, developers, and technology enthusiasts across disciplines through high-stakes robotics and innovation.
                   </p>
                 </div>
               </GlassCard>
 
               <GlassCard
-                badge="ENCLOSED STEEL CAGE"
+                badge="ARENA EVENTS // HARDWARE"
                 spotlightColor="rgba(244, 63, 94, 0.25)"
                 transparent={true}
+                className="!justify-start"
               >
                 <div>
                   <span className="font-mono text-3xl sm:text-4xl font-black text-rose-400">COMBAT</span>
                   <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
-                    Heavy Armor Combat Wars
+                    Robowars &amp; Autonomous Trials
                   </h3>
                   <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
-                    High-kinetic spinner combat bots, wedge flippers, and armored chassis competing in a polycarbonate-reinforced combat arena.
+                    High-kinetic heavyweight bot clashes inside an enclosed steel cage alongside autonomous line-follower sprints and maze-solving challenges.
                   </p>
                 </div>
               </GlassCard>
 
               <GlassCard
-                badge="ATTENDEES &amp; ARENA"
+                badge="OUTREACH // MENTORSHIP"
                 spotlightColor="rgba(56, 189, 248, 0.25)"
                 transparent={true}
+                className="!justify-start"
               >
                 <div>
                   <span className="font-mono text-3xl sm:text-4xl font-black text-sky-400">1,000+</span>
                   <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
-                    RoboSaga Participants
+                    Students &amp; Innovators
                   </h3>
                   <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
-                    Workshops, autonomous line-tracking sprints, maze solving trials, and technical project exhibitions held on campus.
+                    Empowering the next generation of builders through hands-on robotics workshops, 24-hour hackathons, and technical project exhibitions.
                   </p>
                 </div>
               </GlassCard>
