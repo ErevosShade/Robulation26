@@ -442,11 +442,12 @@ export default function AboutPage() {
 
           {activeTab === 'robocon' ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {/* Honor 1: Robocon 2021 */}
+              {/* Row 1, Card 1: Robocon 2021 */}
               <GlassCard
-                badge="ABU ROBOCON 2021"
+                badge="ABU ROBOCON // 2021"
                 spotlightColor="rgba(52, 211, 153, 0.25)"
                 transparent={true}
+                className="!justify-start"
               >
                 <div>
                   <span className="font-mono text-3xl sm:text-4xl font-black text-emerald-400">100 / 100</span>
@@ -454,50 +455,53 @@ export default function AboutPage() {
                     3D CAD Design Score
                   </h3>
                   <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
-                    Awarded a perfect 100/100 score in 3D CAD design analysis by national and international judges for virtual kinematics, weight optimization, and stress simulation.
+                    Made history with a perfect 100/100 score in 3D CAD design analysis, alongside finishing as Top 15 National Finalists.
                   </p>
                 </div>
               </GlassCard>
 
-              {/* Honor 2: Robocon 2015 */}
+              {/* Row 1, Card 2: Robocon 2015 */}
               <GlassCard
-                badge="ABU ROBOCON 2015"
+                badge="ABU ROBOCON // 2015"
                 spotlightColor="rgba(255, 159, 252, 0.25)"
                 transparent={true}
+                className="!justify-start"
               >
                 <div>
                   <span className="font-mono text-3xl sm:text-4xl font-black text-[#FF9FFC]">&#8377;1,50,000</span>
                   <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
-                    MathWorks Award &amp; Rank
+                    MathWorks &amp; Top Non-QF
                   </h3>
                   <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
-                    Bagged the MathWorks National Award accompanied by a cash prize of &#8377;1,50,000, along with the title of Best Non-Quarterfinalist Team.
+                    Bagged the prestigious MathWorks National Award with a &#8377;1,50,000 prize, and honored as Best Non-Quarterfinalist Team.
                   </p>
                 </div>
               </GlassCard>
 
-              {/* Honor 3: Robocon 2013 */}
+              {/* Row 1, Card 3: Robocon 2013 */}
               <GlassCard
-                badge="ABU ROBOCON 2013 // PUNE"
+                badge="ABU ROBOCON // 2013"
                 spotlightColor="rgba(251, 191, 36, 0.25)"
                 transparent={true}
+                className="!justify-start"
               >
                 <div>
                   <span className="font-mono text-3xl sm:text-4xl font-black text-amber-400">ROOKIE</span>
                   <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
-                    Best Rookie Team
+                    Inaugural Robocon Honor
                   </h3>
                   <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
-                    Awarded Best Rookie Team at Balewadi Stadium, Pune in our debut Robocon campaign, surpassing established engineering institutions across India.
+                    Recognized as Best Rookie Team at Balewadi Stadium, Pune in our debut campaign, surpassing established colleges across India.
                   </p>
                 </div>
               </GlassCard>
 
-              {/* Honor 4: Techfest IIT Bombay 2015 */}
+              {/* Row 1, Card 4: Techfest IIT Bombay 2015 */}
               <GlassCard
                 badge="IIT BOMBAY // 2015"
                 spotlightColor="rgba(168, 85, 247, 0.25)"
                 transparent={true}
+                className="!justify-start"
               >
                 <div>
                   <span className="font-mono text-3xl sm:text-4xl font-black text-purple-400">2ND PRIZE</span>
@@ -506,6 +510,78 @@ export default function AboutPage() {
                   </h3>
                   <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
                     Clinched 2nd prize in the flagship image processing and computer-vision robotics event &lsquo;Pixelate&rsquo; at Techfest IIT Bombay.
+                  </p>
+                </div>
+              </GlassCard>
+
+              {/* Row 2, Card 5: Combat & Race (2021-2025) */}
+              <GlassCard
+                badge="COMBAT &amp; RACE // 2021–2025"
+                spotlightColor="rgba(244, 63, 94, 0.25)"
+                transparent={true}
+                className="!justify-start"
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-rose-400">1ST PLACE</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Robowars &amp; Roborace
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    1st Place at IIT Guwahati Techniche &apos;23 &amp; NIT Trichy Pragyan &apos;22, Quarter-Finalist at IITB Techfest &apos;25, and 3rd at BITS Quark &apos;21.
+                  </p>
+                </div>
+              </GlassCard>
+
+              {/* Row 2, Card 6: Autonomy (2018-2023) */}
+              <GlassCard
+                badge="AUTONOMY // 2018–2023"
+                spotlightColor="rgba(56, 189, 248, 0.25)"
+                transparent={true}
+                className="!justify-start"
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-sky-400">5x PODIUMS</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Autonomous Navigation
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    1st Place at IIT Guwahati (&apos;19, &apos;23), 2nd Place at IIT KGP Kshitij (&apos;18, &apos;23), and 2nd Place at DTU Robotryst &apos;22.
+                  </p>
+                </div>
+              </GlassCard>
+
+              {/* Row 2, Card 7: Innovation / Hackathons (2023-2024) */}
+              <GlassCard
+                badge="INNOVATION // 2023–2024"
+                spotlightColor="rgba(52, 211, 153, 0.25)"
+                transparent={true}
+                className="!justify-start"
+              >
+                <div>
+                  <span className="font-mono text-2xl sm:text-3xl xl:text-4xl font-black text-emerald-400">FINALISTS</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    SIH &apos;24 &amp; e-Yantra IITB
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    Grand Finalists at Smart India Hackathon &apos;24 (AgriBot Hardware Edition) and National Finalists at e-Yantra IIT Bombay &apos;23.
+                  </p>
+                </div>
+              </GlassCard>
+
+              {/* Row 2, Card 8: National Campaigns (2016-2018) */}
+              <GlassCard
+                badge="NATIONALS // 2016–2018"
+                spotlightColor="rgba(192, 132, 252, 0.25)"
+                transparent={true}
+                className="!justify-start"
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-[#FF9FFC]">2x REPS</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Robocon &amp; Srijan Titles
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    National Representation at ABU Robocon 2016 &amp; 2018, plus 1st Place across multiple events at Jadavpur University Srijan &apos;16.
                   </p>
                 </div>
               </GlassCard>
