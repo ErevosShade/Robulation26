@@ -126,10 +126,10 @@ export default function Home() {
                 variant="shape1"
                 theme="dark"
                 leaderSide="right"
-                badge="INSTITUTIONAL RECORD"
-                title="BIT MESRA"
-                subtitle="OFFICIAL ROBOTICS SOCIETY"
-                description="TEAM PRATYUMNIS: ABU ROBOCON 100/100 CAD DESIGN SCORE & MATHWORKS NATIONAL AWARD."
+                badge="ARENA CONTINGENT"
+                title="TEAM PRATYUMNIS"
+                subtitle="ABU ROBOCON & NATIONALS"
+                description="ABU ROBOCON 100/100 CAD DESIGN SCORE & &#8377;1.5L MATHWORKS NATIONAL AWARD."
               />
             </div>
 
@@ -144,10 +144,10 @@ export default function Home() {
                 variant="shape2"
                 theme="dark"
                 leaderSide="left"
-                badge="FLAGSHIP FESTIVAL"
-                title="ROBOSAGA '26"
-                subtitle="EASTERN INDIA'S ARENA"
-                description="3-DAY HARDWARE CARNIVAL: 30KG COMBAT BOTS, AUTONOMOUS MAZE SOLVERS & 1000+ MENTORED."
+                badge="FLAGSHIP FEST"
+                title="ROBOSAGA '27"
+                subtitle="TECHNO-MANAGEMENT ARENA"
+                description="3-DAY HARDWARE CARNIVAL: COMBAT BOTS, AUTONOMOUS MAZE SOLVERS & 1000+ PARTICIPANTS."
               />
             </div>
           </div>
@@ -159,9 +159,9 @@ export default function Home() {
                 variant="shape1"
                 theme="dark"
                 leaderSide="right"
-                badge="CAMPUS SOCIETY"
-                title="BIT MESRA"
-                subtitle="OFFICIAL ROBOTICS SOCIETY"
+                badge="ARENA CONTINGENT"
+                title="TEAM PRATYUMNIS"
+                subtitle="ABU ROBOCON & NATIONALS"
               />
             </div>
             <div className="w-full sm:w-1/2 h-[120px]">
@@ -169,9 +169,9 @@ export default function Home() {
                 variant="shape2"
                 theme="dark"
                 leaderSide="left"
-                badge="ANNUAL CARNIVAL"
-                title="ROBOSAGA '26"
-                subtitle="EASTERN INDIA ARENA"
+                badge="FLAGSHIP FEST"
+                title="ROBOSAGA '27"
+                subtitle="TECHNO-MANAGEMENT ARENA"
               />
             </div>
           </div>
