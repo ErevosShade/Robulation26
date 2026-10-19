@@ -109,6 +109,31 @@ export default async function InventoryPage() {
                 </div>
               </div>
 
+              {/* Admin Actions Panel */}
+              {isAdmin && (
+                <div className="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30 space-y-3 font-mono">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-purple-300">
+                      <Shield className="w-4 h-4 text-purple-400" />
+                      <span>ADMINISTRATOR PROTOCOLS</span>
+                    </div>
+                    <span className="text-[10px] text-purple-400/80 px-2 py-0.5 rounded bg-purple-500/20">
+                      TIER_4
+                    </span>
+                  </div>
+                  <p className="text-xs text-zinc-400">
+                    Preload approved team members, allocate security clearance roles, and manage the access allowlist via CSV batch processing.
+                  </p>
+                  <Link
+                    href="/inventory/admin/members"
+                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(168,85,247,0.3)] transition-all cursor-pointer"
+                  >
+                    <span>LAUNCH ROSTER CSV IMPORT TERMINAL</span>
+                    <ArrowLeft className="w-3.5 h-3.5 rotate-180" />
+                  </Link>
+                </div>
+              )}
+
               {/* Status Banner */}
               <div className="p-4 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-start gap-3 text-xs text-sky-200 font-mono">
                 <Cpu className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
