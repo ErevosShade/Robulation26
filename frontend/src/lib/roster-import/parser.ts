@@ -84,6 +84,9 @@ export function parseAndValidateCsv(
   // Check PapaParse syntax errors
   if (parsed.errors && parsed.errors.length > 0) {
     for (const parseErr of parsed.errors) {
+      if (parseErr.code === "UndetectableDelimiter") {
+        continue;
+      }
       globalErrors.push({
         line: parseErr.row !== undefined ? parseErr.row + 2 : 0,
         field: "general",
