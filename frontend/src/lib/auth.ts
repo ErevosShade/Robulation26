@@ -8,8 +8,15 @@ import { memberRoster, type MemberRoster } from "@/lib/db/schema/roster";
 
 export type InventoryRole = "admin" | "member" | "intern";
 
-const googleClientId = process.env.GOOGLE_CLIENT_ID?.trim();
-const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET?.trim();
+// Sanitize Google OAuth credentials (strips accidentally pasted protocols or surrounding quotes)
+const rawGoogleClientId = process.env.GOOGLE_CLIENT_ID?.trim()
+  ?.replace(/^["']|["']$/g, "")
+  ?.replace(/^https?:\/\//i, "");
+const rawGoogleClientSecret = process.env.GOOGLE_CLIENT_SECRET?.trim()
+  ?.replace(/^["']|["']$/g, "");
+
+const googleClientId = rawGoogleClientId || undefined;
+const googleClientSecret = rawGoogleClientSecret || undefined;
 
 /**
  * Indicates whether Google OAuth credentials are fully provided in environment variables.

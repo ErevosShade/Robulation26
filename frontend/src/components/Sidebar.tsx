@@ -12,7 +12,8 @@ import {
   Calendar,
   Image as ImageIcon,
   Bell,
-  Mail
+  Mail,
+  Package
 } from 'lucide-react';
 
 interface NavItem {
@@ -29,6 +30,7 @@ const navItems: NavItem[] = [
   { href: '/gallery', label: 'Gallery // Build Archives', icon: ImageIcon },
   { href: '/announcements', label: 'Updates // Transmissions', icon: Bell },
   { href: '/contact', label: 'Contact // Lab Coordinates', icon: Mail },
+  { href: '/inventory', label: 'Inventory // Hardware Catalog', icon: Package },
 ];
 
 interface SidebarProps {
