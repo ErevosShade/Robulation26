@@ -42,25 +42,21 @@ Check Neon connectivity and the selected driver's compatibility with the existin
 
 ## 3. Roles and permissions
 
-### Intern
-- Browse inventory and specifications.
-- View stock availability and locations.
-- Submit checkout requests.
-- Cannot approve requests, adjust stock, or perform administrative CSV operations.
+The Robolution inventory system defines exactly two roles: `admin` and `member`.
 
 ### Member
 - Browse inventory.
 - Request checkout for a project or purpose.
 - View their own transactions and request returns for their active checkouts.
 - Report damage with mandatory incident details.
-- Cannot directly edit stock balances.
+- Cannot directly edit stock balances or access administrative tools.
 
 ### Admin
 - Create/update categories and items.
 - Approve/reject checkout requests.
 - Verify returns and damage reports where the workflow requires approval.
 - Adjust stock with a mandatory reason.
-- Import/export CSV.
+- Import/export CSV and manage member roster preloads.
 - View all transactions and resolve discrepancies.
 
 All authorization must be enforced on the server. Derive the actor from the verified session, never from client-supplied role or user ID fields.
@@ -136,7 +132,6 @@ Use the chosen authentication system's user identity as the basis for authorizat
 
 - `admin`
 - `member`
-- `intern`
 
 Never trust a role sent by the browser.
 
