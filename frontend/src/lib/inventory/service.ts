@@ -6,8 +6,13 @@ import type {
   InventoryItemPublicDto,
   PaginatedResponse,
 } from "./types";
-import type { ValidatedCatalogQuery } from "./validation";
-import { enrichItemWithComputedStock } from "./quantity";
+import type { ValidatedCatalogQuery, ValidatedCreateItemInput } from "./validation";
+import {
+  enrichItemWithComputedStock,
+  assertStockInvariants,
+  generateSlugFromName,
+} from "./quantity";
+import { InventoryError } from "./errors";
 
 /**
  * Escapes SQL LIKE special wildcard characters (% and _).
@@ -151,4 +156,97 @@ export async function getItemById(
   }
 
   return enrichItemWithComputedStock(row, isAdmin);
+}
+
+/**
+ * Service function to create a new inventory item.
+ * Admin-only operation. Validates SKU uniqueness, asserts stock invariants,
+ * and creates an initial stock ledger entry when quantity > 0.
+ */
+export async function createInventoryItem(
+  input: ValidatedCreateItemInput,
+  actingAdminEmail: string
+): Promise<InventoryItemDto> {
+  // 1. Check SKU uniqueness
+  const [existingSku] = await db
+    .select({ id: inventoryItems.id })
+    .from(inventoryItems)
+    .where(eq(inventoryItems.sku, input.sku))
+    .limit(1);
+
+  if (existingSku) {
+    throw new InventoryError(
+      "DUPLICATE_SKU",
+      `An inventory item with SKU '${input.sku}' already exists.`,
+      409
+    );
+  }
+
+  // 2. Generate slug and ensure uniqueness
+  let slug = input.slug || generateSlugFromName(input.name);
+  const [existingSlug] = await db
+    .select({ id: inventoryItems.id })
+    .from(inventoryItems)
+    .where(eq(inventoryItems.slug, slug))
+    .limit(1);
+
+  if (existingSlug) {
+    slug = `${slug}-${Date.now().toString(36)}`;
+  }
+
+  // 3. Assert initial stock invariants
+  const totalQuantity = input.totalQuantity ?? 0;
+  const minimumStock = input.minimumStock ?? 0;
+  assertStockInvariants({
+    totalQuantity,
+    reservedQuantity: 0,
+    checkedOutQuantity: 0,
+    damagedQuantity: 0,
+    minimumStock,
+  });
+
+  // 4. Create item
+  const [createdItem] = await db
+    .insert(inventoryItems)
+    .values({
+      name: input.name,
+      slug,
+      sku: input.sku,
+      category: input.category,
+      description: input.description ?? null,
+      tags: input.tags ?? [],
+      locationRoom: input.locationRoom ?? null,
+      locationCabinet: input.locationCabinet ?? null,
+      locationShelf: input.locationShelf ?? null,
+      locationBin: input.locationBin ?? null,
+      unitCost: input.unitCost ?? null,
+      currency: input.currency ?? "INR",
+      totalQuantity,
+      reservedQuantity: 0,
+      checkedOutQuantity: 0,
+      damagedQuantity: 0,
+      minimumStock,
+      consumable: input.consumable ?? false,
+      internalNotes: input.internalNotes ?? null,
+    })
+    .returning();
+
+  // 5. If initial stock is positive, record initial ledger transaction
+  if (totalQuantity > 0) {
+    await db.insert(inventoryLedger).values({
+      itemId: createdItem.id,
+      transactionType: "initial_stock",
+      quantityDelta: totalQuantity,
+      totalQuantityAfter: totalQuantity,
+      availableQuantityAfter: totalQuantity,
+      reservedQuantityAfter: 0,
+      checkedOutQuantityAfter: 0,
+      damagedQuantityAfter: 0,
+      performedBy: actingAdminEmail,
+      reason: "Initial item creation and stock provisioning.",
+      metadata: { sku: createdItem.sku },
+    });
+  }
+
+  return enrichItemWithComputedStock(createdItem, true) as InventoryItemDto;
 }
