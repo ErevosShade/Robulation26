@@ -381,7 +381,7 @@ Also test the public website after inventory work to ensure existing landing-pag
 ### Phase 6 — CSV and notifications
 1. Add catalog and audit exports.
 2. Add validated CSV import.
-3. Integrate Telegram notifications if required.
+3. Integrate Telegram notifications (Completed: reusable client, token redaction, connection verification, admin test endpoint).
 4. Verify duplicate/forged Telegram callback protection.
 
 ### Phase 7 — Production readiness
