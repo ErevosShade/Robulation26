@@ -15,6 +15,7 @@
     "seed:inventory": "tsx src/scripts/seedInventory.ts",
     "seed:admin": "tsx src/scripts/seedAdmin.ts",
     "test:auth": "tsx src/scripts/testAuth.ts",
+    "test:catalog": "tsx src/scripts/testInventoryCatalog.ts",
     "test:csv": "tsx src/scripts/testCsvParser.ts",
     "test:roster": "tsx src/scripts/testRosterImportE2E.ts",
     "test": "pnpm run test:int && pnpm run test:e2e",
