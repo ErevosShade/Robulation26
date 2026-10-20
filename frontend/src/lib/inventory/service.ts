@@ -17,13 +17,14 @@ export function escapeLikePattern(pattern: string): string {
 }
 
 /**
- * Service function to retrieve a paginated inventory catalog with search.
+ * Service function to retrieve a paginated inventory catalog with search,
+ * plain-text category filtering, and status filtering.
  */
 export async function listInventoryItems(
   query: ValidatedCatalogQuery,
   isAdmin: boolean
 ): Promise<PaginatedResponse<InventoryItemDto | InventoryItemPublicDto>> {
-  const { page, limit, search } = query;
+  const { page, limit, search, category, status } = query;
   const offset = (page - 1) * limit;
 
   const conditions = [];
@@ -45,6 +46,47 @@ export async function listInventoryItems(
         ilike(inventoryItems.slug, searchPattern)
       )
     );
+  }
+
+  // Filter by category (case-insensitive plain text)
+  if (category && category.trim()) {
+    conditions.push(ilike(inventoryItems.category, category.trim()));
+  }
+
+  // Filter by server-computed status
+  if (status) {
+    const availableExpr = sql`(${inventoryItems.totalQuantity} - (${inventoryItems.reservedQuantity} + ${inventoryItems.checkedOutQuantity} + ${inventoryItems.damagedQuantity}))`;
+
+    if (status === "archived") {
+      conditions.push(
+        or(eq(inventoryItems.archived, true), eq(inventoryItems.active, false))
+      );
+    } else if (status === "out_of_stock") {
+      conditions.push(
+        and(
+          eq(inventoryItems.archived, false),
+          eq(inventoryItems.active, true),
+          sql`${availableExpr} <= 0`
+        )
+      );
+    } else if (status === "low_stock") {
+      conditions.push(
+        and(
+          eq(inventoryItems.archived, false),
+          eq(inventoryItems.active, true),
+          sql`${availableExpr} > 0`,
+          sql`${availableExpr} <= ${inventoryItems.minimumStock}`
+        )
+      );
+    } else if (status === "in_stock") {
+      conditions.push(
+        and(
+          eq(inventoryItems.archived, false),
+          eq(inventoryItems.active, true),
+          sql`${availableExpr} > ${inventoryItems.minimumStock}`
+        )
+      );
+    }
   }
 
   const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
