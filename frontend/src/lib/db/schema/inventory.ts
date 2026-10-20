@@ -8,7 +8,9 @@ import {
   jsonb,
   index,
   uniqueIndex,
+  check,
 } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
 
 /**
  * Authoritative hardware lab inventory items catalog.
@@ -53,6 +55,14 @@ export const inventoryItems = pgTable(
     index("inventory_items_category_idx").on(table.category),
     index("inventory_items_name_idx").on(table.name),
     index("inventory_items_active_archived_idx").on(table.active, table.archived),
+    check(
+      "inventory_items_non_negative_quantities_check",
+      sql`${table.totalQuantity} >= 0 AND ${table.reservedQuantity} >= 0 AND ${table.checkedOutQuantity} >= 0 AND ${table.damagedQuantity} >= 0 AND ${table.minimumStock} >= 0`
+    ),
+    check(
+      "inventory_items_stock_conservation_check",
+      sql`${table.totalQuantity} >= (${table.reservedQuantity} + ${table.checkedOutQuantity} + ${table.damagedQuantity})`
+    ),
   ]
 );
 
