@@ -8,7 +8,7 @@ export const memberRoster = pgTable(
       .$defaultFn(() => crypto.randomUUID()),
     name: text("name"),
     email: text("email").notNull().unique(),
-    role: text("role").notNull().default("member"), // 'admin' | 'member' | 'intern'
+    role: text("role").notNull().default("member"), // 'admin' | 'member'
     active: boolean("active").default(true).notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
