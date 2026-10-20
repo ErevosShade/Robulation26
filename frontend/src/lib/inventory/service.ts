@@ -6,7 +6,11 @@ import type {
   InventoryItemPublicDto,
   PaginatedResponse,
 } from "./types";
-import type { ValidatedCatalogQuery, ValidatedCreateItemInput } from "./validation";
+import type {
+  ValidatedCatalogQuery,
+  ValidatedCreateItemInput,
+  ValidatedUpdateItemInput,
+} from "./validation";
 import {
   enrichItemWithComputedStock,
   assertStockInvariants,
@@ -249,4 +253,90 @@ export async function createInventoryItem(
   }
 
   return enrichItemWithComputedStock(createdItem, true) as InventoryItemDto;
+}
+
+/**
+ * Service function to update an existing inventory item.
+ * Admin-only operation. Validates stock invariants, prevents inconsistent
+ * total reduction below committed stock, and logs stock adjustments in ledger.
+ */
+export async function updateInventoryItem(
+  id: string,
+  input: ValidatedUpdateItemInput,
+  actingAdminEmail: string
+): Promise<InventoryItemDto> {
+  const [existing] = await db
+    .select()
+    .from(inventoryItems)
+    .where(eq(inventoryItems.id, id))
+    .limit(1);
+
+  if (!existing) {
+    throw new InventoryError("ITEM_NOT_FOUND", `Inventory item '${id}' not found.`, 404);
+  }
+
+  const updates: Partial<InventoryItem> = {
+    updatedAt: new Date(),
+  };
+
+  if (input.name !== undefined) updates.name = input.name;
+  if (input.category !== undefined) updates.category = input.category;
+  if (input.description !== undefined) updates.description = input.description;
+  if (input.tags !== undefined) updates.tags = input.tags;
+  if (input.locationRoom !== undefined) updates.locationRoom = input.locationRoom;
+  if (input.locationCabinet !== undefined) updates.locationCabinet = input.locationCabinet;
+  if (input.locationShelf !== undefined) updates.locationShelf = input.locationShelf;
+  if (input.locationBin !== undefined) updates.locationBin = input.locationBin;
+  if (input.unitCost !== undefined) updates.unitCost = input.unitCost;
+  if (input.currency !== undefined) updates.currency = input.currency;
+  if (input.minimumStock !== undefined) updates.minimumStock = input.minimumStock;
+  if (input.consumable !== undefined) updates.consumable = input.consumable;
+  if (input.internalNotes !== undefined) updates.internalNotes = input.internalNotes;
+
+  let quantityDelta = 0;
+  if (input.totalQuantity !== undefined && input.totalQuantity !== existing.totalQuantity) {
+    const newTotal = input.totalQuantity;
+    quantityDelta = newTotal - existing.totalQuantity;
+
+    assertStockInvariants({
+      totalQuantity: newTotal,
+      reservedQuantity: existing.reservedQuantity,
+      checkedOutQuantity: existing.checkedOutQuantity,
+      damagedQuantity: existing.damagedQuantity,
+      minimumStock: input.minimumStock ?? existing.minimumStock,
+    });
+
+    updates.totalQuantity = newTotal;
+  }
+
+  const [updatedItem] = await db
+    .update(inventoryItems)
+    .set(updates)
+    .where(eq(inventoryItems.id, id))
+    .returning();
+
+  // If total quantity changed, record ledger adjustment
+  if (quantityDelta !== 0) {
+    const availableAfter =
+      updatedItem.totalQuantity -
+      (updatedItem.reservedQuantity +
+        updatedItem.checkedOutQuantity +
+        updatedItem.damagedQuantity);
+
+    await db.insert(inventoryLedger).values({
+      itemId: updatedItem.id,
+      transactionType: "adjustment",
+      quantityDelta,
+      totalQuantityAfter: updatedItem.totalQuantity,
+      availableQuantityAfter: availableAfter,
+      reservedQuantityAfter: updatedItem.reservedQuantity,
+      checkedOutQuantityAfter: updatedItem.checkedOutQuantity,
+      damagedQuantityAfter: updatedItem.damagedQuantity,
+      performedBy: actingAdminEmail,
+      reason: `Admin stock adjustment (delta: ${quantityDelta > 0 ? `+${quantityDelta}` : quantityDelta}).`,
+      metadata: { previousTotal: existing.totalQuantity, newTotal: updatedItem.totalQuantity },
+    });
+  }
+
+  return enrichItemWithComputedStock(updatedItem, true) as InventoryItemDto;
 }
