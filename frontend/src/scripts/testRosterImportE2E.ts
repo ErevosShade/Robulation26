@@ -53,9 +53,9 @@ async function runE2ETests() {
       .from(memberRoster);
 
     const testCsvWithAdminAndNew = `name,email,role,active
-"Initial Admin",${INITIAL_ADMIN_EMAIL},intern,false
+"Initial Admin",${INITIAL_ADMIN_EMAIL},member,false
 "Test Pilot 1",${TEST_EMAIL_1},member,true
-"Test Pilot 2",${TEST_EMAIL_2},intern,false`;
+"Test Pilot 2",${TEST_EMAIL_2},member,true`;
 
     const preview = await generateRosterPreview(
       testCsvWithAdminAndNew,
@@ -98,7 +98,7 @@ async function runE2ETests() {
       `Successfully inserted 2 new records while safely preserving 1 existing record.`
     );
 
-    // Verify initial admin was NOT demoted or modified by CSV's 'intern,false'
+    // Verify initial admin was NOT demoted or modified by CSV's 'member,false'
     const [adminAfterImport] = await db
       .select()
       .from(memberRoster)
@@ -108,7 +108,21 @@ async function runE2ETests() {
     recordTest(
       "Preservation of Administrator Privileges",
       Boolean(adminAfterImport && adminAfterImport.role === "admin" && adminAfterImport.active),
-      `Verified that CSV's attempted role downgrade ('intern') was completely ignored; admin role preserved.`
+      "Verified that CSV's attempted role downgrade ('member') was completely ignored; admin role preserved."
+    );
+
+    // 5. Explicit Intern Role Rejection in Import
+    const internCsv = `name,email,role,active
+"Intern User",intern.test.pilot@example.com,intern,true`;
+    const internPreview = await generateRosterPreview(internCsv, INITIAL_ADMIN_EMAIL);
+    const internImport = await executeRosterImport(internCsv, INITIAL_ADMIN_EMAIL);
+
+    recordTest(
+      "CSV Import - Intern Role Rejection",
+      internPreview.rows[0]?.status === "invalid" &&
+      Boolean(internPreview.rows[0]?.errors.some((e) => e.field === "role" && e.message.includes("intern"))) &&
+      internImport.summary.insertedCount === 0,
+      "Strictly rejects CSV records with 'intern' role without writing them to database."
     );
 
     // 5. Import idempotency test
