@@ -48,7 +48,8 @@ export function runParserUnitTests() {
   // 2. Role validation tests
   const validAdmin = validateRoleField("admin");
   const validMember = validateRoleField("MEMBER");
-  const validIntern = validateRoleField("  intern  ");
+  const rejectedIntern = validateRoleField("intern");
+  const rejectedInternSpaces = validateRoleField("  intern  ");
   const defaultRole = validateRoleField("");
   const invalidRole = validateRoleField("superadmin");
 
@@ -56,9 +57,16 @@ export function runParserUnitTests() {
     "Role Validator - Allowed and default roles",
     validAdmin.isValid && validAdmin.value === "admin" &&
     validMember.isValid && validMember.value === "member" &&
-    validIntern.isValid && validIntern.value === "intern" &&
     defaultRole.isValid && defaultRole.value === "member",
-    "Accepts admin, member, intern, defaults blank to member."
+    "Accepts admin and member, defaults blank to member."
+  );
+
+  recordTest(
+    "Role Validator - Rejects intern role",
+    !rejectedIntern.isValid &&
+    !rejectedInternSpaces.isValid &&
+    Boolean(rejectedIntern.error?.includes("intern")),
+    "Strictly rejects 'intern' role with explicit validation error."
   );
 
   recordTest(
@@ -116,7 +124,7 @@ export function runParserUnitTests() {
   const quotedCsv = `name,email,role,active
 "Smith, John",john.smith@example.com,member,true
 "Vance, Dr. Elena",elena.vance@example.com,admin,true
-"Escape ""Quote"" Test",quote.test@example.com,intern,false`;
+"Escape ""Quote"" Test",quote.test@example.com,member,false`;
 
   const parsedQuoted = parseAndValidateCsv(quotedCsv);
   recordTest(
@@ -166,7 +174,8 @@ export function runParserUnitTests() {
 Valid One,valid1@test.com,member,true
 Bad Email,not-an-email,member,true
 Bad Role,valid2@test.com,superuser,true
-Bad Active,valid3@test.com,intern,yes
+Bad Active,valid3@test.com,member,yes
+Intern Rejected,valid4@test.com,intern,true
 Dup Row,valid1@test.com,member,true`;
 
   const mixedParsed = parseAndValidateCsv(mixedCsv);
@@ -174,14 +183,17 @@ Dup Row,valid1@test.com,member,true`;
   const row3 = mixedParsed.rows.find((r) => r.line === 4);
   const row4 = mixedParsed.rows.find((r) => r.line === 5);
   const row5 = mixedParsed.rows.find((r) => r.line === 6);
+  const row6 = mixedParsed.rows.find((r) => r.line === 7);
 
   recordTest(
     "Line Numbering & Granular Row Errors",
     row2?.status === "invalid" &&
     row3?.status === "invalid" &&
     row4?.status === "invalid" &&
-    row5?.status === "duplicate_in_file",
-    "Accurately maps line numbers to errors and flags intra-file duplicates."
+    row5?.status === "invalid" &&
+    row5?.errors.some((e) => e.field === "role" && e.message.includes('Invalid role "intern"')) &&
+    row6?.status === "duplicate_in_file",
+    "Accurately maps line numbers to errors, rejects intern role, and flags intra-file duplicates."
   );
 
   console.log("\n=== Parser Unit Tests Summary ===");

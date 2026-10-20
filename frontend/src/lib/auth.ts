@@ -6,7 +6,7 @@ import { db } from "@/lib/db";
 import { user, session, account, verification } from "@/lib/db/schema/auth";
 import { memberRoster, type MemberRoster } from "@/lib/db/schema/roster";
 
-export type InventoryRole = "admin" | "member" | "intern";
+export type InventoryRole = "admin" | "member";
 
 // Sanitize Google OAuth credentials (strips accidentally pasted protocols or surrounding quotes)
 const rawGoogleClientId = process.env.GOOGLE_CLIENT_ID?.trim()
@@ -48,7 +48,7 @@ export const auth = betterAuth({
       role: {
         type: "string",
         required: false,
-        defaultValue: "intern",
+        defaultValue: "member",
         input: false, // Ensures clients cannot supply or tamper with their role
       },
     },
@@ -110,14 +110,14 @@ export const auth = betterAuth({
             }
 
             // Fail-safe during initial setup: If the member_roster table has not yet been migrated,
-            // default to 'intern' so developer setups are not completely bricked before migration.
+            // default to 'member' so developer setups are not completely bricked before migration.
             console.warn(
-              "[Better Auth] member_roster table query failed during user creation (migrations may be pending). Defaulting role to 'intern'."
+              "[Better Auth] member_roster table query failed during user creation (migrations may be pending). Defaulting role to 'member'."
             );
             return {
               data: {
                 ...userData,
-                role: "intern",
+                role: "member",
               },
             };
           }
@@ -218,10 +218,15 @@ export async function verifyInventoryAccess(reqHeaders?: Headers): Promise<Inven
       };
     }
 
-    const validatedRole: InventoryRole =
-      rosterEntry.role === "admin" || rosterEntry.role === "member" || rosterEntry.role === "intern"
-        ? (rosterEntry.role as InventoryRole)
-        : "intern";
+    if (rosterEntry.role !== "admin" && rosterEntry.role !== "member") {
+      return {
+        authorized: false,
+        error: "FORBIDDEN",
+        message: "Invalid or unrecognized role on roster entry.",
+      };
+    }
+
+    const validatedRole: InventoryRole = rosterEntry.role;
 
     return {
       authorized: true,

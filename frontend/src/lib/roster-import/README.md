@@ -19,7 +19,7 @@ name,email,role,active
 ### Validation Rules
 1. **Name**: Optional display name, trimmed.
 2. **Email**: Required, trimmed, converted to lowercase, validated via standard email regex.
-3. **Role**: Must be one of `admin`, `member`, `intern`. Any other string is rejected.
+3. **Role**: Must be one of `admin`, `member`. Any other string (including legacy `intern`) is strictly rejected.
 4. **Active**: Strictly `'true'` or `'false'`. Any other representation is rejected.
 5. **Intra-file Duplicates**: Detected and flagged with the specific line numbers where duplicate emails appear.
 6. **Existing Database Records**: Checked against `member_roster` in Neon; flagged as existing and skipped during import.

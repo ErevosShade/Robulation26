@@ -3,7 +3,6 @@ import type { InventoryRole } from "@/lib/auth";
 export const ALLOWED_ROSTER_ROLES: readonly InventoryRole[] = [
   "admin",
   "member",
-  "intern",
 ] as const;
 
 export const MAX_CSV_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB

@@ -34,20 +34,21 @@ These implementation choices do not change the operational rules in this SOP. Se
 
 ## 2. User Roles & Access Hierarchy
 
+The inventory system strictly operates with exactly two authorized roles: `admin` and `member`.
+
 | Role | Permissions | Responsibilities |
 |---|---|---|
-| **Admin** | Full inventory access; create and update categories and items; approve/reject requests; adjust stock; import/export CSV; review audit history. | Bulk CSV operations, procurement, category management, and resolving discrepancies. |
+| **Admin** | Full inventory access; create and update categories and items; approve/reject requests; adjust stock; import/export CSV and member rosters; review audit history. | Bulk CSV operations, member roster management, procurement, category management, and resolving discrepancies. |
 | **Member** | Browse catalog and stock; request checkouts; request/record returns for their own issues; report damage; view their own history. | Return checked-out components in good condition and provide accurate project/condition information. |
-| **Intern** | Read-only catalog access and stock availability; submit checkout requests. | Check component availability and learn lab hardware procedures. |
 
 ### Authorization rules
 
 - All role checks must be enforced on the server. Hiding a button in the UI is not authorization.
 - The server must derive the acting user from the authenticated session; do not trust a user ID or role supplied by the client.
 - Members may only view or act on their own transactions, except where an explicitly authorized admin operation applies.
-- Interns cannot change inventory records, approve requests, perform stock adjustments, or import/export administrative data.
 - Admin-only actions must be recorded in the audit ledger.
 - Unauthenticated access must not expose protected inventory data or mutations.
+- The legacy `intern` role has been deprecated and migrated to `member`; all members must be assigned either `admin` or `member`.
 
 ---
 

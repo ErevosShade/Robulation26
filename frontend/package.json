@@ -23,6 +23,7 @@
     "build:worker": "opennextjs-cloudflare build",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:migrate:roles": "tsx src/scripts/migrateInternsToMembers.ts",
     "db:studio": "drizzle-kit studio",
     "deploy": "opennextjs-cloudflare build && wrangler deploy",
     "preview": "opennextjs-cloudflare build && wrangler dev"
