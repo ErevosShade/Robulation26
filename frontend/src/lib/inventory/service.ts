@@ -125,3 +125,30 @@ export async function listInventoryItems(
     },
   };
 }
+
+/**
+ * Service function to retrieve a single inventory item by ID or slug.
+ */
+export async function getItemById(
+  idOrSlug: string,
+  isAdmin: boolean
+): Promise<InventoryItemDto | InventoryItemPublicDto | null> {
+  const [row] = await db
+    .select()
+    .from(inventoryItems)
+    .where(
+      or(eq(inventoryItems.id, idOrSlug), eq(inventoryItems.slug, idOrSlug))
+    )
+    .limit(1);
+
+  if (!row) {
+    return null;
+  }
+
+  // Non-admins cannot access archived or deactivated items
+  if (!isAdmin && (row.archived || !row.active)) {
+    return null;
+  }
+
+  return enrichItemWithComputedStock(row, isAdmin);
+}
