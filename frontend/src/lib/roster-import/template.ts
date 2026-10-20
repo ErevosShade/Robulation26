@@ -4,7 +4,7 @@
 
 export const CSV_TEMPLATE_CONTENT = `name,email,role,active
 "Alex Mercer",alex.mercer@example.com,member,true
-"Jordan Hayes",jordan.hayes@example.com,intern,true
+"Jordan Hayes",jordan.hayes@example.com,member,true
 "Dr. Elena Vance",elena.vance@example.com,admin,true
 "Morgan Reed",morgan.reed@example.com,member,false
 `;

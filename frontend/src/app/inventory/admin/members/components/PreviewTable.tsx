@@ -55,8 +55,6 @@ export function PreviewTable({ rows }: PreviewTableProps) {
         className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase ${
           isSpecial
             ? "bg-purple-500/20 border border-purple-500/40 text-purple-300"
-            : role === "intern"
-            ? "bg-amber-500/10 border border-amber-500/30 text-amber-300"
             : "bg-sky-500/10 border border-sky-500/30 text-sky-300"
         }`}
       >
