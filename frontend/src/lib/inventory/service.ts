@@ -416,3 +416,65 @@ export async function adjustItemStockAtomic(
 
   return enrichItemWithComputedStock(updated, true) as InventoryItemDto;
 }
+
+/**
+ * Service function to safely archive an inventory item.
+ * Admin-only soft deletion.
+ * Refuses archival if there are active reserved or checked-out quantities.
+ */
+export async function archiveInventoryItem(
+  id: string,
+  actingAdminEmail: string,
+  reason: string = "Admin archived item"
+): Promise<InventoryItemDto> {
+  const [existing] = await db
+    .select()
+    .from(inventoryItems)
+    .where(eq(inventoryItems.id, id))
+    .limit(1);
+
+  if (!existing) {
+    throw new InventoryError("ITEM_NOT_FOUND", `Inventory item '${id}' not found.`, 404);
+  }
+
+  // Active commitment guard: cannot archive an item with units in active use
+  if (existing.reservedQuantity > 0 || existing.checkedOutQuantity > 0) {
+    throw new InventoryError(
+      "ACTIVE_COMMITMENTS_EXIST",
+      `Cannot archive item '${existing.name}': it currently has ${existing.reservedQuantity} reserved and ${existing.checkedOutQuantity} checked-out unit(s).`,
+      400
+    );
+  }
+
+  const [archivedItem] = await db
+    .update(inventoryItems)
+    .set({
+      archived: true,
+      active: false,
+      archivedAt: new Date(),
+      updatedAt: new Date(),
+    })
+    .where(eq(inventoryItems.id, id))
+    .returning();
+
+  const availableAfter =
+    archivedItem.totalQuantity -
+    (archivedItem.reservedQuantity +
+      archivedItem.checkedOutQuantity +
+      archivedItem.damagedQuantity);
+
+  await db.insert(inventoryLedger).values({
+    itemId: archivedItem.id,
+    transactionType: "archival",
+    quantityDelta: 0,
+    totalQuantityAfter: archivedItem.totalQuantity,
+    availableQuantityAfter: availableAfter,
+    reservedQuantityAfter: archivedItem.reservedQuantity,
+    checkedOutQuantityAfter: archivedItem.checkedOutQuantity,
+    damagedQuantityAfter: archivedItem.damagedQuantity,
+    performedBy: actingAdminEmail,
+    reason,
+  });
+
+  return enrichItemWithComputedStock(archivedItem, true) as InventoryItemDto;
+}
