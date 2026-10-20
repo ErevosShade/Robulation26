@@ -309,11 +309,28 @@ export async function updateInventoryItem(
     updates.totalQuantity = newTotal;
   }
 
+  // Atomic conditional update ensuring concurrency protection against race conditions
+  const updateConditions = [eq(inventoryItems.id, id)];
+  if (input.totalQuantity !== undefined) {
+    const newTotal = input.totalQuantity;
+    updateConditions.push(
+      sql`${newTotal} >= (${inventoryItems.reservedQuantity} + ${inventoryItems.checkedOutQuantity} + ${inventoryItems.damagedQuantity})`
+    );
+  }
+
   const [updatedItem] = await db
     .update(inventoryItems)
     .set(updates)
-    .where(eq(inventoryItems.id, id))
+    .where(and(...updateConditions))
     .returning();
+
+  if (!updatedItem) {
+    throw new InventoryError(
+      "INVALID_STOCK_OPERATION",
+      "Unable to update item: concurrent stock operation prevented invariant-violating state.",
+      409
+    );
+  }
 
   // If total quantity changed, record ledger adjustment
   if (quantityDelta !== 0) {
@@ -339,4 +356,63 @@ export async function updateInventoryItem(
   }
 
   return enrichItemWithComputedStock(updatedItem, true) as InventoryItemDto;
+}
+
+/**
+ * Concurrency-safe atomic stock adjustment.
+ * Uses conditional SQL update to guarantee invariants hold under concurrent execution.
+ */
+export async function adjustItemStockAtomic(
+  id: string,
+  delta: number,
+  reason: string,
+  actingAdminEmail: string
+): Promise<InventoryItemDto> {
+  if (!Number.isInteger(delta) || delta === 0) {
+    throw new InventoryError("INVALID_STOCK_OPERATION", "Delta must be a non-zero integer.", 400);
+  }
+
+  // Atomically update total_quantity only if total + delta >= committed stock and >= 0
+  const [updated] = await db
+    .update(inventoryItems)
+    .set({
+      totalQuantity: sql`${inventoryItems.totalQuantity} + ${delta}`,
+      updatedAt: new Date(),
+    })
+    .where(
+      and(
+        eq(inventoryItems.id, id),
+        sql`${inventoryItems.totalQuantity} + ${delta} >= 0`,
+        sql`${inventoryItems.totalQuantity} + ${delta} >= (${inventoryItems.reservedQuantity} + ${inventoryItems.checkedOutQuantity} + ${inventoryItems.damagedQuantity})`
+      )
+    )
+    .returning();
+
+  if (!updated) {
+    throw new InventoryError(
+      "INVALID_STOCK_OPERATION",
+      "Stock adjustment rejected: insufficient holdings or concurrent stock modification.",
+      409
+    );
+  }
+
+  const availableAfter =
+    updated.totalQuantity -
+    (updated.reservedQuantity + updated.checkedOutQuantity + updated.damagedQuantity);
+
+  await db.insert(inventoryLedger).values({
+    itemId: updated.id,
+    transactionType: "adjustment",
+    quantityDelta: delta,
+    totalQuantityAfter: updated.totalQuantity,
+    availableQuantityAfter: availableAfter,
+    reservedQuantityAfter: updated.reservedQuantity,
+    checkedOutQuantityAfter: updated.checkedOutQuantity,
+    damagedQuantityAfter: updated.damagedQuantity,
+    performedBy: actingAdminEmail,
+    reason,
+    metadata: { delta },
+  });
+
+  return enrichItemWithComputedStock(updated, true) as InventoryItemDto;
 }
