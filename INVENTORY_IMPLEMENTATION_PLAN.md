@@ -263,18 +263,21 @@ Decide explicitly whether pending requests reserve stock. A recommended default 
 Use Route Handlers under `src/app/api/`. Exact paths should follow the actual route structure in the repository.
 
 ### Initial routes
-- `GET /api/health` — application health; do not expose secrets or database details.
-- `GET /api/inventory` — paginated catalog, search, category/status filters.
-- `GET /api/inventory/[id]` — item detail.
-- `POST /api/inventory/requests` — create checkout request.
-- `GET /api/inventory/requests` — current user's requests, or all for an authorized admin.
-- `POST /api/inventory/requests/[requestId]/approve` — admin approval.
-- `POST /api/inventory/requests/[requestId]/reject` — admin rejection.
-- `POST /api/inventory/[id]/returns` — record a return under the chosen approval policy.
-- `POST /api/inventory/[id]/damage-reports` — report damage.
-- `POST /api/inventory/[id]/adjustments` — admin-only stock adjustment.
-- `GET /api/inventory/transactions` — role-filtered transaction history.
-- Admin-only CSV import/export endpoints.
+- `GET /api/health` — application and database health check; verified without exposing secrets or connection details.
+- `GET /api/inventory` — paginated catalog, search, plain-text category and server-derived status filters.
+- `GET /api/inventory/[id]` — item detail with non-admin internal notes sanitization.
+- `POST /api/inventory` — admin-only item creation with SKU uniqueness and initial stock ledger entry.
+- `PATCH /api/inventory/[id]` — admin-only partial updates with atomic concurrency protection and ledger recording.
+- `DELETE /api/inventory/[id]` — admin-only safe soft-deletion/archival with active commitment guard.
+- `POST /api/inventory/requests` — create checkout request (next milestone).
+- `GET /api/inventory/requests` — current user's requests, or all for an authorized admin (next milestone).
+- `POST /api/inventory/requests/[requestId]/approve` — admin approval (next milestone).
+- `POST /api/inventory/requests/[requestId]/reject` — admin rejection (next milestone).
+- `POST /api/inventory/[id]/returns` — record a return under the chosen approval policy (next milestone).
+- `POST /api/inventory/[id]/damage-reports` — report damage (next milestone).
+- `POST /api/inventory/[id]/adjustments` — admin-only stock adjustment (next milestone).
+- `GET /api/inventory/transactions` — role-filtered transaction history (next milestone).
+- Admin-only CSV import/export endpoints (next milestone).
 
 Use Zod schemas at request boundaries. Return consistent error responses and appropriate HTTP status codes. Add pagination limits and avoid exposing stack traces.
 

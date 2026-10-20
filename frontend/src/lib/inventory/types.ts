@@ -64,36 +64,36 @@ export interface CreateInventoryItemInput {
   name: string;
   sku: string;
   category: string;
-  description?: string;
+  description?: string | null;
   slug?: string;
   tags?: string[];
-  locationRoom?: string;
-  locationCabinet?: string;
-  locationShelf?: string;
-  locationBin?: string;
-  unitCost?: string;
+  locationRoom?: string | null;
+  locationCabinet?: string | null;
+  locationShelf?: string | null;
+  locationBin?: string | null;
+  unitCost?: string | null;
   currency?: string;
   totalQuantity?: number;
   minimumStock?: number;
   consumable?: boolean;
-  internalNotes?: string;
+  internalNotes?: string | null;
 }
 
 export interface UpdateInventoryItemInput {
   name?: string;
   category?: string;
-  description?: string;
+  description?: string | null;
   tags?: string[];
-  locationRoom?: string;
-  locationCabinet?: string;
-  locationShelf?: string;
-  locationBin?: string;
-  unitCost?: string;
+  locationRoom?: string | null;
+  locationCabinet?: string | null;
+  locationShelf?: string | null;
+  locationBin?: string | null;
+  unitCost?: string | null;
   currency?: string;
   totalQuantity?: number;
   minimumStock?: number;
   consumable?: boolean;
-  internalNotes?: string;
+  internalNotes?: string | null;
 }
 
 export interface InventoryCatalogQuery {

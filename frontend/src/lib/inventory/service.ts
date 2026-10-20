@@ -5,12 +5,10 @@ import type {
   InventoryItemDto,
   InventoryItemPublicDto,
   PaginatedResponse,
+  CreateInventoryItemInput,
+  UpdateInventoryItemInput,
 } from "./types";
-import type {
-  ValidatedCatalogQuery,
-  ValidatedCreateItemInput,
-  ValidatedUpdateItemInput,
-} from "./validation";
+import type { ValidatedCatalogQuery } from "./validation";
 import {
   enrichItemWithComputedStock,
   assertStockInvariants,
@@ -168,7 +166,7 @@ export async function getItemById(
  * and creates an initial stock ledger entry when quantity > 0.
  */
 export async function createInventoryItem(
-  input: ValidatedCreateItemInput,
+  input: CreateInventoryItemInput,
   actingAdminEmail: string
 ): Promise<InventoryItemDto> {
   // 1. Check SKU uniqueness
@@ -262,7 +260,7 @@ export async function createInventoryItem(
  */
 export async function updateInventoryItem(
   id: string,
-  input: ValidatedUpdateItemInput,
+  input: UpdateInventoryItemInput,
   actingAdminEmail: string
 ): Promise<InventoryItemDto> {
   const [existing] = await db

@@ -89,3 +89,47 @@ Every stock-affecting operation records an immutable row in `inventory_stock_led
 - `performedBy`: Email of the acting administrator or member.
 - `reason`: Mandatory explanatory text for audit trails.
 - `createdAt`: Timestamp of operation.
+
+---
+
+## 6. Inventory API Endpoints
+
+| Endpoint | Method | Role Required | Description |
+|---|---|---|---|
+| `/api/health` | `GET` | Public | System & Neon database connectivity health check. No secrets or connection strings exposed. |
+| `/api/inventory` | `GET` | `admin` \| `member` | Paginated catalog listing with search (`search`), category filter (`category`), and status filter (`status`). |
+| `/api/inventory/[id]` | `GET` | `admin` \| `member` | Item detail retrieval by UUID or slug. Sanitizes `internalNotes` for non-admin viewers. |
+| `/api/inventory` | `POST` | `admin` | Create new hardware item. Enforces unique SKU, asserts stock invariants, logs initial stock in ledger. |
+| `/api/inventory/[id]` | `PATCH` | `admin` | Partial item updates. Protects immutable fields, enforces concurrency-safe stock adjustments. |
+| `/api/inventory/[id]` | `DELETE` | `admin` | Soft deletion/archival. Blocks archival if item has active reservations or checkouts. |
+
+---
+
+## 7. Database Migrations Applied
+
+The Neon PostgreSQL database has been verified with all four Drizzle migrations:
+1. `0000_aspiring_blade.sql`: Better Auth tables (`account`, `session`, `user`, `verification`) and `member_roster`.
+2. `0001_friendly_bedlam.sql`: User role default set to `member`, converted legacy `intern` roles to `member`.
+3. `0002_clammy_fabian_cortez.sql`: Created `inventory_items` and `inventory_stock_ledger` with indexes and foreign keys.
+4. `0003_cold_spectrum.sql`: Added PostgreSQL `CHECK` constraints enforcing non-negative quantities and stock conservation (`total_quantity >= reserved_quantity + checked_out_quantity + damaged_quantity`).
+
+---
+
+## 8. Verification & Test Suite Commands
+
+All tests execute against live Neon PostgreSQL test harnesses:
+
+- `pnpm run test:auth`: Validates Better Auth OAuth URL generation, roster email allowlisting, 2-role permissions, and zero-intern verification.
+- `pnpm run test:csv`: Validates RFC-4180 parsing, duplicate detection, and explicit rejection of legacy `intern` role.
+- `pnpm run test:roster`: E2E test verifying preview zero-mutation, admin downgrade protection, idempotency, and conflict protection.
+- `pnpm run test:catalog`: Validates item creation, duplicate SKU prevention, pagination, search, category/status filtering, updates, and archival.
+- `pnpm run test:stock`: Validates authorization gates, mathematical stock invariants, PostgreSQL check constraints, and atomic concurrency guards.
+- `pnpm run build`: Validates Next.js App Router and Turbopack production compilation.
+
+---
+
+## 9. Cloudflare / OpenNext Compatibility
+
+- Database client uses `@neondatabase/serverless` over HTTP (`drizzle-orm/neon-http`), fully compatible with edge and serverless environments.
+- All secrets (`DATABASE_URL`, `BETTER_AUTH_SECRET`, OAuth credentials) remain server-side and are never bundled into client bundles or checked into Git.
+
