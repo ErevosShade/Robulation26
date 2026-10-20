@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { requireInventoryRole } from "@/lib/auth";
 import { getItemById, updateInventoryItem, archiveInventoryItem } from "@/lib/inventory/service";
 import { itemIdParamSchema, updateItemSchema } from "@/lib/inventory/validation";
-import { InventoryError } from "@/lib/inventory/errors";
+import { formatInventoryError } from "@/lib/inventory/formatError";
 
 export const dynamic = "force-dynamic";
 
@@ -139,25 +139,7 @@ export async function PATCH(req: NextRequest, context: RouteContext) {
       item: updated,
     });
   } catch (error) {
-    if (error instanceof InventoryError) {
-      return NextResponse.json(
-        {
-          error: error.code,
-          message: error.message,
-          details: error.details,
-        },
-        { status: error.statusCode }
-      );
-    }
-
-    console.error("[API Inventory PATCH [id]] Unexpected error:", error);
-    return NextResponse.json(
-      {
-        error: "INTERNAL_ERROR",
-        message: "Failed to update inventory item.",
-      },
-      { status: 500 }
-    );
+    return formatInventoryError(error, "Failed to update inventory item.");
   }
 }
 
@@ -204,24 +186,6 @@ export async function DELETE(req: NextRequest, context: RouteContext) {
       item: archived,
     });
   } catch (error) {
-    if (error instanceof InventoryError) {
-      return NextResponse.json(
-        {
-          error: error.code,
-          message: error.message,
-          details: error.details,
-        },
-        { status: error.statusCode }
-      );
-    }
-
-    console.error("[API Inventory DELETE [id]] Unexpected error:", error);
-    return NextResponse.json(
-      {
-        error: "INTERNAL_ERROR",
-        message: "Failed to archive inventory item.",
-      },
-      { status: 500 }
-    );
+    return formatInventoryError(error, "Failed to archive inventory item.");
   }
 }

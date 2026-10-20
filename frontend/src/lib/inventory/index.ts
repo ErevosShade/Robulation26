@@ -7,3 +7,4 @@ export * from "./types";
 export * from "./validation";
 export * from "./quantity";
 export * from "./service";
+export * from "./formatError";

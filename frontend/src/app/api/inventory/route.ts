@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { requireInventoryRole } from "@/lib/auth";
 import { catalogQuerySchema, createItemSchema } from "@/lib/inventory/validation";
 import { listInventoryItems, createInventoryItem } from "@/lib/inventory/service";
-import { InventoryError } from "@/lib/inventory/errors";
+import { formatInventoryError } from "@/lib/inventory/formatError";
 
 export const dynamic = "force-dynamic";
 
@@ -117,24 +117,6 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    if (error instanceof InventoryError) {
-      return NextResponse.json(
-        {
-          error: error.code,
-          message: error.message,
-          details: error.details,
-        },
-        { status: error.statusCode }
-      );
-    }
-
-    console.error("[API Inventory POST] Unexpected error:", error);
-    return NextResponse.json(
-      {
-        error: "INTERNAL_ERROR",
-        message: "Failed to create inventory item.",
-      },
-      { status: 500 }
-    );
+    return formatInventoryError(error, "Failed to create inventory item.");
   }
 }
