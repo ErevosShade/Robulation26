@@ -15,6 +15,13 @@
       "when": 1792479531627,
       "tag": "0001_friendly_bedlam",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792481306138,
+      "tag": "0002_clammy_fabian_cortez",
+      "breakpoints": true
     }
   ]
 }
