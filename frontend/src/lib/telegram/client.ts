@@ -4,6 +4,7 @@ import type {
   TelegramSendResult,
   TelegramApiResponse,
 } from "./types";
+import { fetchWithTimeout, maskTelegramToken, sanitizeTelegramError } from "./errors";
 
 /**
  * Sanitizes and loads Telegram configuration from server-side environment variables.
@@ -78,18 +79,26 @@ export async function sendTelegramMessage(
   }
 
   try {
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetchWithTimeout(
+      endpoint,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       },
-      body: JSON.stringify(payload),
-    });
+      8000,
+      config.botToken
+    );
 
     const data = (await response.json()) as TelegramApiResponse;
 
     if (!response.ok || !data.ok) {
-      const description = data.description || `HTTP ${response.status} ${response.statusText}`;
+      const description = maskTelegramToken(
+        data.description || `HTTP ${response.status} ${response.statusText}`,
+        config.botToken
+      );
       return {
         success: false,
         error: description,
@@ -104,14 +113,12 @@ export async function sendTelegramMessage(
       timestamp,
     };
   } catch (err: unknown) {
-    const rawMessage = err instanceof Error ? err.message : String(err);
-    // Guarantee that even if the raw error includes the request URL, the token is stripped
-    const safeError = rawMessage.replace(new RegExp(config.botToken, "g"), "[REDACTED_BOT_TOKEN]");
+    const sanitized = sanitizeTelegramError(err, config.botToken);
 
     return {
       success: false,
-      error: safeError || "Network failure while sending Telegram message.",
-      errorCode: "NETWORK_ERROR",
+      error: sanitized.message,
+      errorCode: sanitized.code,
       timestamp,
     };
   }
