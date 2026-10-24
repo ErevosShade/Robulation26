@@ -19,6 +19,7 @@
     "test:stock": "tsx src/scripts/testInventoryStock.ts",
     "test:csv": "tsx src/scripts/testCsvParser.ts",
     "test:roster": "tsx src/scripts/testRosterImportE2E.ts",
+    "test:requests": "tsx src/scripts/testBorrowRequests.ts",
     "test:telegram": "tsx src/scripts/testTelegramNotifications.ts",
     "test:telegram:live": "tsx src/scripts/verifyTelegramLive.ts",
     "test": "pnpm run test:int && pnpm run test:e2e",
