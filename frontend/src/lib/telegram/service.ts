@@ -3,7 +3,10 @@ import type {
   TelegramConfig,
   TelegramSendResult,
   TelegramTestNotificationPayload,
+  TelegramBorrowRequestNotificationPayload,
+  TelegramBorrowRequestItemPayload,
 } from "./types";
+
 
 /**
  * Safely escapes user-supplied text for Telegram HTML parse mode.
@@ -42,7 +45,7 @@ export function formatBorrowRequestNotification(
   const safeStatus = escapeTelegramHtml(payload.status.toUpperCase());
 
   const itemsList = payload.items
-    .map((item, index) => {
+    .map((item: TelegramBorrowRequestItemPayload, index: number) => {
       const itemName = escapeTelegramHtml(item.name);
       const itemSku = escapeTelegramHtml(item.sku);
       return `  ${index + 1}. <b>${itemName}</b> (<code>${itemSku}</code>) — <b>${item.quantity} unit(s)</b>`;

@@ -14,11 +14,9 @@ import {
   type TelegramBorrowRequestNotificationPayload,
 } from "@/lib/telegram";
 import { recordOutboxNotification, dispatchOutboxNotification } from "./outbox";
-import type {
-  ValidatedCreateBorrowRequestInput,
-  BorrowRequestDto,
-  BorrowRequestItemDto,
-} from "./types";
+import type { ValidatedCreateBorrowRequestInput } from "./validation";
+import type { BorrowRequestDto, BorrowRequestItemDto } from "./types";
+
 
 export interface RequestingUserContext {
   id: string;
@@ -65,7 +63,7 @@ export async function createBorrowRequest(
     throw new InventoryError("VALIDATION_ERROR", "At least one item must be requested.", 400);
   }
 
-  const requestedItemIds = input.items.map((i) => i.itemId);
+  const requestedItemIds = input.items.map((i: { itemId: string }) => i.itemId);
   const uniqueIds = new Set(requestedItemIds);
   if (uniqueIds.size !== requestedItemIds.length) {
     throw new InventoryError(
@@ -83,7 +81,7 @@ export async function createBorrowRequest(
 
   if (foundItems.length !== requestedItemIds.length) {
     const foundIdSet = new Set(foundItems.map((item) => item.id));
-    const missing = requestedItemIds.filter((id) => !foundIdSet.has(id));
+    const missing = requestedItemIds.filter((id: string) => !foundIdSet.has(id));
     throw new InventoryError(
       "ITEM_NOT_FOUND",
       `The following inventory items do not exist: ${missing.join(", ")}`,
@@ -162,7 +160,7 @@ export async function createBorrowRequest(
   const createdItems = await client
     .insert(inventoryRequestItems)
     .values(
-      input.items.map((item) => ({
+      input.items.map((item: { itemId: string; quantity: number }) => ({
         requestId: createdRequest.id,
         itemId: item.itemId,
         quantity: item.quantity,
