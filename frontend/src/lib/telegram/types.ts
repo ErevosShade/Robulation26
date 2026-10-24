@@ -82,3 +82,19 @@ export interface TelegramBorrowRequestNotificationPayload {
   createdAt?: string | Date;
 }
 
+export interface TelegramBorrowRequestReviewPayload {
+  requestId: string;
+  decision: "approved" | "rejected";
+  requesterName: string;
+  requesterEmail: string;
+  reviewerName: string;
+  reviewerEmail: string;
+  project: string;
+  startDate: string | Date;
+  endDate: string | Date;
+  adminNotes?: string | null;
+  items: TelegramBorrowRequestItemPayload[];
+  reviewedAt?: string | Date;
+}
+
+

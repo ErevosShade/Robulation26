@@ -11,11 +11,14 @@ import { computeAvailableQuantity } from "./quantity";
 import { InventoryError } from "./errors";
 import {
   formatBorrowRequestNotification,
+  formatBorrowRequestReviewNotification,
   type TelegramBorrowRequestNotificationPayload,
 } from "@/lib/telegram";
 import { recordOutboxNotification, dispatchOutboxNotification } from "./outbox";
-import type { ValidatedCreateBorrowRequestInput } from "./validation";
+import { reserveStockForItemsAtomic } from "./service";
+import type { ValidatedCreateBorrowRequestInput, ValidatedReviewRequestInput } from "./validation";
 import type { BorrowRequestDto, BorrowRequestItemDto } from "./types";
+
 
 
 export interface RequestingUserContext {
@@ -452,4 +455,407 @@ export async function getBorrowRequestById(
     updatedAt: request.updatedAt,
   };
 }
+
+/**
+ * Approves a pending borrowing request.
+ *
+ * Requirements:
+ * 1. Admin-only operation.
+ * 2. Only pending requests can be approved.
+ * 3. Revalidates every item's availability inside the same transaction.
+ * 4. Atomically reserves stock on all items and writes ledger entries.
+ * 5. Updates request status to 'approved' and records reviewer identity.
+ * 6. Adds outcome notification to transactional outbox.
+ * 7. On any item failure, rolls back the entire approval (no partial reservation).
+ * 8. Dispatches Telegram notification after successful transaction commit.
+ */
+export async function approveBorrowRequest(
+  reviewer: RequestingUserContext,
+  requestId: string,
+  input: ValidatedReviewRequestInput
+): Promise<{
+  request: BorrowRequestDto;
+  outboxId?: string;
+  notificationResult?: { success: boolean; error?: string };
+}> {
+  if (reviewer.role !== "admin") {
+    throw new InventoryError(
+      "FORBIDDEN",
+      "Only administrators are authorized to approve borrowing requests.",
+      403
+    );
+  }
+
+  const { runTransaction } = await import("@/lib/db");
+  const { and } = await import("drizzle-orm");
+
+  const result = await runTransaction(async (tx) => {
+    // 1. Fetch request inside transaction
+    const [existing] = await tx
+      .select()
+      .from(inventoryRequests)
+      .where(eq(inventoryRequests.id, requestId))
+      .limit(1);
+
+    if (!existing) {
+      throw new InventoryError("REQUEST_NOT_FOUND", "Borrow request not found.", 404);
+    }
+
+    if (existing.status !== "pending") {
+      throw new InventoryError(
+        "REQUEST_NOT_PENDING",
+        `Cannot approve request with status '${existing.status}'. Only pending requests can be approved.`,
+        409
+      );
+    }
+
+    // 2. Fetch associated items
+    const requestItems = await tx
+      .select({
+        id: inventoryRequestItems.id,
+        itemId: inventoryRequestItems.itemId,
+        quantity: inventoryRequestItems.quantity,
+        name: inventoryItems.name,
+        sku: inventoryItems.sku,
+        category: inventoryItems.category,
+        locationRoom: inventoryItems.locationRoom,
+        createdAt: inventoryRequestItems.createdAt,
+      })
+      .from(inventoryRequestItems)
+      .innerJoin(inventoryItems, eq(inventoryRequestItems.itemId, inventoryItems.id))
+      .where(eq(inventoryRequestItems.requestId, requestId));
+
+    if (requestItems.length === 0) {
+      throw new InventoryError(
+        "VALIDATION_ERROR",
+        "Borrow request contains no associated hardware items.",
+        400
+      );
+    }
+
+    // 3. Atomically reserve stock for every item (will throw and rollback if stock insufficient)
+    const itemsToReserve = requestItems.map((item) => ({
+      itemId: item.itemId,
+      quantity: item.quantity,
+    }));
+
+    await reserveStockForItemsAtomic(
+      itemsToReserve,
+      reviewer.email,
+      `Approval of borrow request ${requestId}: ${input.adminNotes || "Approved by administrator"}`,
+      {
+        requestId,
+        requesterEmail: existing.userEmail,
+        project: existing.project,
+        selfApproved: existing.userId === reviewer.id,
+      },
+      tx
+    );
+
+    // 4. Update request status to 'approved'
+    const now = new Date();
+    const [updatedRequest] = await tx
+      .update(inventoryRequests)
+      .set({
+        status: "approved",
+        reviewedBy: reviewer.email,
+        reviewedAt: now,
+        adminNotes: input.adminNotes ?? null,
+        updatedAt: now,
+      })
+      .where(
+        and(
+          eq(inventoryRequests.id, requestId),
+          eq(inventoryRequests.status, "pending")
+        )
+      )
+      .returning();
+
+    if (!updatedRequest) {
+      throw new InventoryError(
+        "REQUEST_NOT_PENDING",
+        "Failed to approve request: concurrent status modification detected.",
+        409
+      );
+    }
+
+    // 5. Format and record approval notification to outbox
+    const telegramPayload = {
+      requestId: updatedRequest.id,
+      decision: "approved" as const,
+      requesterName: updatedRequest.userName,
+      requesterEmail: updatedRequest.userEmail,
+      reviewerName: reviewer.name,
+      reviewerEmail: reviewer.email,
+      project: updatedRequest.project,
+      startDate: updatedRequest.startDate,
+      endDate: updatedRequest.endDate,
+      adminNotes: updatedRequest.adminNotes,
+      items: requestItems.map((i) => ({
+        name: i.name,
+        sku: i.sku,
+        quantity: i.quantity,
+      })),
+      reviewedAt: now,
+    };
+
+    const formattedMessage = formatBorrowRequestReviewNotification(telegramPayload);
+
+    const outboxRecord = await recordOutboxNotification(
+      {
+        channel: "telegram",
+        eventType: "borrow_request_approved",
+        referenceId: updatedRequest.id,
+        payload: {
+          ...telegramPayload,
+          formattedMessage,
+        },
+      },
+      tx as any
+    );
+
+    const itemsDto: BorrowRequestItemDto[] = requestItems.map((i) => ({
+      id: i.id,
+      requestId,
+      itemId: i.itemId,
+      quantity: i.quantity,
+      name: i.name,
+      sku: i.sku,
+      category: i.category,
+      locationRoom: i.locationRoom,
+      createdAt: i.createdAt,
+    }));
+
+    const requestDto: BorrowRequestDto = {
+      id: updatedRequest.id,
+      userId: updatedRequest.userId,
+      userEmail: updatedRequest.userEmail,
+      userName: updatedRequest.userName,
+      project: updatedRequest.project,
+      startDate: updatedRequest.startDate,
+      endDate: updatedRequest.endDate,
+      status: "approved",
+      adminNotes: updatedRequest.adminNotes,
+      reviewedBy: updatedRequest.reviewedBy,
+      reviewedAt: updatedRequest.reviewedAt,
+      items: itemsDto,
+      createdAt: updatedRequest.createdAt,
+      updatedAt: updatedRequest.updatedAt,
+    };
+
+    return {
+      request: requestDto,
+      outboxId: outboxRecord.id,
+    };
+  });
+
+  // 6. Post-commit notification dispatch (safe side-effect)
+  let notificationResult: { success: boolean; error?: string } | undefined;
+  try {
+    notificationResult = await dispatchOutboxNotification(result.outboxId);
+  } catch (err: unknown) {
+    console.warn(
+      `[BorrowApproval] Telegram dispatch error for request ${result.request.id}:`,
+      err
+    );
+    notificationResult = {
+      success: false,
+      error: err instanceof Error ? err.message : "Notification dispatch failed",
+    };
+  }
+
+  return {
+    request: result.request,
+    outboxId: result.outboxId,
+    notificationResult,
+  };
+}
+
+/**
+ * Rejects a pending borrowing request.
+ *
+ * Requirements:
+ * 1. Admin-only operation.
+ * 2. Only pending requests can be rejected.
+ * 3. Does NOT alter any inventory stock quantities or create stock ledger entries.
+ * 4. Updates request status to 'rejected' and records reviewer identity.
+ * 5. Adds outcome notification to transactional outbox.
+ * 6. Dispatches Telegram notification after transaction commit.
+ */
+export async function rejectBorrowRequest(
+  reviewer: RequestingUserContext,
+  requestId: string,
+  input: ValidatedReviewRequestInput
+): Promise<{
+  request: BorrowRequestDto;
+  outboxId?: string;
+  notificationResult?: { success: boolean; error?: string };
+}> {
+  if (reviewer.role !== "admin") {
+    throw new InventoryError(
+      "FORBIDDEN",
+      "Only administrators are authorized to reject borrowing requests.",
+      403
+    );
+  }
+
+  const { runTransaction } = await import("@/lib/db");
+  const { and } = await import("drizzle-orm");
+
+  const result = await runTransaction(async (tx) => {
+    // 1. Fetch request inside transaction
+    const [existing] = await tx
+      .select()
+      .from(inventoryRequests)
+      .where(eq(inventoryRequests.id, requestId))
+      .limit(1);
+
+    if (!existing) {
+      throw new InventoryError("REQUEST_NOT_FOUND", "Borrow request not found.", 404);
+    }
+
+    if (existing.status !== "pending") {
+      throw new InventoryError(
+        "REQUEST_NOT_PENDING",
+        `Cannot reject request with status '${existing.status}'. Only pending requests can be rejected.`,
+        409
+      );
+    }
+
+    // 2. Fetch associated items for response and notification
+    const requestItems = await tx
+      .select({
+        id: inventoryRequestItems.id,
+        itemId: inventoryRequestItems.itemId,
+        quantity: inventoryRequestItems.quantity,
+        name: inventoryItems.name,
+        sku: inventoryItems.sku,
+        category: inventoryItems.category,
+        locationRoom: inventoryItems.locationRoom,
+        createdAt: inventoryRequestItems.createdAt,
+      })
+      .from(inventoryRequestItems)
+      .innerJoin(inventoryItems, eq(inventoryRequestItems.itemId, inventoryItems.id))
+      .where(eq(inventoryRequestItems.requestId, requestId));
+
+    // 3. Atomically update request status to 'rejected' (zero stock mutation)
+    const now = new Date();
+    const [updatedRequest] = await tx
+      .update(inventoryRequests)
+      .set({
+        status: "rejected",
+        reviewedBy: reviewer.email,
+        reviewedAt: now,
+        adminNotes: input.adminNotes ?? null,
+        updatedAt: now,
+      })
+      .where(
+        and(
+          eq(inventoryRequests.id, requestId),
+          eq(inventoryRequests.status, "pending")
+        )
+      )
+      .returning();
+
+    if (!updatedRequest) {
+      throw new InventoryError(
+        "REQUEST_NOT_PENDING",
+        "Failed to reject request: concurrent status modification detected.",
+        409
+      );
+    }
+
+    // 4. Format and record rejection notification to outbox
+    const telegramPayload = {
+      requestId: updatedRequest.id,
+      decision: "rejected" as const,
+      requesterName: updatedRequest.userName,
+      requesterEmail: updatedRequest.userEmail,
+      reviewerName: reviewer.name,
+      reviewerEmail: reviewer.email,
+      project: updatedRequest.project,
+      startDate: updatedRequest.startDate,
+      endDate: updatedRequest.endDate,
+      adminNotes: updatedRequest.adminNotes,
+      items: requestItems.map((i) => ({
+        name: i.name,
+        sku: i.sku,
+        quantity: i.quantity,
+      })),
+      reviewedAt: now,
+    };
+
+    const formattedMessage = formatBorrowRequestReviewNotification(telegramPayload);
+
+    const outboxRecord = await recordOutboxNotification(
+      {
+        channel: "telegram",
+        eventType: "borrow_request_rejected",
+        referenceId: updatedRequest.id,
+        payload: {
+          ...telegramPayload,
+          formattedMessage,
+        },
+      },
+      tx as any
+    );
+
+    const itemsDto: BorrowRequestItemDto[] = requestItems.map((i) => ({
+      id: i.id,
+      requestId,
+      itemId: i.itemId,
+      quantity: i.quantity,
+      name: i.name,
+      sku: i.sku,
+      category: i.category,
+      locationRoom: i.locationRoom,
+      createdAt: i.createdAt,
+    }));
+
+    const requestDto: BorrowRequestDto = {
+      id: updatedRequest.id,
+      userId: updatedRequest.userId,
+      userEmail: updatedRequest.userEmail,
+      userName: updatedRequest.userName,
+      project: updatedRequest.project,
+      startDate: updatedRequest.startDate,
+      endDate: updatedRequest.endDate,
+      status: "rejected",
+      adminNotes: updatedRequest.adminNotes,
+      reviewedBy: updatedRequest.reviewedBy,
+      reviewedAt: updatedRequest.reviewedAt,
+      items: itemsDto,
+      createdAt: updatedRequest.createdAt,
+      updatedAt: updatedRequest.updatedAt,
+    };
+
+    return {
+      request: requestDto,
+      outboxId: outboxRecord.id,
+    };
+  });
+
+  // 5. Post-commit notification dispatch
+  let notificationResult: { success: boolean; error?: string } | undefined;
+  try {
+    notificationResult = await dispatchOutboxNotification(result.outboxId);
+  } catch (err: unknown) {
+    console.warn(
+      `[BorrowRejection] Telegram dispatch error for request ${result.request.id}:`,
+      err
+    );
+    notificationResult = {
+      success: false,
+      error: err instanceof Error ? err.message : "Notification dispatch failed",
+    };
+  }
+
+  return {
+    request: result.request,
+    outboxId: result.outboxId,
+    notificationResult,
+  };
+}
+
+
 

@@ -375,11 +375,15 @@ Also test the public website after inventory work to ensure existing landing-pag
 3. Calculate availability and status server-side.
 
 ### Phase 4 — Transactions and stock workflows
-1. Implement checkout requests and the selected reservation policy.
-2. Add admin approval/rejection.
-3. Implement physical checkout, returns, damage reports, and adjustments.
+1. Implement checkout requests and the selected reservation policy. (Completed: `POST /api/inventory/requests`, `GET /api/inventory/requests`).
+2. Add admin approval and rejection workflows (Completed: `POST /api/inventory/requests/[id]/approve`, `POST /api/inventory/requests/[id]/reject`):
+   - **Atomic Stock Reservation:** Uses interactive transactions (`runTransaction`) with conditional SQL guards ensuring `totalQuantity - (reservedQuantity + quantity + checkedOutQuantity + damagedQuantity) >= 0`.
+   - **Audit Ledger:** Records immutable entries with `transaction_type = 'reservation'`, capturing acting admin, delta, and comprehensive metadata (including `{ selfApproved: true }` if an admin approves their own request).
+   - **Zero-Mutation Rejection:** Rejection updates status to `rejected` atomically without altering stock quantities or creating stock ledger entries.
+   - **Transactional Outbox:** Dispatches Telegram review alerts post-commit; delivery failures never roll back approved or rejected state.
+3. Implement physical checkout, returns, damage reports, and adjustments (Next milestone).
 4. Make each stock mutation and its audit entry atomic.
-5. Add tests for concurrency and repeated requests.
+5. Add tests for concurrency and repeated requests (Completed: 58 unit and integration tests passing in test harness).
 
 ### Phase 5 — Inventory UI
 1. Build `/inventory` catalog and dashboard.

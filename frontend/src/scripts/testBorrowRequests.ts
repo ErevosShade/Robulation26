@@ -7,10 +7,12 @@ if (typeof process.loadEnvFile === "function") {
 process.env.TELEGRAM_MOCK_MODE = "true";
 
 import { runBorrowValidationUnitTests } from "./testBorrowValidation";
+import { runBorrowReviewUnitTests } from "./testBorrowReviewUnit";
 import { runTelegramBorrowFormatterUnitTests } from "./testTelegramBorrowFormatter";
 import { runOutboxTests } from "./testOutboxRetry";
 import { runBorrowRequestsIntegrationTests } from "./testBorrowRequestsIntegration";
 import { runBorrowListingAuthTests } from "./testBorrowListingAuth";
+import { runBorrowApprovalIntegrationTests } from "./testBorrowApprovalIntegration";
 
 async function runAllBorrowRequestTests() {
   console.log("===============================================================");
@@ -18,20 +20,26 @@ async function runAllBorrowRequestTests() {
   console.log("===============================================================\n");
 
   try {
-    // Phase 1: Unit Validation Tests
+    // Phase 1: Unit Validation Tests (Creation)
     runBorrowValidationUnitTests();
 
-    // Phase 2: Telegram Formatting & Mock Mode Tests
+    // Phase 2: Unit Validation & Formatter Tests (Review)
+    runBorrowReviewUnitTests();
+
+    // Phase 3: Telegram Formatting & Mock Mode Tests
     await runTelegramBorrowFormatterUnitTests();
 
-    // Phase 3: Outbox & Retry Tests
+    // Phase 4: Outbox & Retry Tests
     await runOutboxTests();
 
-    // Phase 4: Integration - Request Creation & Stock Invariants
+    // Phase 5: Integration - Request Creation & Stock Invariants
     await runBorrowRequestsIntegrationTests();
 
-    // Phase 5: Integration - Request Listing & Role Isolation
+    // Phase 6: Integration - Request Listing & Role Isolation
     await runBorrowListingAuthTests();
+
+    // Phase 7: Integration - Request Approval, Rejection & Atomic Reservation
+    await runBorrowApprovalIntegrationTests();
 
     console.log("===============================================================");
     console.log("✨ ALL BORROW REQUEST & NOTIFICATION TEST SUITES PASSED! ✨");

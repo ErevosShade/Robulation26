@@ -162,10 +162,21 @@ export const requestIdParamSchema = z.object({
   id: z.string().trim().min(1, "Request ID is required.").max(128),
 });
 
+export const reviewRequestSchema = z.object({
+  adminNotes: z
+    .string()
+    .trim()
+    .max(1000, "Review note cannot exceed 1000 characters.")
+    .optional()
+    .nullable(),
+});
+
 export type ValidatedCreateItemInput = z.infer<typeof createItemSchema>;
 export type ValidatedUpdateItemInput = z.infer<typeof updateItemSchema>;
 export type ValidatedCatalogQuery = z.infer<typeof catalogQuerySchema>;
 export type ValidatedBorrowRequestItemInput = z.infer<typeof borrowRequestItemSchema>;
 export type ValidatedCreateBorrowRequestInput = z.infer<typeof createBorrowRequestSchema>;
 export type ValidatedBorrowRequestsQuery = z.infer<typeof borrowRequestsQuerySchema>;
+export type ValidatedReviewRequestInput = z.infer<typeof reviewRequestSchema>;
+
 
