@@ -7,7 +7,7 @@ import {
   type InventoryRequestItem,
 } from "@/lib/db/schema/requests";
 import { inventoryItems } from "@/lib/db/schema/inventory";
-import { calculateAvailableQuantity } from "./quantity";
+import { computeAvailableQuantity } from "./quantity";
 import { InventoryError } from "./errors";
 import {
   formatBorrowRequestNotification,
@@ -128,7 +128,7 @@ export async function createBorrowRequest(
       );
     }
 
-    const available = calculateAvailableQuantity(dbItem);
+    const available = computeAvailableQuantity(dbItem);
     if (requestedItem.quantity > available) {
       throw new InventoryError(
         "INSUFFICIENT_STOCK",
