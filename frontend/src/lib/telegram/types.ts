@@ -97,4 +97,37 @@ export interface TelegramBorrowRequestReviewPayload {
   reviewedAt?: string | Date;
 }
 
+export interface TelegramBorrowRequestCollectionPayload {
+  requestId: string;
+  requesterName: string;
+  requesterEmail: string;
+  collectorName: string;
+  collectorEmail: string;
+  project: string;
+  items: TelegramBorrowRequestItemPayload[];
+  notes?: string | null;
+  collectedAt?: string | Date;
+}
+
+export interface TelegramReturnItemPayload {
+  name: string;
+  sku: string;
+  quantity: number;
+  condition: "good" | "damaged";
+  notes?: string | null;
+}
+
+export interface TelegramBorrowRequestReturnPayload {
+  requestId: string;
+  requesterName: string;
+  requesterEmail: string;
+  returnerName: string;
+  returnerEmail: string;
+  project: string;
+  status: string;
+  items: TelegramReturnItemPayload[];
+  notes?: string | null;
+  returnedAt?: string | Date;
+}
+
 

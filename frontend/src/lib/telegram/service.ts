@@ -6,6 +6,8 @@ import type {
   TelegramBorrowRequestNotificationPayload,
   TelegramBorrowRequestItemPayload,
   TelegramBorrowRequestReviewPayload,
+  TelegramBorrowRequestCollectionPayload,
+  TelegramBorrowRequestReturnPayload,
 } from "./types";
 
 
@@ -130,6 +132,128 @@ export function formatBorrowRequestReviewNotification(
   if (isApproved) {
     lines.push(``, `🔒 <i>Stock allocated to reservation balance in lab ledger.</i>`);
   }
+
+  return lines.join("\n");
+}
+
+/**
+ * Formats an HTML notification when an approved borrow request is collected by a member.
+ * Strictly escapes all user-controlled text.
+ */
+export function formatBorrowRequestCollectionNotification(
+  payload: TelegramBorrowRequestCollectionPayload
+): string {
+  const safeId = escapeTelegramHtml(payload.requestId);
+  const safeRequesterName = escapeTelegramHtml(payload.requesterName);
+  const safeRequesterEmail = escapeTelegramHtml(payload.requesterEmail);
+  const safeCollectorName = escapeTelegramHtml(payload.collectorName);
+  const safeCollectorEmail = escapeTelegramHtml(payload.collectorEmail);
+  const safeProject = escapeTelegramHtml(payload.project);
+  const safeNotes = escapeTelegramHtml(payload.notes);
+
+  const collectedStr =
+    payload.collectedAt instanceof Date
+      ? payload.collectedAt.toISOString().slice(0, 19).replace("T", " ") + " UTC"
+      : payload.collectedAt
+      ? String(payload.collectedAt).slice(0, 19).replace("T", " ") + " UTC"
+      : new Date().toISOString().slice(0, 19).replace("T", " ") + " UTC";
+
+  const itemsList = payload.items
+    .map((item: TelegramBorrowRequestItemPayload, index: number) => {
+      const itemName = escapeTelegramHtml(item.name);
+      const itemSku = escapeTelegramHtml(item.sku);
+      return `  ${index + 1}. <b>${itemName}</b> (<code>${itemSku}</code>) — <b>${item.quantity} unit(s)</b>`;
+    })
+    .join("\n");
+
+  const lines = [
+    `📦 <b>HARDWARE COLLECTED BY MEMBER</b>`,
+    `📡 <i>Robolution Mechatronics Lab</i>`,
+    ``,
+    `<b>Request ID:</b> <code>${safeId}</code>`,
+    `<b>Status:</b> 🔵 <code>COLLECTED / CHECKED OUT</code>`,
+    `<b>Requester:</b> ${safeRequesterName} (<code>${safeRequesterEmail}</code>)`,
+    `<b>Collected By:</b> ${safeCollectorName} (<code>${safeCollectorEmail}</code>)`,
+    `<b>Project / Purpose:</b> ${safeProject}`,
+    `<b>Timestamp:</b> <code>${collectedStr}</code>`,
+    ``,
+    `<b>Components Physically Issued (${payload.items.length}):</b>`,
+    itemsList,
+  ];
+
+  if (safeNotes) {
+    lines.push(``, `<b>Collection Notes:</b> <i>${safeNotes}</i>`);
+  }
+
+  lines.push(
+    ``,
+    `🚀 <i>Stock moved from reserved to checked-out balance in lab ledger.</i>`
+  );
+
+  return lines.join("\n");
+}
+
+/**
+ * Formats an HTML notification when hardware items are returned and condition-inspected.
+ * Strictly escapes all user-controlled text.
+ */
+export function formatBorrowRequestReturnNotification(
+  payload: TelegramBorrowRequestReturnPayload
+): string {
+  const safeId = escapeTelegramHtml(payload.requestId);
+  const safeRequesterName = escapeTelegramHtml(payload.requesterName);
+  const safeRequesterEmail = escapeTelegramHtml(payload.requesterEmail);
+  const safeReturnerName = escapeTelegramHtml(payload.returnerName);
+  const safeReturnerEmail = escapeTelegramHtml(payload.returnerEmail);
+  const safeProject = escapeTelegramHtml(payload.project);
+  const safeNotes = escapeTelegramHtml(payload.notes);
+
+  const isFullReturn = payload.status === "returned";
+  const badgeOutcome = isFullReturn
+    ? "🟢 <code>RETURNED (COMPLETED)</code>"
+    : "🟡 <code>PARTIALLY RETURNED</code>";
+
+  const returnedStr =
+    payload.returnedAt instanceof Date
+      ? payload.returnedAt.toISOString().slice(0, 19).replace("T", " ") + " UTC"
+      : payload.returnedAt
+      ? String(payload.returnedAt).slice(0, 19).replace("T", " ") + " UTC"
+      : new Date().toISOString().slice(0, 19).replace("T", " ") + " UTC";
+
+  const itemsList = payload.items
+    .map((item, index: number) => {
+      const itemName = escapeTelegramHtml(item.name);
+      const itemSku = escapeTelegramHtml(item.sku);
+      const isGood = item.condition === "good";
+      const conditionBadge = isGood ? "✅ <b>GOOD</b>" : "⚠️ <b>DAMAGED</b>";
+      const itemNote = item.notes ? ` — <i>${escapeTelegramHtml(item.notes)}</i>` : "";
+      return `  ${index + 1}. <b>${itemName}</b> (<code>${itemSku}</code>) — <b>${item.quantity} unit(s)</b> [${conditionBadge}]${itemNote}`;
+    })
+    .join("\n");
+
+  const lines = [
+    `📥 <b>HARDWARE RETURNED &amp; INSPECTED</b>`,
+    `📡 <i>Robolution Mechatronics Lab</i>`,
+    ``,
+    `<b>Request ID:</b> <code>${safeId}</code>`,
+    `<b>Request Status:</b> ${badgeOutcome}`,
+    `<b>Requester:</b> ${safeRequesterName} (<code>${safeRequesterEmail}</code>)`,
+    `<b>Returned By:</b> ${safeReturnerName} (<code>${safeReturnerEmail}</code>)`,
+    `<b>Project / Purpose:</b> ${safeProject}`,
+    `<b>Timestamp:</b> <code>${returnedStr}</code>`,
+    ``,
+    `<b>Items Processed in Return (${payload.items.length}):</b>`,
+    itemsList,
+  ];
+
+  if (safeNotes) {
+    lines.push(``, `<b>Batch Notes:</b> <i>${safeNotes}</i>`);
+  }
+
+  lines.push(
+    ``,
+    `🔄 <i>Stock balances and condition ledgers updated atomically.</i>`
+  );
 
   return lines.join("\n");
 }
