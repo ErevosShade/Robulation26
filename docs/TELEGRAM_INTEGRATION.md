@@ -103,3 +103,37 @@ OpenNext automatically binds these environment variables to `process.env` during
 - **Token Redaction:** `maskTelegramToken()` scrubs any matching `bot<id>:<token>` patterns or bare token strings from error payloads before they leave the server boundary.
 - **Rate Limits:** Telegram allows up to 30 messages/second globally across chats and up to 20 messages/minute within a single supergroup. The notification client is designed for inventory event alerts and will not exceed these thresholds.
 - **Fail-Closed Design:** If Telegram is unreachable or credentials are unconfigured, operations report standard HTTP error codes (`503 NOT_CONFIGURED`, `502 DELIVERY_FAILED`) without disrupting inventory database state.
+
+---
+
+## 6. Hardware Borrow Request Notifications & Transactional Outbox
+
+When a new hardware borrowing request is submitted via `POST /api/inventory/requests`, an alert is dispatched to the configured Telegram channel:
+
+### A. Message Structure & Entity Escaping
+All user-supplied content (requester names, project descriptions, component names, and SKUs) is passed through `escapeTelegramHtml()`, converting `<`, `>`, `&`, `"`, and `'` into safe HTML entities to prevent HTML injection and layout distortion:
+
+```text
+📋 NEW HARDWARE BORROW REQUEST
+📡 Robolution Mechatronics Lab
+
+Request ID: 636c76c0-9d3e-4aa5-9c9b-e70851bff62e
+Requester: Alex Vance (alex.vance@robolution.space)
+Project / Purpose: Autonomous Mars Rover Navigation Subsystem
+Timeline: 2026-11-01 ➔ 2026-11-05
+Status: 🟡 PENDING
+
+Requested Items (2):
+  1. LiDAR Puck v1 (TEST-ITEM-A) — 4 unit(s)
+  2. NVIDIA Jetson Nano (TEST-ITEM-B) — 2 unit(s)
+
+Review required in the Robolution inventory admin terminal.
+```
+
+### B. Durable Outbox Architecture
+1. **Zero Data Loss:** Borrow requests and their notification payloads are saved atomically to `inventory_requests` and `inventory_notification_outbox`.
+2. **Decoupled Delivery:** Telegram network failures never abort, rollback, or invalidate successfully saved borrow requests.
+3. **Idempotency & Duplicate Prevention:** The outbox verifies `status === 'delivered'` prior to any send attempt. Retrying an already delivered event is a no-op (`skipped: true`).
+4. **Retry Service:** Undelivered or failed notifications can be safely retried via `retryPendingOutboxNotifications()`.
+5. **Mock Mode:** Setting `TELEGRAM_MOCK_MODE=true` (or passing `{ mockMode: true }`) enables offline execution with deterministic mock message IDs and zero external HTTP calls.
+

@@ -28,6 +28,9 @@ export function computeAvailableQuantity(quantities: StockQuantities): number {
   return totalQuantity - (reservedQuantity + checkedOutQuantity + damagedQuantity);
 }
 
+export const calculateAvailableQuantity = computeAvailableQuantity;
+
+
 /**
  * Derives authoritative item status from active flag, archival status,
  * available quantity, and minimum stock threshold.

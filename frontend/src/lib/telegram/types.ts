@@ -12,6 +12,8 @@ export interface TelegramConfig {
   isConfigured: boolean;
   /** Optional base URL override (used for testing or proxying) */
   apiBaseUrl?: string;
+  /** Optional mock mode flag (skips external network requests in test/dev) */
+  mockMode?: boolean;
 }
 
 export interface SendMessageOptions {
@@ -61,3 +63,22 @@ export interface TelegramTestNotificationPayload {
   serverTimestamp?: string;
   environment?: string;
 }
+
+export interface TelegramBorrowRequestItemPayload {
+  name: string;
+  sku: string;
+  quantity: number;
+}
+
+export interface TelegramBorrowRequestNotificationPayload {
+  requestId: string;
+  requesterName: string;
+  requesterEmail: string;
+  project: string;
+  startDate: string | Date;
+  endDate: string | Date;
+  status: string;
+  items: TelegramBorrowRequestItemPayload[];
+  createdAt?: string | Date;
+}
+

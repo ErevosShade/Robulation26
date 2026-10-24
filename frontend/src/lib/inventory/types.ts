@@ -133,3 +133,54 @@ export interface StockLedgerEntry {
   metadata?: Record<string, unknown> | null;
   createdAt: Date | string;
 }
+
+export type BorrowRequestStatus = "pending" | "approved" | "rejected" | "cancelled";
+
+export interface BorrowRequestItemInput {
+  itemId: string;
+  quantity: number;
+}
+
+export interface CreateBorrowRequestInput {
+  project: string;
+  startDate: string | Date;
+  endDate: string | Date;
+  items: BorrowRequestItemInput[];
+}
+
+export interface BorrowRequestItemDto {
+  id: string;
+  requestId: string;
+  itemId: string;
+  quantity: number;
+  name: string;
+  sku: string;
+  category?: string;
+  locationRoom?: string | null;
+  createdAt: Date | string;
+}
+
+export interface BorrowRequestDto {
+  id: string;
+  userId: string;
+  userEmail: string;
+  userName: string;
+  project: string;
+  startDate: Date | string;
+  endDate: Date | string;
+  status: BorrowRequestStatus;
+  adminNotes?: string | null;
+  reviewedBy?: string | null;
+  reviewedAt?: Date | string | null;
+  items: BorrowRequestItemDto[];
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}
+
+export interface BorrowRequestsQuery {
+  page?: number;
+  limit?: number;
+  status?: BorrowRequestStatus | "all";
+  userId?: string;
+}
+

@@ -108,6 +108,64 @@ export const itemIdParamSchema = z.object({
   id: z.string().trim().min(1, "Item ID is required.").max(128),
 });
 
+export const borrowRequestItemSchema = z.object({
+  itemId: z.string().trim().min(1, "Item ID is required.").max(128),
+  quantity: z
+    .number()
+    .int("Requested quantity must be an integer.")
+    .positive("Requested quantity must be greater than zero."),
+});
+
+export const createBorrowRequestSchema = z
+  .object({
+    project: z
+      .string()
+      .trim()
+      .min(3, "Project description must be at least 3 characters.")
+      .max(500, "Project description cannot exceed 500 characters."),
+    startDate: z.coerce.date({
+      error: "Requested checkout date must be a valid date.",
+    }),
+    endDate: z.coerce.date({
+      error: "Expected return date must be a valid date.",
+    }),
+    items: z
+      .array(borrowRequestItemSchema)
+      .min(1, "At least one inventory item must be requested.")
+      .max(50, "A request cannot exceed 50 distinct items."),
+  })
+  .refine((data) => data.endDate >= data.startDate, {
+    message: "Expected return date must be on or after requested checkout date.",
+    path: ["endDate"],
+  })
+  .refine(
+    (data) => {
+      const ids = data.items.map((i) => i.itemId);
+      return new Set(ids).size === ids.length;
+    },
+    {
+      message: "Duplicate items are not permitted within a single borrow request.",
+      path: ["items"],
+    }
+  );
+
+export const borrowRequestsQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(10),
+  status: z
+    .enum(["pending", "approved", "rejected", "cancelled", "all"])
+    .optional(),
+  userId: z.string().trim().max(128).optional(),
+});
+
+export const requestIdParamSchema = z.object({
+  id: z.string().trim().min(1, "Request ID is required.").max(128),
+});
+
 export type ValidatedCreateItemInput = z.infer<typeof createItemSchema>;
 export type ValidatedUpdateItemInput = z.infer<typeof updateItemSchema>;
 export type ValidatedCatalogQuery = z.infer<typeof catalogQuerySchema>;
+export type ValidatedBorrowRequestItemInput = z.infer<typeof borrowRequestItemSchema>;
+export type ValidatedCreateBorrowRequestInput = z.infer<typeof createBorrowRequestSchema>;
+export type ValidatedBorrowRequestsQuery = z.infer<typeof borrowRequestsQuerySchema>;
+
