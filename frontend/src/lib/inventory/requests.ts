@@ -253,3 +253,205 @@ export async function createBorrowRequest(
     notificationResult,
   };
 }
+
+/**
+ * Lists borrowing requests according to the caller's role clearance.
+ *
+ * Members can view ONLY their own requests.
+ * Admins can view requests across all members and filter by member or status.
+ */
+export async function listBorrowRequests(
+  caller: RequestingUserContext,
+  query: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    userId?: string;
+  },
+  client: DbClient = db
+): Promise<{
+  items: BorrowRequestDto[];
+  pagination: {
+    page: number;
+    limit: number;
+    totalItems: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  };
+}> {
+  const page = Math.max(1, query.page || 1);
+  const limit = Math.min(50, Math.max(1, query.limit || 10));
+  const offset = (page - 1) * limit;
+
+  // Strict ownership enforcement: non-admins are irrevocably locked to their own session user ID
+  const filterUserId =
+    caller.role === "admin" ? query.userId || undefined : caller.id;
+
+  const conditions = [];
+
+  if (filterUserId) {
+    conditions.push(eq(inventoryRequests.userId, filterUserId));
+  }
+
+  if (query.status && query.status !== "all") {
+    conditions.push(eq(inventoryRequests.status, query.status));
+  }
+
+  const whereClause =
+    conditions.length === 0
+      ? undefined
+      : conditions.length === 1
+      ? conditions[0]
+      : (await import("drizzle-orm")).and(...conditions);
+
+  // 1. Get total count
+  const [{ count }] = await client
+    .select({ count: (await import("drizzle-orm")).count() })
+    .from(inventoryRequests)
+    .where(whereClause);
+
+  const totalItems = Number(count || 0);
+  const totalPages = Math.ceil(totalItems / limit) || 1;
+
+  if (totalItems === 0) {
+    return {
+      items: [],
+      pagination: {
+        page,
+        limit,
+        totalItems: 0,
+        totalPages: 1,
+        hasNextPage: false,
+        hasPreviousPage: false,
+      },
+    };
+  }
+
+  // 2. Fetch paginated requests
+  const requests = await client
+    .select()
+    .from(inventoryRequests)
+    .where(whereClause)
+    .orderBy((await import("drizzle-orm")).desc(inventoryRequests.createdAt))
+    .limit(limit)
+    .offset(offset);
+
+  // 3. Fetch all request items in a single batch query
+  const requestIds = requests.map((r) => r.id);
+  const rawItems = await client
+    .select({
+      id: inventoryRequestItems.id,
+      requestId: inventoryRequestItems.requestId,
+      itemId: inventoryRequestItems.itemId,
+      quantity: inventoryRequestItems.quantity,
+      name: inventoryItems.name,
+      sku: inventoryItems.sku,
+      category: inventoryItems.category,
+      locationRoom: inventoryItems.locationRoom,
+      createdAt: inventoryRequestItems.createdAt,
+    })
+    .from(inventoryRequestItems)
+    .innerJoin(inventoryItems, eq(inventoryRequestItems.itemId, inventoryItems.id))
+    .where(inArray(inventoryRequestItems.requestId, requestIds));
+
+  // Group items by requestId
+  const itemsByRequestId = new Map<string, BorrowRequestItemDto[]>();
+  for (const item of rawItems) {
+    const list = itemsByRequestId.get(item.requestId) || [];
+    list.push(item);
+    itemsByRequestId.set(item.requestId, list);
+  }
+
+  // Construct DTOs
+  const items: BorrowRequestDto[] = requests.map((r) => ({
+    id: r.id,
+    userId: r.userId,
+    userEmail: r.userEmail,
+    userName: r.userName,
+    project: r.project,
+    startDate: r.startDate,
+    endDate: r.endDate,
+    status: r.status as any,
+    adminNotes: r.adminNotes,
+    reviewedBy: r.reviewedBy,
+    reviewedAt: r.reviewedAt,
+    items: itemsByRequestId.get(r.id) || [],
+    createdAt: r.createdAt,
+    updatedAt: r.updatedAt,
+  }));
+
+  return {
+    items,
+    pagination: {
+      page,
+      limit,
+      totalItems,
+      totalPages,
+      hasNextPage: page < totalPages,
+      hasPreviousPage: page > 1,
+    },
+  };
+}
+
+/**
+ * Retrieves a single borrow request by ID with strict ownership validation.
+ */
+export async function getBorrowRequestById(
+  caller: RequestingUserContext,
+  requestId: string,
+  client: DbClient = db
+): Promise<BorrowRequestDto | null> {
+  const [request] = await client
+    .select()
+    .from(inventoryRequests)
+    .where(eq(inventoryRequests.id, requestId))
+    .limit(1);
+
+  if (!request) {
+    return null;
+  }
+
+  // Non-admins cannot inspect requests belonging to other members
+  if (caller.role !== "admin" && request.userId !== caller.id) {
+    throw new InventoryError(
+      "FORBIDDEN_REQUEST_ACCESS",
+      "You do not have authorization to view this borrowing request.",
+      403
+    );
+  }
+
+  const rawItems = await client
+    .select({
+      id: inventoryRequestItems.id,
+      requestId: inventoryRequestItems.requestId,
+      itemId: inventoryRequestItems.itemId,
+      quantity: inventoryRequestItems.quantity,
+      name: inventoryItems.name,
+      sku: inventoryItems.sku,
+      category: inventoryItems.category,
+      locationRoom: inventoryItems.locationRoom,
+      createdAt: inventoryRequestItems.createdAt,
+    })
+    .from(inventoryRequestItems)
+    .innerJoin(inventoryItems, eq(inventoryRequestItems.itemId, inventoryItems.id))
+    .where(eq(inventoryRequestItems.requestId, requestId));
+
+  return {
+    id: request.id,
+    userId: request.userId,
+    userEmail: request.userEmail,
+    userName: request.userName,
+    project: request.project,
+    startDate: request.startDate,
+    endDate: request.endDate,
+    status: request.status as any,
+    adminNotes: request.adminNotes,
+    reviewedBy: request.reviewedBy,
+    reviewedAt: request.reviewedAt,
+    items: rawItems,
+    createdAt: request.createdAt,
+    updatedAt: request.updatedAt,
+  };
+}
+
