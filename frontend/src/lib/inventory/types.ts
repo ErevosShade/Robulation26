@@ -134,7 +134,14 @@ export interface StockLedgerEntry {
   createdAt: Date | string;
 }
 
-export type BorrowRequestStatus = "pending" | "approved" | "rejected" | "cancelled";
+export type BorrowRequestStatus =
+  | "pending"
+  | "approved"
+  | "rejected"
+  | "cancelled"
+  | "collected"
+  | "partially_returned"
+  | "returned";
 
 export interface BorrowRequestItemInput {
   itemId: string;
@@ -153,6 +160,9 @@ export interface BorrowRequestItemDto {
   requestId: string;
   itemId: string;
   quantity: number;
+  returnedGoodQuantity?: number;
+  returnedDamagedQuantity?: number;
+  outstandingQuantity?: number;
   name: string;
   sku: string;
   category?: string;
@@ -172,6 +182,8 @@ export interface BorrowRequestDto {
   adminNotes?: string | null;
   reviewedBy?: string | null;
   reviewedAt?: Date | string | null;
+  collectedBy?: string | null;
+  collectedAt?: Date | string | null;
   items: BorrowRequestItemDto[];
   createdAt: Date | string;
   updatedAt: Date | string;
@@ -186,6 +198,45 @@ export interface BorrowRequestsQuery {
 
 export interface ReviewBorrowRequestInput {
   adminNotes?: string | null;
+}
+
+export interface CollectBorrowRequestInput {
+  notes?: string | null;
+}
+
+export type ReturnItemCondition = "good" | "damaged";
+
+export interface ReturnItemInput {
+  itemId: string;
+  quantity: number;
+  condition: ReturnItemCondition;
+  notes?: string | null;
+}
+
+export interface ReturnBorrowRequestInput {
+  notes?: string | null;
+  items: ReturnItemInput[];
+}
+
+export interface BorrowRequestReturnItemDto {
+  id: string;
+  returnId: string;
+  itemId: string;
+  name: string;
+  sku: string;
+  quantity: number;
+  condition: ReturnItemCondition;
+  notes?: string | null;
+  createdAt: Date | string;
+}
+
+export interface BorrowRequestReturnDto {
+  id: string;
+  requestId: string;
+  returnedBy: string;
+  notes?: string | null;
+  items: BorrowRequestReturnItemDto[];
+  createdAt: Date | string;
 }
 
 

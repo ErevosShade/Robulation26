@@ -506,6 +506,213 @@ export async function reserveStockForItemsAtomic(
   return updatedItems;
 }
 
+/**
+ * Atomically transitions stock from 'reserved' to 'checkedOut' for member collection.
+ *
+ * Rules:
+ * - Decrements reservedQuantity and increments checkedOutQuantity by item.quantity.
+ * - Does not change totalQuantity or damagedQuantity.
+ * - Preserves invariant: total >= reserved + checkedOut + damaged.
+ * - Available quantity remains unchanged (was already reserved, now physically checked out).
+ * - Immutably logs each transition in stock ledger with transactionType 'checkout'.
+ */
+export async function collectStockForItemsAtomic(
+  itemsToCollect: Array<{ itemId: string; quantity: number }>,
+  actingUserEmail: string,
+  reason: string,
+  metadata?: Record<string, unknown>,
+  client: any = db
+): Promise<InventoryItem[]> {
+  const updatedItems: InventoryItem[] = [];
+
+  for (const item of itemsToCollect) {
+    if (!Number.isInteger(item.quantity) || item.quantity <= 0) {
+      throw new InventoryError(
+        "INVALID_STOCK_OPERATION",
+        "Collected quantity must be a positive integer.",
+        400
+      );
+    }
+
+    // Conditional atomic update enforcing: reservedQuantity >= item.quantity
+    const [updated] = await client
+      .update(inventoryItems)
+      .set({
+        reservedQuantity: sql`${inventoryItems.reservedQuantity} - ${item.quantity}`,
+        checkedOutQuantity: sql`${inventoryItems.checkedOutQuantity} + ${item.quantity}`,
+        updatedAt: new Date(),
+      })
+      .where(
+        and(
+          eq(inventoryItems.id, item.itemId),
+          sql`${inventoryItems.reservedQuantity} >= ${item.quantity}`
+        )
+      )
+      .returning();
+
+    if (!updated) {
+      const [existing] = await client
+        .select()
+        .from(inventoryItems)
+        .where(eq(inventoryItems.id, item.itemId))
+        .limit(1);
+
+      const itemName = existing ? `'${existing.name}' (${existing.sku})` : item.itemId;
+      throw new InventoryError(
+        "INVALID_STOCK_OPERATION",
+        `Stock collection failed: Item ${itemName} has insufficient reserved units (${existing?.reservedQuantity ?? 0} reserved, requested ${item.quantity}).`,
+        409
+      );
+    }
+
+    const availableAfter =
+      updated.totalQuantity -
+      (updated.reservedQuantity + updated.checkedOutQuantity + updated.damagedQuantity);
+
+    await client.insert(inventoryLedger).values({
+      itemId: updated.id,
+      transactionType: "checkout",
+      quantityDelta: item.quantity,
+      totalQuantityAfter: updated.totalQuantity,
+      availableQuantityAfter: availableAfter,
+      reservedQuantityAfter: updated.reservedQuantity,
+      checkedOutQuantityAfter: updated.checkedOutQuantity,
+      damagedQuantityAfter: updated.damagedQuantity,
+      performedBy: actingUserEmail,
+      reason,
+      metadata: {
+        ...metadata,
+        sku: updated.sku,
+        collectedQuantityDelta: item.quantity,
+      },
+    });
+
+    updatedItems.push(updated);
+  }
+
+  return updatedItems;
+}
+
+/**
+ * Atomically records returned hardware items and adjusts inventory stock balances.
+ *
+ * Rules:
+ * - Good condition return:
+ *   - Decrements checkedOutQuantity by item.quantity.
+ *   - Available quantity increases by item.quantity.
+ *   - Transaction type: 'return'.
+ * - Damaged condition return:
+ *   - Decrements checkedOutQuantity and increments damagedQuantity by item.quantity.
+ *   - Available quantity remains unchanged (remains unavailable for checkout).
+ *   - Transaction type: 'damage'.
+ * - Invariant: total >= reserved + checkedOut + damaged is strictly preserved.
+ * - Concurrency guard: checkedOutQuantity >= item.quantity.
+ */
+export async function returnStockForItemsAtomic(
+  itemsToReturn: Array<{
+    itemId: string;
+    quantity: number;
+    condition: "good" | "damaged";
+    notes?: string | null;
+  }>,
+  actingUserEmail: string,
+  reason: string,
+  metadata?: Record<string, unknown>,
+  client: any = db
+): Promise<InventoryItem[]> {
+  const updatedItems: InventoryItem[] = [];
+
+  for (const item of itemsToReturn) {
+    if (!Number.isInteger(item.quantity) || item.quantity <= 0) {
+      throw new InventoryError(
+        "INVALID_STOCK_OPERATION",
+        "Returned quantity must be a positive integer.",
+        400
+      );
+    }
+
+    let updated: InventoryItem | undefined;
+
+    if (item.condition === "good") {
+      // Good return: decreases checkedOut, increases available
+      const [res] = await client
+        .update(inventoryItems)
+        .set({
+          checkedOutQuantity: sql`${inventoryItems.checkedOutQuantity} - ${item.quantity}`,
+          updatedAt: new Date(),
+        })
+        .where(
+          and(
+            eq(inventoryItems.id, item.itemId),
+            sql`${inventoryItems.checkedOutQuantity} >= ${item.quantity}`
+          )
+        )
+        .returning();
+      updated = res;
+    } else {
+      // Damaged return: decreases checkedOut, increases damaged, available remains unchanged
+      const [res] = await client
+        .update(inventoryItems)
+        .set({
+          checkedOutQuantity: sql`${inventoryItems.checkedOutQuantity} - ${item.quantity}`,
+          damagedQuantity: sql`${inventoryItems.damagedQuantity} + ${item.quantity}`,
+          updatedAt: new Date(),
+        })
+        .where(
+          and(
+            eq(inventoryItems.id, item.itemId),
+            sql`${inventoryItems.checkedOutQuantity} >= ${item.quantity}`
+          )
+        )
+        .returning();
+      updated = res;
+    }
+
+    if (!updated) {
+      const [existing] = await client
+        .select()
+        .from(inventoryItems)
+        .where(eq(inventoryItems.id, item.itemId))
+        .limit(1);
+
+      const itemName = existing ? `'${existing.name}' (${existing.sku})` : item.itemId;
+      throw new InventoryError(
+        "INVALID_STOCK_OPERATION",
+        `Stock return failed: Item ${itemName} has fewer checked-out units than the return quantity (${existing?.checkedOutQuantity ?? 0} checked out, attempted return of ${item.quantity}).`,
+        409
+      );
+    }
+
+    const availableAfter =
+      updated.totalQuantity -
+      (updated.reservedQuantity + updated.checkedOutQuantity + updated.damagedQuantity);
+
+    await client.insert(inventoryLedger).values({
+      itemId: updated.id,
+      transactionType: item.condition === "good" ? "return" : "damage",
+      quantityDelta: item.quantity,
+      totalQuantityAfter: updated.totalQuantity,
+      availableQuantityAfter: availableAfter,
+      reservedQuantityAfter: updated.reservedQuantity,
+      checkedOutQuantityAfter: updated.checkedOutQuantity,
+      damagedQuantityAfter: updated.damagedQuantity,
+      performedBy: actingUserEmail,
+      reason,
+      metadata: {
+        ...metadata,
+        sku: updated.sku,
+        condition: item.condition,
+        itemNotes: item.notes ?? null,
+        returnedQuantityDelta: item.quantity,
+      },
+    });
+
+    updatedItems.push(updated);
+  }
+
+  return updatedItems;
+}
+
 
 /**
  * Service function to safely archive an inventory item.
