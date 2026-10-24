@@ -6,6 +6,21 @@ import type {
 } from "./types";
 
 /**
+ * Safely escapes user-supplied text for Telegram HTML parse mode.
+ * Strictly prevents HTML tag injection, attribute breakouts, or formatting corruption.
+ */
+export function escapeTelegramHtml(text?: string | null): string {
+  if (!text) return "";
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+
+/**
  * Formats a clean HTML-formatted connection test message.
  */
 export function formatConnectionTestMessage(payload: TelegramTestNotificationPayload): string {
