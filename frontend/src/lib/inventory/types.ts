@@ -184,3 +184,8 @@ export interface BorrowRequestsQuery {
   userId?: string;
 }
 
+export interface ReviewBorrowRequestInput {
+  adminNotes?: string | null;
+}
+
+
