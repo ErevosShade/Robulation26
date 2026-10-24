@@ -416,6 +416,98 @@ export async function adjustItemStockAtomic(
 }
 
 /**
+ * Atomically reserves inventory stock for a batch of items.
+ *
+ * Invariants:
+ * 1. Increases reservedQuantity by item.quantity.
+ * 2. Decreases computed availableQuantity accordingly.
+ * 3. Does NOT alter totalQuantity, checkedOutQuantity, or damagedQuantity.
+ * 4. Checks that availableQuantity >= requestedQuantity using conditional SQL WHERE clause.
+ * 5. Writes an immutable audit ledger entry for each item with transactionType "reservation".
+ * 6. Throws InventoryError with 409 CONCURRENCY_CONFLICT / INSUFFICIENT_STOCK if stock is unavailable.
+ */
+export async function reserveStockForItemsAtomic(
+  itemsToReserve: Array<{ itemId: string; quantity: number }>,
+  actingAdminEmail: string,
+  reason: string,
+  metadata?: Record<string, unknown>,
+  client: any = db
+): Promise<InventoryItem[]> {
+  const updatedItems: InventoryItem[] = [];
+
+  for (const item of itemsToReserve) {
+    if (!Number.isInteger(item.quantity) || item.quantity <= 0) {
+      throw new InventoryError(
+        "INVALID_STOCK_OPERATION",
+        "Reserved quantity must be a positive integer.",
+        400
+      );
+    }
+
+    // Conditional atomic update enforcing the conservation check:
+    // total - (reserved + requested + checkedOut + damaged) >= 0
+    const [updated] = await client
+      .update(inventoryItems)
+      .set({
+        reservedQuantity: sql`${inventoryItems.reservedQuantity} + ${item.quantity}`,
+        updatedAt: new Date(),
+      })
+      .where(
+        and(
+          eq(inventoryItems.id, item.itemId),
+          eq(inventoryItems.archived, false),
+          eq(inventoryItems.active, true),
+          sql`${inventoryItems.totalQuantity} - (${inventoryItems.reservedQuantity} + ${item.quantity} + ${inventoryItems.checkedOutQuantity} + ${inventoryItems.damagedQuantity}) >= 0`
+        )
+      )
+      .returning();
+
+    if (!updated) {
+      // Find item name for detailed error message
+      const [existing] = await client
+        .select()
+        .from(inventoryItems)
+        .where(eq(inventoryItems.id, item.itemId))
+        .limit(1);
+
+      const itemName = existing ? `'${existing.name}' (${existing.sku})` : item.itemId;
+      throw new InventoryError(
+        "INSUFFICIENT_STOCK",
+        `Stock reservation failed: Item ${itemName} has insufficient available stock or was concurrently modified.`,
+        409
+      );
+    }
+
+    const availableAfter =
+      updated.totalQuantity -
+      (updated.reservedQuantity + updated.checkedOutQuantity + updated.damagedQuantity);
+
+    await client.insert(inventoryLedger).values({
+      itemId: updated.id,
+      transactionType: "reservation",
+      quantityDelta: item.quantity,
+      totalQuantityAfter: updated.totalQuantity,
+      availableQuantityAfter: availableAfter,
+      reservedQuantityAfter: updated.reservedQuantity,
+      checkedOutQuantityAfter: updated.checkedOutQuantity,
+      damagedQuantityAfter: updated.damagedQuantity,
+      performedBy: actingAdminEmail,
+      reason,
+      metadata: {
+        ...metadata,
+        sku: updated.sku,
+        reservedQuantityDelta: item.quantity,
+      },
+    });
+
+    updatedItems.push(updated);
+  }
+
+  return updatedItems;
+}
+
+
+/**
  * Service function to safely archive an inventory item.
  * Admin-only soft deletion.
  * Refuses archival if there are active reserved or checked-out quantities.
