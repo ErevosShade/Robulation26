@@ -269,15 +269,24 @@ Use Route Handlers under `src/app/api/`. Exact paths should follow the actual ro
 - `POST /api/inventory` — admin-only item creation with SKU uniqueness and initial stock ledger entry.
 - `PATCH /api/inventory/[id]` — admin-only partial updates with atomic concurrency protection and ledger recording.
 - `DELETE /api/inventory/[id]` — admin-only safe soft-deletion/archival with active commitment guard.
-- `POST /api/inventory/requests` — create checkout request (next milestone).
-- `GET /api/inventory/requests` — current user's requests, or all for an authorized admin (next milestone).
+- `POST /api/inventory/requests` — create multi-item hardware borrow request with transactional outbox Telegram alert. (Implemented)
+- `GET /api/inventory/requests` — list borrow requests with member session ownership isolation and admin pagination/filtering. (Implemented)
 - `POST /api/inventory/requests/[requestId]/approve` — admin approval (next milestone).
 - `POST /api/inventory/requests/[requestId]/reject` — admin rejection (next milestone).
 - `POST /api/inventory/[id]/returns` — record a return under the chosen approval policy (next milestone).
 - `POST /api/inventory/[id]/damage-reports` — report damage (next milestone).
 - `POST /api/inventory/[id]/adjustments` — admin-only stock adjustment (next milestone).
 - `GET /api/inventory/transactions` — role-filtered transaction history (next milestone).
-- Admin-only CSV import/export endpoints (next milestone).
+- Admin-only CSV import/export endpoints (Roster import completed at `/api/inventory/admin/members/*`).
+
+### Borrow Requests & Invariants Specification
+- **Tables**: `inventory_requests`, `inventory_request_items`, and `inventory_notification_outbox` (Migration `0004_flashy_may_parker.sql`).
+- **Dates constraint**: `end_date >= start_date`.
+- **Items constraint**: `quantity > 0`, foreign key restrict on item deletion, cascade on request deletion, unique `(request_id, item_id)`.
+- **Critical Stock Rule**: Submitting a pending request strictly avoids mutating `total_quantity`, `reserved_quantity`, or `checked_out_quantity` on `inventory_items`, and produces zero entries in `inventory_stock_ledger`. Stock availability is verified at submission time to reject impossible requests, and will be locked atomically during the future approval workflow.
+- **Telegram Outbox Guarantee**: Notifications are recorded in `inventory_notification_outbox` in the same transactional boundary as the request. An asynchronous dispatcher sends HTML-formatted telemetry to Telegram. If the Telegram API fails or is unreachable, the request remains safely persisted, the outbox record tracks the error for retry, and duplicate messages are strictly prevented.
+- **Verification Harness**: Run `pnpm run test:requests` to execute all 37 unit and integration tests across validation, formatting, outbox retry, stock invariants, and member authorization isolation.
+
 
 Use Zod schemas at request boundaries. Return consistent error responses and appropriate HTTP status codes. Add pagination limits and avoid exposing stack traces.
 
