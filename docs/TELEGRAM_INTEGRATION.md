@@ -191,4 +191,55 @@ Review Note: Declined: Insufficient spare parts for destructive testing.
 - The message is dispatched asynchronously post-commit.
 - In the event of network disruption or Telegram rate limits, the request status and inventory reservations remain fully committed and safe, and the notification can be redelivered via `retryPendingOutboxNotifications()`.
 
+---
+
+## 8. Collection and Return Lifecycle Notifications
+
+### A. Member Collection Confirmation Notification
+When a member confirms physical collection of approved hardware:
+
+```text
+📦 HARDWARE COLLECTED BY MEMBER
+📡 Robolution Mechatronics Lab
+
+Request ID: req-col-001
+Status: 🔵 COLLECTED / CHECKED OUT
+Requester: Elena Rostova (elena@robolution.space)
+Collected By: Cadet Liam (liam@robolution.space)
+Project / Purpose: Sub-orbital Drone Array
+Timestamp: 2026-10-24 14:00:00 UTC
+
+Components Physically Issued (2):
+  1. STM32F401 Dev Board (MCU-STM32-02) — 2 unit(s)
+  2. LiDAR Puck v1 (SENS-LIDAR-01) — 1 unit(s)
+
+Collection Notes: Retrieved from Storage Bay 2 by Liam
+
+🚀 Stock moved from reserved to checked-out balance in lab ledger.
+```
+
+### B. Hardware Return & Condition Inspection Notification
+When hardware is returned and inspected (supporting partial returns and condition breakdown):
+
+```text
+📥 HARDWARE RETURNED & INSPECTED
+📡 Robolution Mechatronics Lab
+
+Request ID: req-ret-002
+Request Status: 🟡 PARTIALLY RETURNED
+Requester: Alex Vance (alex.vance@robolution.space)
+Returned By: Alex Vance (alex.vance@robolution.space)
+Project / Purpose: Rover Obstacle Navigation
+Timestamp: 2026-10-24 15:30:00 UTC
+
+Items Processed in Return (2):
+  1. STM32F401 Dev Board (MCU-STM32-02) — 1 unit(s) [✅ GOOD] — Fully functional
+  2. LiDAR Puck v1 (SENS-LIDAR-01) — 1 unit(s) [⚠️ DAMAGED] — Fractured optical lens casing
+
+Batch Notes: Batch 1 return after testing
+
+🔄 Stock balances and condition ledgers updated atomically.
+```
+
+
 

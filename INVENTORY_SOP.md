@@ -65,8 +65,13 @@ The inventory system strictly operates with exactly two authorized roles: `admin
    - Specify the project name or purpose, e.g. *ABU Robocon Chassis Prototype*.
 4. **Request Review:** The request is recorded as `pending`. It does not reduce physical stock immediately, but the system must reserve the requested quantity so that concurrent requests cannot over-allocate stock.
 5. **Admin Decision:** An authorized admin approves or rejects the request.
-6. **Physical Retrieval:** After approval, retrieve the item from the recorded shelf location, e.g. `Shelf A1 - Bin 2`.
-7. **Issue Confirmation:** Record the actual checkout when the hardware is physically handed over. The system must avoid counting the same quantity as both reserved and checked out.
+6. **Physical Retrieval:** After approval, members physically retrieve the items themselves from the designated shelf location, e.g. `Shelf A1 - Bin 2`. An admin does not physically hand over hardware.
+7. **Member Collection Confirmation:**
+   - The member opens `/inventory/requests` and locates the approved request.
+   - The member selects **Confirm Collection** (or calls `POST /api/inventory/requests/[id]/collect`).
+   - The server atomically decreases `reservedQuantity` and increases `checkedOutQuantity` in one transaction.
+   - An immutable stock ledger entry (`transaction_type: 'checkout'`) is generated, and a Telegram notification is queued and dispatched post-commit.
+   - The system prevents repeat collections or duplicate stock decrement.
 
 ### 3.2 Returning Components (Return)
 
@@ -75,12 +80,17 @@ The inventory system strictly operates with exactly two authorized roles: `admin
    - For microcontrollers (e.g. ESP32, Arduino), verify that the device responds over USB/bootloader where appropriate.
    - For LiPo batteries, check cell voltages with a suitable multimeter and follow the lab's battery-safety procedures. Do not use a battery with a cell below **3.3 V**; isolate it and refer it to the responsible lab lead.
 2. **Log Return in System:**
-   - Open the relevant item and active checkout record.
-   - Select **Return Units**.
-   - Enter a positive return quantity and optional condition notes.
-   - Confirm the return.
-3. **Stock Update:** The server updates the checkout balance and inventory quantities atomically and writes an audit transaction.
-4. **Storage:** Return usable components to their labeled bin or shelf. Items needing inspection must remain out of available stock until cleared.
+   - Open `/inventory/requests` and locate the active request (status `collected` or `partially_returned`).
+   - Select **Record Return** (or call `POST /api/inventory/requests/[id]/return`).
+   - Specify returned quantities per item and indicate the verified condition (`good` or `damaged`).
+   - Enter mandatory condition/incident notes for damaged hardware.
+   - Confirm the return submission.
+3. **Stock Update & Quarantine:**
+   - The server executes the return inside an atomic transaction with row-level conditional guards.
+   - **Good condition units:** Decrease `checkedOutQuantity` and increase `availableQuantity`. Logged as `transaction_type: 'return'`. Usable components are returned to their designated storage bins.
+   - **Damaged condition units:** Decrease `checkedOutQuantity` and increase `damagedQuantity`. Logged as `transaction_type: 'damage'`. Damaged units remain strictly quarantined and are **never** made available for borrowing.
+   - If all requested items have been fully returned, the request status transitions to `returned` (completed). If some units remain outstanding, the status transitions to `partially_returned`.
+   - The audit history and return sessions can be viewed at any time via **Inspect Returns** (`GET /api/inventory/requests/[id]/returns`).
 
 ### 3.3 Reporting Damaged Hardware (Write-Off)
 

@@ -1,10 +1,14 @@
-import { eq, inArray } from "drizzle-orm";
+import { eq, inArray, desc, sql } from "drizzle-orm";
 import { db, type DbClient } from "@/lib/db";
 import {
   inventoryRequests,
   inventoryRequestItems,
+  inventoryReturns,
+  inventoryReturnItems,
   type InventoryRequest,
   type InventoryRequestItem,
+  type InventoryReturn,
+  type InventoryReturnItem,
 } from "@/lib/db/schema/requests";
 import { inventoryItems } from "@/lib/db/schema/inventory";
 import { computeAvailableQuantity } from "./quantity";
@@ -12,12 +16,32 @@ import { InventoryError } from "./errors";
 import {
   formatBorrowRequestNotification,
   formatBorrowRequestReviewNotification,
+  formatBorrowRequestCollectionNotification,
+  formatBorrowRequestReturnNotification,
   type TelegramBorrowRequestNotificationPayload,
+  type TelegramBorrowRequestCollectionPayload,
+  type TelegramBorrowRequestReturnPayload,
+  type TelegramReturnItemPayload,
 } from "@/lib/telegram";
 import { recordOutboxNotification, dispatchOutboxNotification } from "./outbox";
-import { reserveStockForItemsAtomic } from "./service";
-import type { ValidatedCreateBorrowRequestInput, ValidatedReviewRequestInput } from "./validation";
-import type { BorrowRequestDto, BorrowRequestItemDto } from "./types";
+import {
+  reserveStockForItemsAtomic,
+  collectStockForItemsAtomic,
+  returnStockForItemsAtomic,
+} from "./service";
+import type {
+  ValidatedCreateBorrowRequestInput,
+  ValidatedReviewRequestInput,
+  ValidatedCollectRequestInput,
+  ValidatedReturnRequestInput,
+} from "./validation";
+import type {
+  BorrowRequestDto,
+  BorrowRequestItemDto,
+  BorrowRequestReturnDto,
+  BorrowRequestReturnItemDto,
+  ReturnItemCondition,
+} from "./types";
 
 
 
@@ -223,6 +247,9 @@ export async function createBorrowRequest(
       requestId: ci.requestId,
       itemId: ci.itemId,
       quantity: ci.quantity,
+      returnedGoodQuantity: 0,
+      returnedDamagedQuantity: 0,
+      outstandingQuantity: ci.quantity,
       name: dbItem.name,
       sku: dbItem.sku,
       category: dbItem.category,
@@ -243,6 +270,8 @@ export async function createBorrowRequest(
     adminNotes: createdRequest.adminNotes,
     reviewedBy: createdRequest.reviewedBy,
     reviewedAt: createdRequest.reviewedAt,
+    collectedBy: createdRequest.collectedBy,
+    collectedAt: createdRequest.collectedAt,
     items: itemsDto,
     createdAt: createdRequest.createdAt,
     updatedAt: createdRequest.updatedAt,
@@ -346,6 +375,8 @@ export async function listBorrowRequests(
       requestId: inventoryRequestItems.requestId,
       itemId: inventoryRequestItems.itemId,
       quantity: inventoryRequestItems.quantity,
+      returnedGoodQuantity: inventoryRequestItems.returnedGoodQuantity,
+      returnedDamagedQuantity: inventoryRequestItems.returnedDamagedQuantity,
       name: inventoryItems.name,
       sku: inventoryItems.sku,
       category: inventoryItems.category,
@@ -360,7 +391,21 @@ export async function listBorrowRequests(
   const itemsByRequestId = new Map<string, BorrowRequestItemDto[]>();
   for (const item of rawItems) {
     const list = itemsByRequestId.get(item.requestId) || [];
-    list.push(item);
+    list.push({
+      id: item.id,
+      requestId: item.requestId,
+      itemId: item.itemId,
+      quantity: item.quantity,
+      returnedGoodQuantity: item.returnedGoodQuantity,
+      returnedDamagedQuantity: item.returnedDamagedQuantity,
+      outstandingQuantity:
+        item.quantity - (item.returnedGoodQuantity + item.returnedDamagedQuantity),
+      name: item.name,
+      sku: item.sku,
+      category: item.category,
+      locationRoom: item.locationRoom,
+      createdAt: item.createdAt,
+    });
     itemsByRequestId.set(item.requestId, list);
   }
 
@@ -377,6 +422,8 @@ export async function listBorrowRequests(
     adminNotes: r.adminNotes,
     reviewedBy: r.reviewedBy,
     reviewedAt: r.reviewedAt,
+    collectedBy: r.collectedBy,
+    collectedAt: r.collectedAt,
     items: itemsByRequestId.get(r.id) || [],
     createdAt: r.createdAt,
     updatedAt: r.updatedAt,
@@ -428,6 +475,8 @@ export async function getBorrowRequestById(
       requestId: inventoryRequestItems.requestId,
       itemId: inventoryRequestItems.itemId,
       quantity: inventoryRequestItems.quantity,
+      returnedGoodQuantity: inventoryRequestItems.returnedGoodQuantity,
+      returnedDamagedQuantity: inventoryRequestItems.returnedDamagedQuantity,
       name: inventoryItems.name,
       sku: inventoryItems.sku,
       category: inventoryItems.category,
@@ -437,6 +486,22 @@ export async function getBorrowRequestById(
     .from(inventoryRequestItems)
     .innerJoin(inventoryItems, eq(inventoryRequestItems.itemId, inventoryItems.id))
     .where(eq(inventoryRequestItems.requestId, requestId));
+
+  const itemsDto: BorrowRequestItemDto[] = rawItems.map((item) => ({
+    id: item.id,
+    requestId: item.requestId,
+    itemId: item.itemId,
+    quantity: item.quantity,
+    returnedGoodQuantity: item.returnedGoodQuantity,
+    returnedDamagedQuantity: item.returnedDamagedQuantity,
+    outstandingQuantity:
+      item.quantity - (item.returnedGoodQuantity + item.returnedDamagedQuantity),
+    name: item.name,
+    sku: item.sku,
+    category: item.category,
+    locationRoom: item.locationRoom,
+    createdAt: item.createdAt,
+  }));
 
   return {
     id: request.id,
@@ -450,7 +515,9 @@ export async function getBorrowRequestById(
     adminNotes: request.adminNotes,
     reviewedBy: request.reviewedBy,
     reviewedAt: request.reviewedAt,
-    items: rawItems,
+    collectedBy: request.collectedBy,
+    collectedAt: request.collectedAt,
+    items: itemsDto,
     createdAt: request.createdAt,
     updatedAt: request.updatedAt,
   };
@@ -619,6 +686,9 @@ export async function approveBorrowRequest(
       requestId,
       itemId: i.itemId,
       quantity: i.quantity,
+      returnedGoodQuantity: 0,
+      returnedDamagedQuantity: 0,
+      outstandingQuantity: i.quantity,
       name: i.name,
       sku: i.sku,
       category: i.category,
@@ -638,6 +708,8 @@ export async function approveBorrowRequest(
       adminNotes: updatedRequest.adminNotes,
       reviewedBy: updatedRequest.reviewedBy,
       reviewedAt: updatedRequest.reviewedAt,
+      collectedBy: updatedRequest.collectedBy,
+      collectedAt: updatedRequest.collectedAt,
       items: itemsDto,
       createdAt: updatedRequest.createdAt,
       updatedAt: updatedRequest.updatedAt,
@@ -805,6 +877,9 @@ export async function rejectBorrowRequest(
       requestId,
       itemId: i.itemId,
       quantity: i.quantity,
+      returnedGoodQuantity: 0,
+      returnedDamagedQuantity: 0,
+      outstandingQuantity: 0,
       name: i.name,
       sku: i.sku,
       category: i.category,
@@ -824,6 +899,8 @@ export async function rejectBorrowRequest(
       adminNotes: updatedRequest.adminNotes,
       reviewedBy: updatedRequest.reviewedBy,
       reviewedAt: updatedRequest.reviewedAt,
+      collectedBy: updatedRequest.collectedBy,
+      collectedAt: updatedRequest.collectedAt,
       items: itemsDto,
       createdAt: updatedRequest.createdAt,
       updatedAt: updatedRequest.updatedAt,
@@ -855,6 +932,669 @@ export async function rejectBorrowRequest(
     outboxId: result.outboxId,
     notificationResult,
   };
+}
+
+/**
+ * Confirms collection of an approved borrowing request.
+ *
+ * Rules:
+ * - Caller must be the request owner (member) or an authorized admin.
+ * - Request must be in 'approved' status.
+ * - If status is 'collected', 'partially_returned', or 'returned', throws 409 REQUEST_ALREADY_COLLECTED.
+ * - If status is 'pending', 'rejected', or 'cancelled', throws 409 REQUEST_NOT_COLLECTIBLE.
+ * - Atomically decrements reservedQuantity and increments checkedOutQuantity for all items.
+ * - Emits 'checkout' ledger entries.
+ * - Updates request status to 'collected', stamps collectedBy and collectedAt.
+ * - Inserts 'borrow_request_collected' event to notification outbox.
+ * - Dispatches Telegram notification post-commit.
+ */
+export async function collectBorrowRequest(
+  caller: RequestingUserContext,
+  requestId: string,
+  input: ValidatedCollectRequestInput = {}
+): Promise<{
+  request: BorrowRequestDto;
+  outboxId?: string;
+  notificationResult?: { success: boolean; error?: string };
+}> {
+  const { runTransaction } = await import("@/lib/db");
+  const { and } = await import("drizzle-orm");
+
+  const result = await runTransaction(async (tx) => {
+    // 1. Fetch request inside transaction
+    const [existing] = await tx
+      .select()
+      .from(inventoryRequests)
+      .where(eq(inventoryRequests.id, requestId))
+      .limit(1);
+
+    if (!existing) {
+      throw new InventoryError("REQUEST_NOT_FOUND", "Borrow request not found.", 404);
+    }
+
+    // Role check: Only the owner or an admin can confirm collection
+    if (caller.role !== "admin" && existing.userId !== caller.id) {
+      throw new InventoryError(
+        "FORBIDDEN",
+        "You do not have authorization to confirm collection for another member's request.",
+        403
+      );
+    }
+
+    if (
+      existing.status === "collected" ||
+      existing.status === "partially_returned" ||
+      existing.status === "returned"
+    ) {
+      throw new InventoryError(
+        "REQUEST_ALREADY_COLLECTED",
+        `Request ${requestId} has already been collected (current status: '${existing.status}').`,
+        409
+      );
+    }
+
+    if (existing.status !== "approved") {
+      throw new InventoryError(
+        "REQUEST_NOT_COLLECTIBLE",
+        `Cannot collect request with status '${existing.status}'. Only approved requests can be collected.`,
+        409
+      );
+    }
+
+    // 2. Fetch associated items
+    const requestItems = await tx
+      .select({
+        id: inventoryRequestItems.id,
+        itemId: inventoryRequestItems.itemId,
+        quantity: inventoryRequestItems.quantity,
+        returnedGoodQuantity: inventoryRequestItems.returnedGoodQuantity,
+        returnedDamagedQuantity: inventoryRequestItems.returnedDamagedQuantity,
+        name: inventoryItems.name,
+        sku: inventoryItems.sku,
+        category: inventoryItems.category,
+        locationRoom: inventoryItems.locationRoom,
+        createdAt: inventoryRequestItems.createdAt,
+      })
+      .from(inventoryRequestItems)
+      .innerJoin(inventoryItems, eq(inventoryRequestItems.itemId, inventoryItems.id))
+      .where(eq(inventoryRequestItems.requestId, requestId));
+
+    if (requestItems.length === 0) {
+      throw new InventoryError(
+        "VALIDATION_ERROR",
+        "Borrow request contains no associated hardware items.",
+        400
+      );
+    }
+
+    // 3. Atomically transition stock from reserved to checkedOut
+    const itemsToCollect = requestItems.map((item) => ({
+      itemId: item.itemId,
+      quantity: item.quantity,
+    }));
+
+    await collectStockForItemsAtomic(
+      itemsToCollect,
+      caller.email,
+      `Collection confirmation for request ${requestId}: ${input.notes || "Hardware collected by member"}`,
+      {
+        requestId,
+        requesterEmail: existing.userEmail,
+        collectorEmail: caller.email,
+        project: existing.project,
+      },
+      tx
+    );
+
+    // 4. Update request status to 'collected'
+    const now = new Date();
+    const [updatedRequest] = await tx
+      .update(inventoryRequests)
+      .set({
+        status: "collected",
+        collectedBy: caller.email,
+        collectedAt: now,
+        updatedAt: now,
+      })
+      .where(
+        and(
+          eq(inventoryRequests.id, requestId),
+          eq(inventoryRequests.status, "approved")
+        )
+      )
+      .returning();
+
+    if (!updatedRequest) {
+      throw new InventoryError(
+        "REQUEST_ALREADY_COLLECTED",
+        "Failed to confirm collection: concurrent status modification detected.",
+        409
+      );
+    }
+
+    // 5. Format and record collection notification to outbox
+    const telegramPayload: TelegramBorrowRequestCollectionPayload = {
+      requestId: updatedRequest.id,
+      requesterName: updatedRequest.userName,
+      requesterEmail: updatedRequest.userEmail,
+      collectorName: caller.name,
+      collectorEmail: caller.email,
+      project: updatedRequest.project,
+      notes: input.notes ?? null,
+      items: requestItems.map((i) => ({
+        name: i.name,
+        sku: i.sku,
+        quantity: i.quantity,
+      })),
+      collectedAt: now,
+    };
+
+    const formattedMessage = formatBorrowRequestCollectionNotification(telegramPayload);
+
+    const outboxRecord = await recordOutboxNotification(
+      {
+        channel: "telegram",
+        eventType: "borrow_request_collected",
+        referenceId: updatedRequest.id,
+        payload: {
+          ...telegramPayload,
+          formattedMessage,
+        },
+      },
+      tx as any
+    );
+
+    const itemsDto: BorrowRequestItemDto[] = requestItems.map((i) => ({
+      id: i.id,
+      requestId,
+      itemId: i.itemId,
+      quantity: i.quantity,
+      returnedGoodQuantity: i.returnedGoodQuantity,
+      returnedDamagedQuantity: i.returnedDamagedQuantity,
+      outstandingQuantity:
+        i.quantity - (i.returnedGoodQuantity + i.returnedDamagedQuantity),
+      name: i.name,
+      sku: i.sku,
+      category: i.category,
+      locationRoom: i.locationRoom,
+      createdAt: i.createdAt,
+    }));
+
+    const requestDto: BorrowRequestDto = {
+      id: updatedRequest.id,
+      userId: updatedRequest.userId,
+      userEmail: updatedRequest.userEmail,
+      userName: updatedRequest.userName,
+      project: updatedRequest.project,
+      startDate: updatedRequest.startDate,
+      endDate: updatedRequest.endDate,
+      status: "collected",
+      adminNotes: updatedRequest.adminNotes,
+      reviewedBy: updatedRequest.reviewedBy,
+      reviewedAt: updatedRequest.reviewedAt,
+      collectedBy: updatedRequest.collectedBy,
+      collectedAt: updatedRequest.collectedAt,
+      items: itemsDto,
+      createdAt: updatedRequest.createdAt,
+      updatedAt: updatedRequest.updatedAt,
+    };
+
+    return {
+      request: requestDto,
+      outboxId: outboxRecord.id,
+    };
+  });
+
+  // 6. Post-commit notification dispatch
+  let notificationResult: { success: boolean; error?: string } | undefined;
+  try {
+    notificationResult = await dispatchOutboxNotification(result.outboxId);
+  } catch (err: unknown) {
+    console.warn(
+      `[BorrowCollection] Telegram dispatch error for request ${result.request.id}:`,
+      err
+    );
+    notificationResult = {
+      success: false,
+      error: err instanceof Error ? err.message : "Notification dispatch failed",
+    };
+  }
+
+  return {
+    request: result.request,
+    outboxId: result.outboxId,
+    notificationResult,
+  };
+}
+
+/**
+ * Records return of hardware items against an active borrow request.
+ *
+ * Rules:
+ * - Caller must be the request owner (member) or an authorized admin.
+ * - Request must be in 'collected' or 'partially_returned' status.
+ * - Items returned must be part of this request.
+ * - Returned quantity for each item cannot exceed current outstanding checked-out quantity:
+ *   outstanding = quantity - (returnedGoodQuantity + returnedDamagedQuantity)
+ * - Atomically executes:
+ *   - Adjusts inventory stock (good: checkedOut -> available; damaged: checkedOut -> damaged).
+ *   - Updates inventory_request_items (increments returnedGoodQuantity or returnedDamagedQuantity).
+ *   - Creates inventory_returns record and inventory_return_items records.
+ *   - Emits 'return' and/or 'damage' ledger records.
+ *   - Checks if all items in request now have outstanding == 0:
+ *     - If yes, transitions request status to 'returned'.
+ *     - If not, transitions request status to 'partially_returned'.
+ *   - Queues 'borrow_request_returned' notification into transactional outbox.
+ * - Post-commit: dispatches Telegram notification.
+ */
+export async function returnBorrowRequest(
+  caller: RequestingUserContext,
+  requestId: string,
+  input: ValidatedReturnRequestInput
+): Promise<{
+  request: BorrowRequestDto;
+  returnRecord: BorrowRequestReturnDto;
+  outboxId?: string;
+  notificationResult?: { success: boolean; error?: string };
+}> {
+  const { runTransaction } = await import("@/lib/db");
+  const { and } = await import("drizzle-orm");
+
+  const result = await runTransaction(async (tx) => {
+    // 1. Fetch request inside transaction
+    const [existing] = await tx
+      .select()
+      .from(inventoryRequests)
+      .where(eq(inventoryRequests.id, requestId))
+      .limit(1);
+
+    if (!existing) {
+      throw new InventoryError("REQUEST_NOT_FOUND", "Borrow request not found.", 404);
+    }
+
+    // Role check: Only the owner or an admin can return hardware
+    if (caller.role !== "admin" && existing.userId !== caller.id) {
+      throw new InventoryError(
+        "FORBIDDEN",
+        "You do not have authorization to return hardware for another member's request.",
+        403
+      );
+    }
+
+    if (existing.status === "returned") {
+      throw new InventoryError(
+        "REQUEST_ALREADY_RETURNED",
+        `Request ${requestId} has already been fully returned.`,
+        409
+      );
+    }
+
+    if (existing.status !== "collected" && existing.status !== "partially_returned") {
+      throw new InventoryError(
+        "REQUEST_NOT_RETURNABLE",
+        `Cannot return hardware for request with status '${existing.status}'. Only collected or partially returned requests can accept returns.`,
+        409
+      );
+    }
+
+    // 2. Fetch associated items in this request
+    const requestItems = await tx
+      .select({
+        id: inventoryRequestItems.id,
+        itemId: inventoryRequestItems.itemId,
+        quantity: inventoryRequestItems.quantity,
+        returnedGoodQuantity: inventoryRequestItems.returnedGoodQuantity,
+        returnedDamagedQuantity: inventoryRequestItems.returnedDamagedQuantity,
+        name: inventoryItems.name,
+        sku: inventoryItems.sku,
+        category: inventoryItems.category,
+        locationRoom: inventoryItems.locationRoom,
+        createdAt: inventoryRequestItems.createdAt,
+      })
+      .from(inventoryRequestItems)
+      .innerJoin(inventoryItems, eq(inventoryRequestItems.itemId, inventoryItems.id))
+      .where(eq(inventoryRequestItems.requestId, requestId));
+
+    const requestItemMap = new Map(requestItems.map((i) => [i.itemId, i]));
+
+    // Validate all items in input
+    const itemReturnTotals = new Map<string, number>();
+    for (const retItem of input.items) {
+      const match = requestItemMap.get(retItem.itemId);
+      if (!match) {
+        throw new InventoryError(
+          "INVALID_RETURN_ITEM",
+          `Item '${retItem.itemId}' is not part of borrow request ${requestId}.`,
+          400
+        );
+      }
+      const currentTotal = itemReturnTotals.get(retItem.itemId) || 0;
+      itemReturnTotals.set(retItem.itemId, currentTotal + retItem.quantity);
+    }
+
+    // Verify no item exceeds outstanding checked-out quantity
+    for (const [itemId, totalReturning] of itemReturnTotals.entries()) {
+      const match = requestItemMap.get(itemId)!;
+      const outstanding =
+        match.quantity - (match.returnedGoodQuantity + match.returnedDamagedQuantity);
+      if (totalReturning > outstanding) {
+        throw new InventoryError(
+          "RETURN_QUANTITY_EXCEEDED",
+          `Cannot return ${totalReturning} units of '${match.name}' (${match.sku}): only ${outstanding} units are currently outstanding.`,
+          400
+        );
+      }
+    }
+
+    // 3. Atomically update inventory stock
+    const stockItemsToReturn = input.items.map((i) => ({
+      itemId: i.itemId,
+      quantity: i.quantity,
+      condition: i.condition,
+      notes: i.notes,
+    }));
+
+    await returnStockForItemsAtomic(
+      stockItemsToReturn,
+      caller.email,
+      `Hardware return for request ${requestId}: ${input.notes || "Returned by member"}`,
+      {
+        requestId,
+        requesterEmail: existing.userEmail,
+        returnerEmail: caller.email,
+        project: existing.project,
+      },
+      tx
+    );
+
+    // 4. Update returned counts on inventory_request_items
+    for (const retItem of input.items) {
+      const goodDelta = retItem.condition === "good" ? retItem.quantity : 0;
+      const damagedDelta = retItem.condition === "damaged" ? retItem.quantity : 0;
+
+      await tx
+        .update(inventoryRequestItems)
+        .set({
+          returnedGoodQuantity: sql`${inventoryRequestItems.returnedGoodQuantity} + ${goodDelta}`,
+          returnedDamagedQuantity: sql`${inventoryRequestItems.returnedDamagedQuantity} + ${damagedDelta}`,
+        })
+        .where(
+          and(
+            eq(inventoryRequestItems.requestId, requestId),
+            eq(inventoryRequestItems.itemId, retItem.itemId)
+          )
+        );
+    }
+
+    // 5. Create inventory_returns and inventory_return_items records
+    const now = new Date();
+    const [createdReturn] = await tx
+      .insert(inventoryReturns)
+      .values({
+        requestId,
+        returnedBy: caller.email,
+        notes: input.notes ?? null,
+        createdAt: now,
+      })
+      .returning();
+
+    const returnItemInserts = input.items.map((ri) => ({
+      returnId: createdReturn.id,
+      itemId: ri.itemId,
+      quantity: ri.quantity,
+      condition: ri.condition,
+      notes: ri.notes ?? null,
+      createdAt: now,
+    }));
+
+    const createdReturnItems = await tx
+      .insert(inventoryReturnItems)
+      .values(returnItemInserts)
+      .returning();
+
+    // 6. Recalculate request lifecycle status
+    const updatedRequestItems = await tx
+      .select({
+        id: inventoryRequestItems.id,
+        itemId: inventoryRequestItems.itemId,
+        quantity: inventoryRequestItems.quantity,
+        returnedGoodQuantity: inventoryRequestItems.returnedGoodQuantity,
+        returnedDamagedQuantity: inventoryRequestItems.returnedDamagedQuantity,
+        name: inventoryItems.name,
+        sku: inventoryItems.sku,
+        category: inventoryItems.category,
+        locationRoom: inventoryItems.locationRoom,
+        createdAt: inventoryRequestItems.createdAt,
+      })
+      .from(inventoryRequestItems)
+      .innerJoin(inventoryItems, eq(inventoryRequestItems.itemId, inventoryItems.id))
+      .where(eq(inventoryRequestItems.requestId, requestId));
+
+    const allCompleted = updatedRequestItems.every(
+      (i) => i.quantity - (i.returnedGoodQuantity + i.returnedDamagedQuantity) === 0
+    );
+
+    const newStatus = allCompleted ? "returned" : "partially_returned";
+
+    const [updatedRequest] = await tx
+      .update(inventoryRequests)
+      .set({
+        status: newStatus,
+        updatedAt: now,
+      })
+      .where(eq(inventoryRequests.id, requestId))
+      .returning();
+
+    // 7. Format and record return notification to outbox
+    const telegramItems: TelegramReturnItemPayload[] = input.items.map((item) => {
+      const match = requestItemMap.get(item.itemId)!;
+      return {
+        name: match.name,
+        sku: match.sku,
+        quantity: item.quantity,
+        condition: item.condition,
+        notes: item.notes ?? null,
+      };
+    });
+
+    const telegramPayload: TelegramBorrowRequestReturnPayload = {
+      requestId: updatedRequest.id,
+      requesterName: updatedRequest.userName,
+      requesterEmail: updatedRequest.userEmail,
+      returnerName: caller.name,
+      returnerEmail: caller.email,
+      project: updatedRequest.project,
+      status: newStatus,
+      items: telegramItems,
+      notes: input.notes ?? null,
+      returnedAt: now,
+    };
+
+    const formattedMessage = formatBorrowRequestReturnNotification(telegramPayload);
+
+    const outboxRecord = await recordOutboxNotification(
+      {
+        channel: "telegram",
+        eventType: "borrow_request_returned",
+        referenceId: updatedRequest.id,
+        payload: {
+          ...telegramPayload,
+          formattedMessage,
+        },
+      },
+      tx as any
+    );
+
+    const itemsDto: BorrowRequestItemDto[] = updatedRequestItems.map((i) => ({
+      id: i.id,
+      requestId,
+      itemId: i.itemId,
+      quantity: i.quantity,
+      returnedGoodQuantity: i.returnedGoodQuantity,
+      returnedDamagedQuantity: i.returnedDamagedQuantity,
+      outstandingQuantity:
+        i.quantity - (i.returnedGoodQuantity + i.returnedDamagedQuantity),
+      name: i.name,
+      sku: i.sku,
+      category: i.category,
+      locationRoom: i.locationRoom,
+      createdAt: i.createdAt,
+    }));
+
+    const returnItemsDto: BorrowRequestReturnItemDto[] = createdReturnItems.map((cri) => {
+      const match = requestItemMap.get(cri.itemId)!;
+      return {
+        id: cri.id,
+        returnId: cri.returnId,
+        itemId: cri.itemId,
+        name: match.name,
+        sku: match.sku,
+        quantity: cri.quantity,
+        condition: cri.condition as ReturnItemCondition,
+        notes: cri.notes,
+        createdAt: cri.createdAt,
+      };
+    });
+
+    const returnDto: BorrowRequestReturnDto = {
+      id: createdReturn.id,
+      requestId: createdReturn.requestId,
+      returnedBy: createdReturn.returnedBy,
+      notes: createdReturn.notes,
+      items: returnItemsDto,
+      createdAt: createdReturn.createdAt,
+    };
+
+    const requestDto: BorrowRequestDto = {
+      id: updatedRequest.id,
+      userId: updatedRequest.userId,
+      userEmail: updatedRequest.userEmail,
+      userName: updatedRequest.userName,
+      project: updatedRequest.project,
+      startDate: updatedRequest.startDate,
+      endDate: updatedRequest.endDate,
+      status: updatedRequest.status as any,
+      adminNotes: updatedRequest.adminNotes,
+      reviewedBy: updatedRequest.reviewedBy,
+      reviewedAt: updatedRequest.reviewedAt,
+      collectedBy: updatedRequest.collectedBy,
+      collectedAt: updatedRequest.collectedAt,
+      items: itemsDto,
+      createdAt: updatedRequest.createdAt,
+      updatedAt: updatedRequest.updatedAt,
+    };
+
+    return {
+      request: requestDto,
+      returnRecord: returnDto,
+      outboxId: outboxRecord.id,
+    };
+  });
+
+  // 8. Post-commit notification dispatch
+  let notificationResult: { success: boolean; error?: string } | undefined;
+  try {
+    notificationResult = await dispatchOutboxNotification(result.outboxId);
+  } catch (err: unknown) {
+    console.warn(
+      `[BorrowReturn] Telegram dispatch error for request ${result.request.id}:`,
+      err
+    );
+    notificationResult = {
+      success: false,
+      error: err instanceof Error ? err.message : "Notification dispatch failed",
+    };
+  }
+
+  return {
+    request: result.request,
+    returnRecord: result.returnRecord,
+    outboxId: result.outboxId,
+    notificationResult,
+  };
+}
+
+/**
+ * Retrieves all return records and condition inspections for a borrow request.
+ */
+export async function getBorrowRequestReturns(
+  caller: RequestingUserContext,
+  requestId: string,
+  client: DbClient = db
+): Promise<BorrowRequestReturnDto[]> {
+  // Validate request access
+  const [request] = await client
+    .select()
+    .from(inventoryRequests)
+    .where(eq(inventoryRequests.id, requestId))
+    .limit(1);
+
+  if (!request) {
+    throw new InventoryError("REQUEST_NOT_FOUND", "Borrow request not found.", 404);
+  }
+
+  if (caller.role !== "admin" && request.userId !== caller.id) {
+    throw new InventoryError(
+      "FORBIDDEN_REQUEST_ACCESS",
+      "You do not have authorization to view returns for this request.",
+      403
+    );
+  }
+
+  // Fetch returns
+  const returns = await client
+    .select()
+    .from(inventoryReturns)
+    .where(eq(inventoryReturns.requestId, requestId))
+    .orderBy(desc(inventoryReturns.createdAt));
+
+  if (returns.length === 0) {
+    return [];
+  }
+
+  const returnIds = returns.map((r) => r.id);
+
+  const rawReturnItems = await client
+    .select({
+      id: inventoryReturnItems.id,
+      returnId: inventoryReturnItems.returnId,
+      itemId: inventoryReturnItems.itemId,
+      quantity: inventoryReturnItems.quantity,
+      condition: inventoryReturnItems.condition,
+      notes: inventoryReturnItems.notes,
+      createdAt: inventoryReturnItems.createdAt,
+      name: inventoryItems.name,
+      sku: inventoryItems.sku,
+    })
+    .from(inventoryReturnItems)
+    .innerJoin(inventoryItems, eq(inventoryReturnItems.itemId, inventoryItems.id))
+    .where(inArray(inventoryReturnItems.returnId, returnIds));
+
+  const itemsByReturnId = new Map<string, BorrowRequestReturnItemDto[]>();
+  for (const item of rawReturnItems) {
+    const list = itemsByReturnId.get(item.returnId) || [];
+    list.push({
+      id: item.id,
+      returnId: item.returnId,
+      itemId: item.itemId,
+      name: item.name,
+      sku: item.sku,
+      quantity: item.quantity,
+      condition: item.condition as ReturnItemCondition,
+      notes: item.notes,
+      createdAt: item.createdAt,
+    });
+    itemsByReturnId.set(item.returnId, list);
+  }
+
+  return returns.map((r) => ({
+    id: r.id,
+    requestId: r.requestId,
+    returnedBy: r.returnedBy,
+    notes: r.notes,
+    items: itemsByReturnId.get(r.id) || [],
+    createdAt: r.createdAt,
+  }));
 }
 
 

@@ -381,13 +381,19 @@ Also test the public website after inventory work to ensure existing landing-pag
    - **Audit Ledger:** Records immutable entries with `transaction_type = 'reservation'`, capturing acting admin, delta, and comprehensive metadata (including `{ selfApproved: true }` if an admin approves their own request).
    - **Zero-Mutation Rejection:** Rejection updates status to `rejected` atomically without altering stock quantities or creating stock ledger entries.
    - **Transactional Outbox:** Dispatches Telegram review alerts post-commit; delivery failures never roll back approved or rejected state.
-3. Implement physical checkout, returns, damage reports, and adjustments (Next milestone).
-4. Make each stock mutation and its audit entry atomic.
-5. Add tests for concurrency and repeated requests (Completed: 58 unit and integration tests passing in test harness).
+3. Implement member collection confirmation and return lifecycle (Completed: `POST /api/inventory/requests/[id]/collect`, `POST /api/inventory/requests/[id]/return`, `GET /api/inventory/requests/[id]/returns`):
+   - **Member Self-Collection:** Members physically retrieve their own approved hardware and confirm collection via UI or API.
+   - **Atomic Stock Transition:** `reservedQuantity` decreases and `checkedOutQuantity` increases atomically (`transaction_type = 'checkout'`).
+   - **Partial & Full Returns with Condition Inspection:** Returned units are tagged as `good` (restoring `availableQuantity`) or `damaged` (holding in `damagedQuantity`, keeping unavailable).
+   - **Over-Return Guard:** Prevents returning more units than are outstanding on the request.
+   - **Return Audit Trail:** All return sessions and condition inspection logs are recorded in `inventory_returns` and `inventory_return_items`.
+   - **Telegram Outbox:** Dispatches `borrow_request_collected` and `borrow_request_returned` notifications post-commit.
+4. Make each stock mutation and its audit entry atomic (Completed: interactive transactions with strict row-level conditional guards).
+5. Add tests for concurrency and repeated requests (Completed: 85 unit and integration tests passing in master test harness across 9 phases).
 
 ### Phase 5 — Inventory UI
-1. Build `/inventory` catalog and dashboard.
-2. Build item detail and request pages.
+1. Build `/inventory` catalog and dashboard (Gateway active).
+2. Build item detail and request pages (Completed: `/inventory/requests` Borrow Requests & Return Console with collection confirmation, return modals, condition tagging, and return history inspection).
 3. Build admin approvals and transaction history.
 4. Add loading, empty, validation, and error states.
 

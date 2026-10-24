@@ -109,6 +109,29 @@ export default async function InventoryPage() {
                 </div>
               </div>
 
+              {/* Borrow Requests & Collection Console Link */}
+              <div className="p-4 rounded-xl bg-sky-500/10 border border-sky-500/30 space-y-3 font-mono">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-sky-300">
+                    <Package className="w-4 h-4 text-sky-400" />
+                    <span>HARDWARE BORROWING &amp; RETURN CONSOLE</span>
+                  </div>
+                  <span className="text-[10px] text-sky-400/80 px-2 py-0.5 rounded bg-sky-500/20">
+                    OPERATIONAL
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-400">
+                  Track approved borrowing requests, confirm physical component collection, process returns with condition inspection, and audit lab stock allocations.
+                </p>
+                <Link
+                  href="/inventory/requests"
+                  className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(56,189,248,0.3)] transition-all cursor-pointer"
+                >
+                  <span>LAUNCH BORROWING &amp; RETURN TERMINAL</span>
+                  <ArrowLeft className="w-3.5 h-3.5 rotate-180" />
+                </Link>
+              </div>
+
               {/* Admin Actions Panel */}
               {isAdmin && (
                 <div className="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30 space-y-3 font-mono">

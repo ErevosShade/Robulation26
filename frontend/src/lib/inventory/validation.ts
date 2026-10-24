@@ -153,7 +153,16 @@ export const borrowRequestsQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(50).default(10),
   status: z
-    .enum(["pending", "approved", "rejected", "cancelled", "all"])
+    .enum([
+      "pending",
+      "approved",
+      "rejected",
+      "cancelled",
+      "collected",
+      "partially_returned",
+      "returned",
+      "all",
+    ])
     .optional(),
   userId: z.string().trim().max(128).optional(),
 });
@@ -171,6 +180,45 @@ export const reviewRequestSchema = z.object({
     .nullable(),
 });
 
+export const collectRequestSchema = z.object({
+  notes: z
+    .string()
+    .trim()
+    .max(1000, "Collection note cannot exceed 1000 characters.")
+    .optional()
+    .nullable(),
+});
+
+export const returnItemSchema = z.object({
+  itemId: z.string().trim().min(1, "Item ID is required.").max(128),
+  quantity: z
+    .number()
+    .int("Returned quantity must be an integer.")
+    .positive("Returned quantity must be greater than zero."),
+  condition: z.enum(["good", "damaged"], {
+    error: "Condition must be either 'good' or 'damaged'.",
+  }),
+  notes: z
+    .string()
+    .trim()
+    .max(1000, "Item condition notes cannot exceed 1000 characters.")
+    .optional()
+    .nullable(),
+});
+
+export const returnRequestSchema = z.object({
+  notes: z
+    .string()
+    .trim()
+    .max(1000, "Return note cannot exceed 1000 characters.")
+    .optional()
+    .nullable(),
+  items: z
+    .array(returnItemSchema)
+    .min(1, "At least one item must be returned.")
+    .max(50, "A return cannot exceed 50 items."),
+});
+
 export type ValidatedCreateItemInput = z.infer<typeof createItemSchema>;
 export type ValidatedUpdateItemInput = z.infer<typeof updateItemSchema>;
 export type ValidatedCatalogQuery = z.infer<typeof catalogQuerySchema>;
@@ -178,5 +226,7 @@ export type ValidatedBorrowRequestItemInput = z.infer<typeof borrowRequestItemSc
 export type ValidatedCreateBorrowRequestInput = z.infer<typeof createBorrowRequestSchema>;
 export type ValidatedBorrowRequestsQuery = z.infer<typeof borrowRequestsQuerySchema>;
 export type ValidatedReviewRequestInput = z.infer<typeof reviewRequestSchema>;
+export type ValidatedCollectRequestInput = z.infer<typeof collectRequestSchema>;
+export type ValidatedReturnRequestInput = z.infer<typeof returnRequestSchema>;
 
 
