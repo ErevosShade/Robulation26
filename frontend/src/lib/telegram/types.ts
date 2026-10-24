@@ -12,6 +12,8 @@ export interface TelegramConfig {
   isConfigured: boolean;
   /** Optional base URL override (used for testing or proxying) */
   apiBaseUrl?: string;
+  /** Optional mock mode flag (skips external network requests in test/dev) */
+  mockMode?: boolean;
 }
 
 export interface SendMessageOptions {

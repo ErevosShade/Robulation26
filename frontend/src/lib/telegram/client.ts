@@ -19,12 +19,17 @@ export function getTelegramConfig(override?: Partial<TelegramConfig>): TelegramC
   const channelId = rawChannelId?.trim().replace(/^["']|["']$/g, "") || undefined;
 
   const isConfigured = Boolean(botToken && channelId);
+  const mockMode =
+    override?.mockMode ??
+    (process.env.TELEGRAM_MOCK_MODE === "true" ||
+      process.env.TELEGRAM_MOCK_MODE === "1");
 
   return {
     botToken,
     channelId,
     isConfigured,
     apiBaseUrl,
+    mockMode,
   };
 }
 
@@ -46,6 +51,22 @@ export async function sendTelegramMessage(
 ): Promise<TelegramSendResult> {
   const timestamp = new Date().toISOString();
   const config = getTelegramConfig(configOverride);
+
+  if (config.mockMode) {
+    if (!text || typeof text !== "string" || text.trim().length === 0) {
+      return {
+        success: false,
+        error: "Message text cannot be empty.",
+        errorCode: "EMPTY_MESSAGE",
+        timestamp,
+      };
+    }
+    return {
+      success: true,
+      messageId: 888888,
+      timestamp,
+    };
+  }
 
   if (!config.isConfigured || !config.botToken || !config.channelId) {
     return {
