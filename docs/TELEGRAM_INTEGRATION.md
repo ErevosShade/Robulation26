@@ -137,3 +137,58 @@ Review required in the Robolution inventory admin terminal.
 4. **Retry Service:** Undelivered or failed notifications can be safely retried via `retryPendingOutboxNotifications()`.
 5. **Mock Mode:** Setting `TELEGRAM_MOCK_MODE=true` (or passing `{ mockMode: true }`) enables offline execution with deterministic mock message IDs and zero external HTTP calls.
 
+---
+
+## 7. Review Outcome Notifications (Approval & Rejection)
+
+When an administrator reviews a borrowing request via `POST /api/inventory/requests/[id]/approve` or `POST /api/inventory/requests/[id]/reject`:
+
+### A. Approval Notification Structure
+When approved, stock is reserved in the inventory ledger and a confirmation notification is dispatched:
+
+```text
+✅ HARDWARE BORROW REQUEST APPROVED & RESERVED
+📡 Robolution Mechatronics Lab
+
+Request ID: req-appr-001
+Status: 🟢 APPROVED
+Requester: Elena Rostova (elena@robolution.space)
+Reviewed By: Sarah Connor (sarah.admin@robolution.space)
+Project / Purpose: Sub-orbital Avionics & Sensor Array
+Timeline: 2026-11-10 ➔ 2026-11-20
+
+Components (2):
+  1. Pixhawk 6X Autopilot (FLT-PIX-001) — 2 unit(s)
+  2. Here3+ Precision GNSS (NAV-HERE3-01) — 2 unit(s)
+
+Review Note: Approved for flight testing. Return cleaned.
+
+🔒 Stock allocated to reservation balance in lab ledger.
+```
+
+### B. Rejection Notification Structure
+When rejected, zero stock quantities or ledger rows are mutated, and an alert detailing the review rationale is dispatched:
+
+```text
+❌ HARDWARE BORROW REQUEST REJECTED
+📡 Robolution Mechatronics Lab
+
+Request ID: req-rej-002
+Status: 🔴 REJECTED
+Requester: Alex Vance (alex.vance@robolution.space)
+Reviewed By: Sarah Connor (sarah.admin@robolution.space)
+Project / Purpose: Rover High-Stress Impact Test
+Timeline: 2026-11-01 ➔ 2026-11-03
+
+Components (1):
+  1. Titanium Chassis Strut (MECH-TITAN-01) — 4 unit(s)
+
+Review Note: Declined: Insufficient spare parts for destructive testing.
+```
+
+### C. Outbox Guarantees
+- The notification event (`borrow_request_approved` or `borrow_request_rejected`) is persisted to `inventory_notification_outbox` inside the same Neon database transaction as the reservation and status update.
+- The message is dispatched asynchronously post-commit.
+- In the event of network disruption or Telegram rate limits, the request status and inventory reservations remain fully committed and safe, and the notification can be redelivered via `retryPendingOutboxNotifications()`.
+
+
