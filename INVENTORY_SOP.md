@@ -181,19 +181,45 @@ Each ledger entry should record the item, transaction type, quantity, actor, tim
 - Exports must enforce authorization and avoid exposing internal notes or personal information to unauthorized users.
 - CSV output should escape values correctly to reduce spreadsheet formula-injection risk.
 
-### 6.2 Bulk Importing New Shipments
+### 6.2 Bulk Importing New Shipments & Consolidated Workbooks
 
-1. An admin selects **Import Batch (CSV)** on `/inventory`.
-2. The admin downloads **Download Template (.csv)**.
-3. The template contains `name`, `sku`, `category`, `quantityTotal`, `minimumStock`, `location`, and `description`.
-4. The admin uploads the CSV and previews parsed rows.
-5. The server validates the entire batch, including required fields, valid numbers, category mapping, duplicate SKUs, and quantity constraints.
-6. The UI displays row-level validation errors before the import is committed.
-7. The admin selects **Start CSV Import**.
-8. The import runs atomically where practical, creates missing categories only after validation, and writes audit entries for initial stock/restock operations.
-9. The result reports created, updated, skipped, and failed rows.
+The system includes a dedicated, aerospace-grade bulk ingestion portal at `/inventory/admin/import`.
 
-CSV import is admin-only. Do not import historical transactions in the first version unless an explicit migration is required.
+#### Supported Formats
+- Microsoft Excel (`.xlsx`, `.xls`) and RFC-4180 Comma-Separated Values (`.csv`).
+- Maximum upload size: **5 MB**. Maximum rows: **5,000**.
+- Formula evaluation and embedded scripts are strictly disabled during parsing (`cellFormula: false`, `cellHTML: false`) to neutralize DDE / macro vulnerabilities.
+
+#### Header Discovery & Schema Mapping
+- Column headers are discovered dynamically at runtime, handling trailing whitespace (e.g., `'id '`), mixed casing, and aliases (`name`, `item name`, `Total Quantity`, `quantity`, `qty`, `sku`, `category`, `notes`).
+- Equipment names are **never** modified, shortened, or renamed to assist classification. Case and punctuation are preserved with 100% fidelity.
+
+#### Category Ingestion & Classification Protocol
+1. **Explicit Spreadsheet Categories:** If the row provides a category, it is preserved without modification.
+2. **Deterministic Keyword Inferences:** For unassigned rows, a deterministic mechatronics keyword classifier suggests standard categories (`Sensors`, `Microcontrollers`, `Motor Drivers`, `Motors`, `Displays`, `Power Supplies`, `Cables & Connectors`, `Electronic Components`, `Pneumatics`, `Tools`, `Hardware`).
+3. **Ambiguity Review Invariant:** Unclear items (e.g. `clock`) remain unassigned with status `needs_review`. The admin can approve all suggestions via one-click **APPROVE ALL SUGGESTIONS** or select/enter specific categories row-by-row. Rows lacking categories cannot be committed until resolved.
+
+#### SKU Generation & Duplicate Protection
+- Rows lacking SKUs automatically receive unique, standard SKUs adhering to `/^[A-Z0-9_-]{2,64}$/` in the format `[CAT_PREFIX]-[NAME_CODE]-[PADDED_LINE]` (e.g. `SENS-MICROP-002`, `MTR-SERVOM-003`).
+- All SKUs are checked against the database and intra-file. Collisions are disambiguated with sequential suffixes (`-D1`, `-D2`).
+- Similar equipment names across multiple rows (e.g. `Buzzer` at line 13 and `buzzer` at line 184) are flagged as **Duplicate Candidates (Warnings)**, but are strictly preserved as distinct physical items with distinct SKUs. Rows are **never** silently merged or dropped.
+
+#### Non-Standard Unit Fidelity
+- While the inventory stock schema uses integer quantities, source units such as `2 packs` or `1 box` are parsed into their integer count (`2`, `1`) and tagged with `[Non-Standard Unit]`.
+- The exact original unit description is preserved in `internalNotes` (`[Source Unit: 2 packs]`) and flagged as a warning in the preview, ensuring no loss of physical context.
+
+#### Atomic Initial Stock & Append-Only Audit Ledger
+- Preview generation strictly produces **0 database writes**.
+- When the admin reviews and clicks **COMMIT IMPORT**, valid rows are inserted transactionally or in safe batches into `inventory_items`.
+- For each item with `totalQuantity > 0`, an append-only ledger entry is created in `inventory_stock_ledger` with:
+  - `transactionType: 'initial_stock'`
+  - `quantityDelta: totalQuantity`
+  - `totalQuantityAfter: totalQuantity`, `availableQuantityAfter: totalQuantity`, `reservedQuantityAfter: 0`, `checkedOutQuantityAfter: 0`, `damagedQuantityAfter: 0`
+  - `performedBy: adminEmail`
+  - `reason: 'Bulk inventory import (batch: <batchId>) from <filename>'`
+  - `metadata: { batchId, filename, sku, originalLine, unit, importedAt }`
+- **Idempotency Guarantee:** If the same workbook is re-uploaded, existing database items are identified by SKU and skipped. Stock balances are **never** overwritten or double-restocked.
+- **Exporting Errors:** Admins can export rejected rows via **EXPORT REPORT (.CSV)**, protected against formula injection (prepended single-quote on dangerous characters `=, +, -, @`).
 
 ---
 
