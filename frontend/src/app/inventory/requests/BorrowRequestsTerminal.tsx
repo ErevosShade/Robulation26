@@ -41,6 +41,16 @@ export function BorrowRequestsTerminal({ user }: Props) {
   const [collectionNotes, setCollectionNotes] = useState("");
   const [isCollecting, setIsCollecting] = useState(false);
 
+  // Approve modal state
+  const [approvingReq, setApprovingReq] = useState<BorrowRequestDto | null>(null);
+  const [approveAdminNotes, setApproveAdminNotes] = useState("");
+  const [isApproving, setIsApproving] = useState(false);
+
+  // Reject modal state
+  const [rejectingReq, setRejectingReq] = useState<BorrowRequestDto | null>(null);
+  const [rejectAdminNotes, setRejectAdminNotes] = useState("");
+  const [isRejecting, setIsRejecting] = useState(false);
+
   // Return modal state
   const [returningReq, setReturningReq] = useState<BorrowRequestDto | null>(null);
   const [returnItemsState, setReturnItemsState] = useState<
@@ -83,6 +93,58 @@ export function BorrowRequestsTerminal({ user }: Props) {
   useEffect(() => {
     fetchRequests();
   }, [fetchRequests]);
+
+  // Handle Admin Approval
+  async function handleConfirmApprove() {
+    if (!approvingReq) return;
+    try {
+      setIsApproving(true);
+      setErrorMsg(null);
+      const res = await fetch(`/api/inventory/requests/${approvingReq.id}/approve`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ adminNotes: approveAdminNotes.trim() || undefined }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to approve request.");
+      }
+      setSuccessMsg(`Request ${approvingReq.id} approved. Hardware reserved for collection.`);
+      setApprovingReq(null);
+      setApproveAdminNotes("");
+      await fetchRequests();
+    } catch (err: unknown) {
+      setErrorMsg(err instanceof Error ? err.message : "Approval failed.");
+    } finally {
+      setIsApproving(false);
+    }
+  }
+
+  // Handle Admin Rejection
+  async function handleConfirmReject() {
+    if (!rejectingReq) return;
+    try {
+      setIsRejecting(true);
+      setErrorMsg(null);
+      const res = await fetch(`/api/inventory/requests/${rejectingReq.id}/reject`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ adminNotes: rejectAdminNotes.trim() || undefined }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to reject request.");
+      }
+      setSuccessMsg(`Request ${rejectingReq.id} rejected.`);
+      setRejectingReq(null);
+      setRejectAdminNotes("");
+      await fetchRequests();
+    } catch (err: unknown) {
+      setErrorMsg(err instanceof Error ? err.message : "Rejection failed.");
+    } finally {
+      setIsRejecting(false);
+    }
+  }
 
   // Handle Collection Confirmation
   async function handleConfirmCollection() {
@@ -324,6 +386,7 @@ export function BorrowRequestsTerminal({ user }: Props) {
             const canReturn =
               (isCollected || isPartialReturn) &&
               (user.role === "admin" || req.userId === user.id);
+            const canReview = isPending && user.role === "admin";
 
             return (
               <GlassCard
@@ -366,6 +429,31 @@ export function BorrowRequestsTerminal({ user }: Props) {
 
                   {/* Actions Bar */}
                   <div className="flex items-center gap-2">
+                    {canReview && (
+                      <>
+                        <button
+                          onClick={() => {
+                            setApprovingReq(req);
+                            setApproveAdminNotes("");
+                          }}
+                          className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.3)]"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>APPROVE REQUEST</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            setRejectingReq(req);
+                            setRejectAdminNotes("");
+                          }}
+                          className="px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 hover:border-red-500/50 font-mono text-xs uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                          <span>REJECT</span>
+                        </button>
+                      </>
+                    )}
+
                     {canCollect && (
                       <button
                         onClick={() => setCollectingReq(req)}
@@ -475,6 +563,152 @@ export function BorrowRequestsTerminal({ user }: Props) {
               </GlassCard>
             );
           })}
+        </div>
+      )}
+
+      {/* APPROVE REQUEST MODAL */}
+      {approvingReq && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="w-full max-w-lg p-6 rounded-2xl bg-[#090d16] border border-emerald-500/40 shadow-2xl space-y-4 font-mono my-8">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="text-sm font-bold text-emerald-400 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <span>APPROVE HARDWARE REQUEST</span>
+              </div>
+              <button
+                onClick={() => setApprovingReq(null)}
+                className="text-zinc-500 hover:text-white"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="space-y-1 text-xs">
+              <div className="text-zinc-400">
+                REQUEST ID: <code className="text-emerald-300 font-bold">{approvingReq.id}</code>
+              </div>
+              <div className="text-zinc-400">
+                REQUESTER: <span className="text-white">{approvingReq.userName}</span> ({approvingReq.userEmail})
+              </div>
+              <div className="text-zinc-400">
+                PROJECT: <span className="text-white font-bold">{approvingReq.project}</span>
+              </div>
+            </div>
+
+            <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-300 space-y-1">
+              <div className="font-bold flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>STOCK RESERVATION COMMITMENT</span>
+              </div>
+              <div>• Requested quantities will be atomically reserved in the stock ledger.</div>
+              <div>• Available stock will be decremented; status set to &quot;approved&quot;.</div>
+              <div>• Requester will be authorized to physically collect the hardware.</div>
+            </div>
+
+            {/* Hardware Items to reserve */}
+            <div className="space-y-1.5">
+              <div className="text-[10px] text-zinc-500 uppercase tracking-wider">HARDWARE TO RESERVE:</div>
+              <div className="rounded-lg border border-white/5 bg-black/30 p-2.5 space-y-1 max-h-36 overflow-y-auto text-xs">
+                {approvingReq.items.map((it) => (
+                  <div key={it.id} className="flex items-center justify-between py-1 border-b border-white/5 last:border-b-0">
+                    <span className="text-zinc-300">
+                      {it.name} <code className="text-zinc-500 text-[10px]">({it.sku})</code>
+                    </span>
+                    <span className="font-bold text-emerald-300 font-mono">{it.quantity} unit(s)</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-[10px] text-zinc-400 uppercase">Optional Admin Review Notes:</label>
+              <textarea
+                value={approveAdminNotes}
+                onChange={(e) => setApproveAdminNotes(e.target.value)}
+                placeholder="e.g., Approved for flight telemetry rig. Return by scheduled timeline."
+                className="w-full p-2.5 rounded-lg bg-black/40 border border-white/10 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-emerald-500"
+                rows={2}
+              />
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-2">
+              <button
+                onClick={() => setApprovingReq(null)}
+                disabled={isApproving}
+                className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-zinc-400"
+              >
+                CANCEL
+              </button>
+              <button
+                onClick={handleConfirmApprove}
+                disabled={isApproving}
+                className="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 cursor-pointer disabled:opacity-50 shadow-[0_0_15px_rgba(16,185,129,0.3)]"
+              >
+                {isApproving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null}
+                <span>CONFIRM APPROVAL</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* REJECT REQUEST MODAL */}
+      {rejectingReq && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="w-full max-w-md p-6 rounded-2xl bg-[#090d16] border border-red-500/40 shadow-2xl space-y-4 font-mono">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="text-sm font-bold text-red-400 flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 text-red-400" />
+                <span>REJECT HARDWARE REQUEST</span>
+              </div>
+              <button
+                onClick={() => setRejectingReq(null)}
+                className="text-zinc-500 hover:text-white"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="text-xs text-zinc-300 leading-relaxed">
+              Are you sure you want to reject hardware request{" "}
+              <code className="text-red-300 font-bold">{rejectingReq.id}</code> for{" "}
+              <span className="text-white font-bold">{rejectingReq.project}</span>?
+            </p>
+
+            <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-[11px] text-red-300 space-y-1">
+              <div>• Status will transition to &quot;rejected&quot;.</div>
+              <div>• Zero stock mutations will occur (no stock will be reserved).</div>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-[10px] text-zinc-400 uppercase">Reason / Admin Rejection Note (Recommended):</label>
+              <textarea
+                value={rejectAdminNotes}
+                onChange={(e) => setRejectAdminNotes(e.target.value)}
+                placeholder="e.g., Components currently reserved for avionics flight test."
+                className="w-full p-2.5 rounded-lg bg-black/40 border border-white/10 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-red-500"
+                rows={2}
+              />
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-2">
+              <button
+                onClick={() => setRejectingReq(null)}
+                disabled={isRejecting}
+                className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-zinc-400"
+              >
+                CANCEL
+              </button>
+              <button
+                onClick={handleConfirmReject}
+                disabled={isRejecting}
+                className="px-4 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 cursor-pointer disabled:opacity-50 shadow-[0_0_15px_rgba(239,68,68,0.3)]"
+              >
+                {isRejecting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null}
+                <span>CONFIRM REJECTION</span>
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
