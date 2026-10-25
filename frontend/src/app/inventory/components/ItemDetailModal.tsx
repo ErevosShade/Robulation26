@@ -71,17 +71,17 @@ export function ItemDetailModal({
   const adminItem = isAdmin ? (item as InventoryItemDto) : null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-      <div className="relative w-full max-w-3xl max-h-[90vh] flex flex-col bg-[#050a16] border border-sky-500/30 rounded-2xl shadow-[0_0_50px_rgba(56,189,248,0.2)] overflow-hidden font-sans">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-md">
+      <div className="relative w-full max-w-3xl max-h-[92vh] flex flex-col bg-[#050a16] border border-sky-500/30 rounded-2xl shadow-[0_0_50px_rgba(56,189,248,0.2)] overflow-hidden font-sans">
         {/* Top Aerospace Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10 bg-white/[0.02]">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-[10px] tracking-widest text-sky-400 uppercase">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-white/10 bg-white/[0.02]">
+          <div className="space-y-1 flex-1 min-w-0 pr-2">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-mono text-[9px] sm:text-[10px] tracking-widest text-sky-400 uppercase">
                 HARDWARE_TELEMETRY // ID: {item.id.slice(0, 8)}...
               </span>
               <span
-                className={`px-2 py-0.5 rounded text-[9px] font-mono font-bold tracking-wider uppercase border ${
+                className={`px-2 py-0.5 rounded text-[8.5px] sm:text-[9px] font-mono font-bold tracking-wider uppercase border ${
                   item.status === "in_stock"
                     ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
                     : item.status === "low_stock"
@@ -94,73 +94,73 @@ export function ItemDetailModal({
                 {item.status.replace("_", " ")}
               </span>
             </div>
-            <h2 className="text-xl font-bold uppercase tracking-tight text-white flex items-center gap-2">
-              <Package className="w-5 h-5 text-sky-400" />
-              <span>{item.name}</span>
+            <h2 className="text-base sm:text-xl font-bold uppercase tracking-tight text-white flex items-center gap-2 truncate">
+              <Package className="w-4 h-4 sm:w-5 sm:h-5 text-sky-400 shrink-0" />
+              <span className="truncate">{item.name}</span>
             </h2>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
+            className="p-1.5 sm:p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors shrink-0"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
 
         {/* Modal Scrollable Body */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
           {/* Key Specifications Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 font-mono text-xs">
             <div className="p-3 rounded-lg bg-white/[0.03] border border-white/10 space-y-1">
-              <span className="text-[10px] text-zinc-500 uppercase tracking-widest">SKU IDENTIFIER</span>
-              <div className="font-bold text-sky-300 text-sm select-all">{item.sku}</div>
+              <span className="text-[9px] sm:text-[10px] text-zinc-500 uppercase tracking-widest">SKU IDENTIFIER</span>
+              <div className="font-bold text-sky-300 text-xs sm:text-sm select-all truncate">{item.sku}</div>
             </div>
             <div className="p-3 rounded-lg bg-white/[0.03] border border-white/10 space-y-1">
-              <span className="text-[10px] text-zinc-500 uppercase tracking-widest">CATEGORY</span>
-              <div className="font-bold text-zinc-200 text-sm">{item.category}</div>
+              <span className="text-[9px] sm:text-[10px] text-zinc-500 uppercase tracking-widest">CATEGORY</span>
+              <div className="font-bold text-zinc-200 text-xs sm:text-sm truncate">{item.category}</div>
             </div>
             <div className="p-3 rounded-lg bg-white/[0.03] border border-white/10 space-y-1">
-              <span className="text-[10px] text-zinc-500 uppercase tracking-widest">MINIMUM THRESHOLD</span>
-              <div className="font-bold text-zinc-200 text-sm">{item.minimumStock} units</div>
+              <span className="text-[9px] sm:text-[10px] text-zinc-500 uppercase tracking-widest">MINIMUM THRESHOLD</span>
+              <div className="font-bold text-zinc-200 text-xs sm:text-sm">{item.minimumStock} units</div>
             </div>
             <div className="p-3 rounded-lg bg-white/[0.03] border border-white/10 space-y-1">
-              <span className="text-[10px] text-zinc-500 uppercase tracking-widest">CONSUMABLE</span>
-              <div className="font-bold text-zinc-200 text-sm">{item.consumable ? "YES (NO RETURN)" : "NO (RETURN REQUIRED)"}</div>
+              <span className="text-[9px] sm:text-[10px] text-zinc-500 uppercase tracking-widest">CONSUMABLE</span>
+              <div className="font-bold text-zinc-200 text-xs sm:text-sm">{item.consumable ? "YES (NO RETURN)" : "NO (RETURN REQUIRED)"}</div>
             </div>
           </div>
 
           {/* Stock Balances Telemetry Strip */}
-          <div className="p-4 rounded-xl bg-sky-950/20 border border-sky-500/20 space-y-3 font-mono">
-            <div className="flex items-center justify-between">
+          <div className="p-3.5 sm:p-4 rounded-xl bg-sky-950/20 border border-sky-500/20 space-y-2.5 font-mono">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
               <span className="text-xs font-bold uppercase tracking-wider text-sky-300">
                 ACTIVE LAB STOCK CONSERVATION
               </span>
-              <span className="text-[10px] text-zinc-400">
-                INVARIANT: AVAILABLE = TOTAL - (RESERVED + CHECKED OUT + DAMAGED)
+              <span className="text-[9px] sm:text-[10px] text-zinc-400">
+                AVAILABLE = TOTAL - (RESERVED + CHECKED OUT + DAMAGED)
               </span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center">
-              <div className="p-2.5 rounded bg-black/40 border border-white/5">
-                <span className="text-[10px] text-zinc-500 block uppercase">TOTAL</span>
-                <span className="text-lg font-bold text-white">{item.totalQuantity}</span>
+              <div className="p-2 sm:p-2.5 rounded bg-black/40 border border-white/5">
+                <span className="text-[9px] sm:text-[10px] text-zinc-500 block uppercase">TOTAL</span>
+                <span className="text-base sm:text-lg font-bold text-white">{item.totalQuantity}</span>
               </div>
-              <div className="p-2.5 rounded bg-emerald-500/10 border border-emerald-500/20">
-                <span className="text-[10px] text-emerald-400 block uppercase">AVAILABLE</span>
-                <span className="text-lg font-bold text-emerald-400">{item.availableQuantity}</span>
+              <div className="p-2 sm:p-2.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+                <span className="text-[9px] sm:text-[10px] text-emerald-400 block uppercase">AVAILABLE</span>
+                <span className="text-base sm:text-lg font-bold text-emerald-400">{item.availableQuantity}</span>
               </div>
-              <div className="p-2.5 rounded bg-purple-500/10 border border-purple-500/20">
-                <span className="text-[10px] text-purple-400 block uppercase">RESERVED</span>
-                <span className="text-lg font-bold text-purple-400">{item.reservedQuantity}</span>
+              <div className="p-2 sm:p-2.5 rounded bg-purple-500/10 border border-purple-500/20">
+                <span className="text-[9px] sm:text-[10px] text-purple-400 block uppercase">RESERVED</span>
+                <span className="text-base sm:text-lg font-bold text-purple-400">{item.reservedQuantity}</span>
               </div>
-              <div className="p-2.5 rounded bg-sky-500/10 border border-sky-500/20">
-                <span className="text-[10px] text-sky-400 block uppercase">CHECKED OUT</span>
-                <span className="text-lg font-bold text-sky-400">{item.checkedOutQuantity}</span>
+              <div className="p-2 sm:p-2.5 rounded bg-sky-500/10 border border-sky-500/20">
+                <span className="text-[9px] sm:text-[10px] text-sky-400 block uppercase">CHECKED OUT</span>
+                <span className="text-base sm:text-lg font-bold text-sky-400">{item.checkedOutQuantity}</span>
               </div>
-              <div className="p-2.5 rounded bg-rose-500/10 border border-rose-500/20">
-                <span className="text-[10px] text-rose-400 block uppercase">DAMAGED</span>
-                <span className="text-lg font-bold text-rose-400">{item.damagedQuantity}</span>
+              <div className="col-span-2 sm:col-span-1 p-2 sm:p-2.5 rounded bg-rose-500/10 border border-rose-500/20">
+                <span className="text-[9px] sm:text-[10px] text-rose-400 block uppercase">DAMAGED</span>
+                <span className="text-base sm:text-lg font-bold text-rose-400">{item.damagedQuantity}</span>
               </div>
             </div>
           </div>

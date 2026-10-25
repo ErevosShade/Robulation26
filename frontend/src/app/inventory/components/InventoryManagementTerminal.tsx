@@ -539,7 +539,8 @@ export function InventoryManagementTerminal({ user }: Props) {
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <>
+            <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left font-mono text-xs">
               <thead className="border-b border-white/10 bg-white/[0.02] text-zinc-500 text-[10px] uppercase tracking-wider">
                 <tr>
@@ -712,7 +713,152 @@ export function InventoryManagementTerminal({ user }: Props) {
               </tbody>
             </table>
           </div>
-        )}
+
+          {/* Mobile Hardware Cards View (< md) */}
+          <div className="md:hidden divide-y divide-white/5">
+            {items.map((item) => {
+              const isAvailable = item.availableQuantity > 0;
+              const ratio =
+                item.totalQuantity > 0
+                  ? Math.min(100, Math.round((item.availableQuantity / item.totalQuantity) * 100))
+                  : 0;
+
+              return (
+                <div key={item.id} className="p-4 space-y-3 font-mono">
+                  {/* Card Header: Title & Badges */}
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="space-y-1 flex-1 min-w-0">
+                      <button
+                        onClick={() => setInspectingItem(item)}
+                        className="font-bold text-white hover:text-sky-300 text-left text-xs leading-snug line-clamp-2 block cursor-pointer"
+                      >
+                        {item.name}
+                      </button>
+                      <div className="flex items-center gap-1.5 flex-wrap text-[10px] text-zinc-400">
+                        <span className="text-sky-400 font-bold">{item.sku}</span>
+                        <span>•</span>
+                        <span className="text-zinc-300">{item.category}</span>
+                        {item.consumable && (
+                          <span className="text-amber-400 text-[9px] font-bold">[CONSUMABLE]</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Status Badge */}
+                    <span
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border shrink-0 ${
+                        item.status === "in_stock"
+                          ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                          : item.status === "low_stock"
+                          ? "bg-amber-500/10 border-amber-500/30 text-amber-400"
+                          : item.status === "out_of_stock"
+                          ? "bg-rose-500/10 border-rose-500/30 text-rose-400"
+                          : "bg-zinc-500/10 border-zinc-500/30 text-zinc-400"
+                      }`}
+                    >
+                      <span
+                        className={`w-1 h-1 rounded-full ${
+                          item.status === "in_stock"
+                            ? "bg-emerald-400"
+                            : item.status === "low_stock"
+                            ? "bg-amber-400"
+                            : item.status === "out_of_stock"
+                            ? "bg-rose-400"
+                            : "bg-zinc-400"
+                        }`}
+                      />
+                      <span>{item.status.replace("_", " ")}</span>
+                    </span>
+                  </div>
+
+                  {/* Stock Bar */}
+                  <div className="space-y-1.5 bg-black/30 p-2.5 rounded-lg border border-white/5">
+                    <div className="flex items-center justify-between text-[11px]">
+                      <span className="text-zinc-400">AVAILABLE:</span>
+                      <span className="font-bold text-white">
+                        <span
+                          className={
+                            isAvailable
+                              ? item.status === "low_stock"
+                                ? "text-amber-400"
+                                : "text-emerald-400"
+                              : "text-rose-400"
+                          }
+                        >
+                          {item.availableQuantity}
+                        </span>
+                        <span className="text-zinc-500"> / {item.totalQuantity} units</span>
+                      </span>
+                    </div>
+                    <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full rounded-full ${
+                          item.status === "in_stock"
+                            ? "bg-emerald-400"
+                            : item.status === "low_stock"
+                            ? "bg-amber-400"
+                            : "bg-rose-400"
+                        }`}
+                        style={{ width: `${ratio}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Footer: Location & Tappable Action Buttons */}
+                  <div className="flex items-center justify-between gap-2 pt-1">
+                    <div className="text-[10px] text-zinc-400 truncate flex-1">
+                      {item.locationRoom || item.locationShelf ? (
+                        <span>LOC: {item.locationRoom || ""}{item.locationShelf ? ` / ${item.locationShelf}` : ""}</span>
+                      ) : (
+                        <span className="text-zinc-600">—</span>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <button
+                        onClick={() => setInspectingItem(item)}
+                        className="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 text-zinc-300 text-[10px] uppercase font-bold tracking-wider border border-white/10 flex items-center gap-1 cursor-pointer"
+                      >
+                        <Eye className="w-3 h-3" />
+                        <span>SPECS</span>
+                      </button>
+
+                      {isAvailable && (
+                        <button
+                          onClick={() => setBorrowingItem(item)}
+                          className="px-2.5 py-1 rounded bg-sky-600/30 hover:bg-sky-600/50 border border-sky-500/40 text-sky-200 text-[10px] uppercase font-bold tracking-wider cursor-pointer"
+                        >
+                          BORROW
+                        </button>
+                      )}
+
+                      {isAdmin && (
+                        <button
+                          onClick={() => setEditingItem(item)}
+                          className="p-1 rounded bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/20 cursor-pointer"
+                          title="Edit Item"
+                        >
+                          <Edit className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+
+                      {isAdmin && !item.archived && (
+                        <button
+                          onClick={() => handleArchiveItem(item)}
+                          className="p-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/20 cursor-pointer"
+                          title="Archive Item"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
 
         {/* Pagination Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 border-t border-white/10 bg-white/[0.01] font-mono text-xs">

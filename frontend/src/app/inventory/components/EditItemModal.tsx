@@ -90,27 +90,27 @@ export function EditItemModal({ item, onClose, onItemUpdated }: EditItemModalPro
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-      <div className="relative w-full max-w-2xl max-h-[90vh] flex flex-col bg-[#050a16] border border-sky-500/30 rounded-2xl shadow-[0_0_50px_rgba(56,189,248,0.2)] overflow-hidden font-sans">
-        <div className="flex items-center justify-between p-6 border-b border-white/10 bg-white/[0.02]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-md">
+      <div className="relative w-full max-w-2xl max-h-[92vh] flex flex-col bg-[#050a16] border border-sky-500/30 rounded-2xl shadow-[0_0_50px_rgba(56,189,248,0.2)] overflow-hidden font-sans">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-white/10 bg-white/[0.02]">
           <div className="space-y-1">
-            <span className="font-mono text-[10px] tracking-widest text-sky-400 uppercase">
+            <span className="font-mono text-[9px] sm:text-[10px] tracking-widest text-sky-400 uppercase">
               ADMIN PROTOCOL // MODIFY HARDWARE SPECIFICATIONS
             </span>
-            <h2 className="text-xl font-bold uppercase tracking-tight text-white flex items-center gap-2">
-              <Edit3 className="w-5 h-5 text-sky-400" />
-              <span>Edit Item: {item.sku}</span>
+            <h2 className="text-base sm:text-xl font-bold uppercase tracking-tight text-white flex items-center gap-2">
+              <Edit3 className="w-4 h-4 sm:w-5 sm:h-5 text-sky-400 shrink-0" />
+              <span className="truncate">Edit Item: {item.sku}</span>
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
+            className="p-1.5 sm:p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
           {errorMsg && (
             <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-mono flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 shrink-0" />

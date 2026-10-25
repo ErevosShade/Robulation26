@@ -134,12 +134,12 @@ export default function AnnouncementsPage() {
       <Sidebar theme="dark" />
 
       {/* Top Right Corner Tech Box */}
-      <div className="absolute top-0 right-0 z-30 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
+      <div className="hidden sm:block absolute top-0 right-0 z-30 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
         <HudBox compact={true} theme="dark" title="EST. 2001 // BIT MESRA" />
       </div>
 
       {/* Main Content Area */}
-      <main className="relative z-10 pt-20 sm:pt-28 pb-24 px-6 sm:px-12 pl-16 sm:pl-24 max-w-7xl mx-auto">
+      <main className="relative z-10 pt-18 sm:pt-28 pb-20 px-4 sm:px-8 md:pl-24 max-w-7xl mx-auto">
         {/* Breadcrumb Header */}
         <div className="flex items-center gap-2 font-mono text-[10px] sm:text-xs text-slate-400 mb-6 uppercase tracking-widest">
           <Link href="/" className="hover:text-white transition-colors">Mission Control</Link>
@@ -270,7 +270,7 @@ export default function AnnouncementsPage() {
       </main>
 
       {/* Institutional Footer */}
-      <footer className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl py-14 px-6 sm:px-12 pl-16 sm:pl-24">
+      <footer className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl py-14 px-4 sm:px-8 md:pl-24">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <h4 className="font-modern font-black text-lg text-white uppercase tracking-wider">
