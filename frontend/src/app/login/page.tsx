@@ -34,7 +34,7 @@ export default function LoginPage() {
 
       <Sidebar theme="dark" />
 
-      <main className="relative z-10 w-full min-h-screen flex flex-col justify-between p-6 sm:p-12 pl-18 sm:pl-24 max-w-7xl mx-auto">
+      <main className="relative z-10 w-full min-h-screen flex flex-col justify-between px-4 pt-18 pb-10 sm:px-8 md:pl-24 md:pt-10 max-w-7xl mx-auto">
         {/* Top Header Navigation */}
         <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div className="flex items-center gap-3">

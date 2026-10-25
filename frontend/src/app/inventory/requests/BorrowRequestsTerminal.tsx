@@ -568,8 +568,8 @@ export function BorrowRequestsTerminal({ user }: Props) {
 
       {/* APPROVE REQUEST MODAL */}
       {approvingReq && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-          <div className="w-full max-w-lg p-6 rounded-2xl bg-[#090d16] border border-emerald-500/40 shadow-2xl space-y-4 font-mono my-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="w-full max-w-lg max-h-[92vh] overflow-y-auto p-4 sm:p-6 rounded-2xl bg-[#090d16] border border-emerald-500/40 shadow-2xl space-y-4 font-mono m-2 sm:my-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="text-sm font-bold text-emerald-400 flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
@@ -654,8 +654,8 @@ export function BorrowRequestsTerminal({ user }: Props) {
 
       {/* REJECT REQUEST MODAL */}
       {rejectingReq && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-md p-6 rounded-2xl bg-[#090d16] border border-red-500/40 shadow-2xl space-y-4 font-mono">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="w-full max-w-md max-h-[92vh] overflow-y-auto p-4 sm:p-6 rounded-2xl bg-[#090d16] border border-red-500/40 shadow-2xl space-y-4 font-mono m-2 sm:my-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="text-sm font-bold text-red-400 flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4 text-red-400" />
@@ -714,8 +714,8 @@ export function BorrowRequestsTerminal({ user }: Props) {
 
       {/* CONFIRM COLLECTION MODAL */}
       {collectingReq && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-md p-6 rounded-2xl bg-[#090d16] border border-sky-500/40 shadow-2xl space-y-4 font-mono">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="w-full max-w-md max-h-[92vh] overflow-y-auto p-4 sm:p-6 rounded-2xl bg-[#090d16] border border-sky-500/40 shadow-2xl space-y-4 font-mono m-2 sm:my-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="text-sm font-bold text-sky-400 flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-sky-400" />
@@ -774,8 +774,8 @@ export function BorrowRequestsTerminal({ user }: Props) {
 
       {/* RECORD RETURN MODAL */}
       {returningReq && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-          <div className="w-full max-w-2xl p-6 rounded-2xl bg-[#090d16] border border-purple-500/40 shadow-2xl space-y-5 font-mono my-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="w-full max-w-2xl max-h-[92vh] overflow-y-auto p-4 sm:p-6 rounded-2xl bg-[#090d16] border border-purple-500/40 shadow-2xl space-y-4 sm:space-y-5 font-mono m-2 sm:my-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="text-sm font-bold text-purple-400 flex items-center gap-2">
                 <RotateCcw className="w-4 h-4 text-purple-400" />
@@ -903,8 +903,8 @@ export function BorrowRequestsTerminal({ user }: Props) {
 
       {/* INSPECT RETURNS HISTORY MODAL */}
       {inspectingReq && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-2xl p-6 rounded-2xl bg-[#090d16] border border-white/20 shadow-2xl space-y-4 font-mono max-h-[85vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+          <div className="w-full max-w-2xl max-h-[92vh] overflow-y-auto p-4 sm:p-6 rounded-2xl bg-[#090d16] border border-white/20 shadow-2xl space-y-4 font-mono m-2 sm:my-8">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="text-sm font-bold text-sky-400 flex items-center gap-2">
                 <RotateCcw className="w-4 h-4 text-sky-400" />

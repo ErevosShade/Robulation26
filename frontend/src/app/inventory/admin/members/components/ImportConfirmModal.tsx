@@ -42,10 +42,10 @@ export function ImportConfirmModal({
     (summary?.invalidCount ?? 0) + (summary?.duplicateInFileCount ?? 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in font-mono">
-      <div className="relative w-full max-w-xl rounded-xl bg-[#030610] border border-sky-500/40 shadow-[0_0_50px_rgba(56,189,248,0.15)] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in font-mono">
+      <div className="relative w-full max-w-xl max-h-[92vh] overflow-y-auto rounded-xl bg-[#030610] border border-sky-500/40 shadow-[0_0_50px_rgba(56,189,248,0.15)]">
         {/* Top Header Reticle */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-[#081024]">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-white/10 bg-[#081024]">
           <div className="flex items-center gap-2">
             <Database className="w-4 h-4 text-sky-400" />
             <span className="text-xs font-bold text-white uppercase tracking-wider">
