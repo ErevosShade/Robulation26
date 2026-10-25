@@ -392,22 +392,56 @@ Also test the public website after inventory work to ensure existing landing-pag
 5. Add tests for concurrency and repeated requests (Completed: 85 unit and integration tests passing in master test harness across 9 phases).
 
 ### Phase 5 — Inventory UI
-1. Build `/inventory` catalog and dashboard (Gateway active).
-2. Build item detail and request pages (Completed: `/inventory/requests` Borrow Requests & Return Console with collection confirmation, return modals, condition tagging, and return history inspection).
-3. Build admin approvals and transaction history.
-4. Add loading, empty, validation, and error states.
+1. **Interactive Dashboard & Catalog Terminal (`/inventory`):**
+   - High-density aerospace telemetry HUD cards: Total Items, Total Holdings, Available Stock, Reserved Stock, Checked-out Units, Quarantined/Damaged Units.
+   - Low-stock indicator alerts computed against `minimumStock` with 1-click filter.
+   - Quick telemetry badges for pending borrow requests and active returns with deep links to `/inventory/requests`.
+   - Comprehensive catalog table with debounced search (by Name and SKU), dynamic category filtering, status filtering, and pagination.
+   - Clear visual indicators for unavailable, damaged, low-stock, and archived hardware items.
+   - **Item Detail Modal:** Displays comprehensive hardware specifications, storage coordinates (Room/Cabinet/Shelf/Bin), unit costs, consumable status, and confidential internal notes (admin-only).
+   - **Integrated Append-Only Ledger History:** Item detail view directly queries `/api/inventory/[id]/ledger` to render the complete stock movement timeline (initial_stock, reservations, checkouts, returns, damages, adjustments) with actor metadata and timestamps.
+   - **Admin Item Actions:** Admin create modal (`POST /api/inventory`), edit modal with invariant guard against reducing total below committed units (`PATCH /api/inventory/[id]`), and safe soft-archival (`DELETE /api/inventory/[id]`).
+   - **Integrated Borrow Request Modal:** Members can initiate borrow requests directly from catalog items with positive quantity validation, date range verification, and server-side Telegram outbox queuing.
 
-### Phase 6 — CSV and notifications
-1. Add catalog and audit exports.
-2. Add validated CSV import.
-3. Integrate Telegram notifications (Completed: reusable client, token redaction, connection verification, admin test endpoint).
-4. Verify duplicate/forged Telegram callback protection.
+### Phase 6 — Bulk Excel/CSV Inventory Import & Telemetry
+1. **Bulk Ingestion Terminal (`/inventory/admin/import`):**
+   - Dedicated admin-only bulk ingestion portal supporting Microsoft Excel (`.xlsx`, `.xls`) and CSV (`.csv`) workbooks up to 5 MB.
+   - File validation and size limits enforced on both client and server boundaries.
+   - Formula and macro execution strictly disabled during parsing (`cellFormula: false`, `cellHTML: false`) to neutralize DDE / spreadsheet exploit vectors.
+2. **Dynamic Header Discovery & Equipment Name Preservation:**
+   - Discovers headers at runtime (handles `'id '`, mixed casing, and aliases for `name`, `sku`, `category`, `Total Quantity`, `notes`).
+   - Equipment names are strictly preserved without truncation, simplification, or renaming.
+3. **Deterministic Category Ingestion & Review Workflow:**
+   - Preserves explicit categories from source rows.
+   - Employs deterministic keyword inference for unassigned items.
+   - Leaves ambiguous items (`clock`, unspecified modules) unassigned with status `needs_review`.
+   - Admin can approve all suggested categories in one click (`APPROVE ALL SUGGESTIONS`) or select/enter categories row-by-row before committing.
+4. **Compliant Unique SKU Generation & Duplicate Protection:**
+   - Generates compliant SKUs matching `/^[A-Z0-9_-]{2,64}$/` formatted as `[PREFIX]-[CODE]-[LINE]` for rows lacking SKUs.
+   - Enforces database and intra-file uniqueness with sequential discriminators (`-D1`, `-D2`).
+   - Detects identical or similar equipment names across rows (e.g. `Buzzer` at lines 13 and 184) and flags them as duplicate warnings without merging or silently dropping rows.
+5. **Non-Standard Unit Preservation:**
+   - Parses numbers with units (e.g. `2 packs`, `1 box`) into integer quantities while preserving exact unit strings in `internalNotes` and displaying non-standard unit telemetry warnings.
+6. **Zero-Mutation Preview & Idempotent Commit:**
+   - Preview generation (`POST /api/inventory/admin/import/preview`) performs full validation and Neon DB reconciliation with strictly **0 database writes**.
+   - Import commit (`POST /api/inventory/admin/import/commit`) writes to `inventory_items` and creates immutable `initial_stock` records in `inventory_stock_ledger`.
+   - Re-running the import skips existing items based on unique SKUs without double-stocking or overwriting existing holdings.
+   - Downloadable error and warning reports (`POST /api/inventory/admin/import/export-errors`) protected against CSV formula injection.
 
-### Phase 7 — Production readiness
-1. Run lint, type checks, tests, and production build.
-2. Test on the actual Cloudflare deployment target.
-3. Verify database persistence, secrets, access controls, and backups.
-4. Document operational procedures.
+### Phase 7 — Production Readiness
+1. **Comprehensive Test Suites:**
+   - 22/22 unit and E2E tests passing for bulk inventory import (`pnpm run test:inventory-import`).
+   - 13/13 catalog tests passing (`pnpm run test:catalog`).
+   - 10/10 stock invariant tests passing (`pnpm run test:stock`).
+   - 14/14 CSV parser tests passing (`pnpm run test:csv`).
+   - 10/10 roster import tests passing (`pnpm run test:roster`).
+   - 37/37 borrow request, collection, and return tests passing (`pnpm run test:requests`).
+2. **Next.js Production Build:**
+   - `next build` compiles successfully with Turbopack, full TypeScript typecheck passing, and optimized static/dynamic route generation.
+3. **Security & Data Safety:**
+   - Server-side authorization enforced on all protected routes and API handlers.
+   - Database credentials, session secrets, and Telegram tokens isolated to server environment variables.
+   - Client and server-side input validation via Zod schemas.
 
 ## 13. Acceptance criteria
 
