@@ -54,96 +54,114 @@ export default function Sidebar({ theme = 'dark' }: SidebarProps) {
     setMobileMenuOpen(false);
   }, [pathname]);
 
-  // Prevent background scroll when mobile menu is open
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [mobileMenuOpen]);
-
   const activeItem = navItems.find((item) => item.href === pathname) || navItems[0];
 
   return (
     <>
       {/* =====================================================================
-          1. MOBILE AEROSPACE HUD TOP BAR & SLIDE-DOWN DRAWER (< md)
+          1. MOBILE AEROSPACE HUD TOP BAR (< md)
       ===================================================================== */}
-      <header className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#020408]/90 backdrop-blur-2xl border-b border-white/10 select-none">
-        <div className="h-14 px-4 flex items-center justify-between">
-          {/* Left Brand Identity */}
-          <Link
-            href="/"
-            onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center gap-2.5 active:scale-95 transition-transform"
-          >
-            <div className="relative w-7 h-7 flex items-center justify-center">
-              <Image
-                src="/robolution-icon-bright.png"
-                alt="ROBOLUTION Logo"
-                width={28}
-                height={28}
-                className="object-contain filter drop-shadow-[0_0_8px_rgba(255,159,252,0.5)]"
-                priority
-              />
-            </div>
-            <div className="flex flex-col text-left">
-              <span className="text-xs font-black tracking-widest text-white leading-tight font-modern">
-                ROBOLUTION
-              </span>
-              <span className="text-[8.5px] font-mono uppercase tracking-widest text-sky-400 leading-tight">
-                BIT MESRA // EST. 2001
-              </span>
-            </div>
-          </Link>
+      <header className="md:hidden fixed top-0 left-0 right-0 h-14 z-40 bg-[#020408] border-b border-white/10 px-4 flex items-center justify-between select-none">
+        {/* Left Brand Identity */}
+        <Link
+          href="/"
+          onClick={() => setMobileMenuOpen(false)}
+          className="flex items-center gap-2.5 active:scale-95 transition-transform"
+        >
+          <div className="relative w-7 h-7 flex items-center justify-center">
+            <Image
+              src="/robolution-icon-bright.png"
+              alt="ROBOLUTION Logo"
+              width={28}
+              height={28}
+              className="object-contain filter drop-shadow-[0_0_8px_rgba(255,159,252,0.5)]"
+              priority
+            />
+          </div>
+          <div className="flex flex-col text-left">
+            <span className="text-xs font-black tracking-widest text-white leading-tight font-modern">
+              ROBOLUTION
+            </span>
+            <span className="text-[8.5px] font-mono uppercase tracking-widest text-sky-400 leading-tight">
+              BIT MESRA // EST. 2001
+            </span>
+          </div>
+        </Link>
 
-          {/* Right Controls: Telemetry Pip & Mobile HUD Menu Trigger */}
-          <div className="flex items-center gap-2">
-            <div className="hidden xs:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/10 font-mono text-[9px] text-zinc-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]" />
-              <span className="uppercase text-zinc-300 font-bold">{activeItem.shortLabel}</span>
+        {/* Right Controls: Telemetry Pip & Mobile HUD Menu Trigger */}
+        <div className="flex items-center gap-2">
+          <div className="hidden xs:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/10 font-mono text-[9px] text-zinc-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]" />
+            <span className="uppercase text-zinc-300 font-bold">{activeItem.shortLabel}</span>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(true)}
+            className="px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 text-white font-mono text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer"
+            aria-label="Open Navigation Menu"
+          >
+            <Menu className="w-3.5 h-3.5 text-sky-400" />
+            <span>MENU</span>
+          </button>
+        </div>
+      </header>
+
+      {/* =====================================================================
+          2. STANDALONE MOBILE FULLSCREEN OVERLAY MODAL (< md)
+          Separated from header to prevent CSS backdrop-filter containing block bugs
+      ===================================================================== */}
+      {mobileMenuOpen && (
+        <div 
+          className="md:hidden fixed inset-0 z-[100] flex flex-col bg-[#020408] text-white select-none overflow-hidden"
+          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, width: '100vw', height: '100dvh' }}
+        >
+          {/* Overlay Top Bar */}
+          <div className="h-14 px-4 flex items-center justify-between border-b border-white/10 bg-[#020408] shrink-0">
+            <div className="flex items-center gap-2.5">
+              <div className="relative w-7 h-7 flex items-center justify-center">
+                <Image
+                  src="/robolution-icon-bright.png"
+                  alt="ROBOLUTION Logo"
+                  width={28}
+                  height={28}
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex flex-col text-left">
+                <span className="text-xs font-black tracking-widest text-white leading-tight font-modern">
+                  ROBOLUTION
+                </span>
+                <span className="text-[8.5px] font-mono uppercase tracking-widest text-sky-400 leading-tight">
+                  NAVIGATION HUD
+                </span>
+              </div>
             </div>
 
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`px-3 py-1.5 rounded-lg border font-mono text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer ${
-                mobileMenuOpen
-                  ? 'bg-rose-500/20 border-rose-500/40 text-rose-300 shadow-[0_0_12px_rgba(244,63,94,0.3)]'
-                  : 'bg-white/5 border-white/15 text-white hover:bg-white/10'
-              }`}
-              aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-1.5 rounded-lg border border-rose-500/40 bg-rose-500/20 text-rose-300 font-mono text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer shadow-[0_0_12px_rgba(244,63,94,0.3)]"
+              aria-label="Close Navigation Menu"
             >
-              {mobileMenuOpen ? (
-                <>
-                  <X className="w-3.5 h-3.5 text-rose-400" />
-                  <span>CLOSE</span>
-                </>
-              ) : (
-                <>
-                  <Menu className="w-3.5 h-3.5 text-sky-400" />
-                  <span>MENU</span>
-                </>
-              )}
+              <X className="w-3.5 h-3.5 text-rose-400" />
+              <span>CLOSE</span>
             </button>
           </div>
-        </div>
 
-        {/* Full-height Aerospace HUD Mobile Drawer */}
-        {mobileMenuOpen && (
-          <div className="fixed inset-x-0 top-14 bottom-0 z-50 bg-[#020408]/95 backdrop-blur-3xl overflow-y-auto p-4 flex flex-col justify-between border-t border-sky-500/20 font-sans">
-            {/* Top Telemetry Tag */}
+          {/* Overlay Nav Content (Scrollable internally) */}
+          <div className="flex-1 overflow-y-auto overscroll-contain p-4 flex flex-col justify-between">
             <div className="space-y-3">
               <div className="flex items-center justify-between pb-2 border-b border-white/10 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
                 <span>SECTOR // MISSION NAVIGATION</span>
-                <span className="text-sky-400 font-bold">ONLINE</span>
+                <span className="text-sky-400 font-bold flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  ONLINE
+                </span>
               </div>
 
               {/* Navigation Items List */}
-              <nav className="space-y-1.5">
+              <nav className="space-y-2">
                 {navItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = pathname === item.href;
@@ -153,27 +171,27 @@ export default function Sidebar({ theme = 'dark' }: SidebarProps) {
                       key={item.href}
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all active:scale-[0.98] ${
+                      className={`w-full flex items-center justify-between p-3.5 rounded-xl border transition-all active:scale-[0.98] ${
                         isActive
                           ? 'bg-gradient-to-r from-sky-500/20 via-purple-500/10 to-transparent border-sky-500/40 text-white shadow-[0_0_15px_rgba(56,189,248,0.2)]'
-                          : 'bg-white/[0.02] border-white/5 text-zinc-300 hover:text-white hover:bg-white/[0.05]'
+                          : 'bg-white/[0.03] border-white/10 text-zinc-200 hover:text-white hover:bg-white/[0.08]'
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <div
-                          className={`p-2 rounded-lg ${
+                          className={`p-2.5 rounded-lg ${
                             isActive
                               ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
-                              : 'bg-white/5 text-zinc-400 border border-white/5'
+                              : 'bg-white/5 text-zinc-400 border border-white/10'
                           }`}
                         >
                           <Icon className="w-4 h-4" />
                         </div>
                         <div className="text-left font-mono">
-                          <div className="text-xs font-bold uppercase tracking-wider text-white">
+                          <div className="text-sm font-bold uppercase tracking-wider text-white">
                             {item.shortLabel}
                           </div>
-                          <div className="text-[10px] text-zinc-500 tracking-wider">
+                          <div className="text-[10px] text-zinc-400 tracking-wider">
                             // {item.code} {item.label.split(' // ')[0]}
                           </div>
                         </div>
@@ -182,10 +200,10 @@ export default function Sidebar({ theme = 'dark' }: SidebarProps) {
                       <div className="flex items-center gap-1.5 font-mono text-[10px]">
                         {isActive ? (
                           <span className="px-2 py-0.5 rounded bg-sky-500/20 border border-sky-500/30 text-sky-300 font-bold">
-                            CURRENT
+                            ACTIVE
                           </span>
                         ) : (
-                          <ChevronRight className="w-4 h-4 text-zinc-600" />
+                          <ChevronRight className="w-4 h-4 text-zinc-500" />
                         )}
                       </div>
                     </Link>
@@ -195,33 +213,33 @@ export default function Sidebar({ theme = 'dark' }: SidebarProps) {
             </div>
 
             {/* Bottom Quick Console Hub */}
-            <div className="pt-4 mt-4 border-t border-white/10 space-y-2 font-mono text-xs">
-              <div className="grid grid-cols-2 gap-2">
+            <div className="pt-4 mt-6 border-t border-white/10 space-y-3 font-mono text-xs shrink-0">
+              <div className="grid grid-cols-2 gap-2.5">
                 <Link
                   href="/inventory"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="p-2.5 rounded-xl bg-sky-600/15 border border-sky-500/30 text-sky-300 hover:text-white text-center font-bold uppercase tracking-wider flex items-center justify-center gap-1.5"
+                  className="p-3 rounded-xl bg-sky-600/20 border border-sky-500/40 text-sky-300 hover:text-white text-center font-bold uppercase tracking-wider flex items-center justify-center gap-2 active:scale-95 transition-all"
                 >
-                  <Package className="w-3.5 h-3.5" />
+                  <Package className="w-4 h-4" />
                   <span>INVENTORY</span>
                 </Link>
                 <Link
                   href="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="p-2.5 rounded-xl bg-purple-600/15 border border-purple-500/30 text-purple-300 hover:text-white text-center font-bold uppercase tracking-wider flex items-center justify-center gap-1.5"
+                  className="p-3 rounded-xl bg-purple-600/20 border border-purple-500/40 text-purple-300 hover:text-white text-center font-bold uppercase tracking-wider flex items-center justify-center gap-2 active:scale-95 transition-all"
                 >
-                  <Shield className="w-3.5 h-3.5" />
+                  <Shield className="w-4 h-4" />
                   <span>SESSION</span>
                 </Link>
               </div>
 
-              <div className="text-center pt-2 text-[9px] text-zinc-600 tracking-widest uppercase">
+              <div className="text-center pt-1 text-[9px] text-zinc-500 tracking-widest uppercase">
                 ROBOLUTION // TEAM PRATYUMNIS • BIT MESRA EST. 2001
               </div>
             </div>
           </div>
-        )}
-      </header>
+        </div>
+      )}
 
       {/* =====================================================================
           2. DESKTOP BESPOKE SMOOTH TRAPEZOID SIDEBAR (>= md)
