@@ -1,0 +1,46 @@
+/**
+ * Standardized inventory domain errors.
+ */
+
+export type InventoryErrorCode =
+  | "ITEM_NOT_FOUND"
+  | "ITEM_ARCHIVED"
+  | "DUPLICATE_SKU"
+  | "DUPLICATE_SLUG"
+  | "DUPLICATE_REQUEST_ITEM"
+  | "INSUFFICIENT_STOCK"
+  | "INVALID_STOCK_OPERATION"
+  | "INVALID_DATE_RANGE"
+  | "REQUEST_NOT_FOUND"
+  | "REQUEST_NOT_PENDING"
+  | "REQUEST_NOT_COLLECTIBLE"
+  | "REQUEST_ALREADY_COLLECTED"
+  | "REQUEST_NOT_RETURNABLE"
+  | "REQUEST_ALREADY_RETURNED"
+  | "RETURN_QUANTITY_EXCEEDED"
+  | "INVALID_RETURN_ITEM"
+  | "FORBIDDEN_REQUEST_ACCESS"
+  | "ACTIVE_COMMITMENTS_EXIST"
+  | "VALIDATION_ERROR"
+  | "UNAUTHORIZED"
+  | "FORBIDDEN"
+  | "DATABASE_ERROR";
+
+export class InventoryError extends Error {
+  readonly code: InventoryErrorCode;
+  readonly statusCode: number;
+  readonly details?: Record<string, unknown> | unknown[];
+
+  constructor(
+    code: InventoryErrorCode,
+    message: string,
+    statusCode: number = 400,
+    details?: Record<string, unknown> | unknown[]
+  ) {
+    super(message);
+    this.name = "InventoryError";
+    this.code = code;
+    this.statusCode = statusCode;
+    this.details = details;
+  }
+}

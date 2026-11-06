@@ -6,6 +6,7 @@ import Sidebar from '@/components/Sidebar';
 import TechText from '@/components/TechText';
 import RoverWireframe3D from '@/components/RoverWireframe3D';
 import HudBox from '@/components/HudBox';
+import AboutHeroSection from '@/components/AboutHeroSection';
 import BottomDock from '@/components/BottomDock';
 import StarBorder from '@/components/StarBorder';
 import MoltenMetal from '@/components/MoltenMetal';
@@ -13,34 +14,19 @@ import GlassCard from '@/components/GlassCard';
 import IslandButton from '@/components/IslandButton';
 import ScrollReveal from '@/components/ScrollReveal';
 import AnimatedCounter from '@/components/AnimatedCounter';
+import UnfurlingGallery from '@/components/ui/3d-parallax-unfurling-gallery';
 import {
   Wrench,
   Cpu,
-  Compass,
   Trophy,
   Flame,
-  ArrowUpRight,
   ChevronDown,
-  Terminal,
-  Shield,
-  Layers,
-  MapPin,
   Mail,
-  Activity,
-  Zap,
-  Gauge,
-  Sliders,
-  CheckCircle2,
-  ExternalLink,
-  Award,
-  Users,
-  Target,
-  Sparkles
+  Crosshair,
 } from 'lucide-react';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'robocon' | 'robosaga'>('robocon');
-
   return (
     <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
       {/* =====================================================================
@@ -84,23 +70,24 @@ export default function Home() {
         className="relative w-full h-[100dvh] min-h-[700px] flex flex-col justify-between overflow-hidden select-none z-10 group/hero"
       >
         {/* Top Right Corner Tech Box: EST. 2001 // BIT MESRA */}
-        <div className="absolute top-0 right-0 z-30 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
+        <div className="hidden sm:block absolute top-0 right-0 z-30 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
           <HudBox compact={true} theme="dark" title="EST. 2001 // BIT MESRA" />
         </div>
 
         {/* Top Header: Heavy Structural Architectural Title with TechText */}
-        <header className="relative z-20 w-full pt-8 sm:pt-12 flex flex-col items-center pointer-events-none pl-14 sm:pl-0">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-2 pointer-events-auto backdrop-blur-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
-            <span>OFFICIAL ROBOTICS SOCIETY // TEAM PRATYUMNIS // BIT MESRA</span>
+        <header className="relative z-20 w-full pt-2 sm:pt-4 flex flex-col items-center pointer-events-none pl-14 sm:pl-0">
+          <div className="inline-flex items-center px-3.5 py-1 rounded-[2px] bg-white/[0.04] border border-white/20 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest uppercase mb-2 pointer-events-auto backdrop-blur-md">
+            <span className="bg-gradient-to-r from-zinc-300 via-white to-zinc-400 bg-clip-text text-transparent font-semibold">
+              OFFICIAL ROBOTICS SOCIETY // TEAM PRATYUMNIS // BIT MESRA
+            </span>
           </div>
 
-          <div className="w-full max-w-3xl h-[60px] sm:h-[74px] px-4 pointer-events-auto flex items-center justify-center">
+          <div className="w-full max-w-4xl h-[76px] sm:h-[94px] md:h-[106px] px-4 pointer-events-auto flex items-center justify-center">
             <TechText
               text="ROBOLUTION"
               fontFamily="'Space Grotesk', 'Arial Black', sans-serif"
               fontWeight={900}
-              fontSize={64}
+              fontSize={86}
               letterSpacing={-0.03}
               strokeWidth={2}
               gradient={true}
@@ -110,7 +97,7 @@ export default function Home() {
             />
           </div>
 
-          <p className="relative font-mono text-[10px] sm:text-[11.5px] font-bold tracking-[0.25em] uppercase mt-1">
+          <p className="relative font-mono text-[9px] xs:text-[10px] sm:text-[11.5px] font-bold tracking-[0.16em] sm:tracking-[0.25em] uppercase mt-1 px-2">
             <span className="text-slate-400 transition-opacity duration-700 ease-out group-hover/hero:opacity-0">
               AUTONOMOUS MECHATRONICS &bull; ABU ROBOCON &bull; ROBOSAGA FEST
             </span>
@@ -143,10 +130,10 @@ export default function Home() {
                 variant="shape1"
                 theme="dark"
                 leaderSide="right"
-                badge="INSTITUTIONAL RECORD"
-                title="BIT MESRA"
-                subtitle="OFFICIAL ROBOTICS SOCIETY"
-                description="TEAM PRATYUMNIS: ABU ROBOCON 100/100 CAD DESIGN SCORE & MATHWORKS NATIONAL AWARD."
+                badge="ARENA CONTINGENT"
+                title="TEAM PRATYUMNIS"
+                subtitle="ABU ROBOCON & NATIONALS"
+                description="ABU ROBOCON 100/100 CAD DESIGN SCORE & &#8377;1.5L MATHWORKS NATIONAL AWARD."
               />
             </div>
 
@@ -161,10 +148,10 @@ export default function Home() {
                 variant="shape2"
                 theme="dark"
                 leaderSide="left"
-                badge="FLAGSHIP FESTIVAL"
-                title="ROBOSAGA '26"
-                subtitle="EASTERN INDIA'S ARENA"
-                description="3-DAY HARDWARE CARNIVAL: 30KG COMBAT BOTS, AUTONOMOUS MAZE SOLVERS & 1000+ MENTORED."
+                badge="FLAGSHIP FEST"
+                title="ROBOSAGA '27"
+                subtitle="TECHNO-MANAGEMENT ARENA"
+                description="3-DAY HARDWARE CARNIVAL: COMBAT BOTS, AUTONOMOUS MAZE SOLVERS & 1000+ PARTICIPANTS."
               />
             </div>
           </div>
@@ -176,9 +163,9 @@ export default function Home() {
                 variant="shape1"
                 theme="dark"
                 leaderSide="right"
-                badge="CAMPUS SOCIETY"
-                title="BIT MESRA"
-                subtitle="OFFICIAL ROBOTICS SOCIETY"
+                badge="ARENA CONTINGENT"
+                title="TEAM PRATYUMNIS"
+                subtitle="ABU ROBOCON & NATIONALS"
               />
             </div>
             <div className="w-full sm:w-1/2 h-[120px]">
@@ -186,9 +173,9 @@ export default function Home() {
                 variant="shape2"
                 theme="dark"
                 leaderSide="left"
-                badge="ANNUAL CARNIVAL"
-                title="ROBOSAGA '26"
-                subtitle="EASTERN INDIA ARENA"
+                badge="FLAGSHIP FEST"
+                title="ROBOSAGA '27"
+                subtitle="TECHNO-MANAGEMENT ARENA"
               />
             </div>
           </div>
@@ -198,29 +185,34 @@ export default function Home() {
         <BottomDock theme="dark" />
 
         {/* Bottom Status Telemetry Bar */}
-        <div className="relative z-20 pb-4 px-6 flex items-center justify-between pointer-events-none pl-14 sm:pl-20">
+        <div className="relative z-20 pb-4 px-4 sm:px-6 flex items-center justify-between pointer-events-none md:pl-20">
           <div className="hidden sm:flex items-center gap-2 font-mono text-[10px] text-slate-400 bg-white/[0.03] px-3 py-1.5 rounded-lg border border-white/10 backdrop-blur-md">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
             <span>ROBOLUTION TELEMETRY // BIT MESRA // PRATYUMNIS LAB 01</span>
           </div>
 
           <a
-            href="#legacy"
+            href="#about"
             className="flex items-center gap-1.5 font-mono text-[10px] text-slate-400 hover:text-white transition-colors pointer-events-auto ml-auto"
-            aria-label="Navigate to Legacy section"
+            aria-label="Navigate to About Us section"
           >
-            <span>LEGACY ARCHIVE</span>
+            <span>ABOUT US</span>
             <ChevronDown className="w-3.5 h-3.5 animate-bounce" />
           </a>
         </div>
       </section>
 
       {/* =====================================================================
+          2B. ABOUT US // TEAM PRATYUMNIS (Left HUD + Right Combat Bot Wireframe)
+      ===================================================================== */}
+      <AboutHeroSection />
+
+      {/* =====================================================================
           3. A LEGACY OF EXCELLENCE & AUTHENTIC STATS (robolutionbitm.in truth)
       ===================================================================== */}
       <section
         id="legacy"
-        className="relative z-20 py-24 sm:py-32 px-6 sm:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto"
+        className="relative z-20 py-20 sm:py-28 px-4 sm:px-8 lg:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto overflow-hidden select-none"
       >
         <ScrollReveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
@@ -311,7 +303,7 @@ export default function Home() {
       </section>
 
       {/* =====================================================================
-          4. WHAT WE DO: WORKSHOPS, ROBOSAGA & RESEARCH PROJECTS
+          3B. 3D PARALLAX UNFURLING GALLERY // HARDWARE IN MOTION
       ===================================================================== */}
       <section
         id="disciplines"
@@ -410,6 +402,9 @@ export default function Home() {
             </div>
           </GlassCard>
         </div>
+
+        {/* 3D Parallax Unfurling Matrix */}
+        <UnfurlingGallery embedded={true} />
       </section>
 
       {/* =====================================================================
@@ -587,7 +582,7 @@ export default function Home() {
       ===================================================================== */}
       <section
         id="robosaga"
-        className="relative z-20 py-24 sm:py-32 px-6 sm:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto"
+        className="relative z-20 py-20 sm:py-32 px-4 sm:px-8 md:pl-20 max-w-7xl mx-auto"
       >
         <GlassCard
           badge="ANNUAL TECHNO-MECHATRONICS FESTIVAL // BIT MESRA"
@@ -628,17 +623,17 @@ export default function Home() {
       ===================================================================== */}
       <section
         id="manifesto"
-        className="relative z-20 py-28 sm:py-36 px-6 sm:px-12 pl-14 sm:pl-20 max-w-5xl mx-auto"
+        className="relative z-20 py-20 sm:py-36 px-4 sm:px-8 md:pl-20 max-w-5xl mx-auto"
       >
         <GlassCard
           badge="OUR ENGINEERING CREED // HARDWARE PRIMACY"
           spotlightColor="rgba(255, 159, 252, 0.25)"
-          className="text-center p-8 sm:p-14"
+          className="text-center p-6 sm:p-14"
         >
           <blockquote className="font-modern font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight text-white uppercase leading-tight">
             &ldquo;Software is easy until it has to push <span className="text-slate-300">30 kilograms of steel at 40 kilometers an hour</span>.&rdquo;
           </blockquote>
-          <p className="mt-8 font-modern text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-6 sm:mt-8 font-modern text-xs sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
             At Robolution, we do not build mockups. We mill structural aluminum, design custom multi-layer circuit boards, debug interrupt routines at 3 AM, and torture-test every robot until it survives the arena.
           </p>
           <div className="mt-8 flex justify-center">
@@ -652,7 +647,7 @@ export default function Home() {
       {/* =====================================================================
           8. INSTITUTIONAL FOOTER & AUTHENTIC CONTACT
       ===================================================================== */}
-      <footer id="contact" className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl border-t border-white/5 py-16 px-6 sm:px-12 pl-14 sm:pl-20">
+      <footer id="contact" className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl py-14 px-4 sm:px-8 md:pl-20">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
           <div className="flex flex-col">
             <span className="font-modern font-black text-xl text-white uppercase tracking-tight flex items-center gap-2">

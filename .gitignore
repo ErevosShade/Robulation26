@@ -84,3 +84,5 @@ __pycache__/
 env/
 venv/
 ENV/
+
+TABLES INF0
