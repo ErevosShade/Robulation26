@@ -40,74 +40,86 @@ interface EventItem {
 
 const events: EventItem[] = [
   {
-    id: 'robosaga-wars',
-    title: 'RoboSaga 2026: RoboWars Arena (30kg & 15kg)',
+    id: 'robosaga-annual-fest',
+    title: 'RoboSaga 2027: Annual 3-Day Techno-Management Fest',
     category: 'Flagship Fest',
-    badge: 'COMBAT MECHATRONICS',
+    badge: 'FLAGSHIP FESTIVAL',
     status: 'Annual',
-    date: 'Spring 2026 (Annual 3-Day Fest)',
+    date: 'Annual 3-Day Techno-Management Extravaganza',
     venue: 'Main Arena Enclosure // BIT Mesra Campus',
-    prizePool: '₹75,000+',
-    description: 'Eastern India\'s premier combat robotics championship. High-torque brushless drum spinners, pneumatic flippers, and hardened Hardox armor clash in an engineered bulletproof Lexan arena.',
-    highlights: ['30kg Combat Class', '15kg Lightweight Class', 'Safety & Weapon Interlock Inspection', 'National College Teams']
+    prizePool: '₹75,000 Total Arena Budget',
+    description: 'Eastern India\'s premier annual techno-management festival organized on the BIT Mesra campus. Unites collegiate hardware hackers and makers across combat robot wars, autonomous line followers, maze solvers, and multi-disciplinary tech exhibitions.',
+    highlights: ['Heavyweight Combat Wars', 'Autonomous Maze Solvers', 'High-Speed Line Trackers', '1,000+ Participants']
   },
   {
-    id: 'robosaga-maze',
-    title: 'RoboSaga 2026: Autonomous Maze Solver',
-    category: 'Flagship Fest',
-    badge: 'AUTONOMOUS NAVIGATION',
-    status: 'Annual',
-    date: 'Spring 2026 (Day 2 of RoboSaga)',
-    venue: 'Mechatronics Lab Arena // BIT Mesra',
-    prizePool: '₹30,000+',
-    description: 'Autonomous micromouse labyrinth navigation challenge. Bots must autonomously map, calculate optimal paths using modified flood-fill algorithms, and sprint through an unseen maze.',
-    highlights: ['Zero Remote Intervention', 'LiDAR & Ultrasonic Ranging', 'Path Optimization Score', 'High Speed Sprint Runs']
-  },
-  {
-    id: 'robosaga-line',
-    title: 'RoboSaga 2026: High-Speed Line Follower',
-    category: 'Flagship Fest',
-    badge: 'EMBEDDED CONTROL',
-    status: 'Annual',
-    date: 'Spring 2026 (Day 1 of RoboSaga)',
-    venue: 'R&D Center Hall // BIT Mesra',
-    prizePool: '₹25,000+',
-    description: 'High-frequency PID closed-loop speed challenge across sharp hairpin turns, inverted elevations, and discontinuous trajectory marks with millisecond timing gates.',
-    highlights: ['Precision Optical Sensor Arrays', 'PID Loop Tuning', 'Coreless Motor Sprints', 'High Banked Curves']
-  },
-  {
-    id: 'robocon-campaign',
-    title: 'ABU Robocon India National Campaign',
+    id: 'robocon-national',
+    title: 'ABU Robocon 2027: National Robotics Campaign',
     category: 'Competitions',
     badge: 'TEAM PRATYUMNIS',
     status: 'Upcoming',
-    date: 'Qualifiers & National Finals',
-    venue: 'National Stadium Arena // ABU Robocon India',
-    prizePool: 'International Representation',
-    description: 'Representing BIT Mesra on the national collegiate stage. Cooperative autonomous and manual robots engineered for rapid object manipulation, omni-drive kinematics, and precision projectile trajectory.',
-    highlights: ['100/100 CAD Score Heritage', 'MathWorks National Award', 'Omnidirectional Mechatronics', 'Multi-Robot Telemetry']
+    date: 'Annual Continental Robotics Championship',
+    venue: 'National Indoor Stadium // DD & ABU Robocon India',
+    prizePool: '₹7,00,000 Season Allocation',
+    description: 'Representing BIT Mesra in Asia\'s most prestigious collegiate robotics competition. Deploying 4-wheel holonomic omni-drive bases, pneumatic ballistic launchers, and synchronized autonomous multi-robot telemetry.',
+    highlights: ['100/100 CAD Design Score', '₹1.5L MathWorks Laurels', 'Holonomic Omni-Drive', 'Cooperative Multi-Bot']
   },
   {
-    id: 'firmware-bootcamp',
-    title: 'Hands-on Embedded Firmware & ESP32 Bootcamp',
-    category: 'Workshops',
-    badge: 'FOUNDATIONAL LAB',
+    id: 'robowars-iitb',
+    title: 'Robowars IIT Bombay Techfest 2026',
+    category: 'Competitions',
+    badge: 'HEAVYWEIGHT COMBAT',
     status: 'Upcoming',
-    date: 'Upcoming Technical Cycle',
-    venue: 'Robolution Workstation // BIT Mesra',
-    description: 'Intensive weekend boot camp covering bare-metal microcontrollers, FreeRTOS multitasking, I2C/SPI bus sensors, and motor driver H-bridges for fresh college engineers.',
-    highlights: ['FreeRTOS Task Scheduling', 'Hardware Debugging with Logic Analyzers', 'Custom PCB Interfacing', 'Individual Kit Access']
+    date: 'Techfest 2026 // Asia\'s Largest Science Fest',
+    venue: 'Gymkhana Grounds // IIT Bombay',
+    prizePool: '₹2,20,000 Season Allocation',
+    description: 'Engineering a high-kinetic heavyweight combat bot designed to withstand heavy arena impacts while delivering devastating weapon attacks. Features hardened armor, custom weapon rotor machining, and high-traction drive systems.',
+    highlights: ['Techfest Quarter-Finalist', 'Custom Hardox Armour', 'High-RPM Kinetic Weapon', 'Extreme Durability DFM']
   },
   {
-    id: 'cad-prototyping-workshop',
+    id: 'isro-ascend-drone',
+    title: 'ISRO Robotics 2027: ASCEND Swarm Expedition',
+    category: 'Competitions',
+    badge: 'AUTONOMOUS SWARM UAV',
+    status: 'Upcoming',
+    date: 'National Space Robotics Challenge',
+    venue: 'ISRO Space Applications Centre Arena',
+    prizePool: '₹1,25,000 Season Allocation',
+    description: 'Autonomous Surveyor Challenge for Exploration, Navigation and Dynamics. Inspired by future Martian planetary exploration, developing autonomous aerial swarm robotics operating completely without GPS or external navigational aids.',
+    highlights: ['GPS-Denied Navigation', 'Autonomous Swarm Dynamics', 'Optical Flow & LiDAR SLAM', 'Planetary Aerial Survey']
+  },
+  {
+    id: 'sih-agribot',
+    title: 'Smart India Hackathon: Hardware Edition (AgriBot)',
+    category: 'Competitions',
+    badge: 'AI & EMBEDDED AUTONOMY',
+    status: 'Completed',
+    date: 'SIH Hardware Grand Finale',
+    venue: 'National Nodal Center // Ministry of Education',
+    prizePool: 'National Grand Finalist',
+    description: 'Engineered AgriBot, an autonomous agricultural robotics system designed for automated precision seeding, mechanical weeding, and crop health monitoring using integrated computer vision and multi-spectrum soil sensors.',
+    highlights: ['SIH Grand Finalist', 'Real-Time CV Seeding', 'Multi-Sensor Soil Matrix', 'Autonomous Field Navigation']
+  },
+  {
+    id: 'solidworks-cad-workshop',
     title: 'SolidWorks Kinematics & 3D Prototyping Workshop',
     category: 'Workshops',
     badge: 'CAD & FABRICATION',
-    status: 'Completed',
-    date: 'Recent Semester Cycle',
-    venue: 'CAD Computer Lab // Production Dept',
-    description: 'Practical training on parametric 3D CAD modeling, generative design, weight reduction pocketing, finite element stress analysis, and rapid 3D printing slicing.',
-    highlights: ['Kinematic Motion Simulation', 'FEA Stress Testing', 'DFM (Design for Manufacturing)', '3D Printing Lab Sprints']
+    status: 'Annual',
+    date: 'Semester Technical Training Cycle',
+    venue: 'CAD Computer Lab // Production Dept, BIT Mesra',
+    description: 'Practical training in 3D CAD modeling, generative design, kinematic motion simulation, and finite element stress analysis—grounded in Robolution\'s historic 100/100 3D CAD analysis benchmark.',
+    highlights: ['100/100 CAD Benchmark', 'Kinematic Motion Studies', 'FEA Stress Simulation', 'Rapid 3D Print Slicing']
+  },
+  {
+    id: 'firmware-bootcamp',
+    title: 'Hands-On Embedded Systems, KiCad PCB & Firmware Bootcamp',
+    category: 'Workshops',
+    badge: 'FOUNDATIONAL LAB',
+    status: 'Upcoming',
+    date: 'Weekend Engineering Intensive',
+    venue: 'Robolution Workstation // BIT Mesra Campus',
+    description: 'Intensive boot camp covering microcontroller firmware, sensor integration, FreeRTOS task scheduling, motor driver H-bridges, and custom multi-layer PCB layout using KiCad.',
+    highlights: ['Microcontroller Architectures', 'Custom KiCad PCB Layout', 'FreeRTOS Multitasking', 'Hands-On Hardware Kits']
   }
 ];
 
@@ -169,7 +181,7 @@ export default function EventsPage() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
             <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-pulse" />
             <DecryptedText
-              text="// ROBOSAGA • ABU ROBOCON • BIT MESRA ARENAS"
+              text="// ROBOSAGA • ABU ROBOCON • ISRO ASCEND • NATIONAL ARENAS"
               animateOn="view"
               speed={28}
               sequential={true}
@@ -186,7 +198,7 @@ export default function EventsPage() {
           </h1>
 
           <p className="font-modern text-base sm:text-lg text-slate-300 max-w-3xl mt-6 leading-relaxed">
-            From the high-octane 30kg bulletproof combat robot arena of RoboSaga to national ABU Robocon campaigns and hands-on hardware training cycles.
+            From our flagship 3-day annual festival RoboSaga and heavyweight combat battles at IIT Bombay to ABU Robocon, ISRO Swarm Expeditions, and hands-on hardware bootcamps.
           </p>
         </div>
 
@@ -293,16 +305,16 @@ export default function EventsPage() {
 
         {/* RoboSaga Fest Banner with GlassCard & IslandButton */}
         <GlassCard
-          badge="ROBOSAGA 2026 // ARENA INTAKE"
+          badge="ROBOSAGA 2027 // ARENA INTAKE"
           spotlightColor="rgba(82, 39, 255, 0.25)"
           className="p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6"
         >
           <div>
             <h3 className="font-modern font-black text-2xl text-white uppercase tracking-tight">
-              ROBOSAGA &apos;26 ARENA REGISTRATION
+              ROBOSAGA &apos;27 ARENA REGISTRATION
             </h3>
             <p className="font-mono text-xs text-slate-400 mt-1 uppercase tracking-wider">
-              3 days of robot wars, micromouse maze algorithms, and autonomous sprints &bull; BIT Mesra.
+              3 days of combat robot wars, micromouse maze algorithms, and autonomous sprints &bull; BIT Mesra.
             </p>
           </div>
           <IslandButton

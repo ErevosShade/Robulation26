@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Sidebar from '@/components/Sidebar';
 import HudBox from '@/components/HudBox';
@@ -12,47 +12,13 @@ import DecryptedText from '@/components/DecryptedText';
 import ScrollReveal from '@/components/ScrollReveal';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import {
-  Compass,
-  Target,
-  Sparkles,
-  Shield,
-  Layers,
-  Award,
-  Users,
   ChevronRight,
   Mail,
-  ArrowUpRight,
   Flame,
-  CheckCircle2,
-  Cpu
+  Cpu,
+  Wrench,
+  Trophy
 } from 'lucide-react';
-
-const values = [
-  {
-    icon: Sparkles,
-    title: 'Innovation',
-    description: 'We experiment rapidly, iterate on real hardware, learn from mechanical failures, and build unconventional mechatronic solutions.',
-    tag: 'EXPLORE & EXPERIMENT'
-  },
-  {
-    icon: Users,
-    title: 'Teamwork',
-    description: 'Robots are complex multi-disciplinary systems. We solve hard cross-engineering challenges through trust, open communication, and shared ownership.',
-    tag: 'CROSS-DISCIPLINARY'
-  },
-  {
-    icon: Shield,
-    title: 'Discipline',
-    description: 'We value consistency, strict CAD documentation, electrical validation, finite-element testing, and high-standard manufacturing practices.',
-    tag: 'PRECISION & QA'
-  },
-  {
-    icon: Compass,
-    title: 'Growth',
-    description: 'Every senior engineer mentors junior recruits. We deliberately build an ecosystem that transforms curious freshmen into national-level builders.',
-    tag: 'CONTINUOUS EVOLUTION'
-  }
-];
 
 const milestones = [
   {
@@ -66,58 +32,110 @@ const milestones = [
     status: 'LEGACY LOGGED',
   },
   {
-    year: '2015',
+    year: '2013',
     code: 'EXP-02',
-    tag: 'NATIONAL LAURELS',
-    title: 'MathWorks National Award',
-    detail: 'Won the MathWorks National Award accompanied by an INR 50,000 cash prize at ABU Robocon India, earning the title of Best Non-Quarterfinalist Team.',
-    specs: 'ABU ROBOCON // INR 50K PRIZE',
-    metric: 'BEST NON-QF TEAM',
+    tag: 'ROBOCON DEBUT',
+    title: 'Best Rookie Team at Robocon',
+    detail: 'Secured the prestigious Best Rookie Team award during our inaugural national campaign at Balewadi Stadium, Pune, engineering precision arrow-launch mechanisms.',
+    specs: 'PUNE ARENA // ARROW LAUNCH',
+    metric: 'BEST ROOKIE AWARD',
     status: 'PODIUM VALIDATED',
   },
   {
-    year: '2021',
+    year: '2015',
     code: 'EXP-03',
-    tag: 'CAD PRECISION VICTORY',
+    tag: 'MATHWORKS & IIT BOMBAY',
+    title: '₹1.5L MathWorks & Pixelate Laurels',
+    detail: 'Clinched the MathWorks National Award with a ₹1,50,000 cash prize (Best Non-Quarterfinalist) and bagged 2nd Prize in Pixelate Vision at Techfest IIT Bombay.',
+    specs: '₹1.5L MATHWORKS // PIXELATE 2ND',
+    metric: 'DOUBLE NATIONAL LAUREL',
+    status: 'RECORD PRIZE',
+  },
+  {
+    year: '2016',
+    code: 'EXP-04',
+    tag: 'DUAL-BOT & JU VICTORIES',
+    title: 'Clean Energy & Srijan 1st Place',
+    detail: 'Deployed coordinated dual-robot telemetry for ABU Robocon and clinched 1st Place across multiple competitive robotics categories at Srijan Jadavpur University.',
+    specs: 'DUAL-ROBOT TELEMETRY // JU 1ST',
+    metric: '1ST PLACE MULTI-EVENT',
+    status: 'PODIUM VALIDATED',
+  },
+  {
+    year: '2018',
+    code: 'EXP-05',
+    tag: 'IIT KGP MAZE & BALLISTICS',
+    title: 'Kshitij 2nd Place & Robocon Launch',
+    detail: 'Clinched 2nd Place in the autonomous Maze Solver challenge at Kshitij IIT Kharagpur and fielded repeatable ballistic elevation systems for national Robocon.',
+    specs: 'IIT KGP KSHITIJ // BALLISTICS',
+    metric: '2ND PLACE MAZE SOLVER',
+    status: 'PODIUM VALIDATED',
+  },
+  {
+    year: '2019',
+    code: 'EXP-06',
+    tag: 'IIT GUWAHATI CHAMPION',
+    title: '1st Place RoboSoccer at Techniche',
+    detail: 'Secured 1st Place in the high-agility autonomous RoboSoccer challenge at Techniche IIT Guwahati, fielding custom differential omni-wheel kinematics.',
+    specs: 'TECHNICHE IITG // OMNI-DRIVE',
+    metric: '1ST PLACE CHAMPION',
+    status: 'GOLD TROPHY',
+  },
+  {
+    year: '2021',
+    code: 'EXP-07',
+    tag: 'WORLD-RECORD CAD PRECISION',
     title: 'Perfect 100/100 CAD Score',
     detail: 'Achieved an unprecedented 100/100 score in 3D CAD design analysis by national and international judges for kinematic validation and structural optimization.',
-    specs: 'SOLIDWORKS FEA // KINEMATICS',
+    specs: 'SOLIDWORKS FEA // TOP 15 FINALIST',
     metric: '100/100 CAD SCORE',
     status: 'MAX CAD METRIC',
   },
   {
+    year: '2022',
+    code: 'EXP-08',
+    tag: 'NIT TRICHY & DTU EXPEDITION',
+    title: '1st Place Roborace & Autonomous Bot',
+    detail: 'Secured 1st Place in Roborace at Pragyan NIT Trichy and bagged 2nd Place in Autonomous Bot at Robotryst DTU, validating our high-speed traction chassis.',
+    specs: 'NIT TRICHY 1ST // DTU 2ND',
+    metric: 'DUAL NATIONAL PODIUM',
+    status: 'GOLD & SILVER',
+  },
+  {
     year: '2023',
-    code: 'EXP-04',
-    tag: 'INFRASTRUCTURE LEAP',
-    title: 'Build Culture Acceleration',
-    detail: 'Conducted high-density campus workshops, onboarded custom multi-layer PCB fabrication pipelines, and deployed autonomous micro-rover testbeds.',
-    specs: 'MULTI-LAYER PCBS // ROVER RIGS',
-    metric: '200+ CADRE MENTORED',
-    status: 'LAB EXPANSION',
+    code: 'EXP-09',
+    tag: 'IITG & IIT KGP DOUBLE PODIUM',
+    title: 'Techniche & Kshitij Double Victory',
+    detail: 'Clinched 1st Place in Robowar & Line Follower at Techniche IIT Guwahati, 2nd Place in Autonomous Navigation at Kshitij IIT Kharagpur, and e-Yantra Finalist.',
+    specs: 'IITG 1ST // IIT KGP 2ND // E-YANTRA',
+    metric: 'TRIPLE NATIONAL HONORS',
+    status: 'PODIUM VALIDATED',
   },
   {
     year: '2024',
-    code: 'EXP-05',
-    tag: 'AUTONOMOUS VISION FLEET',
-    title: 'National Robocon Campaign',
-    detail: 'Expanded external competition presence, engineered custom omni-directional drive bases, and deployed ROS 2 computer vision stacks with real-time ball tracking.',
-    specs: 'OMNI-DRIVE // ROS 2 PERCEPTION',
-    metric: 'ARENA MOBILITY',
-    status: 'ACTIVE CAMPAIGN',
+    code: 'EXP-10',
+    tag: 'SIH GRAND FINALE',
+    title: 'Smart India Hackathon AgriBot',
+    detail: 'Selected for the Grand Finale of Smart India Hackathon Hardware Edition, developing the AgriBot autonomous system with real-time CV seeding and soil analytics.',
+    specs: 'SIH HARDWARE // AGRIBOT CV',
+    metric: 'SIH GRAND FINALIST',
+    status: 'NATIONAL RECOGNITION',
   },
   {
-    year: '2026',
-    code: 'EXP-06',
-    tag: 'FLAGSHIP ARENA FEST',
-    title: 'RoboSaga & Autonomous Systems',
-    detail: 'Launching RoboSaga 2026 flagship 3-day arena fest and transitioning into advanced autonomous planetary exploration mechatronics.',
-    specs: '3-DAY COMBAT WARS // PLANETARY ROVER',
-    metric: 'FLAGSHIP ARENA',
-    status: 'NEXT GENERATION',
+    year: '2025-26',
+    code: 'EXP-11',
+    tag: 'COMBAT & SWARM EXPEDITION',
+    title: 'IITB Robowars & ISRO ASCEND',
+    detail: 'Reached Quarter-finals in Heavyweight Robowars at Techfest IIT Bombay, advancing into the ISRO ASCEND autonomous swarm drone expedition and RoboSaga 2027.',
+    specs: 'IITB COMBAT QF // ISRO ASCEND UAV',
+    metric: 'COMBAT & SWARM FLEET',
+    status: 'ACTIVE EXPEDITION',
   },
 ];
 
 export default function AboutPage() {
+  const [activeTab, setActiveTab] = useState<'robocon' | 'robosaga'>('robocon');
+
   return (
     <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-[#5227FF]/40 selection:text-[#FF9FFC] overflow-x-hidden">
       {/* Background MoltenMetal WebGL Caustics */}
@@ -194,141 +212,435 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-24">
           <ScrollReveal>
             <GlassCard
-              badge="LEGACY // 2001-2026"
+              badge="LEGACY // 2001–2026"
               spotlightColor="rgba(255, 159, 252, 0.2)"
               className="p-6"
             >
               <div>
-                <AnimatedCounter target={24} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
-                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Years of Legacy</span>
-                <p className="font-mono text-[11px] text-slate-400 mt-1">Pioneering robotics at BIT Mesra since 2001.</p>
+                <AnimatedCounter target={25} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
+                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Years of Innovation</span>
+                <p className="font-mono text-[11px] text-slate-400 mt-1">Pioneering student robotics and R&amp;D at BIT Mesra.</p>
               </div>
             </GlassCard>
           </ScrollReveal>
 
           <ScrollReveal delay={100}>
             <GlassCard
-              badge="ACTIVE CADRE"
-              spotlightColor="rgba(82, 39, 255, 0.2)"
+              badge="ACTIVE FLEET // BUILDS"
+              spotlightColor="rgba(52, 211, 153, 0.2)"
               className="p-6"
             >
               <div>
-                <AnimatedCounter target={80} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
-                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Active Members</span>
-                <p className="font-mono text-[11px] text-slate-400 mt-1">Undergraduate engineers across mechanical, ECE &amp; CS.</p>
+                <AnimatedCounter target={10} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-emerald-400 block" />
+                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Robotics Platforms</span>
+                <p className="font-mono text-[11px] text-slate-400 mt-1">Combat bots, AMRs, 6-DOF arms, hexapods, and UAVs.</p>
               </div>
             </GlassCard>
           </ScrollReveal>
 
           <ScrollReveal delay={200}>
             <GlassCard
-              badge="PROTOTYPES"
-              spotlightColor="rgba(52, 211, 153, 0.2)"
+              badge="CORE STACK // LABS"
+              spotlightColor="rgba(56, 189, 248, 0.2)"
               className="p-6"
             >
               <div>
-                <AnimatedCounter target={25} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
-                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Hardware Projects</span>
-                <p className="font-mono text-[11px] text-slate-400 mt-1">Combat bots, autonomous rovers, and delta arms.</p>
+                <span className="font-mono text-3xl sm:text-5xl font-black text-sky-400 block">3 CORES</span>
+                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Engineering Subsystems</span>
+                <p className="font-mono text-[11px] text-slate-400 mt-1">Uniting mechanical CAD, embedded electronics, and autonomous AI.</p>
               </div>
             </GlassCard>
           </ScrollReveal>
 
           <ScrollReveal delay={300}>
             <GlassCard
-              badge="BOOTCAMPS"
+              badge="OPERATIONS // SEASON"
               spotlightColor="rgba(251, 191, 36, 0.2)"
               className="p-6"
             >
               <div>
-                <AnimatedCounter target={15} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
-                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Workshops Hosted</span>
-                <p className="font-mono text-[11px] text-slate-400 mt-1">Training hundreds of freshmen in robotics yearly.</p>
+                <span className="font-mono text-3xl sm:text-5xl font-black text-amber-400 block">4 TRACKS</span>
+                <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Flagship Initiatives</span>
+                <p className="font-mono text-[11px] text-slate-400 mt-1">ABU Robocon, IITB Robowars, ISRO ASCEND, and RoboSaga.</p>
               </div>
             </GlassCard>
           </ScrollReveal>
         </div>
 
-        {/* Vision & Mission Cards with Double-Bezel GlassCard */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-24">
-          <GlassCard
-            badge="INSTITUTIONAL HORIZON // VISION"
-            spotlightColor="rgba(255, 159, 252, 0.25)"
-            className="p-8 sm:p-10"
-          >
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-[#5227FF]/20 border border-[#FF9FFC]/30 flex items-center justify-center text-[#FF9FFC] mb-6 shadow-[0_0_15px_rgba(82,39,255,0.3)]">
-                <Target className="w-6 h-6" />
+        {/* =====================================================================
+            WHAT WE DO AT ROBOLUTION (Pillars / Disciplines)
+        ===================================================================== */}
+        <section
+          id="disciplines"
+          className="mb-24 sm:mb-28 relative"
+        >
+          <ScrollReveal>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
+              <div>
+                <span className="font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase block mb-1">
+                  <DecryptedText
+                    text="// INSTITUTIONAL DOMAINS"
+                    animateOn="view"
+                    speed={30}
+                    sequential={true}
+                    characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
+                    className="text-[#FF9FFC]"
+                  />
+                </span>
+                <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
+                  WHAT WE DO AT <span className="animate-text-shimmer">ROBOLUTION</span>
+                </h2>
               </div>
-              <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
-                OUR VISION
-              </h2>
-              <p className="font-modern text-sm sm:text-base text-slate-200 mt-4 leading-relaxed">
-                To establish Robolution as one of India&apos;s most respected student robotics communities, known for groundbreaking technical depth, rigorous engineering discipline, and collaborative excellence on the national stage.
+              <p className="font-modern text-sm text-slate-400 max-w-md leading-relaxed">
+                Bridging foundational theory with competition-ready systems: autonomous navigation, combat robotics, drone technology, and embedded control.
               </p>
             </div>
-          </GlassCard>
+          </ScrollReveal>
 
-          <GlassCard
-            badge="ACTIVE MANDATE // MISSION"
-            spotlightColor="rgba(82, 39, 255, 0.25)"
-            className="p-8 sm:p-10"
-          >
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-[#5227FF]/20 border border-[#FF9FFC]/30 flex items-center justify-center text-[#FF9FFC] mb-6 shadow-[0_0_15px_rgba(82,39,255,0.3)]">
-                <Compass className="w-6 h-6" />
+          {/* 3 Pillars Bento Grid with Double-Bezel GlassCard */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+            {/* Pillar 1: Workshops & Training */}
+            <GlassCard
+              badge="FOUNDATIONAL LAB // 01"
+              spotlightColor="rgba(82, 39, 255, 0.25)"
+              transparent={true}
+            >
+              <div className="flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-12 h-12 rounded-xl bg-[#5227FF]/15 border border-[#5227FF]/30 flex items-center justify-center text-[#FF9FFC] mb-6 shadow-[0_0_15px_rgba(82,39,255,0.3)]">
+                    <Wrench className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-modern text-2xl font-bold text-white uppercase tracking-tight">
+                    Workshops &amp; Training
+                  </h3>
+                  <p className="font-modern text-sm text-slate-300 mt-4 leading-relaxed">
+                    Conducting intensive hands-on bootcamps throughout the academic year. From Arduino microcontrollers, sensor integration, and KiCAD PCB layout to advanced 3D printing and SolidWorks mechanical simulation.
+                  </p>
+                </div>
+                <div className="mt-8 pt-4 border-t border-white/10 font-mono text-[11px] text-slate-400 flex flex-wrap gap-2">
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Microcontrollers</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">3D Printing</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">PCB Design</span>
+                </div>
               </div>
-              <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
-                OUR MISSION
-              </h2>
-              <p className="font-modern text-sm sm:text-base text-slate-200 mt-4 leading-relaxed">
-                To create an ecosystem at BIT Mesra where students learn robotics by building, collaborate seamlessly across disciplines, and convert ambitious concepts into deployed, high-reliability engineering solutions.
-              </p>
-            </div>
-          </GlassCard>
-        </div>
+            </GlassCard>
 
-        {/* Core Values Section */}
-        <div className="mb-24">
-          <div className="mb-10">
-            <span className="font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase block mb-2">
-              <DecryptedText
-                text="// GUIDING PRINCIPLES • OPERATIONAL CODE"
-                animateOn="view"
-                speed={28}
-                sequential={true}
-                characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-                className="text-[#FF9FFC]"
-              />
-            </span>
-            <h2 className="font-modern font-black text-3xl sm:text-4xl text-white uppercase">
-              OUR <span className="animate-text-shimmer">CORE VALUES</span>
-            </h2>
+            {/* Pillar 2: RoboSaga Annual Fest */}
+            <GlassCard
+              badge="FLAGSHIP ARENA // 02"
+              spotlightColor="rgba(244, 63, 94, 0.25)"
+              transparent={true}
+            >
+              <div className="flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 mb-6 shadow-[0_0_15px_rgba(244,63,94,0.3)]">
+                    <Flame className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-modern text-2xl font-bold text-white uppercase tracking-tight">
+                    RoboSaga 3-Day Fest
+                  </h3>
+                  <p className="font-modern text-sm text-slate-300 mt-4 leading-relaxed">
+                    Eastern India&apos;s premier annual techno-management festival organized on the BIT Mesra campus. Featuring high-energy combat robot wars, line-tracking sprints, maze navigators, and multi-disciplinary exhibitions.
+                  </p>
+                </div>
+                <div className="mt-8 pt-4 border-t border-white/10 font-mono text-[11px] text-slate-400 flex flex-wrap gap-2">
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Robot Wars</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Maze Solvers</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Flagship Fest</span>
+                </div>
+              </div>
+            </GlassCard>
+
+            {/* Pillar 3: Robocon & ISRO Robotics (Team Pratyumnis) */}
+            <GlassCard
+              badge="COMPETITIVE WING // 03"
+              spotlightColor="rgba(52, 211, 153, 0.25)"
+              transparent={true}
+            >
+              <div className="flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6 shadow-[0_0_15px_rgba(52,211,153,0.3)]">
+                    <Cpu className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-modern text-2xl font-bold text-white uppercase tracking-tight">
+                    Robocon &amp; ISRO Robotics
+                  </h3>
+                  <p className="font-modern text-sm text-slate-300 mt-4 leading-relaxed">
+                    Engineering high-precision autonomous mechatronic systems for ABU Robocon and ISRO Robotics. Developing holonomic omni-drive chassis, pneumatic ballistic launchers, and autonomous swarm guidance.
+                  </p>
+                </div>
+                <div className="mt-8 pt-4 border-t border-white/10 font-mono text-[11px] text-slate-400 flex flex-wrap gap-2">
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">ABU Robocon</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">ISRO ASCEND</span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">ROS &bull; Vision</span>
+                </div>
+              </div>
+            </GlassCard>
           </div>
+        </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((v, i) => (
+        {/* =====================================================================
+            HALL OF FAME: AUTHENTIC NATIONAL COMPETITION HONORS
+        ===================================================================== */}
+        <section
+          id="arena"
+          className="mb-24 sm:mb-28 relative"
+        >
+          <ScrollReveal>
+            <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between mb-14 gap-6">
+              <div>
+                <span className="font-mono text-xs text-emerald-400 font-bold tracking-widest uppercase block mb-1">
+                  <DecryptedText
+                    text="// VERIFIED ARENA HONORS"
+                    animateOn="view"
+                    speed={30}
+                    sequential={true}
+                    characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
+                    className="text-emerald-400"
+                  />
+                </span>
+                <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
+                  COMPETITIVE <span className="animate-text-shimmer">ARENA HONORS</span>
+                </h2>
+              </div>
+
+              {/* Origin UI Style Segmented Navigation Tabs */}
+              <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-zinc-900/90 border border-zinc-800 shadow-inner font-mono text-xs">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('robocon')}
+                  className={`relative px-4 py-2 rounded-lg font-medium transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                    activeTab === 'robocon'
+                      ? 'bg-zinc-800 text-white shadow-sm border border-zinc-700/60'
+                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+                  }`}
+                >
+                  <Trophy className="w-3.5 h-3.5 text-[#FF9FFC]" />
+                  <span>ABU ROBOCON &amp; IITs</span>
+                  {activeTab === 'robocon' && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-pulse" />
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('robosaga')}
+                  className={`relative px-4 py-2 rounded-lg font-medium transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                    activeTab === 'robosaga'
+                      ? 'bg-zinc-800 text-white shadow-sm border border-zinc-700/60'
+                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+                  }`}
+                >
+                  <Flame className="w-3.5 h-3.5 text-rose-400" />
+                  <span>ROBOSAGA FEST</span>
+                  {activeTab === 'robosaga' && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />
+                  )}
+                </button>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          {activeTab === 'robocon' ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Row 1, Card 1: Robocon 2021 */}
               <GlassCard
-                key={i}
-                badge={v.tag}
-                spotlightColor="rgba(255, 159, 252, 0.2)"
-                className="p-8 flex flex-col justify-between"
+                badge="ABU ROBOCON // 2021"
+                spotlightColor="rgba(52, 211, 153, 0.25)"
+                transparent={true}
+                className="!justify-start"
               >
                 <div>
-                  <div className="w-10 h-10 rounded-xl bg-[#5227FF]/15 border border-[#5227FF]/30 flex items-center justify-center text-[#FF9FFC] mb-6 group-hover:scale-105 transition-transform shadow-[0_0_10px_rgba(82,39,255,0.2)]">
-                    <v.icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="font-modern font-bold text-xl text-white uppercase tracking-tight">
-                    {v.title}
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-emerald-400">100 / 100</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    3D CAD Design Score
                   </h3>
-                  <p className="font-modern text-xs text-slate-300 mt-3 leading-relaxed">
-                    {v.description}
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    Made history with a perfect 100/100 score in 3D CAD design analysis, alongside finishing as Top 15 National Finalists.
                   </p>
                 </div>
               </GlassCard>
-            ))}
-          </div>
-        </div>
+
+              {/* Row 1, Card 2: Robocon 2015 */}
+              <GlassCard
+                badge="ABU ROBOCON // 2015"
+                spotlightColor="rgba(255, 159, 252, 0.25)"
+                transparent={true}
+                className="!justify-start"
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-[#FF9FFC]">&#8377;1,50,000</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    MathWorks &amp; Top Non-QF
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    Bagged the prestigious MathWorks National Award with a &#8377;1,50,000 prize, and honored as Best Non-Quarterfinalist Team.
+                  </p>
+                </div>
+              </GlassCard>
+
+              {/* Row 1, Card 3: Robocon 2013 */}
+              <GlassCard
+                badge="ABU ROBOCON // 2013"
+                spotlightColor="rgba(251, 191, 36, 0.25)"
+                transparent={true}
+                className="!justify-start"
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-amber-400">ROOKIE</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Inaugural Robocon Honor
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    Recognized as Best Rookie Team at Balewadi Stadium, Pune in our debut campaign, surpassing established colleges across India.
+                  </p>
+                </div>
+              </GlassCard>
+
+              {/* Row 1, Card 4: Techfest IIT Bombay 2015 */}
+              <GlassCard
+                badge="IIT BOMBAY // 2015"
+                spotlightColor="rgba(168, 85, 247, 0.25)"
+                transparent={true}
+                className="!justify-start"
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-purple-400">2ND PRIZE</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Pixelate Vision Event
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    Clinched 2nd prize in the flagship image processing and computer-vision robotics event &lsquo;Pixelate&rsquo; at Techfest IIT Bombay.
+                  </p>
+                </div>
+              </GlassCard>
+
+              {/* Row 2, Card 5: Combat & Race (2021-2025) */}
+              <GlassCard
+                badge="COMBAT &amp; RACE // 2021–2025"
+                spotlightColor="rgba(244, 63, 94, 0.25)"
+                transparent={true}
+                className="!justify-start"
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-rose-400">1ST PLACE</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Robowars &amp; Roborace
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    1st Place at IIT Guwahati Techniche &apos;23 &amp; NIT Trichy Pragyan &apos;22, Quarter-Finalist at IITB Techfest &apos;25, and 3rd at BITS Quark &apos;21.
+                  </p>
+                </div>
+              </GlassCard>
+
+              {/* Row 2, Card 6: Autonomy (2018-2023) */}
+              <GlassCard
+                badge="AUTONOMY // 2018–2023"
+                spotlightColor="rgba(56, 189, 248, 0.25)"
+                transparent={true}
+                className="!justify-start"
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-sky-400">5x PODIUMS</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Autonomous Navigation
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    1st Place at IIT Guwahati (&apos;19, &apos;23), 2nd Place at IIT KGP Kshitij (&apos;18, &apos;23), and 2nd Place at DTU Robotryst &apos;22.
+                  </p>
+                </div>
+              </GlassCard>
+
+              {/* Row 2, Card 7: Innovation / Hackathons (2023-2024) */}
+              <GlassCard
+                badge="INNOVATION // 2023–2024"
+                spotlightColor="rgba(52, 211, 153, 0.25)"
+                transparent={true}
+                className="!justify-start"
+              >
+                <div>
+                  <span className="font-mono text-2xl sm:text-3xl xl:text-4xl font-black text-emerald-400">FINALISTS</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    SIH &apos;24 &amp; e-Yantra IITB
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    Grand Finalists at Smart India Hackathon &apos;24 (AgriBot Hardware Edition) and National Finalists at e-Yantra IIT Bombay &apos;23.
+                  </p>
+                </div>
+              </GlassCard>
+
+              {/* Row 2, Card 8: National Campaigns (2016-2018) */}
+              <GlassCard
+                badge="NATIONALS // 2016–2018"
+                spotlightColor="rgba(192, 132, 252, 0.25)"
+                transparent={true}
+                className="!justify-start"
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-[#FF9FFC]">2x REPS</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Robocon &amp; Srijan Titles
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    National Representation at ABU Robocon 2016 &amp; 2018, plus 1st Place across multiple events at Jadavpur University Srijan &apos;16.
+                  </p>
+                </div>
+              </GlassCard>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <GlassCard
+                badge="ANNUAL HOSTING // BIT MESRA"
+                spotlightColor="rgba(251, 191, 36, 0.25)"
+                transparent={true}
+                className="!justify-start"
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-amber-400">3 DAYS</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Techno-Management Fest
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    Flagship campus festival uniting student engineers, developers, and technology enthusiasts across disciplines through high-stakes robotics and innovation.
+                  </p>
+                </div>
+              </GlassCard>
+
+              <GlassCard
+                badge="ARENA EVENTS // HARDWARE"
+                spotlightColor="rgba(244, 63, 94, 0.25)"
+                transparent={true}
+                className="!justify-start"
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-rose-400">COMBAT</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Robowars &amp; Autonomous Trials
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    High-kinetic heavyweight bot clashes inside an enclosed steel cage alongside autonomous line-follower sprints and maze-solving challenges.
+                  </p>
+                </div>
+              </GlassCard>
+
+              <GlassCard
+                badge="OUTREACH // MENTORSHIP"
+                spotlightColor="rgba(56, 189, 248, 0.25)"
+                transparent={true}
+                className="!justify-start"
+              >
+                <div>
+                  <span className="font-mono text-3xl sm:text-4xl font-black text-sky-400">1,000+</span>
+                  <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
+                    Students &amp; Innovators
+                  </h3>
+                  <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
+                    Empowering the next generation of builders through hands-on robotics workshops, 24-hour hackathons, and technical project exhibitions.
+                  </p>
+                </div>
+              </GlassCard>
+            </div>
+          )}
+        </section>
 
         {/* Expedition Timeline: Central Telemetry Bus with Left & Right Alternating Lanes */}
         <section className="mb-28 relative">
