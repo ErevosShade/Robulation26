@@ -108,24 +108,24 @@ export default function BottomDock({
           </svg>
 
           {/* Smooth Action Buttons - All on a Single Midline-Centric Row */}
-          <div className="relative z-10 flex items-center justify-center flex-nowrap whitespace-nowrap gap-2 sm:gap-3 md:gap-4 px-4 sm:px-8 pt-0.5 sm:pt-1">
+          <div className="relative z-10 flex items-center justify-center flex-nowrap whitespace-nowrap gap-1.5 xs:gap-2.5 sm:gap-3 md:gap-4 px-2 xs:px-4 sm:px-8 pt-0.5 sm:pt-1">
             <Link
               href="/about"
-              className="group relative px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white text-black font-modern text-[10px] sm:text-[11px] font-bold tracking-wider sm:tracking-widest uppercase transition-all duration-300 hover:bg-slate-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.7)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
+              className="group relative px-2.5 xs:px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white text-black font-modern text-[9px] xs:text-[10px] sm:text-[11px] font-bold tracking-wider sm:tracking-widest uppercase transition-all duration-300 hover:bg-slate-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.7)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
             >
               About Us
             </Link>
 
             <Link
               href="/events"
-              className="group relative px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[10px] sm:text-[11px] font-semibold tracking-wider sm:tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
+              className="group relative px-2.5 xs:px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[9px] xs:text-[10px] sm:text-[11px] font-semibold tracking-wider sm:tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
             >
               RoboSaga &apos;26
             </Link>
 
             <Link
               href="/contact"
-              className="group relative px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[10px] sm:text-[11px] font-semibold tracking-wider sm:tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
+              className="group relative px-2.5 xs:px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[9px] xs:text-[10px] sm:text-[11px] font-semibold tracking-wider sm:tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
             >
               Contact
             </Link>
@@ -165,11 +165,11 @@ export default function BottomDock({
           STATE 3: EXPANDED FLOATING DOCK (When isScrolled && isOpen)
       ===================================================================== */}
       {isScrolled && isOpen && (
-        <div className="relative flex items-center gap-2 p-1.5 sm:p-2 rounded-2xl bg-[#070b18]/95 border border-cyan-400/40 shadow-[0_12px_45px_rgba(0,0,0,0.85),0_0_30px_rgba(56,189,248,0.3)] backdrop-blur-2xl transition-all duration-300 animate-in fade-in zoom-in-95">
+        <div className="relative flex items-center gap-1.5 sm:gap-2 p-1 sm:p-2 rounded-2xl bg-[#070b18]/95 border border-cyan-400/40 shadow-[0_12px_45px_rgba(0,0,0,0.85),0_0_30px_rgba(56,189,248,0.3)] backdrop-blur-2xl transition-all duration-300 animate-in fade-in zoom-in-95 max-w-[calc(100vw-1.5rem)]">
           <Link
             href="/about"
             onClick={() => setIsOpen(false)}
-            className="px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-xl bg-white text-black font-modern text-[10px] sm:text-xs font-bold tracking-wider uppercase hover:bg-slate-200 transition-all hover:shadow-[0_0_16px_rgba(255,255,255,0.6)] active:scale-95 cursor-pointer whitespace-nowrap"
+            className="px-2.5 xs:px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-xl bg-white text-black font-modern text-[9px] xs:text-[10px] sm:text-xs font-bold tracking-wider uppercase hover:bg-slate-200 transition-all hover:shadow-[0_0_16px_rgba(255,255,255,0.6)] active:scale-95 cursor-pointer whitespace-nowrap"
           >
             About Us
           </Link>
@@ -177,7 +177,7 @@ export default function BottomDock({
           <Link
             href="/events"
             onClick={() => setIsOpen(false)}
-            className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/10 border border-white/20 text-white font-modern text-[10px] sm:text-xs font-semibold tracking-wider uppercase hover:bg-white/20 hover:border-cyan-400/50 hover:shadow-[0_0_16px_rgba(56,189,248,0.3)] transition-all active:scale-95 cursor-pointer whitespace-nowrap"
+            className="px-2.5 xs:px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/10 border border-white/20 text-white font-modern text-[9px] xs:text-[10px] sm:text-xs font-semibold tracking-wider uppercase hover:bg-white/20 hover:border-cyan-400/50 hover:shadow-[0_0_16px_rgba(56,189,248,0.3)] transition-all active:scale-95 cursor-pointer whitespace-nowrap"
           >
             RoboSaga &apos;26
           </Link>
@@ -185,7 +185,7 @@ export default function BottomDock({
           <Link
             href="/contact"
             onClick={() => setIsOpen(false)}
-            className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/10 border border-white/20 text-white font-modern text-[10px] sm:text-xs font-semibold tracking-wider uppercase hover:bg-white/20 hover:border-cyan-400/50 hover:shadow-[0_0_16px_rgba(56,189,248,0.3)] transition-all active:scale-95 cursor-pointer whitespace-nowrap"
+            className="px-2.5 xs:px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/10 border border-white/20 text-white font-modern text-[9px] xs:text-[10px] sm:text-xs font-semibold tracking-wider uppercase hover:bg-white/20 hover:border-cyan-400/50 hover:shadow-[0_0_16px_rgba(56,189,248,0.3)] transition-all active:scale-95 cursor-pointer whitespace-nowrap"
           >
             Contact
           </Link>
@@ -195,9 +195,9 @@ export default function BottomDock({
             type="button"
             onClick={() => setIsOpen(false)}
             aria-label="Close Navigation Dock"
-            className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer ml-1"
+            className="p-1 sm:p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer ml-0.5 sm:ml-1"
           >
-            <X className="w-4 h-4" />
+            <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </button>
         </div>
       )}

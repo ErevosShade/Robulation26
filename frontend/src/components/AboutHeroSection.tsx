@@ -22,15 +22,15 @@ export default function AboutHeroSection() {
   return (
     <section
       id="about"
-      className="relative z-20 w-full py-16 sm:py-20 lg:py-24 px-4 sm:px-6 md:px-12 pl-14 sm:pl-20 md:pl-24 bg-transparent text-slate-100 overflow-hidden select-none"
+      className="relative z-20 w-full py-16 sm:py-20 lg:py-24 px-4 sm:px-6 md:px-12 md:pl-24 bg-transparent text-slate-100 overflow-hidden select-none"
     >
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         {/* =================================================================
-            1. TOP: OVERSIZED BOLD "ABOUT US" HEADING (Wide Word-Spacing, Balanced Gap)
+            1. TOP: OVERSIZED BOLD "ABOUT US" HEADING (Responsive Typographic Scale)
         ================================================================= */}
         <ScrollReveal>
           <div className="mb-6 sm:mb-8 lg:mb-10">
-            <h2 className="font-modern font-black text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[11.5rem] 2xl:text-[13rem] tracking-tight [word-spacing:0.25em] text-white uppercase leading-[0.85] select-none">
+            <h2 className="font-modern font-black text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-[10rem] xl:text-[11.5rem] 2xl:text-[13rem] tracking-tight [word-spacing:0.15em] sm:[word-spacing:0.25em] text-white uppercase leading-[0.88] sm:leading-[0.85] select-none">
               ABOUT US
             </h2>
           </div>
@@ -55,7 +55,7 @@ export default function AboutHeroSection() {
               </div>
 
               {/* Inline Borderless Telemetry Metrics (Clean, Zero Heavy Box Slop) */}
-              <div className="grid grid-cols-2 gap-x-8 gap-y-3 pt-5 mt-5 border-t border-white/10 max-w-md">
+              <div className="grid grid-cols-2 gap-x-6 sm:gap-x-8 gap-y-3 pt-5 mt-5 border-t border-white/10 max-w-md">
                 {stats.map((stat, i) => (
                   <div key={i} className="flex flex-col">
                     <div className="flex items-baseline">
@@ -76,7 +76,7 @@ export default function AboutHeroSection() {
               <div className="pt-4">
                 <Link
                   href="/about"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-white font-mono text-xs tracking-wider uppercase transition-all shadow-sm group"
+                  className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-white font-mono text-[11px] sm:text-xs tracking-wider uppercase transition-all shadow-sm group"
                 >
                   <span>Explore Full Society Heritage</span>
                   <ArrowUpRight className="w-3.5 h-3.5 text-cyan-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -88,9 +88,9 @@ export default function AboutHeroSection() {
           {/* ---------------------------------------------------------------
               RIGHT COLUMN (7 Cols): Giant, Unobstructed Floating Bot Showcase
           --------------------------------------------------------------- */}
-          <div className="lg:col-span-7 xl:col-span-7 relative w-full flex items-center justify-center translate-y-1 sm:translate-y-2 lg:translate-y-4">
+          <div className="lg:col-span-7 xl:col-span-7 relative w-full flex items-center justify-center translate-y-0 sm:translate-y-2 lg:translate-y-4">
             <ScrollReveal delay={150} className="w-full flex items-center justify-center">
-              <div className="relative w-full max-w-[700px] xl:max-w-[760px] aspect-[4/3] sm:aspect-[16/11] h-[360px] sm:h-[440px] lg:h-[500px] xl:h-[560px] flex items-center justify-center">
+              <div className="relative w-full max-w-[620px] lg:max-w-[700px] xl:max-w-[760px] aspect-[4/3] sm:aspect-[16/11] h-[260px] xs:h-[300px] sm:h-[400px] md:h-[460px] lg:h-[500px] xl:h-[560px] flex items-center justify-center">
                 {/* Subtle Ambient Radial Backlight Glow */}
                 <div
                   className="absolute inset-0 pointer-events-none opacity-45"

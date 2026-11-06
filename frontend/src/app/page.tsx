@@ -74,7 +74,7 @@ export default function Home() {
         </div>
 
         {/* Top Header: Heavy Structural Architectural Title with TechText */}
-        <header className="relative z-20 w-full pt-2 sm:pt-4 flex flex-col items-center pointer-events-none pl-14 sm:pl-0">
+        <header className="relative z-20 w-full pt-2 sm:pt-4 flex flex-col items-center pointer-events-none px-4 md:pl-20">
           <div className="inline-flex items-center px-3.5 py-1 rounded-[2px] bg-white/[0.04] border border-white/20 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest uppercase mb-2 pointer-events-auto backdrop-blur-md">
             <span className="bg-gradient-to-r from-zinc-300 via-white to-zinc-400 bg-clip-text text-transparent font-semibold">
               OFFICIAL ROBOTICS SOCIETY // TEAM PRATYUMNIS // BIT MESRA
@@ -110,7 +110,7 @@ export default function Home() {
         </header>
 
         {/* 3D CAD Wireframe Rover Flanked by Sci-Fi HUD Callout Boxes */}
-        <div className="relative z-10 flex-1 w-full flex flex-col items-center justify-center -mt-2 sm:-mt-4 pointer-events-none px-4 pl-14 sm:pl-20">
+        <div className="relative z-10 flex-1 w-full flex flex-col items-center justify-center -mt-2 sm:-mt-4 pointer-events-none px-4 md:pl-20">
           {/* Subtle Ambient Cosmic Glow Spotlight */}
           <div
             className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[380px] sm:w-[680px] sm:h-[500px] pointer-events-none z-0 opacity-40"
