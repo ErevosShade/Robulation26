@@ -63,7 +63,7 @@ export default function BottomDock({
       ===================================================================== */}
       {!isScrolled && (
         <div
-          className={`relative w-[calc(100vw-1.5rem)] max-w-[340px] sm:max-w-[410px] h-[50px] sm:h-[60px] flex items-center justify-center filter transition-all duration-500 ${
+          className={`relative w-[calc(100vw-1.5rem)] max-w-[460px] sm:max-w-[520px] md:max-w-[560px] h-[52px] sm:h-[62px] flex items-center justify-center filter transition-all duration-500 ${
             isLight
               ? 'drop-shadow-[0_-8px_25px_rgba(15,23,42,0.12)]'
               : 'drop-shadow-[0_-10px_30px_rgba(0,0,0,0.8)]'
@@ -107,25 +107,25 @@ export default function BottomDock({
             />
           </svg>
 
-          {/* Smooth Action Buttons */}
-          <div className="relative z-10 flex items-center justify-center gap-2 sm:gap-4 px-2 sm:px-6 pt-0.5 sm:pt-1">
+          {/* Smooth Action Buttons - All on a Single Midline-Centric Row */}
+          <div className="relative z-10 flex items-center justify-center flex-nowrap whitespace-nowrap gap-2 sm:gap-3 md:gap-4 px-4 sm:px-8 pt-0.5 sm:pt-1">
             <Link
               href="/about"
-              className="group relative px-2.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white text-black font-modern text-[9px] sm:text-[11px] font-bold tracking-wider sm:tracking-widest uppercase transition-all duration-300 hover:bg-slate-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.7)] active:scale-95 cursor-pointer"
+              className="group relative px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white text-black font-modern text-[10px] sm:text-[11px] font-bold tracking-wider sm:tracking-widest uppercase transition-all duration-300 hover:bg-slate-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.7)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
             >
               About Us
             </Link>
 
             <Link
               href="/events"
-              className="group relative px-2.5 sm:px-5 py-1.5 sm:py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[9px] sm:text-[11px] font-semibold tracking-wider sm:tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer"
+              className="group relative px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[10px] sm:text-[11px] font-semibold tracking-wider sm:tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
             >
               RoboSaga &apos;26
             </Link>
 
             <Link
               href="/contact"
-              className="group relative px-2.5 sm:px-5 py-1.5 sm:py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[9px] sm:text-[11px] font-semibold tracking-wider sm:tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer"
+              className="group relative px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[10px] sm:text-[11px] font-semibold tracking-wider sm:tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
             >
               Contact
             </Link>
