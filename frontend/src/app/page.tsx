@@ -66,7 +66,7 @@ export default function Home() {
         className="relative w-full h-[100dvh] min-h-[700px] flex flex-col justify-between overflow-hidden select-none z-10 group/hero"
       >
         {/* Top Right Corner Tech Box: EST. 2001 // BIT MESRA */}
-        <div className="absolute top-0 right-0 z-30 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
+        <div className="hidden sm:block absolute top-0 right-0 z-30 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
           <HudBox compact={true} theme="dark" title="EST. 2001 // BIT MESRA" />
         </div>
 
@@ -93,7 +93,7 @@ export default function Home() {
             />
           </div>
 
-          <p className="relative font-mono text-[10px] sm:text-[11.5px] font-bold tracking-[0.25em] uppercase mt-1">
+          <p className="relative font-mono text-[9px] xs:text-[10px] sm:text-[11.5px] font-bold tracking-[0.16em] sm:tracking-[0.25em] uppercase mt-1 px-2">
             <span className="text-slate-400 transition-opacity duration-700 ease-out group-hover/hero:opacity-0">
               AUTONOMOUS MECHATRONICS &bull; ABU ROBOCON &bull; ROBOSAGA FEST
             </span>
@@ -107,7 +107,7 @@ export default function Home() {
         </header>
 
         {/* 3D CAD Wireframe Rover Flanked by Sci-Fi HUD Callout Boxes */}
-        <div className="relative z-10 flex-1 w-full flex flex-col items-center justify-center -mt-2 sm:-mt-4 pointer-events-none px-4 pl-14 sm:pl-20">
+        <div className="relative z-10 flex-1 w-full flex flex-col items-center justify-center -mt-2 sm:-mt-4 pointer-events-none px-3 sm:px-6 md:pl-20">
           {/* Subtle Ambient Glow Spotlight matching MoltenMetal Palette */}
           <div
             className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[380px] sm:w-[680px] sm:h-[500px] pointer-events-none z-0 opacity-70"
@@ -181,7 +181,7 @@ export default function Home() {
         <BottomDock theme="dark" />
 
         {/* Bottom Status Telemetry Bar */}
-        <div className="relative z-20 pb-4 px-6 flex items-center justify-between pointer-events-none pl-14 sm:pl-20">
+        <div className="relative z-20 pb-4 px-4 sm:px-6 flex items-center justify-between pointer-events-none md:pl-20">
           <div className="hidden sm:flex items-center gap-2 font-mono text-[10px] text-slate-400 bg-white/[0.03] px-3 py-1.5 rounded-lg border border-white/10 backdrop-blur-md">
             <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-pulse" />
             <span>ROBOLUTION TELEMETRY // BIT MESRA // PRATYUMNIS LAB 01</span>
@@ -413,7 +413,7 @@ export default function Home() {
       ===================================================================== */}
       <section
         id="robosaga"
-        className="relative z-20 py-24 sm:py-32 px-6 sm:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto"
+        className="relative z-20 py-20 sm:py-32 px-4 sm:px-8 md:pl-20 max-w-7xl mx-auto"
       >
         <GlassCard
           badge="ANNUAL TECHNO-MECHATRONICS FESTIVAL // BIT MESRA"
@@ -454,17 +454,17 @@ export default function Home() {
       ===================================================================== */}
       <section
         id="manifesto"
-        className="relative z-20 py-28 sm:py-36 px-6 sm:px-12 pl-14 sm:pl-20 max-w-5xl mx-auto"
+        className="relative z-20 py-20 sm:py-36 px-4 sm:px-8 md:pl-20 max-w-5xl mx-auto"
       >
         <GlassCard
           badge="OUR ENGINEERING CREED // HARDWARE PRIMACY"
           spotlightColor="rgba(255, 159, 252, 0.25)"
-          className="text-center p-8 sm:p-14"
+          className="text-center p-6 sm:p-14"
         >
-          <blockquote className="font-modern font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight text-white uppercase leading-tight">
+          <blockquote className="font-modern font-black text-2xl sm:text-5xl lg:text-6xl tracking-tight text-white uppercase leading-tight">
             &ldquo;Software is easy until it has to push <span className="animate-text-shimmer">30 kilograms of steel at 40 kilometers an hour</span>.&rdquo;
           </blockquote>
-          <p className="mt-8 font-modern text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-6 sm:mt-8 font-modern text-xs sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
             At Robolution, we do not build mockups. We mill structural aluminum, design custom multi-layer circuit boards, debug interrupt routines at 3 AM, and torture-test every robot until it survives the arena.
           </p>
           <div className="mt-8 flex justify-center">
@@ -478,7 +478,7 @@ export default function Home() {
       {/* =====================================================================
           8. INSTITUTIONAL FOOTER & AUTHENTIC CONTACT
       ===================================================================== */}
-      <footer id="contact" className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl border-t border-white/5 py-16 px-6 sm:px-12 pl-14 sm:pl-20">
+      <footer id="contact" className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl border-t border-white/5 py-14 px-4 sm:px-8 md:pl-20">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
           <div className="flex flex-col">
             <span className="font-modern font-black text-xl text-white uppercase tracking-tight flex items-center gap-2">
