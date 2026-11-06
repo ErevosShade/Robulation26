@@ -1,0 +1,189 @@
+/* ── 1. Typed CSS Properties for Smooth Transitions ── */
+@property --card-hx {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 50%;
+}
+@property --card-hy {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 50%;
+}
+@property --card-rx {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+@property --card-ry {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+@property --card-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* ── 2. Card Base & Top Specular Highlight ── */
+.holo-card {
+  position: relative;
+  isolation: isolate;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(
+      168deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.015) 38%,
+      transparent 70%
+    ),
+    #0c0a13;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 8px 24px -12px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+  will-change: transform;
+}
+
+/* Specular 1px highlight across the top edge */
+.holo-card::before {
+  content: "";
+  position: absolute;
+  inset-inline: 12%;
+  top: -1px;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(167, 139, 250, 0.9),
+    transparent
+  );
+  opacity: 0.45;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* ── 3. Rotating Lit Border Beam (Conic Gradient Mask) ── */
+.holo-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.32s ease;
+  background: conic-gradient(
+    from var(--card-angle),
+    transparent 0%,
+    rgba(167, 139, 250, 0.55) 8%,
+    rgba(255, 255, 255, 0.75) 13%,
+    rgba(124, 58, 237, 0.35) 19%,
+    transparent 32%,
+    transparent 62%,
+    rgba(167, 139, 250, 0.22) 74%,
+    transparent 86%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+@keyframes card-edge-turn {
+  to {
+    --card-angle: 360deg;
+  }
+}
+
+/* ── 4. Holographic Foil Layer ── */
+.holo-card__foil {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.32s ease;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 70%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 52%, transparent 70%);
+}
+
+.holo-card__foil::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: repeating-linear-gradient(
+    108deg,
+    transparent 0%,
+    rgba(124, 58, 237, 0.08) 5%,
+    rgba(167, 139, 250, 0.16) 9%,
+    rgba(76, 29, 149, 0.06) 13%,
+    transparent 19%
+  );
+  background-size: 220% 220%;
+  background-position: var(--card-hx) var(--card-hy);
+  mix-blend-mode: color-dodge;
+  filter: brightness(0.85) contrast(1.4);
+}
+
+/* ── 5. Hover & Tilt States (Fine Pointer Only) ── */
+@media (hover: hover) and (pointer: fine) {
+  .holo-card {
+    transition:
+      transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+      --card-rx 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+      --card-ry 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+      --card-hx 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+      --card-hy 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .holo-card:hover {
+    transition:
+      transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+      --card-rx 0.12s linear,
+      --card-ry 0.12s linear,
+      --card-hx 0.12s linear,
+      --card-hy 0.12s linear;
+    border-color: rgba(167, 139, 250, 0.35);
+    box-shadow: 0 16px 38px -12px rgba(124, 58, 237, 0.25);
+    transform: perspective(600px) translate3d(0, -6px, 0)
+      rotateX(var(--card-rx)) rotateY(var(--card-ry));
+  }
+
+  .holo-card:hover::before {
+    opacity: 1;
+  }
+
+  .holo-card:hover::after {
+    opacity: 1;
+    animation: card-edge-turn 4.5s linear infinite;
+  }
+
+  .holo-card:hover .holo-card__foil {
+    opacity: 0.8;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .holo-card:hover {
+    transform: none;
+  }
+  .holo-card::after {
+    animation: none;
+  }
+  .holo-card__foil {
+    display: none;
+  }
+}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Sidebar from '@/components/Sidebar';
 import TechText from '@/components/TechText';
@@ -14,11 +14,11 @@ import GlassCard from '@/components/GlassCard';
 import IslandButton from '@/components/IslandButton';
 import ScrollReveal from '@/components/ScrollReveal';
 import AnimatedCounter from '@/components/AnimatedCounter';
+import DecryptedText from '@/components/DecryptedText';
 import UnfurlingGallery from '@/components/ui/3d-parallax-unfurling-gallery';
 import {
   Wrench,
   Cpu,
-  Trophy,
   Flame,
   ChevronDown,
   Mail,
@@ -26,9 +26,8 @@ import {
 } from 'lucide-react';
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'robocon' | 'robosaga'>('robocon');
   return (
-    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
+    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-cyan-500/30 selection:text-white overflow-x-clip">
       {/* =====================================================================
           FULL-PAGE BACKGROUND: <MoltenMetal /> REACT BITS WEBGL CAUSTICS
       ===================================================================== */}
@@ -208,7 +207,7 @@ export default function Home() {
       <AboutHeroSection />
 
       {/* =====================================================================
-          3B. 3D PARALLAX UNFURLING GALLERY // HARDWARE IN MOTION
+          3. INSTITUTIONAL DOMAINS // WHAT WE DO AT ROBOLUTION
       ===================================================================== */}
       <section
         id="disciplines"
@@ -307,183 +306,40 @@ export default function Home() {
             </div>
           </GlassCard>
         </div>
+      </section>
+
+      {/* =====================================================================
+          3B. 3D PARALLAX UNFURLING GALLERY // HARDWARE IN MOTION
+      ===================================================================== */}
+      <section id="gallery-unfurl" className="relative z-20 w-full">
+        {/* Aerospace HUD Section Header */}
+        <div className="pt-24 pb-8 px-6 sm:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <span className="font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase block mb-1">
+              <DecryptedText
+                text="// 3D MATRIX TELEMETRY • LIVE CAPTURES"
+                animateOn="view"
+                speed={30}
+                sequential={true}
+                characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
+                className="text-[#FF9FFC]"
+              />
+            </span>
+            <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
+              HARDWARE <span className="animate-text-shimmer">IN MOTION</span>
+            </h2>
+          </div>
+          <p className="font-modern text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed font-mono">
+            // SCROLL DOWN TO UNFURL: 3D UNROLLING HARDWARE FLIGHT-DECK &amp; ARENA COMBAT CAPTURES.
+          </p>
+        </div>
 
         {/* 3D Parallax Unfurling Matrix */}
         <UnfurlingGallery embedded={true} />
       </section>
 
       {/* =====================================================================
-          5. HALL OF FAME: AUTHENTIC NATIONAL COMPETITION HONORS
-      ===================================================================== */}
-      <section
-        id="arena"
-        className="relative z-20 py-24 sm:py-32 px-6 sm:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto"
-      >
-        <ScrollReveal>
-          <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between mb-14 gap-6">
-            <div>
-              <span className="font-mono text-xs text-slate-400 font-bold tracking-widest uppercase block mb-1">
-                // VERIFIED ARENA HONORS
-              </span>
-              <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
-                COMPETITIVE ARENA HONORS
-              </h2>
-            </div>
-
-            {/* Origin UI Style Segmented Navigation Tabs */}
-            <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-zinc-900/90 border border-zinc-800 shadow-inner font-mono text-xs">
-              <button
-                type="button"
-                onClick={() => setActiveTab('robocon')}
-                className={`relative px-4 py-2 rounded-lg font-medium transition-all duration-200 cursor-pointer flex items-center gap-2 ${
-                  activeTab === 'robocon'
-                    ? 'bg-zinc-800 text-white shadow-sm border border-zinc-700/60'
-                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
-                }`}
-              >
-                <Trophy className="w-3.5 h-3.5 text-cyan-400" />
-                <span>ABU ROBOCON &amp; IITs</span>
-                {activeTab === 'robocon' && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveTab('robosaga')}
-                className={`relative px-4 py-2 rounded-lg font-medium transition-all duration-200 cursor-pointer flex items-center gap-2 ${
-                  activeTab === 'robosaga'
-                    ? 'bg-zinc-800 text-white shadow-sm border border-zinc-700/60'
-                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
-                }`}
-              >
-                <Flame className="w-3.5 h-3.5 text-rose-400" />
-                <span>ROBOSAGA FEST</span>
-                {activeTab === 'robosaga' && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />
-                )}
-              </button>
-            </div>
-          </div>
-        </ScrollReveal>
-
-        {activeTab === 'robocon' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Honor 1: Robocon 2021 */}
-            <GlassCard
-              badge="ABU ROBOCON 2021"
-              spotlightColor="rgba(52, 211, 153, 0.25)"
-            >
-              <div>
-                <span className="font-mono text-3xl sm:text-4xl font-black text-emerald-400">100 / 100</span>
-                <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
-                  3D CAD Design Score
-                </h3>
-                <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
-                  Awarded a perfect 100/100 score in 3D CAD design analysis by national and international judges for virtual kinematics, weight optimization, and stress simulation.
-                </p>
-              </div>
-            </GlassCard>
-
-            {/* Honor 2: Robocon 2015 */}
-            <GlassCard
-              badge="ABU ROBOCON 2015"
-              spotlightColor="rgba(255, 255, 255, 0.08)"
-            >
-              <div>
-                <span className="font-mono text-3xl sm:text-4xl font-black text-white">&#8377;50,000</span>
-                <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
-                  MathWorks Award &amp; Rank
-                </h3>
-                <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
-                  Bagged the MathWorks National Award accompanied by a cash prize of &#8377;50,000, along with the title of Best Non-Quarterfinalist Team.
-                </p>
-              </div>
-            </GlassCard>
-
-            {/* Honor 3: Robocon 2013 */}
-            <GlassCard
-              badge="ABU ROBOCON 2013 // PUNE"
-              spotlightColor="rgba(251, 191, 36, 0.25)"
-            >
-              <div>
-                <span className="font-mono text-3xl sm:text-4xl font-black text-amber-400">ROOKIE</span>
-                <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
-                  Best Rookie Team
-                </h3>
-                <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
-                  Awarded Best Rookie Team at Balewadi Stadium, Pune in our debut Robocon campaign, surpassing established engineering institutions across India.
-                </p>
-              </div>
-            </GlassCard>
-
-            {/* Honor 4: Techfest IIT Bombay 2015 */}
-            <GlassCard
-              badge="IIT BOMBAY // 2015"
-              spotlightColor="rgba(168, 85, 247, 0.25)"
-            >
-              <div>
-                <span className="font-mono text-3xl sm:text-4xl font-black text-purple-400">2ND PRIZE</span>
-                <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
-                  Pixelate Vision Event
-                </h3>
-                <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
-                  Clinched 2nd prize in the flagship image processing and computer-vision robotics event &lsquo;Pixelate&rsquo; at Techfest IIT Bombay.
-                </p>
-              </div>
-            </GlassCard>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <GlassCard
-              badge="ANNUAL HOSTING"
-              spotlightColor="rgba(251, 191, 36, 0.25)"
-            >
-              <div>
-                <span className="font-mono text-3xl sm:text-4xl font-black text-amber-400">3 DAYS</span>
-                <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
-                  Carnival of Mechatronics
-                </h3>
-                <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
-                  Our flagship techno-management festival bringing together collegiate hardware hackers, makers, and innovators across Eastern India.
-                </p>
-              </div>
-            </GlassCard>
-
-            <GlassCard
-              badge="ENCLOSED STEEL CAGE"
-              spotlightColor="rgba(244, 63, 94, 0.25)"
-            >
-              <div>
-                <span className="font-mono text-3xl sm:text-4xl font-black text-rose-400">COMBAT</span>
-                <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
-                  Heavy Armor Combat Wars
-                </h3>
-                <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
-                  High-kinetic spinner combat bots, wedge flippers, and armored chassis competing in a polycarbonate-reinforced combat arena.
-                </p>
-              </div>
-            </GlassCard>
-
-            <GlassCard
-              badge="ATTENDEES &amp; ARENA"
-              spotlightColor="rgba(56, 189, 248, 0.25)"
-            >
-              <div>
-                <span className="font-mono text-3xl sm:text-4xl font-black text-sky-400">1,000+</span>
-                <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
-                  RoboSaga Participants
-                </h3>
-                <p className="font-modern text-xs text-slate-300 mt-2 leading-relaxed">
-                  Workshops, autonomous line-tracking sprints, maze solving trials, and technical project exhibitions held on campus.
-                </p>
-              </div>
-            </GlassCard>
-          </div>
-        )}
-      </section>
-
-      {/* =====================================================================
-          6. ROBOSAGA '26 FEATURE BANNER WITH GLASSMORPHISM & ISLAND BUTTONS
+          4. ROBOSAGA '26 FEATURE BANNER WITH GLASSMORPHISM & ISLAND BUTTONS
       ===================================================================== */}
       <section
         id="robosaga"
@@ -535,8 +391,8 @@ export default function Home() {
           spotlightColor="rgba(255, 159, 252, 0.25)"
           className="text-center p-6 sm:p-14"
         >
-          <blockquote className="font-modern font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight text-white uppercase leading-tight">
-            &ldquo;Software is easy until it has to push <span className="text-slate-300">30 kilograms of steel at 40 kilometers an hour</span>.&rdquo;
+          <blockquote className="font-modern font-black text-2xl sm:text-5xl lg:text-6xl tracking-tight text-white uppercase leading-tight">
+            &ldquo;Software is easy until it has to push <span className="animate-text-shimmer">30 kilograms of steel at 40 kilometers an hour</span>.&rdquo;
           </blockquote>
           <p className="mt-6 sm:mt-8 font-modern text-xs sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
             At Robolution, we do not build mockups. We mill structural aluminum, design custom multi-layer circuit boards, debug interrupt routines at 3 AM, and torture-test every robot until it survives the arena.
@@ -552,7 +408,7 @@ export default function Home() {
       {/* =====================================================================
           8. INSTITUTIONAL FOOTER & AUTHENTIC CONTACT
       ===================================================================== */}
-      <footer id="contact" className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl py-14 px-4 sm:px-8 md:pl-20">
+      <footer id="contact" className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl border-t border-white/5 py-14 px-4 sm:px-8 md:pl-20">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
           <div className="flex flex-col">
             <span className="font-modern font-black text-xl text-white uppercase tracking-tight flex items-center gap-2">
@@ -578,7 +434,7 @@ export default function Home() {
               href="https://www.instagram.com/robolution.bitm/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors flex items-center gap-1.5 font-mono text-xs"
+              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-mono text-xs"
               aria-label="Instagram"
             >
               <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -593,7 +449,7 @@ export default function Home() {
               href="https://www.linkedin.com/company/robolution-bit-mesra/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors flex items-center gap-1.5 font-mono text-xs"
+              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-mono text-xs"
               aria-label="LinkedIn"
             >
               <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -608,7 +464,7 @@ export default function Home() {
               href="https://www.facebook.com/TeamRobolution"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors flex items-center gap-1.5 font-mono text-xs"
+              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-mono text-xs"
               aria-label="Facebook"
             >
               <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -619,7 +475,7 @@ export default function Home() {
 
             <a
               href="mailto:pratyumnis@bitmesra.ac.in"
-              className="hover:text-white transition-colors flex items-center gap-1.5 font-mono text-xs font-semibold"
+              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-mono text-xs font-semibold"
             >
               <Mail className="w-4 h-4" />
               <span>pratyumnis@bitmesra.ac.in</span>
