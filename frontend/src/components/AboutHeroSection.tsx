@@ -78,16 +78,16 @@ export default function AboutHeroSection() {
           {/* ---------------------------------------------------------------
               CENTER COLUMN (5 Cols): Clean, Isolated Bot Wireframe
           --------------------------------------------------------------- */}
-          <div className="lg:col-span-5 relative flex items-center justify-center order-2">
-            <ScrollReveal delay={150}>
-              <div className="relative w-full h-[320px] sm:h-[400px] lg:h-[460px] xl:h-[500px] flex items-center justify-center">
+          <div className="lg:col-span-5 relative w-full flex items-center justify-center order-2">
+            <ScrollReveal delay={150} className="w-full flex items-center justify-center">
+              <div className="relative w-full max-w-[540px] aspect-[4/3] sm:aspect-[16/11] h-[340px] sm:h-[420px] lg:h-[480px] xl:h-[520px] flex items-center justify-center">
                 <Image
-                  src="/combat-bot-wireframe.jpg"
+                  src="/combat-bot-transparent.png"
                   alt="Robolution Combat Drum Spinner Bot CAD Wireframe"
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 45vw, 40vw"
-                  className="object-contain filter contrast-125 brightness-110 mix-blend-screen drop-shadow-[0_0_28px_rgba(56,189,248,0.25)] transition-transform duration-700 ease-out hover:scale-105"
+                  className="object-contain filter contrast-125 brightness-110 drop-shadow-[0_0_32px_rgba(56,189,248,0.25)] transition-transform duration-700 ease-out hover:scale-105"
                 />
               </div>
             </ScrollReveal>
