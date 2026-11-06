@@ -26,13 +26,10 @@ export default function AboutHeroSection() {
     >
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         {/* =================================================================
-            1. TOP: OVERSIZED BOLD "ABOUT US" HEADING (Wide Word-Spacing, Compact Gap)
+            1. TOP: OVERSIZED BOLD "ABOUT US" HEADING (Wide Word-Spacing, Minimal Gap)
         ================================================================= */}
         <ScrollReveal>
-          <div className="mb-1.5 sm:mb-2 lg:mb-2">
-            <span className="font-mono text-xs sm:text-sm font-bold tracking-[0.25em] text-cyan-400 uppercase block mb-1">
-              // OFFICIAL ROBOTICS SOCIETY &bull; BIT MESRA &bull; EST. 2001
-            </span>
+          <div className="mb-1 sm:mb-1.5 lg:mb-2">
             <h2 className="font-modern font-black text-6xl sm:text-7xl md:text-8xl lg:text-[8rem] xl:text-[9rem] tracking-tight [word-spacing:0.25em] text-white uppercase leading-[0.82] select-none">
               ABOUT US
             </h2>
