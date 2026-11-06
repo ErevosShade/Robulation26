@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { X, RotateCw, Box, Eye, Layers, Maximize2, Activity } from 'lucide-react';
-import DecryptedText from '@/components/DecryptedText';
 
 interface CadInspectorModalProps {
   isOpen: boolean;
@@ -23,7 +22,7 @@ export default function CadInspectorModal({
   specs,
   tag,
   modelPath,
-  accentColor = '#FF9FFC',
+  accentColor = '#38bdf8',
 }: CadInspectorModalProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const [wireframeOnly, setWireframeOnly] = useState<boolean>(true);
@@ -90,7 +89,7 @@ export default function CadInspectorModal({
     dirLight1.position.set(5, 10, 7);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x5227ff, 1.8);
+    const dirLight2 = new THREE.DirectionalLight(0x38bdf8, 1.2);
     dirLight2.position.set(-6, -4, -5);
     scene.add(dirLight2);
 
@@ -316,7 +315,7 @@ export default function CadInspectorModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-300">
       {/* Outer Shell: Double-Bezel Precision Glass Container */}
-      <div className="relative w-full max-w-5xl h-[85vh] max-h-[760px] rounded-[1.75rem] p-1.5 bg-gradient-to-b from-white/20 via-[#5227FF]/20 to-white/10 shadow-[0_0_50px_rgba(82,39,255,0.35)] flex flex-col overflow-hidden">
+      <div className="relative w-full max-w-5xl h-[85vh] max-h-[760px] rounded-[1.75rem] p-1.5 bg-gradient-to-b from-white/20 via-white/10 to-white/5 border border-white/20 shadow-2xl flex flex-col overflow-hidden">
         {/* Inner Core Shell */}
         <div className="relative w-full h-full rounded-[calc(1.75rem-0.375rem)] bg-[#03060c]/95 border border-white/10 flex flex-col overflow-hidden">
           {/* Top Aerospace Telemetry Bar */}
@@ -344,7 +343,7 @@ export default function CadInspectorModal({
                 onClick={() => setWireframeOnly(!wireframeOnly)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-[10px] uppercase font-bold tracking-wider transition-all cursor-pointer border ${
                   wireframeOnly
-                    ? 'bg-[#5227FF]/30 border-[#FF9FFC]/40 text-[#FF9FFC] shadow-[0_0_10px_rgba(255,159,252,0.2)]'
+                    ? 'bg-white/20 border-white/40 text-white shadow-sm'
                     : 'bg-white/5 border-white/10 text-slate-400 hover:text-white'
                 }`}
                 title="Toggle Wireframe Edges"
@@ -395,8 +394,8 @@ export default function CadInspectorModal({
             {/* Loading Indicator */}
             {!isLoaded && (
               <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-[#03060c]/80 backdrop-blur-xs">
-                <div className="w-10 h-10 border-2 border-white/20 border-t-[#FF9FFC] rounded-full animate-spin" />
-                <span className="font-mono text-xs uppercase tracking-widest text-[#FF9FFC]">
+                <div className="w-10 h-10 border-2 border-white/20 border-t-cyan-400 rounded-full animate-spin" />
+                <span className="font-mono text-xs uppercase tracking-widest text-cyan-400">
                   STREAMING CAD MESH ({loadingProgress}%)
                 </span>
               </div>
@@ -407,7 +406,7 @@ export default function CadInspectorModal({
 
             {/* HUD Reticles & Targeting Crosshairs */}
             <div className="absolute top-4 left-4 pointer-events-none font-mono text-[9px] text-slate-400 space-y-1">
-              <div className="text-[#FF9FFC] font-bold">STATUS: TELEMETRY STREAM ONLINE</div>
+              <div className="text-cyan-400 font-bold">STATUS: TELEMETRY STREAM ONLINE</div>
               <div>YAW: {telemetry.yaw}&deg; &bull; PITCH: {telemetry.pitch}&deg;</div>
               <div>MAGNIFICATION: {telemetry.zoom}%</div>
               <div>CAD ORBIT ENGINE // 60 FPS VECTOR PIPELINE</div>

@@ -154,8 +154,8 @@ export interface MoltenMetalProps {
 }
 
 export default function MoltenMetal({
-  color1 = '#5227FF',
-  color2 = '#FF9FFC',
+  color1 = '#020408',
+  color2 = '#0f172a',
   color3 = '#FFFFFF',
   speed = 0.35,
   scale = 4,

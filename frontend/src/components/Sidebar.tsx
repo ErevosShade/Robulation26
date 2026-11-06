@@ -113,7 +113,7 @@ export default function Sidebar({ theme = 'dark' }: SidebarProps) {
                 alt="ROBOLUTION Logo"
                 width={32}
                 height={32}
-                className="object-contain filter drop-shadow-[0_0_10px_rgba(255,159,252,0.45)] transition-transform duration-200 group-hover:scale-110"
+                className="object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] transition-transform duration-200 group-hover:scale-110"
                 priority
               />
             </div>
@@ -141,7 +141,7 @@ export default function Sidebar({ theme = 'dark' }: SidebarProps) {
                       isActive
                         ? isLight
                           ? 'text-cyan-700 bg-cyan-50/90 border border-cyan-200/80 shadow-[0_2px_8px_rgba(2,132,199,0.2)]'
-                          : 'text-white bg-white/20 shadow-[0_0_15px_rgba(255,159,252,0.35),inset_0_1px_1px_rgba(255,255,255,0.4)] border border-white/25'
+                          : 'text-white bg-white/20 shadow-[0_0_12px_rgba(255,255,255,0.25),inset_0_1px_1px_rgba(255,255,255,0.4)] border border-white/25'
                         : isLight
                         ? 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
                         : 'text-zinc-400 hover:text-white hover:bg-white/10'
@@ -152,7 +152,7 @@ export default function Sidebar({ theme = 'dark' }: SidebarProps) {
 
                     {/* Active Pip Indicator */}
                     {isActive && (
-                      <span className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-1.5 h-4 bg-gradient-to-b from-[#FF9FFC] to-[#5227FF] rounded-r-full shadow-[0_0_12px_#ff9ffc]" />
+                      <span className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-1.5 h-4 bg-sky-400 rounded-r-full shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
                     )}
                   </Link>
 

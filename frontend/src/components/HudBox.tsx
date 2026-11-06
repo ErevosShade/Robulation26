@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import DecryptedText from '@/components/DecryptedText';
 
 export type HudBoxVariant = 'shape1' | 'shape2' | 'shape3' | 'shape4' | 'shape5' | 'shape6';
 
@@ -154,17 +153,7 @@ export default function HudBox({
             <div className="flex items-center gap-2">
               <span className={`w-1.5 h-1.5 rounded-full ${isLight ? 'bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.7)]' : 'bg-white shadow-[0_0_6px_rgba(255,255,255,0.9)]'} animate-pulse`} />
               <span className={`font-modern text-[9.5px] sm:text-[10.5px] font-bold tracking-widest ${isLight ? 'text-slate-800' : 'text-slate-100'} uppercase`}>
-                <DecryptedText
-                  text={title || 'EST. 2001 // BIT MESRA'}
-                  animateOn="view"
-                  speed={35}
-                  maxIterations={12}
-                  sequential={true}
-                  revealDirection="start"
-                  characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-                  className={isLight ? "text-slate-800" : "text-slate-100"}
-                  encryptedClassName={isLight ? "text-slate-400 opacity-60" : "text-slate-500 opacity-60"}
-                />
+                {title || 'EST. 2001 // BIT MESRA'}
               </span>
             </div>
           )}
@@ -428,65 +417,26 @@ export default function HudBox({
           <div className="flex items-center gap-2 mb-1">
             <span className={`w-1.5 h-1.5 rounded-full ${isLight ? 'bg-cyan-600 shadow-[0_0_6px_rgba(2,132,199,0.7)]' : 'bg-white shadow-[0_0_6px_rgba(255,255,255,0.9)]'} animate-pulse`} />
             <span className={`font-modern text-[8px] sm:text-[9px] font-bold tracking-widest uppercase ${isLight ? 'text-cyan-700' : 'text-slate-300'}`}>
-              <DecryptedText
-                text={badge}
-                animateOn="view"
-                speed={35}
-                maxIterations={10}
-                sequential={true}
-                revealDirection="start"
-                characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-                className={isLight ? "text-cyan-700" : "text-slate-300"}
-                encryptedClassName={isLight ? "text-slate-400 opacity-60" : "text-slate-500 opacity-60"}
-              />
+              {badge}
             </span>
           </div>
         )}
 
         {title && (
           <h3 className={`font-modern text-[12px] sm:text-[13.5px] font-extrabold tracking-wider uppercase ${isLight ? 'text-slate-950' : 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.45)]'} leading-snug`}>
-            <DecryptedText
-              text={title}
-              animateOn="view"
-              speed={30}
-              maxIterations={14}
-              sequential={true}
-              revealDirection="start"
-              characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-              className={isLight ? "text-slate-950" : "text-white"}
-              encryptedClassName={isLight ? "text-slate-400 opacity-60" : "text-slate-400 opacity-60"}
-            />
+            {title}
           </h3>
         )}
 
         {subtitle && (
           <p className={`font-modern text-[9px] sm:text-[10px] font-bold tracking-wider ${isLight ? 'text-cyan-600' : 'text-slate-300'} uppercase mt-0.5 leading-snug`}>
-            <DecryptedText
-              text={subtitle}
-              animateOn="view"
-              speed={25}
-              maxIterations={12}
-              sequential={true}
-              revealDirection="start"
-              characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-              className={isLight ? "text-cyan-600" : "text-slate-300"}
-              encryptedClassName={isLight ? "text-slate-400 opacity-60" : "text-slate-500 opacity-60"}
-            />
+            {subtitle}
           </p>
         )}
 
         {description && (
           <p className={`font-modern text-[8.5px] sm:text-[9.5px] font-medium tracking-wide ${isLight ? 'text-slate-600' : 'text-slate-400'} mt-1 leading-relaxed line-clamp-2`}>
-            <DecryptedText
-              text={description}
-              animateOn="view"
-              speed={20}
-              maxIterations={10}
-              sequential={false}
-              characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-              className={isLight ? "text-slate-600" : "text-slate-400"}
-              encryptedClassName={isLight ? "text-slate-400 opacity-50" : "text-slate-600 opacity-50"}
-            />
+            {description}
           </p>
         )}
 

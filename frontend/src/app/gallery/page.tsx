@@ -8,7 +8,6 @@ import HudBox from '@/components/HudBox';
 import MoltenMetal from '@/components/MoltenMetal';
 import GlassCard from '@/components/GlassCard';
 import IslandButton from '@/components/IslandButton';
-import DecryptedText from '@/components/DecryptedText';
 import CadInspectorModal from '@/components/CadInspectorModal';
 import {
   Image as ImageIcon,
@@ -44,7 +43,7 @@ const galleryItems: GalleryItem[] = [
     description: 'Rocker-bogie suspension system with multi-terrain articulated wheels and stereo-vision camera mast for autonomous terrain mapping.',
     tag: 'EXPLORATION CHASSIS',
     specs: '6-Wheel Rocker-Bogie • ROS 2 Navigation • Depth Sensor Mast',
-    accent: '#FF9FFC',
+    accent: '#38bdf8',
     modelPath: '/curiosity.glb'
   },
   {
@@ -54,7 +53,7 @@ const galleryItems: GalleryItem[] = [
     description: 'Precision omni-directional mobile base with custom planetary gearbox reductions, designed for rapid field trajectory shifting and high-torque braking.',
     tag: 'NATIONAL ROBOCON',
     specs: '3x Omni-Wheel Drive • Custom ESCs • 100/100 CAD Heritage',
-    accent: '#5227FF',
+    accent: '#38bdf8',
     modelPath: '/buggy.glb'
   },
   {
@@ -110,12 +109,12 @@ export default function GalleryPage() {
     : galleryItems.filter(item => item.category === filter);
 
   return (
-    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-[#5227FF]/40 selection:text-[#FF9FFC] overflow-x-hidden">
+    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
       {/* Background MoltenMetal WebGL Caustics */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <MoltenMetal
-          color1="#5227FF"
-          color2="#FF9FFC"
+          color1="#020408"
+          color2="#0f172a"
           color3="#FFFFFF"
           speed={0.18}
           scale={4.3}
@@ -150,26 +149,19 @@ export default function GalleryPage() {
         <div className="flex items-center gap-2 font-mono text-[10px] sm:text-xs text-slate-400 mb-6 uppercase tracking-widest">
           <Link href="/" className="hover:text-white transition-colors">Mission Control</Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-          <span className="text-[#FF9FFC]">Build Archives &amp; Gallery</span>
+          <span className="text-slate-300">Build Archives &amp; Gallery</span>
         </div>
 
         {/* Hero Title Section */}
         <div className="mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-pulse" />
-            <DecryptedText
-              text="// HARDWARE ARCHIVES • MECHATRONIC CHRONICLES"
-              animateOn="view"
-              speed={28}
-              sequential={true}
-              characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-              className="text-slate-300"
-            />
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            <span>// HARDWARE ARCHIVES &bull; MECHATRONIC CHRONICLES</span>
           </div>
 
           <h1 className="font-modern font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white uppercase leading-[1.05]">
             HARDWARE SCHEMATICS &amp; <br />
-            <span className="animate-text-shimmer">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">
               PROTOTYPING VAULT
             </span>
           </h1>
@@ -202,7 +194,7 @@ export default function GalleryPage() {
           {filteredItems.map(item => (
             <GlassCard
               key={item.id}
-              spotlightColor="rgba(255, 159, 252, 0.22)"
+              spotlightColor="rgba(255, 255, 255, 0.08)"
               className="p-8 flex flex-col justify-between"
             >
               {/* Graphic Blueprint Placeholder Card */}
@@ -222,7 +214,7 @@ export default function GalleryPage() {
                 />
 
                 <div
-                  className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center mb-3 border transition-transform group-hover:scale-110 shadow-[0_0_15px_rgba(82,39,255,0.25)]"
+                  className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center mb-3 border transition-transform group-hover:scale-110 shadow-sm"
                   style={{
                     borderColor: `${item.accent}50`,
                     backgroundColor: `${item.accent}15`,
@@ -237,8 +229,8 @@ export default function GalleryPage() {
                 </span>
 
                 {/* Hover overlay hint */}
-                <div className="absolute inset-0 bg-[#5227FF]/20 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-mono text-xs uppercase tracking-wider font-bold">
-                  <Box className="w-4 h-4 text-[#FF9FFC]" />
+                <div className="absolute inset-0 bg-white/10 backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-mono text-xs uppercase tracking-wider font-bold">
+                  <Box className="w-4 h-4 text-cyan-400" />
                   <span>Inspect 3D CAD</span>
                 </div>
               </div>
@@ -246,7 +238,7 @@ export default function GalleryPage() {
               {/* Information */}
               <div>
                 <span
-                  className="font-mono text-[9px] tracking-widest uppercase font-bold px-2.5 py-0.5 rounded-full border mb-3 inline-block shadow-[0_0_8px_rgba(255,159,252,0.15)]"
+                  className="font-mono text-[9px] tracking-widest uppercase font-bold px-2.5 py-0.5 rounded-full border mb-3 inline-block"
                   style={{
                     color: item.accent,
                     borderColor: `${item.accent}50`,
@@ -270,9 +262,9 @@ export default function GalleryPage() {
                 <button
                   type="button"
                   onClick={() => setActiveItem(item)}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.06] hover:bg-[#5227FF]/25 border border-white/10 hover:border-[#FF9FFC]/40 font-mono text-[10px] text-white uppercase font-bold tracking-wider transition-all cursor-pointer shadow-xs"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/15 border border-white/10 hover:border-white/30 font-mono text-[10px] text-white uppercase font-bold tracking-wider transition-all cursor-pointer shadow-xs"
                 >
-                  <Box className="w-3.5 h-3.5 text-[#FF9FFC]" />
+                  <Box className="w-3.5 h-3.5 text-cyan-400" />
                   <span>Inspect 3D</span>
                 </button>
 
@@ -301,7 +293,7 @@ export default function GalleryPage() {
         {/* Lab Visit CTA with GlassCard & IslandButton */}
         <GlassCard
           badge="FACILITY ACCESS // CAMPUS TOURS"
-          spotlightColor="rgba(82, 39, 255, 0.25)"
+          spotlightColor="rgba(255, 255, 255, 0.08)"
           className="p-8 sm:p-12 flex flex-col sm:flex-row items-center justify-between gap-6"
         >
           <div>
@@ -338,7 +330,7 @@ export default function GalleryPage() {
               href="https://www.instagram.com/robolution.bitm/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors"
+              className="hover:text-white transition-colors"
             >
               @robolution.bitm
             </a>
@@ -346,13 +338,13 @@ export default function GalleryPage() {
               href="https://www.linkedin.com/company/robolution-bit-mesra/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors"
+              className="hover:text-white transition-colors"
             >
               LinkedIn
             </a>
             <a
               href="mailto:pratyumnis@bitmesra.ac.in"
-              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-semibold"
+              className="hover:text-white transition-colors flex items-center gap-1.5 font-semibold"
             >
               <Mail className="w-3.5 h-3.5" />
               <span>pratyumnis@bitmesra.ac.in</span>

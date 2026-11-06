@@ -31,19 +31,19 @@ export default function IslandButton({
   let variantClasses = '';
   if (isPrimary) {
     variantClasses =
-      'bg-white text-black hover:bg-slate-100 hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] border border-white';
+      'bg-white text-black hover:bg-slate-100 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] border border-white';
   } else if (isGlass) {
     variantClasses =
-      'bg-white/[0.05] hover:bg-white/[0.12] text-white border border-white/20 hover:border-white/40 backdrop-blur-xl hover:shadow-[0_0_25px_rgba(255,159,252,0.25)]';
+      'bg-white/[0.05] hover:bg-white/[0.12] text-white border border-white/20 hover:border-white/40 backdrop-blur-xl hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]';
   } else {
     variantClasses =
-      'bg-[#060913]/90 hover:bg-[#0c1222] text-white border border-white/15 hover:border-[#FF9FFC]/50 shadow-[0_4px_20px_rgba(0,0,0,0.5)]';
+      'bg-[#060913]/90 hover:bg-[#0c1222] text-white border border-white/15 hover:border-white/40 shadow-[0_4px_20px_rgba(0,0,0,0.5)]';
   }
 
   const iconClasses = `w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
     isPrimary
-      ? 'bg-black text-white group-hover:bg-[#5227FF] group-hover:text-white'
-      : 'bg-white/10 group-hover:bg-[#FF9FFC] group-hover:text-black text-white'
+      ? 'bg-black text-white group-hover:bg-slate-800 group-hover:text-white'
+      : 'bg-white/10 group-hover:bg-white group-hover:text-black text-white'
   } group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-105`;
 
   const content = (

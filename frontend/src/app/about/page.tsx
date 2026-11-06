@@ -8,7 +8,6 @@ import MoltenMetal from '@/components/MoltenMetal';
 import TechText from '@/components/TechText';
 import GlassCard from '@/components/GlassCard';
 import IslandButton from '@/components/IslandButton';
-import DecryptedText from '@/components/DecryptedText';
 import ScrollReveal from '@/components/ScrollReveal';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import {
@@ -119,12 +118,12 @@ const milestones = [
 
 export default function AboutPage() {
   return (
-    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-[#5227FF]/40 selection:text-[#FF9FFC] overflow-x-hidden">
+    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
       {/* Background MoltenMetal WebGL Caustics */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <MoltenMetal
-          color1="#5227FF"
-          color2="#FF9FFC"
+          color1="#020408"
+          color2="#0f172a"
           color3="#FFFFFF"
           speed={0.18}
           scale={4.3}
@@ -159,26 +158,19 @@ export default function AboutPage() {
         <div className="flex items-center gap-2 font-mono text-[10px] sm:text-xs text-slate-400 mb-6 uppercase tracking-widest">
           <Link href="/" className="hover:text-white transition-colors">Mission Control</Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-          <span className="text-[#FF9FFC]">About Robolution</span>
+          <span className="text-slate-300">About Robolution</span>
         </div>
 
         {/* Hero Title Section */}
         <div className="mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-pulse" />
-            <DecryptedText
-              text="// OFFICIAL ROBOTICS SOCIETY • BIT MESRA • EST. 2001"
-              animateOn="view"
-              speed={28}
-              sequential={true}
-              characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-              className="text-slate-300"
-            />
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            <span>// OFFICIAL ROBOTICS SOCIETY &bull; BIT MESRA &bull; EST. 2001</span>
           </div>
 
           <h1 className="font-modern font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white uppercase leading-[1.05]">
             BUILDING THE FUTURE OF <br />
-            <span className="animate-text-shimmer">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">
               AUTONOMOUS MECHATRONICS
             </span>
           </h1>
@@ -195,11 +187,11 @@ export default function AboutPage() {
           <ScrollReveal>
             <GlassCard
               badge="LEGACY // 2001-2026"
-              spotlightColor="rgba(255, 159, 252, 0.2)"
+              spotlightColor="rgba(255, 255, 255, 0.08)"
               className="p-6"
             >
               <div>
-                <AnimatedCounter target={24} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
+                <AnimatedCounter target={24} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-white block" />
                 <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Years of Legacy</span>
                 <p className="font-mono text-[11px] text-slate-400 mt-1">Pioneering robotics at BIT Mesra since 2001.</p>
               </div>
@@ -209,11 +201,11 @@ export default function AboutPage() {
           <ScrollReveal delay={100}>
             <GlassCard
               badge="ACTIVE CADRE"
-              spotlightColor="rgba(82, 39, 255, 0.2)"
+              spotlightColor="rgba(255, 255, 255, 0.08)"
               className="p-6"
             >
               <div>
-                <AnimatedCounter target={80} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
+                <AnimatedCounter target={80} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-white block" />
                 <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Active Members</span>
                 <p className="font-mono text-[11px] text-slate-400 mt-1">Undergraduate engineers across mechanical, ECE &amp; CS.</p>
               </div>
@@ -223,11 +215,11 @@ export default function AboutPage() {
           <ScrollReveal delay={200}>
             <GlassCard
               badge="PROTOTYPES"
-              spotlightColor="rgba(52, 211, 153, 0.2)"
+              spotlightColor="rgba(255, 255, 255, 0.08)"
               className="p-6"
             >
               <div>
-                <AnimatedCounter target={25} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
+                <AnimatedCounter target={25} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-white block" />
                 <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Hardware Projects</span>
                 <p className="font-mono text-[11px] text-slate-400 mt-1">Combat bots, autonomous rovers, and delta arms.</p>
               </div>
@@ -237,11 +229,11 @@ export default function AboutPage() {
           <ScrollReveal delay={300}>
             <GlassCard
               badge="BOOTCAMPS"
-              spotlightColor="rgba(251, 191, 36, 0.2)"
+              spotlightColor="rgba(255, 255, 255, 0.08)"
               className="p-6"
             >
               <div>
-                <AnimatedCounter target={15} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-[#FF9FFC] block" />
+                <AnimatedCounter target={15} suffix="+" className="font-mono text-3xl sm:text-5xl font-black text-white block" />
                 <span className="font-modern font-bold text-sm text-white uppercase mt-2 block">Workshops Hosted</span>
                 <p className="font-mono text-[11px] text-slate-400 mt-1">Training hundreds of freshmen in robotics yearly.</p>
               </div>
@@ -253,11 +245,11 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-24">
           <GlassCard
             badge="INSTITUTIONAL HORIZON // VISION"
-            spotlightColor="rgba(255, 159, 252, 0.25)"
+            spotlightColor="rgba(255, 255, 255, 0.08)"
             className="p-8 sm:p-10"
           >
             <div>
-              <div className="w-12 h-12 rounded-xl bg-[#5227FF]/20 border border-[#FF9FFC]/30 flex items-center justify-center text-[#FF9FFC] mb-6 shadow-[0_0_15px_rgba(82,39,255,0.3)]">
+              <div className="w-12 h-12 rounded-xl bg-white/[0.06] border border-white/20 flex items-center justify-center text-white mb-6 shadow-sm">
                 <Target className="w-6 h-6" />
               </div>
               <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
@@ -271,11 +263,11 @@ export default function AboutPage() {
 
           <GlassCard
             badge="ACTIVE MANDATE // MISSION"
-            spotlightColor="rgba(82, 39, 255, 0.25)"
+            spotlightColor="rgba(255, 255, 255, 0.08)"
             className="p-8 sm:p-10"
           >
             <div>
-              <div className="w-12 h-12 rounded-xl bg-[#5227FF]/20 border border-[#FF9FFC]/30 flex items-center justify-center text-[#FF9FFC] mb-6 shadow-[0_0_15px_rgba(82,39,255,0.3)]">
+              <div className="w-12 h-12 rounded-xl bg-white/[0.06] border border-white/20 flex items-center justify-center text-white mb-6 shadow-sm">
                 <Compass className="w-6 h-6" />
               </div>
               <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
@@ -291,18 +283,11 @@ export default function AboutPage() {
         {/* Core Values Section */}
         <div className="mb-24">
           <div className="mb-10">
-            <span className="font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase block mb-2">
-              <DecryptedText
-                text="// GUIDING PRINCIPLES • OPERATIONAL CODE"
-                animateOn="view"
-                speed={28}
-                sequential={true}
-                characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-                className="text-[#FF9FFC]"
-              />
+            <span className="font-mono text-xs text-slate-400 font-bold tracking-widest uppercase block mb-2">
+              // GUIDING PRINCIPLES &bull; OPERATIONAL CODE
             </span>
             <h2 className="font-modern font-black text-3xl sm:text-4xl text-white uppercase">
-              OUR <span className="animate-text-shimmer">CORE VALUES</span>
+              OUR CORE VALUES
             </h2>
           </div>
 
@@ -311,11 +296,11 @@ export default function AboutPage() {
               <GlassCard
                 key={i}
                 badge={v.tag}
-                spotlightColor="rgba(255, 159, 252, 0.2)"
+                spotlightColor="rgba(255, 255, 255, 0.08)"
                 className="p-8 flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-10 h-10 rounded-xl bg-[#5227FF]/15 border border-[#5227FF]/30 flex items-center justify-center text-[#FF9FFC] mb-6 group-hover:scale-105 transition-transform shadow-[0_0_10px_rgba(82,39,255,0.2)]">
+                  <div className="w-10 h-10 rounded-xl bg-white/[0.06] border border-white/15 flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform shadow-sm">
                     <v.icon className="w-5 h-5" />
                   </div>
                   <h3 className="font-modern font-bold text-xl text-white uppercase tracking-tight">
@@ -335,18 +320,11 @@ export default function AboutPage() {
           <ScrollReveal>
             <div className="mb-14">
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-pulse" />
-                <DecryptedText
-                  text="// CHRONO BUS ARCHITECTURE • EXPEDITION TIMELINE"
-                  animateOn="view"
-                  speed={28}
-                  sequential={true}
-                  characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-                  className="text-slate-300"
-                />
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                <span>// CHRONO BUS ARCHITECTURE &bull; EXPEDITION TIMELINE</span>
               </div>
               <h2 className="font-modern font-black text-3xl sm:text-5xl text-white uppercase tracking-tight">
-                OUR <span className="animate-text-shimmer">EXPEDITION TIMELINE</span>
+                OUR EXPEDITION TIMELINE
               </h2>
               <p className="font-modern text-sm sm:text-base text-slate-300 max-w-2xl mt-4 leading-relaxed">
                 A quarter-century chronicle of collegiate robotics milestones, national podium campaigns, and precision mechatronics evolution at BIT Mesra.
@@ -363,15 +341,15 @@ export default function AboutPage() {
                 <span className="font-mono text-[8px] text-slate-500 uppercase tracking-widest bg-[#020408] px-2 py-0.5 rounded border border-white/10 mb-1">
                   BUS INTAKE // 2001
                 </span>
-                <span className="w-2.5 h-2.5 rounded-full bg-[#FF9FFC] shadow-[0_0_10px_#FF9FFC]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
               </div>
 
               {/* Central Dual Bus Rails */}
               <div className="relative flex-1 w-3.5 flex justify-between">
                 {/* Main Illuminated Power Rail */}
-                <div className="w-[2px] h-full bg-gradient-to-b from-[#5227FF] via-[#FF9FFC] to-[#38bdf8] shadow-[0_0_12px_rgba(255,159,252,0.8)] opacity-90" />
+                <div className="w-[2px] h-full bg-gradient-to-b from-cyan-400 via-white to-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.6)] opacity-90" />
                 {/* Secondary Telemetry Ground Rail */}
-                <div className="w-[2px] h-full bg-gradient-to-b from-[#38bdf8] via-[#5227FF] to-[#FF9FFC] opacity-40" />
+                <div className="w-[2px] h-full bg-gradient-to-b from-sky-400 via-slate-500 to-cyan-300 opacity-40" />
                 {/* Subtle horizontal bus ladder ticks */}
                 <div
                   className="absolute inset-0 opacity-20"
@@ -385,7 +363,7 @@ export default function AboutPage() {
 
               {/* Bottom Bus Egress Terminal */}
               <div className="flex flex-col items-center mt-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#38bdf8] shadow-[0_0_10px_#38bdf8]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
                 <span className="font-mono text-[8px] text-slate-500 uppercase tracking-widest bg-[#020408] px-2 py-0.5 rounded border border-white/10 mt-1">
                   CONTINUOUS // 2026+
                 </span>
@@ -406,7 +384,7 @@ export default function AboutPage() {
                   >
                     {/* The Central Bus Coupler Node */}
                     <div className="absolute left-6 md:left-1/2 -translate-x-1/2 top-8 md:top-1/2 md:-translate-y-1/2 z-20 flex items-center justify-center pointer-events-none">
-                      <div className="relative w-9 h-9 rounded-full bg-[#020408] border-2 border-[#FF9FFC] shadow-[0_0_18px_rgba(255,159,252,0.6)] flex items-center justify-center">
+                      <div className="relative w-9 h-9 rounded-full bg-[#020408] border-2 border-white/30 shadow-[0_0_12px_rgba(255,255,255,0.2)] flex items-center justify-center">
                         <span className="w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_8px_white] animate-pulse" />
                       </div>
                     </div>
@@ -423,21 +401,21 @@ export default function AboutPage() {
                           <div
                             className={`hidden md:block absolute top-1/2 -translate-y-1/2 h-[2px] w-14 bg-gradient-to-r ${
                               isLeft
-                                ? 'right-[-56px] from-transparent via-[#FF9FFC] to-[#5227FF]'
-                                : 'left-[-56px] from-[#5227FF] via-[#FF9FFC] to-transparent'
-                            } opacity-70 group-hover:opacity-100 group-hover:shadow-[0_0_12px_#FF9FFC] transition-all`}
+                                ? 'right-[-56px] from-transparent via-cyan-400/50 to-white/30'
+                                : 'left-[-56px] from-white/30 via-cyan-400/50 to-transparent'
+                            } opacity-70 group-hover:opacity-100 group-hover:shadow-[0_0_8px_rgba(56,189,248,0.6)] transition-all`}
                           >
                             <span
-                              className={`absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#FF9FFC] ${
+                              className={`absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-cyan-400 ${
                                 isLeft ? 'right-0' : 'left-0'
                               }`}
                             />
                           </div>
 
                           <GlassCard
-                            spotlightColor="rgba(255, 159, 252, 0.22)"
+                            spotlightColor="rgba(255, 255, 255, 0.08)"
                             className={`p-6 sm:p-8 relative ${
-                              isLeft ? 'md:border-r-2 md:border-r-[#FF9FFC]/40' : 'md:border-l-2 md:border-l-[#5227FF]/40'
+                              isLeft ? 'md:border-r-2 md:border-r-cyan-400/30' : 'md:border-l-2 md:border-l-cyan-400/30'
                             }`}
                           >
                             {/* Card Telemetry Notch */}
@@ -446,8 +424,8 @@ export default function AboutPage() {
                                 isLeft ? 'md:flex-row-reverse' : ''
                               }`}
                             >
-                              <span className="flex items-center gap-1.5 text-[#FF9FFC] font-bold">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-pulse" />
+                              <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
+                                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                                 {m.code} // {m.tag}
                               </span>
                               <span className="text-slate-300 font-mono text-[8.5px] px-2 py-0.5 rounded bg-white/[0.04] border border-white/10">
@@ -461,7 +439,7 @@ export default function AboutPage() {
                                 isLeft ? 'md:justify-end' : 'justify-start'
                               }`}
                             >
-                              <span className="font-mono text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-[#FF9FFC] to-[#5227FF] drop-shadow-[0_0_16px_rgba(255,159,252,0.3)]">
+                              <span className="font-mono text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 drop-shadow-sm">
                                 {m.year}
                               </span>
                               <span className="font-mono text-[10px] text-sky-400 font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-sky-950/40 border border-sky-400/30">
@@ -470,7 +448,7 @@ export default function AboutPage() {
                             </div>
 
                             {/* Title */}
-                            <h3 className="font-modern font-black text-lg sm:text-xl text-white uppercase tracking-tight mb-2 group-hover:text-[#FF9FFC] transition-colors">
+                            <h3 className="font-modern font-black text-lg sm:text-xl text-white uppercase tracking-tight mb-2 group-hover:text-cyan-300 transition-colors">
                               {m.title}
                             </h3>
 
@@ -503,7 +481,7 @@ export default function AboutPage() {
         {/* CTA Banner with GlassCard & IslandButton */}
         <GlassCard
           badge="LAB COLLABORATION // DIRECT ENGAGEMENT"
-          spotlightColor="rgba(255, 159, 252, 0.25)"
+          spotlightColor="rgba(255, 255, 255, 0.08)"
           className="p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6"
         >
           <div>
@@ -548,7 +526,7 @@ export default function AboutPage() {
               href="https://www.instagram.com/robolution.bitm/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors"
+              className="hover:text-white transition-colors"
             >
               @robolution.bitm
             </a>
@@ -556,13 +534,13 @@ export default function AboutPage() {
               href="https://www.linkedin.com/company/robolution-bit-mesra/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors"
+              className="hover:text-white transition-colors"
             >
               LinkedIn
             </a>
             <a
               href="mailto:pratyumnis@bitmesra.ac.in"
-              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-semibold"
+              className="hover:text-white transition-colors flex items-center gap-1.5 font-semibold"
             >
               <Mail className="w-3.5 h-3.5" />
               <span>pratyumnis@bitmesra.ac.in</span>

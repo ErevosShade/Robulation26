@@ -7,7 +7,6 @@ import HudBox from '@/components/HudBox';
 import MoltenMetal from '@/components/MoltenMetal';
 import GlassCard from '@/components/GlassCard';
 import IslandButton from '@/components/IslandButton';
-import DecryptedText from '@/components/DecryptedText';
 import {
   Mail,
   MapPin,
@@ -38,12 +37,12 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-[#5227FF]/40 selection:text-[#FF9FFC] overflow-x-hidden">
+    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
       {/* Background MoltenMetal WebGL Caustics */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <MoltenMetal
-          color1="#5227FF"
-          color2="#FF9FFC"
+          color1="#020408"
+          color2="#0f172a"
           color3="#FFFFFF"
           speed={0.18}
           scale={4.3}
@@ -78,26 +77,19 @@ export default function ContactPage() {
         <div className="flex items-center gap-2 font-mono text-[10px] sm:text-xs text-slate-400 mb-6 uppercase tracking-widest">
           <Link href="/" className="hover:text-white transition-colors">Mission Control</Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-          <span className="text-[#FF9FFC]">Contact &amp; Lab Coordinates</span>
+          <span className="text-slate-300">Contact &amp; Lab Coordinates</span>
         </div>
 
         {/* Hero Title Section */}
         <div className="mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-pulse" />
-            <DecryptedText
-              text="// DIRECT TELEMETRY • COMMUNICATIONS UPLINK • BIT MESRA"
-              animateOn="view"
-              speed={28}
-              sequential={true}
-              characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-              className="text-slate-300"
-            />
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            <span>// DIRECT TELEMETRY &bull; COMMUNICATIONS UPLINK &bull; BIT MESRA</span>
           </div>
 
           <h1 className="font-modern font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white uppercase leading-[1.05]">
             INITIATE CONTACT &amp; <br />
-            <span className="animate-text-shimmer">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">
               LAB TRANSMISSION
             </span>
           </h1>
@@ -114,12 +106,12 @@ export default function ContactPage() {
             {/* Coordinates Card with GlassCard */}
             <GlassCard
               badge="PHYSICAL COORDINATES // BIT MESRA"
-              spotlightColor="rgba(255, 159, 252, 0.22)"
+              spotlightColor="rgba(255, 255, 255, 0.08)"
               className="p-8"
             >
               <div className="space-y-6 font-modern">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-[#5227FF]/15 border border-[#5227FF]/30 flex items-center justify-center text-[#FF9FFC] shrink-0 mt-1 shadow-[0_0_10px_rgba(82,39,255,0.2)]">
+                  <div className="w-10 h-10 rounded-xl bg-white/[0.06] border border-white/15 flex items-center justify-center text-white shrink-0 mt-1 shadow-sm">
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
@@ -137,7 +129,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-[#5227FF]/15 border border-[#5227FF]/30 flex items-center justify-center text-[#FF9FFC] shrink-0 mt-1 shadow-[0_0_10px_rgba(82,39,255,0.2)]">
+                  <div className="w-10 h-10 rounded-xl bg-white/[0.06] border border-white/15 flex items-center justify-center text-white shrink-0 mt-1 shadow-sm">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
@@ -146,7 +138,7 @@ export default function ContactPage() {
                     </span>
                     <a
                       href="mailto:pratyumnis@bitmesra.ac.in"
-                      className="font-bold text-white text-base mt-0.5 hover:text-[#FF9FFC] transition-colors block"
+                      className="font-bold text-white text-base mt-0.5 hover:text-cyan-400 transition-colors block"
                     >
                       pratyumnis@bitmesra.ac.in
                     </a>
@@ -155,7 +147,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-[#5227FF]/15 border border-[#5227FF]/30 flex items-center justify-center text-[#FF9FFC] shrink-0 mt-1 shadow-[0_0_10px_rgba(82,39,255,0.2)]">
+                  <div className="w-10 h-10 rounded-xl bg-white/[0.06] border border-white/15 flex items-center justify-center text-white shrink-0 mt-1 shadow-sm">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
@@ -164,7 +156,7 @@ export default function ContactPage() {
                     </span>
                     <a
                       href="tel:+917632910105"
-                      className="font-bold text-white text-base mt-0.5 hover:text-[#FF9FFC] transition-colors block"
+                      className="font-bold text-white text-base mt-0.5 hover:text-cyan-400 transition-colors block"
                     >
                       +91 7632910105
                     </a>
@@ -177,7 +169,7 @@ export default function ContactPage() {
             {/* Social Network Links with GlassCard */}
             <GlassCard
               badge="DIGITAL TRANSMISSION CHANNELS"
-              spotlightColor="rgba(82, 39, 255, 0.22)"
+              spotlightColor="rgba(255, 255, 255, 0.08)"
               className="p-8"
             >
               <div className="space-y-3 font-mono text-xs">
@@ -185,10 +177,10 @@ export default function ContactPage() {
                   href="https://www.instagram.com/robolution.bitm/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[#FF9FFC]/40 hover:bg-white/[0.06] transition-all text-slate-300 hover:text-white"
+                  className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/10 hover:border-white/30 hover:bg-white/[0.06] transition-all text-slate-300 hover:text-white"
                 >
                   <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#FF9FFC]" />
+                    <span className="w-2 h-2 rounded-full bg-cyan-400" />
                     <span>Instagram // @robolution.bitm</span>
                   </span>
                   <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
@@ -198,10 +190,10 @@ export default function ContactPage() {
                   href="https://www.linkedin.com/company/robolution-bit-mesra/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[#FF9FFC]/40 hover:bg-white/[0.06] transition-all text-slate-300 hover:text-white"
+                  className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/10 hover:border-white/30 hover:bg-white/[0.06] transition-all text-slate-300 hover:text-white"
                 >
                   <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#5227FF]" />
+                    <span className="w-2 h-2 rounded-full bg-white" />
                     <span>LinkedIn // Robolution BIT Mesra</span>
                   </span>
                   <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
@@ -211,10 +203,10 @@ export default function ContactPage() {
                   href="https://www.facebook.com/TeamRobolution"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/10 hover:border-[#FF9FFC]/40 hover:bg-white/[0.06] transition-all text-slate-300 hover:text-white"
+                  className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/10 hover:border-white/30 hover:bg-white/[0.06] transition-all text-slate-300 hover:text-white"
                 >
                   <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-blue-500" />
+                    <span className="w-2 h-2 rounded-full bg-sky-400" />
                     <span>Facebook // TeamRobolution</span>
                   </span>
                   <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
@@ -227,7 +219,7 @@ export default function ContactPage() {
           <div className="lg:col-span-7">
             <GlassCard
               badge="SECURE DISPATCH CONSOLE // ENCRYPTED UPLINK"
-              spotlightColor="rgba(255, 159, 252, 0.25)"
+              spotlightColor="rgba(255, 255, 255, 0.08)"
               className="p-8 sm:p-12"
             >
               <div className="flex items-center justify-between mb-8">
@@ -251,7 +243,7 @@ export default function ContactPage() {
                     TRANSMISSION DISPATCHED
                   </h3>
                   <p className="font-modern text-sm text-slate-300 mt-2 max-w-md leading-relaxed">
-                    Thank you, {formData.name || 'Engineer'}. Your telemetry packet has been logged. Our executive secretaries will review and contact you shortly.
+                    Thank you, {formData.name || 'Engineer'}. Your telemetry packet has been logged. Our executive council will review and contact you shortly.
                   </p>
                   <button
                     type="button"
@@ -274,7 +266,7 @@ export default function ContactPage() {
                     <select
                       value={formData.category}
                       onChange={e => setFormData({ ...formData, category: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-[#FF9FFC] transition-colors"
+                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-cyan-400 transition-colors"
                     >
                       <option value="RoboSaga '26 Registration" className="bg-[#05070f] text-white">RoboSaga &apos;26 Registration</option>
                       <option value="Collegiate Sponsorship" className="bg-[#05070f] text-white">Collegiate Sponsorship</option>
@@ -297,7 +289,7 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={e => setFormData({ ...formData, name: e.target.value })}
                         placeholder="e.g. Alex Sharma"
-                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-slate-500 font-mono text-xs focus:outline-none focus:border-[#FF9FFC] transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-slate-500 font-mono text-xs focus:outline-none focus:border-cyan-400 transition-colors"
                       />
                     </div>
                     <div>
@@ -310,7 +302,7 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={e => setFormData({ ...formData, email: e.target.value })}
                         placeholder="e.g. alex@example.com"
-                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-slate-500 font-mono text-xs focus:outline-none focus:border-[#FF9FFC] transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-slate-500 font-mono text-xs focus:outline-none focus:border-cyan-400 transition-colors"
                       />
                     </div>
                   </div>
@@ -326,7 +318,7 @@ export default function ContactPage() {
                       value={formData.subject}
                       onChange={e => setFormData({ ...formData, subject: e.target.value })}
                       placeholder="e.g. RoboWars 30kg Team Registration Query"
-                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-slate-500 font-mono text-xs focus:outline-none focus:border-[#FF9FFC] transition-colors"
+                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-slate-500 font-mono text-xs focus:outline-none focus:border-cyan-400 transition-colors"
                     />
                   </div>
 
@@ -341,14 +333,14 @@ export default function ContactPage() {
                       value={formData.message}
                       onChange={e => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Please specify team credentials, college affiliation, or project details..."
-                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-slate-500 font-mono text-xs focus:outline-none focus:border-[#FF9FFC] transition-colors resize-none"
+                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-slate-500 font-mono text-xs focus:outline-none focus:border-cyan-400 transition-colors resize-none"
                     />
                   </div>
 
                   {/* Submit Button */}
                   <button
                     type="submit"
-                    className="w-full py-4 rounded-xl bg-gradient-to-r from-[#5227FF] via-[#FF9FFC] to-[#5227FF] bg-[length:200%_auto] hover:bg-[position:right_center] text-white font-mono text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-lg shadow-[#5227FF]/25 flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full py-4 rounded-xl bg-white hover:bg-slate-200 text-black font-mono text-xs font-bold uppercase tracking-widest transition-all duration-300 shadow-md active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <Send className="w-4 h-4" />
                     <span>Transmit Dispatch To Executive Council</span>
@@ -377,7 +369,7 @@ export default function ContactPage() {
               href="https://www.instagram.com/robolution.bitm/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors"
+              className="hover:text-white transition-colors"
             >
               @robolution.bitm
             </a>
@@ -385,13 +377,13 @@ export default function ContactPage() {
               href="https://www.linkedin.com/company/robolution-bit-mesra/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors"
+              className="hover:text-white transition-colors"
             >
               LinkedIn
             </a>
             <a
               href="mailto:pratyumnis@bitmesra.ac.in"
-              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-semibold"
+              className="hover:text-white transition-colors flex items-center gap-1.5 font-semibold"
             >
               <Mail className="w-3.5 h-3.5" />
               <span>pratyumnis@bitmesra.ac.in</span>

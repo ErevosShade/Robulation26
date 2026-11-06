@@ -11,7 +11,6 @@ import StarBorder from '@/components/StarBorder';
 import MoltenMetal from '@/components/MoltenMetal';
 import GlassCard from '@/components/GlassCard';
 import IslandButton from '@/components/IslandButton';
-import DecryptedText from '@/components/DecryptedText';
 import ScrollReveal from '@/components/ScrollReveal';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import {
@@ -43,14 +42,14 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<'robocon' | 'robosaga'>('robocon');
 
   return (
-    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-[#5227FF]/40 selection:text-[#FF9FFC] overflow-x-hidden">
+    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
       {/* =====================================================================
           FULL-PAGE BACKGROUND: <MoltenMetal /> REACT BITS WEBGL CAUSTICS
       ===================================================================== */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <MoltenMetal
-          color1="#5227FF"
-          color2="#FF9FFC"
+          color1="#020408"
+          color2="#0f172a"
           color3="#FFFFFF"
           speed={0.18}
           scale={4.3}
@@ -106,7 +105,7 @@ export default function Home() {
               strokeWidth={2}
               gradient={true}
               color="#ffffff"
-              accentColor="#FF9FFC"
+              accentColor="#38bdf8"
               className="w-full h-full"
             />
           </div>
@@ -116,7 +115,7 @@ export default function Home() {
               AUTONOMOUS MECHATRONICS &bull; ABU ROBOCON &bull; ROBOSAGA FEST
             </span>
             <span
-              className="absolute inset-0 bg-gradient-to-r from-[#FF9FFC] via-white to-[#5227FF] bg-clip-text text-transparent drop-shadow-[0_0_14px_rgba(255,159,252,0.85)] opacity-0 transition-opacity duration-700 ease-out group-hover/hero:opacity-100 pointer-events-none select-none text-center"
+              className="absolute inset-0 bg-gradient-to-r from-sky-300 via-white to-sky-400 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(56,189,248,0.5)] opacity-0 transition-opacity duration-700 ease-out group-hover/hero:opacity-100 pointer-events-none select-none text-center"
               aria-hidden="true"
             >
               AUTONOMOUS MECHATRONICS &bull; ABU ROBOCON &bull; ROBOSAGA FEST
@@ -126,13 +125,13 @@ export default function Home() {
 
         {/* 3D CAD Wireframe Rover Flanked by Sci-Fi HUD Callout Boxes */}
         <div className="relative z-10 flex-1 w-full flex flex-col items-center justify-center -mt-2 sm:-mt-4 pointer-events-none px-4 pl-14 sm:pl-20">
-          {/* Subtle Ambient Glow Spotlight matching MoltenMetal Palette */}
+          {/* Subtle Ambient Cosmic Glow Spotlight */}
           <div
-            className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[380px] sm:w-[680px] sm:h-[500px] pointer-events-none z-0 opacity-70"
+            className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[380px] sm:w-[680px] sm:h-[500px] pointer-events-none z-0 opacity-40"
             style={{
               background:
-                'radial-gradient(ellipse at 50% 50%, rgba(255, 159, 252, 0.22) 0%, rgba(82, 39, 255, 0.18) 40%, rgba(82, 39, 255, 0.03) 70%, transparent 80%)',
-              filter: 'blur(22px)',
+                'radial-gradient(ellipse at 50% 50%, rgba(56, 189, 248, 0.15) 0%, rgba(14, 165, 233, 0.05) 50%, transparent 75%)',
+              filter: 'blur(24px)',
             }}
           />
 
@@ -201,7 +200,7 @@ export default function Home() {
         {/* Bottom Status Telemetry Bar */}
         <div className="relative z-20 pb-4 px-6 flex items-center justify-between pointer-events-none pl-14 sm:pl-20">
           <div className="hidden sm:flex items-center gap-2 font-mono text-[10px] text-slate-400 bg-white/[0.03] px-3 py-1.5 rounded-lg border border-white/10 backdrop-blur-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
             <span>ROBOLUTION TELEMETRY // BIT MESRA // PRATYUMNIS LAB 01</span>
           </div>
 
@@ -226,18 +225,11 @@ export default function Home() {
         <ScrollReveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
             <div>
-              <span className="font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase block mb-1">
-                <DecryptedText
-                  text="// CLUB HERITAGE • EST. 2001"
-                  animateOn="view"
-                  speed={30}
-                  sequential={true}
-                  characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-                  className="text-[#FF9FFC]"
-                />
+              <span className="font-mono text-xs text-slate-400 font-bold tracking-widest uppercase block mb-1">
+                // CLUB HERITAGE &bull; EST. 2001
               </span>
               <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
-                A LEGACY OF <span className="animate-text-shimmer">EXCELLENCE &amp; INNOVATION</span>
+                A LEGACY OF EXCELLENCE &amp; INNOVATION
               </h2>
             </div>
             <p className="font-modern text-sm text-slate-400 max-w-md leading-relaxed">
@@ -251,10 +243,10 @@ export default function Home() {
           <ScrollReveal>
             <GlassCard
               badge="RECORD // 2001-2026"
-              spotlightColor="rgba(255, 159, 252, 0.25)"
+              spotlightColor="rgba(255, 255, 255, 0.08)"
             >
               <div>
-                <AnimatedCounter target={24} suffix="+" className="font-mono text-4xl sm:text-5xl font-black text-[#FF9FFC] tracking-tight block" />
+                <AnimatedCounter target={24} suffix="+" className="font-mono text-4xl sm:text-5xl font-black text-white tracking-tight block" />
                 <span className="font-modern font-bold text-sm sm:text-base text-white uppercase mt-3 block">
                   Years of Excellence
                 </span>
@@ -328,18 +320,11 @@ export default function Home() {
         <ScrollReveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
             <div>
-              <span className="font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase block mb-1">
-                <DecryptedText
-                  text="// INSTITUTIONAL DOMAINS"
-                  animateOn="view"
-                  speed={30}
-                  sequential={true}
-                  characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-                  className="text-[#FF9FFC]"
-                />
+              <span className="font-mono text-xs text-slate-400 font-bold tracking-widest uppercase block mb-1">
+                // INSTITUTIONAL DOMAINS
               </span>
               <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
-                WHAT WE DO AT <span className="animate-text-shimmer">ROBOLUTION</span>
+                WHAT WE DO AT ROBOLUTION
               </h2>
             </div>
             <p className="font-modern text-sm text-slate-400 max-w-md leading-relaxed">
@@ -353,11 +338,11 @@ export default function Home() {
           {/* Pillar 1: Workshops & Training */}
           <GlassCard
             badge="FOUNDATIONAL LAB // 01"
-            spotlightColor="rgba(82, 39, 255, 0.25)"
+            spotlightColor="rgba(255, 255, 255, 0.08)"
           >
             <div className="flex flex-col justify-between h-full">
               <div>
-                <div className="w-12 h-12 rounded-xl bg-[#5227FF]/15 border border-[#5227FF]/30 flex items-center justify-center text-[#FF9FFC] mb-6 shadow-[0_0_15px_rgba(82,39,255,0.3)]">
+                <div className="w-12 h-12 rounded-xl bg-white/[0.06] border border-white/15 flex items-center justify-center text-white mb-6 shadow-sm">
                   <Wrench className="w-6 h-6" />
                 </div>
                 <h3 className="font-modern text-2xl font-bold text-white uppercase tracking-tight">
@@ -378,11 +363,11 @@ export default function Home() {
           {/* Pillar 2: RoboSaga Annual Fest */}
           <GlassCard
             badge="FLAGSHIP ARENA // 02"
-            spotlightColor="rgba(244, 63, 94, 0.25)"
+            spotlightColor="rgba(255, 255, 255, 0.08)"
           >
             <div className="flex flex-col justify-between h-full">
               <div>
-                <div className="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 mb-6 shadow-[0_0_15px_rgba(244,63,94,0.3)]">
+                <div className="w-12 h-12 rounded-xl bg-white/[0.06] border border-white/15 flex items-center justify-center text-rose-400 mb-6 shadow-sm">
                   <Flame className="w-6 h-6" />
                 </div>
                 <h3 className="font-modern text-2xl font-bold text-white uppercase tracking-tight">
@@ -403,11 +388,11 @@ export default function Home() {
           {/* Pillar 3: Projects & Research (Team Pratyumnis) */}
           <GlassCard
             badge="COMPETITIVE WING // 03"
-            spotlightColor="rgba(52, 211, 153, 0.25)"
+            spotlightColor="rgba(255, 255, 255, 0.08)"
           >
             <div className="flex flex-col justify-between h-full">
               <div>
-                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6 shadow-[0_0_15px_rgba(52,211,153,0.3)]">
+                <div className="w-12 h-12 rounded-xl bg-white/[0.06] border border-white/15 flex items-center justify-center text-emerald-400 mb-6 shadow-sm">
                   <Cpu className="w-6 h-6" />
                 </div>
                 <h3 className="font-modern text-2xl font-bold text-white uppercase tracking-tight">
@@ -437,18 +422,11 @@ export default function Home() {
         <ScrollReveal>
           <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between mb-14 gap-6">
             <div>
-              <span className="font-mono text-xs text-emerald-400 font-bold tracking-widest uppercase block mb-1">
-                <DecryptedText
-                  text="// VERIFIED ARENA HONORS"
-                  animateOn="view"
-                  speed={30}
-                  sequential={true}
-                  characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-                  className="text-emerald-400"
-                />
+              <span className="font-mono text-xs text-slate-400 font-bold tracking-widest uppercase block mb-1">
+                // VERIFIED ARENA HONORS
               </span>
               <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
-                COMPETITIVE <span className="animate-text-shimmer">ARENA HONORS</span>
+                COMPETITIVE ARENA HONORS
               </h2>
             </div>
 
@@ -463,10 +441,10 @@ export default function Home() {
                     : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
                 }`}
               >
-                <Trophy className="w-3.5 h-3.5 text-[#FF9FFC]" />
+                <Trophy className="w-3.5 h-3.5 text-cyan-400" />
                 <span>ABU ROBOCON &amp; IITs</span>
                 {activeTab === 'robocon' && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                 )}
               </button>
               <button
@@ -509,10 +487,10 @@ export default function Home() {
             {/* Honor 2: Robocon 2015 */}
             <GlassCard
               badge="ABU ROBOCON 2015"
-              spotlightColor="rgba(255, 159, 252, 0.25)"
+              spotlightColor="rgba(255, 255, 255, 0.08)"
             >
               <div>
-                <span className="font-mono text-3xl sm:text-4xl font-black text-[#FF9FFC]">&#8377;50,000</span>
+                <span className="font-mono text-3xl sm:text-4xl font-black text-white">&#8377;50,000</span>
                 <h3 className="font-modern text-lg font-bold text-white uppercase mt-3">
                   MathWorks Award &amp; Rank
                 </h3>
@@ -658,7 +636,7 @@ export default function Home() {
           className="text-center p-8 sm:p-14"
         >
           <blockquote className="font-modern font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight text-white uppercase leading-tight">
-            &ldquo;Software is easy until it has to push <span className="animate-text-shimmer">30 kilograms of steel at 40 kilometers an hour</span>.&rdquo;
+            &ldquo;Software is easy until it has to push <span className="text-slate-300">30 kilograms of steel at 40 kilometers an hour</span>.&rdquo;
           </blockquote>
           <p className="mt-8 font-modern text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
             At Robolution, we do not build mockups. We mill structural aluminum, design custom multi-layer circuit boards, debug interrupt routines at 3 AM, and torture-test every robot until it survives the arena.
@@ -700,7 +678,7 @@ export default function Home() {
               href="https://www.instagram.com/robolution.bitm/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-mono text-xs"
+              className="hover:text-white transition-colors flex items-center gap-1.5 font-mono text-xs"
               aria-label="Instagram"
             >
               <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -715,7 +693,7 @@ export default function Home() {
               href="https://www.linkedin.com/company/robolution-bit-mesra/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-mono text-xs"
+              className="hover:text-white transition-colors flex items-center gap-1.5 font-mono text-xs"
               aria-label="LinkedIn"
             >
               <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -730,7 +708,7 @@ export default function Home() {
               href="https://www.facebook.com/TeamRobolution"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-mono text-xs"
+              className="hover:text-white transition-colors flex items-center gap-1.5 font-mono text-xs"
               aria-label="Facebook"
             >
               <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -741,7 +719,7 @@ export default function Home() {
 
             <a
               href="mailto:pratyumnis@bitmesra.ac.in"
-              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-mono text-xs font-semibold"
+              className="hover:text-white transition-colors flex items-center gap-1.5 font-mono text-xs font-semibold"
             >
               <Mail className="w-4 h-4" />
               <span>pratyumnis@bitmesra.ac.in</span>

@@ -7,7 +7,6 @@ import HudBox from '@/components/HudBox';
 import MoltenMetal from '@/components/MoltenMetal';
 import GlassCard from '@/components/GlassCard';
 import IslandButton from '@/components/IslandButton';
-import DecryptedText from '@/components/DecryptedText';
 import {
   Trophy,
   Flame,
@@ -121,12 +120,12 @@ export default function EventsPage() {
     : events.filter(e => e.category === filter);
 
   return (
-    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-[#5227FF]/40 selection:text-[#FF9FFC] overflow-x-hidden">
+    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
       {/* Background MoltenMetal WebGL Caustics */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <MoltenMetal
-          color1="#5227FF"
-          color2="#FF9FFC"
+          color1="#020408"
+          color2="#0f172a"
           color3="#FFFFFF"
           speed={0.18}
           scale={4.3}
@@ -161,26 +160,19 @@ export default function EventsPage() {
         <div className="flex items-center gap-2 font-mono text-[10px] sm:text-xs text-slate-400 mb-6 uppercase tracking-widest">
           <Link href="/" className="hover:text-white transition-colors">Mission Control</Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-          <span className="text-[#FF9FFC]">Events &amp; Competitions</span>
+          <span className="text-slate-300">Events &amp; Competitions</span>
         </div>
 
         {/* Hero Title Section */}
         <div className="mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-pulse" />
-            <DecryptedText
-              text="// ROBOSAGA • ABU ROBOCON • BIT MESRA ARENAS"
-              animateOn="view"
-              speed={28}
-              sequential={true}
-              characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-              className="text-slate-300"
-            />
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            <span>// ROBOSAGA &bull; ABU ROBOCON &bull; BIT MESRA ARENAS</span>
           </div>
 
           <h1 className="font-modern font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white uppercase leading-[1.05]">
             ARENAS, COMBAT WARS &amp; <br />
-            <span className="animate-text-shimmer">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">
               TECHNICAL WORKSHOPS
             </span>
           </h1>
@@ -213,20 +205,20 @@ export default function EventsPage() {
           {filteredEvents.map(event => (
             <GlassCard
               key={event.id}
-              spotlightColor="rgba(255, 159, 252, 0.22)"
+              spotlightColor="rgba(255, 255, 255, 0.08)"
               className="p-8 flex flex-col justify-between"
             >
               <div>
                 {/* Header row: Badge and Status */}
                 <div className="flex items-center justify-between mb-4">
-                  <span className="font-mono text-[9px] text-[#FF9FFC] tracking-widest uppercase font-bold px-2.5 py-0.5 rounded-full bg-[#5227FF]/20 border border-[#FF9FFC]/30 shadow-[0_0_8px_rgba(255,159,252,0.2)]">
+                  <span className="font-mono text-[9px] text-slate-200 tracking-widest uppercase font-bold px-2.5 py-0.5 rounded-full bg-white/[0.06] border border-white/15">
                     {event.badge}
                   </span>
                   <span className={`font-mono text-[9px] font-bold tracking-widest uppercase px-2 py-0.5 rounded-full ${
                     event.status === 'Upcoming'
                       ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                       : event.status === 'Annual'
-                      ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                      ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
                       : 'bg-zinc-800 text-slate-400 border border-zinc-700'
                   }`}>
                     {event.status}
@@ -241,11 +233,11 @@ export default function EventsPage() {
                 {/* Metadata */}
                 <div className="mt-4 space-y-1.5 font-mono text-[11px] text-slate-400">
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-3.5 h-3.5 text-[#FF9FFC]" />
+                    <Calendar className="w-3.5 h-3.5 text-cyan-400" />
                     <span>{event.date}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <MapPin className="w-3.5 h-3.5 text-[#FF9FFC]" />
+                    <MapPin className="w-3.5 h-3.5 text-cyan-400" />
                     <span>{event.venue}</span>
                   </div>
                   {event.prizePool && (
@@ -281,7 +273,7 @@ export default function EventsPage() {
                 </span>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-1 font-mono text-xs text-[#FF9FFC] hover:text-white font-bold uppercase transition-colors"
+                  className="inline-flex items-center gap-1 font-mono text-xs text-cyan-400 hover:text-white font-bold uppercase transition-colors"
                 >
                   <span>Inquire</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -294,7 +286,7 @@ export default function EventsPage() {
         {/* RoboSaga Fest Banner with GlassCard & IslandButton */}
         <GlassCard
           badge="ROBOSAGA 2026 // ARENA INTAKE"
-          spotlightColor="rgba(82, 39, 255, 0.25)"
+          spotlightColor="rgba(255, 255, 255, 0.08)"
           className="p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6"
         >
           <div>
@@ -331,7 +323,7 @@ export default function EventsPage() {
               href="https://www.instagram.com/robolution.bitm/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors"
+              className="hover:text-white transition-colors"
             >
               @robolution.bitm
             </a>
@@ -339,13 +331,13 @@ export default function EventsPage() {
               href="https://www.linkedin.com/company/robolution-bit-mesra/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors"
+              className="hover:text-white transition-colors"
             >
               LinkedIn
             </a>
             <a
               href="mailto:pratyumnis@bitmesra.ac.in"
-              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-semibold"
+              className="hover:text-white transition-colors flex items-center gap-1.5 font-semibold"
             >
               <Mail className="w-3.5 h-3.5" />
               <span>pratyumnis@bitmesra.ac.in</span>

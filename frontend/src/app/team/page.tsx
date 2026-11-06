@@ -8,7 +8,6 @@ import HudBox from '@/components/HudBox';
 import MoltenMetal from '@/components/MoltenMetal';
 import GlassCard from '@/components/GlassCard';
 import IslandButton from '@/components/IslandButton';
-import DecryptedText from '@/components/DecryptedText';
 import ScrollReveal from '@/components/ScrollReveal';
 import {
   Users,
@@ -267,33 +266,23 @@ function MemberCard({
 }) {
   return (
     <GlassCard
-      spotlightColor={isApex ? 'rgba(255, 159, 252, 0.28)' : 'rgba(82, 39, 255, 0.22)'}
-      className={`relative flex flex-col items-center text-center p-6 h-full transition-all duration-300 group ${
-        isApex ? 'border-t border-[#FF9FFC]/30 bg-white/[0.04]' : ''
-      }`}
+      spotlightColor="rgba(255, 255, 255, 0.08)"
+      className="relative flex flex-col items-center text-center p-6 h-full transition-all duration-300 group"
     >
       {/* Top Telemetry Header Notch */}
       <div className="w-full flex items-center justify-between font-mono text-[9px] text-slate-400 mb-3 pb-2 border-b border-white/10 uppercase tracking-widest">
         <span className="flex items-center gap-1.5">
-          <span
-            className={`w-1.5 h-1.5 rounded-full ${
-              isApex ? 'bg-[#FF9FFC] shadow-[0_0_8px_#FF9FFC]' : 'bg-emerald-400 shadow-[0_0_8px_#34d399]'
-            } animate-pulse`}
-          />
+          <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
           <span className="text-slate-300 font-semibold">{echelonTag}</span>
         </span>
       </div>
 
-      {/* Avatar Container with Orbital Reticle Sweep */}
+      {/* Avatar Container with High-Precision Monochrome Frame */}
       <div className="relative mb-4">
         <div
           className={`relative ${
             isApex ? 'w-36 h-36' : 'w-32 h-32'
-          } rounded-full p-1 bg-gradient-to-tr ${
-            isApex
-              ? 'from-[#5227FF] via-[#FF9FFC] to-white shadow-[0_0_28px_rgba(255,159,252,0.35)]'
-              : 'from-[#5227FF] via-[#a855f7] to-white/70 shadow-[0_0_20px_rgba(82,39,255,0.25)]'
-          } group-hover:scale-105 group-hover:shadow-[0_0_32px_rgba(255,159,252,0.5)] transition-all duration-500`}
+          } rounded-full p-1 bg-white/10 border border-white/20 shadow-md group-hover:scale-105 group-hover:border-white/40 transition-all duration-500`}
         >
           <div className="relative w-full h-full rounded-full overflow-hidden bg-zinc-950 flex items-center justify-center">
             {member.image ? (
@@ -301,12 +290,12 @@ function MemberCard({
                 src={member.image}
                 alt={member.name}
                 fill
-                className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                 sizes="(max-width: 768px) 140px, 160px"
               />
             ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-zinc-900 to-zinc-950 text-slate-300 font-mono text-sm tracking-wider uppercase">
-                <Users className="w-8 h-8 text-[#FF9FFC]/70 mb-1 animate-pulse" />
+              <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-900 text-slate-400 font-mono text-sm tracking-wider uppercase">
+                <Users className="w-8 h-8 text-slate-400 mb-1" />
                 <span className="font-bold text-xs">{member.name.split(' ').map(n => n[0]).join('')}</span>
               </div>
             )}
@@ -315,18 +304,12 @@ function MemberCard({
       </div>
 
       {/* Designation Pill */}
-      <span
-        className={`font-mono text-[9px] tracking-widest uppercase font-bold px-3 py-0.5 rounded-full mb-2.5 ${
-          isApex
-            ? 'text-[#FF9FFC] bg-[#5227FF]/30 border border-[#FF9FFC]/40 shadow-[0_0_12px_rgba(255,159,252,0.25)]'
-            : 'text-sky-300 bg-sky-950/40 border border-sky-400/30 shadow-[0_0_10px_rgba(56,189,248,0.15)]'
-        }`}
-      >
+      <span className="font-mono text-[9px] tracking-widest uppercase font-bold px-3 py-0.5 rounded-full mb-2.5 text-slate-200 bg-white/[0.06] border border-white/15">
         {member.role}
       </span>
 
       {/* Member Name */}
-      <h3 className="font-modern font-black text-lg sm:text-xl text-white uppercase tracking-tight group-hover:text-[#FF9FFC] transition-colors duration-300">
+      <h3 className="font-modern font-black text-lg sm:text-xl text-white uppercase tracking-tight group-hover:text-slate-200 transition-colors duration-300">
         {member.name}
       </h3>
 
@@ -344,7 +327,7 @@ function MemberCard({
             href={member.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-white hover:bg-[#5227FF]/40 border border-transparent hover:border-white/20 transition-all p-2 rounded-lg text-slate-300"
+            className="hover:text-white hover:bg-white/10 border border-transparent hover:border-white/20 transition-all p-2 rounded-lg text-slate-300"
             aria-label={`${member.name} LinkedIn Profile`}
             title="LinkedIn Profile"
           >
@@ -365,7 +348,7 @@ function MemberCard({
             href={member.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-white hover:bg-[#FF9FFC]/20 border border-transparent hover:border-[#FF9FFC]/30 transition-all p-2 rounded-lg text-slate-300"
+            className="hover:text-white hover:bg-white/10 border border-transparent hover:border-white/20 transition-all p-2 rounded-lg text-slate-300"
             aria-label={`${member.name} Instagram Profile`}
             title="Instagram Profile"
           >
@@ -384,7 +367,7 @@ function MemberCard({
         {member.email && (
           <a
             href={`mailto:${member.email}`}
-            className="hover:text-white hover:bg-emerald-500/20 border border-transparent hover:border-emerald-400/30 transition-all p-2 rounded-lg text-slate-300"
+            className="hover:text-white hover:bg-white/10 border border-transparent hover:border-white/20 transition-all p-2 rounded-lg text-slate-300"
             aria-label={`Email ${member.name}`}
             title={`Email: ${member.email}`}
           >
@@ -398,7 +381,7 @@ function MemberCard({
 
 // Connector: Vertical Telemetry Trunk Line
 function TreeConnectorVertical({
-  height = 'h-12 sm:h-16',
+  height = 'h-10 sm:h-14',
   badge,
 }: {
   height?: string;
@@ -406,12 +389,12 @@ function TreeConnectorVertical({
 }) {
   return (
     <div className={`relative ${height} w-full flex flex-col items-center justify-center pointer-events-none z-10`}>
-      {/* Central dual illuminated conductor */}
-      <div className="w-[2px] h-full bg-gradient-to-b from-[#FF9FFC] via-[#5227FF] to-[#38bdf8] shadow-[0_0_12px_rgba(255,159,252,0.8)]" />
+      {/* Central neutral illuminated conductor */}
+      <div className="w-[1.5px] h-full bg-gradient-to-b from-white/20 via-white/40 to-white/20" />
       {/* Central telemetry chip */}
       {badge && (
         <div className="absolute top-1/2 -translate-y-1/2 flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#020409] border border-white/20 shadow-lg backdrop-blur-md">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-ping" />
+          <span className="w-1.5 h-1.5 rounded-full bg-white/70" />
           <span className="font-mono text-[8px] sm:text-[9px] text-slate-300 uppercase tracking-widest font-bold">
             {badge}
           </span>
@@ -432,31 +415,31 @@ function TreeBranchSplitter({
   return (
     <div className="relative w-full max-w-6xl mx-auto py-2 pointer-events-none z-10">
       {/* Incoming Vertical Stem */}
-      <div className="w-[2px] h-6 bg-gradient-to-b from-[#5227FF] to-[#FF9FFC] mx-auto shadow-[0_0_8px_#FF9FFC]" />
+      <div className="w-[1.5px] h-6 bg-gradient-to-b from-white/30 to-white/50 mx-auto" />
 
       {/* Junction Coupler Node */}
       <div className="flex items-center justify-center my-0.5">
-        <div className="px-3.5 py-1 rounded-full bg-[#030612] border border-[#FF9FFC]/40 text-[#FF9FFC] font-mono text-[8.5px] tracking-widest uppercase flex items-center gap-2 shadow-[0_0_14px_rgba(255,159,252,0.35)] backdrop-blur-md">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-pulse" />
+        <div className="px-3.5 py-1 rounded-full bg-[#030612] border border-white/20 text-slate-200 font-mono text-[8.5px] tracking-widest uppercase flex items-center gap-2 backdrop-blur-md">
+          <span className="w-1.5 h-1.5 rounded-full bg-white/70" />
           <span>{label || 'DISTRIBUTION BUS JUNCTION'}</span>
         </div>
       </div>
 
       {/* Horizontal Bus Wire */}
-      <div className="relative h-[2px] w-[86%] sm:w-[92%] mx-auto bg-gradient-to-r from-transparent via-[#FF9FFC] to-transparent shadow-[0_0_12px_rgba(255,159,252,0.6)]">
+      <div className="relative h-[1.5px] w-[86%] sm:w-[92%] mx-auto bg-gradient-to-r from-transparent via-white/40 to-transparent">
         {/* Branch points */}
         <div className="absolute inset-0 flex justify-between items-center">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#5227FF] shadow-[0_0_8px_#5227FF]" />
-          {branches >= 3 && <span className="w-2.5 h-2.5 rounded-full bg-[#FF9FFC] shadow-[0_0_10px_#FF9FFC]" />}
-          <span className="w-2.5 h-2.5 rounded-full bg-[#5227FF] shadow-[0_0_8px_#5227FF]" />
+          <span className="w-2 h-2 rounded-full bg-white/60" />
+          {branches >= 3 && <span className="w-2 h-2 rounded-full bg-white/80" />}
+          <span className="w-2 h-2 rounded-full bg-white/60" />
         </div>
       </div>
 
       {/* Outgoing Drop Stems */}
       <div className="w-[86%] sm:w-[92%] mx-auto flex justify-between">
-        <div className="w-[2px] h-6 bg-gradient-to-b from-[#5227FF] to-transparent" />
-        {branches >= 3 && <div className="w-[2px] h-6 bg-gradient-to-b from-[#FF9FFC] to-transparent" />}
-        <div className="w-[2px] h-6 bg-gradient-to-b from-[#5227FF] to-transparent" />
+        <div className="w-[1.5px] h-6 bg-gradient-to-b from-white/40 to-transparent" />
+        {branches >= 3 && <div className="w-[1.5px] h-6 bg-gradient-to-b from-white/40 to-transparent" />}
+        <div className="w-[1.5px] h-6 bg-gradient-to-b from-white/40 to-transparent" />
       </div>
     </div>
   );
@@ -508,12 +491,12 @@ export default function TeamPage() {
   ];
 
   return (
-    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-[#5227FF]/40 selection:text-[#FF9FFC] overflow-x-hidden">
+    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
       {/* Background MoltenMetal WebGL Caustics with calibrated calm speed */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <MoltenMetal
-          color1="#5227FF"
-          color2="#FF9FFC"
+          color1="#020408"
+          color2="#0f172a"
           color3="#FFFFFF"
           speed={0.18}
           scale={4.3}
@@ -550,27 +533,20 @@ export default function TeamPage() {
             Mission Control
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-          <span className="text-[#FF9FFC]">Organizational Command Tree</span>
+          <span className="text-slate-300">Organizational Command Tree</span>
         </div>
 
         {/* Hero Title Section */}
         <ScrollReveal>
           <div className="mb-10">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF9FFC] animate-pulse" />
-              <DecryptedText
-                text="// COMMAND ARCHITECTURE • TEAM PRATYUMNIS CADRE"
-                animateOn="view"
-                speed={28}
-                sequential={true}
-                characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-                className="text-slate-300"
-              />
+              <span className="w-1.5 h-1.5 rounded-full bg-white/70" />
+              <span>COMMAND ARCHITECTURE &bull; TEAM PRATYUMNIS CADRE</span>
             </div>
 
             <h1 className="font-modern font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white uppercase leading-[1.05]">
               ORGANIZATIONAL <br />
-              <span className="animate-text-shimmer">HIERARCHY TREE</span>
+              <span>HIERARCHY TREE</span>
             </h1>
 
             <p className="font-mono text-xs sm:text-sm text-slate-400 max-w-2xl mt-4 uppercase tracking-wider">
@@ -588,7 +564,7 @@ export default function TeamPage() {
               onClick={() => setViewMode('tree')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                 viewMode === 'tree'
-                  ? 'bg-gradient-to-r from-[#5227FF] to-[#FF9FFC] text-white shadow-[0_0_15px_rgba(255,159,252,0.4)]'
+                  ? 'bg-white text-black shadow-md'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -600,7 +576,7 @@ export default function TeamPage() {
               onClick={() => setViewMode('roster')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                 viewMode === 'roster'
-                  ? 'bg-gradient-to-r from-[#5227FF] to-[#FF9FFC] text-white shadow-[0_0_15px_rgba(255,159,252,0.4)]'
+                  ? 'bg-white text-black shadow-md'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -620,13 +596,13 @@ export default function TeamPage() {
         ===================================================================== */}
         {viewMode === 'tree' && (
           <div className="relative w-full mb-28">
-            {/* LEVEL 01: APEX EXECUTIVE COUNCIL */}
+            {/* EXECUTIVE COUNCIL (PRESIDENTS) */}
             <div className="mb-4">
               <ScrollReveal>
                 <div className="text-center mb-8">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#5227FF]/20 border border-[#FF9FFC]/30 text-[#FF9FFC] font-mono text-[10px] tracking-widest uppercase font-bold shadow-[0_0_12px_rgba(255,159,252,0.25)]">
-                    <Crown className="w-3.5 h-3.5" />
-                    <span>LEVEL 01 // SUPREME EXECUTIVE COUNCIL</span>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/15 text-slate-200 font-mono text-[10px] tracking-widest uppercase font-bold">
+                    <Crown className="w-3.5 h-3.5 text-slate-300" />
+                    <span>EXECUTIVE COUNCIL</span>
                   </div>
                   <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight mt-2">
                     PRESIDENTS &amp; VICE PRESIDENTS
@@ -641,7 +617,7 @@ export default function TeamPage() {
                   {presidents[1] && (
                     <MemberCard
                       member={presidents[1]}
-                      echelonTag="APEX-02 // VICE PRESIDENT"
+                      echelonTag="VICE PRESIDENT"
                     />
                   )}
                 </div>
@@ -651,7 +627,7 @@ export default function TeamPage() {
                   {presidents[0] && (
                     <MemberCard
                       member={presidents[0]}
-                      echelonTag="APEX-01 // PRESIDENT"
+                      echelonTag="PRESIDENT"
                       isApex={true}
                     />
                   )}
@@ -662,7 +638,7 @@ export default function TeamPage() {
                   {presidents[2] && (
                     <MemberCard
                       member={presidents[2]}
-                      echelonTag="APEX-03 // VICE PRESIDENT"
+                      echelonTag="VICE PRESIDENT"
                     />
                   )}
                 </div>
@@ -670,15 +646,15 @@ export default function TeamPage() {
             </div>
 
             {/* Tree Trunk Conductor: Apex to Tactical Command */}
-            <TreeConnectorVertical badge="TACTICAL FLEET TRUNK // 02" />
+            <TreeConnectorVertical />
 
-            {/* LEVEL 02: TACTICAL FLEET COMMAND (CAPTAINS FIRST) */}
+            {/* TACTICAL FLEET COMMAND (CAPTAINS) */}
             <div className="mb-4">
               <ScrollReveal>
                 <div className="text-center mb-8">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/30 text-sky-400 font-mono text-[10px] tracking-widest uppercase font-bold shadow-[0_0_12px_rgba(56,189,248,0.25)]">
-                    <Shield className="w-3.5 h-3.5" />
-                    <span>LEVEL 02 // TACTICAL FLEET COMMAND</span>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/15 text-slate-200 font-mono text-[10px] tracking-widest uppercase font-bold">
+                    <Shield className="w-3.5 h-3.5 text-slate-300" />
+                    <span>TACTICAL COMMAND</span>
                   </div>
                   <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight mt-2">
                     CAPTAIN &amp; VICE CAPTAINS
@@ -693,7 +669,7 @@ export default function TeamPage() {
                   {captains[1] && (
                     <MemberCard
                       member={captains[1]}
-                      echelonTag="TAC-02 // VICE CAPTAIN"
+                      echelonTag="VICE CAPTAIN"
                     />
                   )}
                 </div>
@@ -703,7 +679,7 @@ export default function TeamPage() {
                   {captains[0] && (
                     <MemberCard
                       member={captains[0]}
-                      echelonTag="TAC-01 // FLEET CAPTAIN"
+                      echelonTag="FLEET CAPTAIN"
                       isApex={true}
                     />
                   )}
@@ -714,7 +690,7 @@ export default function TeamPage() {
                   {captains[2] && (
                     <MemberCard
                       member={captains[2]}
-                      echelonTag="TAC-03 // VICE CAPTAIN"
+                      echelonTag="VICE CAPTAIN"
                     />
                   )}
                 </div>
@@ -722,15 +698,15 @@ export default function TeamPage() {
             </div>
 
             {/* Tree Trunk Conductor: Tactical to Secretariat */}
-            <TreeConnectorVertical badge="SECRETARIAT & OPERATIONS TRUNK // 03" />
+            <TreeConnectorVertical />
 
-            {/* LEVEL 03: SECRETARIAT & OPERATIONS (SECRETARIES THEN) */}
+            {/* SECRETARIAT & OPERATIONS */}
             <div className="mb-4">
               <ScrollReveal>
                 <div className="text-center mb-8">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-400 font-mono text-[10px] tracking-widest uppercase font-bold shadow-[0_0_12px_rgba(168,85,247,0.25)]">
-                    <Layers className="w-3.5 h-3.5" />
-                    <span>LEVEL 03 // SECRETARIAT &amp; OPERATIONS</span>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/15 text-slate-200 font-mono text-[10px] tracking-widest uppercase font-bold">
+                    <Layers className="w-3.5 h-3.5 text-slate-300" />
+                    <span>SECRETARIAT</span>
                   </div>
                   <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight mt-2">
                     GENERAL SECRETARY &amp; JOINT SECRETARIES
@@ -745,7 +721,7 @@ export default function TeamPage() {
                   {secretaries[1] && (
                     <MemberCard
                       member={secretaries[1]}
-                      echelonTag="SEC-02 // JOINT SECRETARY"
+                      echelonTag="JOINT SECRETARY"
                     />
                   )}
                 </div>
@@ -755,7 +731,7 @@ export default function TeamPage() {
                   {secretaries[0] && (
                     <MemberCard
                       member={secretaries[0]}
-                      echelonTag="SEC-01 // GENERAL SECRETARY"
+                      echelonTag="GENERAL SECRETARY"
                     />
                   )}
                 </div>
@@ -765,7 +741,7 @@ export default function TeamPage() {
                   {secretaries[2] && (
                     <MemberCard
                       member={secretaries[2]}
-                      echelonTag="SEC-03 // JOINT SECRETARY"
+                      echelonTag="JOINT SECRETARY"
                     />
                   )}
                 </div>
@@ -773,15 +749,15 @@ export default function TeamPage() {
             </div>
 
             {/* Tree Trunk Conductor: Command to Treasury */}
-            <TreeConnectorVertical badge="FISCAL INTEGRITY & LOGISTICS CONDUIT // 04" />
+            <TreeConnectorVertical />
 
-            {/* LEVEL 04: TREASURY & CAPITAL GOVERNANCE */}
+            {/* TREASURY & CAPITAL GOVERNANCE */}
             <div className="mb-4">
               <ScrollReveal>
                 <div className="text-center mb-8">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-400 font-mono text-[10px] tracking-widest uppercase font-bold shadow-[0_0_12px_rgba(52,211,153,0.25)]">
-                    <Coins className="w-3.5 h-3.5" />
-                    <span>LEVEL 04 // FISCAL INTEGRITY &amp; TREASURY</span>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/15 text-slate-200 font-mono text-[10px] tracking-widest uppercase font-bold">
+                    <Coins className="w-3.5 h-3.5 text-slate-300" />
+                    <span>TREASURY</span>
                   </div>
                   <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight mt-2">
                     TREASURERS &amp; CAPITAL DIRECTORS
@@ -790,126 +766,99 @@ export default function TeamPage() {
               </ScrollReveal>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                {treasurers.map((m, i) => (
-                  <MemberCard key={m.name} member={m} echelonTag={`FIN-0${i + 1} // TREASURER`} />
+                {treasurers.map((m) => (
+                  <MemberCard key={m.name} member={m} echelonTag="TREASURER" />
                 ))}
               </div>
             </div>
 
             {/* Tree Trunk Conductor: Command to Technical Divisions */}
-            <TreeConnectorVertical badge="ENGINEERING DIVISIONS & POD TRUNK // 05" />
-            <TreeBranchSplitter label="SPECIALIZED TECHNICAL PODS BUS" branches={4} />
+            <TreeConnectorVertical />
 
-            {/* LEVEL 05: MULTI-DISCIPLINARY TECHNICAL PODS */}
-            <div className="space-y-12 max-w-6xl mx-auto mt-6">
-              {/* POD 01: Embedded Systems & Firmware */}
-              <div className="p-6 sm:p-8 rounded-3xl bg-white/[0.02] border border-white/10 relative">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-white/10">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-sky-500/10 border border-sky-400/30 text-sky-400">
-                      <Cpu className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="font-mono text-[9px] text-sky-400 uppercase tracking-widest font-bold">
-                        POD 01 // REAL-TIME FIRMWARE &amp; HARDWARE
-                      </span>
-                      <h3 className="font-modern font-black text-xl text-white uppercase tracking-tight">
-                        EMBEDDED SYSTEMS POD
-                      </h3>
-                    </div>
+            {/* TECHNICAL DIVISIONS (UNIFIED CONSISTENT ARCHITECTURE) */}
+            <div className="mt-6">
+              <ScrollReveal>
+                <div className="text-center mb-12">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/15 text-slate-200 font-mono text-[10px] tracking-widest uppercase font-bold">
+                    <Cpu className="w-3.5 h-3.5 text-slate-300" />
+                    <span>TECHNICAL DIVISIONS</span>
                   </div>
+                  <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight mt-2">
+                    DOMAIN HEADS &amp; POD LEADS
+                  </h2>
+                </div>
+              </ScrollReveal>
+
+              {/* POD 01: Embedded Systems & Firmware */}
+              <div className="mb-12">
+                <div className="text-center mb-6">
+                  <h3 className="font-modern font-bold text-lg text-white uppercase tracking-wider">
+                    EMBEDDED SYSTEMS &amp; FIRMWARE
+                  </h3>
                   <span className="font-mono text-[10px] text-slate-400">
                     ARM Cortex MCUs &bull; Multi-layer PCBs &bull; CAN-Bus Telemetry
                   </span>
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto items-stretch">
                   {embeddedHeads.map((m) => (
-                    <MemberCard key={m.name} member={m} echelonTag="EMB-01 // FIRMWARE" />
+                    <MemberCard key={m.name} member={m} echelonTag="EMBEDDED SYSTEMS" />
                   ))}
                 </div>
               </div>
+
+              <TreeConnectorVertical height="h-10" />
 
               {/* POD 02: Mechanical Design & Fabrication */}
-              <div className="p-6 sm:p-8 rounded-3xl bg-white/[0.02] border border-white/10 relative">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-white/10">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-400/30 text-amber-400">
-                      <Wrench className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="font-mono text-[9px] text-amber-400 uppercase tracking-widest font-bold">
-                        POD 02 // PRECISION CAD &amp; MECHATRONICS
-                      </span>
-                      <h3 className="font-modern font-black text-xl text-white uppercase tracking-tight">
-                        MECHANICAL DESIGN &amp; FABRICATION POD
-                      </h3>
-                    </div>
-                  </div>
+              <div className="mb-12">
+                <div className="text-center mb-6">
+                  <h3 className="font-modern font-bold text-lg text-white uppercase tracking-wider">
+                    MECHANICAL DESIGN &amp; FABRICATION
+                  </h3>
                   <span className="font-mono text-[10px] text-slate-400">
-                    SolidWorks &bull; FEA Stress Validation &bull; CNC Machined 7075-T6
+                    SolidWorks CAD &bull; FEA Stress Validation &bull; CNC Machining
                   </span>
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto items-stretch">
                   {mechanicalHeads.map((m) => (
-                    <MemberCard key={m.name} member={m} echelonTag="MECH-01 // CAD &amp; CNC" />
+                    <MemberCard key={m.name} member={m} echelonTag="MECHANICAL CAD" />
                   ))}
                 </div>
               </div>
+
+              <TreeConnectorVertical height="h-10" />
 
               {/* POD 03: Autonomous Intelligence & Perception */}
-              <div className="p-6 sm:p-8 rounded-3xl bg-white/[0.02] border border-white/10 relative">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-white/10">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-400/30 text-purple-400">
-                      <Brain className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="font-mono text-[9px] text-purple-400 uppercase tracking-widest font-bold">
-                        POD 03 // AUTONOMOUS AI &amp; PERCEPTION
-                      </span>
-                      <h3 className="font-modern font-black text-xl text-white uppercase tracking-tight">
-                        AUTONOMOUS INTELLIGENCE POD
-                      </h3>
-                    </div>
-                  </div>
+              <div className="mb-12">
+                <div className="text-center mb-6">
+                  <h3 className="font-modern font-bold text-lg text-white uppercase tracking-wider">
+                    AUTONOMOUS INTELLIGENCE &amp; PERCEPTION
+                  </h3>
                   <span className="font-mono text-[10px] text-slate-400">
-                    ROS 2 &bull; OpenCV Ball Tracking &bull; LiDAR SLAM Mapping
+                    ROS 2 Middleware &bull; OpenCV Vision &bull; LiDAR SLAM
                   </span>
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-2xl mx-auto items-stretch">
                   {intelligenceHeads.map((m) => (
-                    <MemberCard key={m.name} member={m} echelonTag="AI-01 // PERCEPTION" />
+                    <MemberCard key={m.name} member={m} echelonTag="COMPUTER VISION" />
                   ))}
                 </div>
               </div>
 
+              <TreeConnectorVertical height="h-10" />
+
               {/* POD 04: Digital Media, Web & Operations */}
-              <div className="p-6 sm:p-8 rounded-3xl bg-white/[0.02] border border-white/10 relative">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-white/10">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-pink-500/10 border border-pink-400/30 text-pink-400">
-                      <Globe className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="font-mono text-[9px] text-pink-400 uppercase tracking-widest font-bold">
-                        POD 04 // DIGITAL SYSTEMS &amp; OPERATIONS
-                      </span>
-                      <h3 className="font-modern font-black text-xl text-white uppercase tracking-tight">
-                        DIGITAL MEDIA, WEB &amp; PUBLIC OUTREACH
-                      </h3>
-                    </div>
-                  </div>
+              <div className="mb-12">
+                <div className="text-center mb-6">
+                  <h3 className="font-modern font-bold text-lg text-white uppercase tracking-wider">
+                    DIGITAL SYSTEMS &amp; OPERATIONS
+                  </h3>
                   <span className="font-mono text-[10px] text-slate-400">
                     Next.js Systems &bull; Visual Identity &bull; Public Relations
                   </span>
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto items-stretch">
                   {opsHeads.map((m) => (
-                    <MemberCard key={m.name} member={m} echelonTag="OPS-01 // OPERATIONS" />
+                    <MemberCard key={m.name} member={m} echelonTag="OPERATIONS" />
                   ))}
                 </div>
               </div>
@@ -949,15 +898,15 @@ export default function TeamPage() {
               ))}
             </div>
 
-            {/* ECHELON 01: PRESIDENTS */}
+            {/* EXECUTIVE COUNCIL */}
             {(filter === 'All' || filter === 'Presidents') && (
               <section className="mb-24">
                 <ScrollReveal>
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-white/10 gap-4">
                     <div>
-                      <div className="flex items-center gap-2 font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase mb-1">
-                        <Crown className="w-4 h-4 text-[#FF9FFC]" />
-                        <span>ECHELON 01 // SUPREME EXECUTIVE COUNCIL</span>
+                      <div className="flex items-center gap-2 font-mono text-xs text-slate-300 font-bold tracking-widest uppercase mb-1">
+                        <Crown className="w-4 h-4 text-slate-300" />
+                        <span>EXECUTIVE COUNCIL</span>
                       </div>
                       <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
                         PRESIDENTS &amp; VICE PRESIDENTS
@@ -971,7 +920,7 @@ export default function TeamPage() {
                     <ScrollReveal key={member.name} delay={i * 80}>
                       <MemberCard
                         member={member}
-                        echelonTag={member.role === 'President' ? 'APEX-01 // PRESIDENT' : 'APEX-02 // VICE PRESIDENT'}
+                        echelonTag={member.role === 'President' ? 'PRESIDENT' : 'VICE PRESIDENT'}
                         isApex={member.role === 'President'}
                       />
                     </ScrollReveal>
@@ -980,15 +929,15 @@ export default function TeamPage() {
               </section>
             )}
 
-            {/* ECHELON 02: CAPTAINS */}
+            {/* TACTICAL COMMAND */}
             {(filter === 'All' || filter === 'Captains') && (
               <section className="mb-24">
                 <ScrollReveal>
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-white/10 gap-4">
                     <div>
-                      <div className="flex items-center gap-2 font-mono text-xs text-sky-400 font-bold tracking-widest uppercase mb-1">
-                        <Shield className="w-4 h-4 text-sky-400" />
-                        <span>ECHELON 02 // TACTICAL FLEET COMMAND</span>
+                      <div className="flex items-center gap-2 font-mono text-xs text-slate-300 font-bold tracking-widest uppercase mb-1">
+                        <Shield className="w-4 h-4 text-slate-300" />
+                        <span>TACTICAL COMMAND</span>
                       </div>
                       <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
                         CAPTAIN &amp; VICE CAPTAINS
@@ -1002,7 +951,7 @@ export default function TeamPage() {
                     <ScrollReveal key={member.name} delay={i * 80}>
                       <MemberCard
                         member={member}
-                        echelonTag={member.role === 'Captain' ? 'TAC-01 // FLEET CAPTAIN' : 'TAC-02 // VICE CAPTAIN'}
+                        echelonTag={member.role === 'Captain' ? 'FLEET CAPTAIN' : 'VICE CAPTAIN'}
                         isApex={member.role === 'Captain'}
                       />
                     </ScrollReveal>
@@ -1011,15 +960,15 @@ export default function TeamPage() {
               </section>
             )}
 
-            {/* ECHELON 03: SECRETARIES */}
+            {/* SECRETARIAT */}
             {(filter === 'All' || filter === 'Secretaries') && (
               <section className="mb-24">
                 <ScrollReveal>
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-white/10 gap-4">
                     <div>
-                      <div className="flex items-center gap-2 font-mono text-xs text-purple-400 font-bold tracking-widest uppercase mb-1">
-                        <Layers className="w-4 h-4 text-purple-400" />
-                        <span>ECHELON 03 // SECRETARIAT &amp; PROTOCOL</span>
+                      <div className="flex items-center gap-2 font-mono text-xs text-slate-300 font-bold tracking-widest uppercase mb-1">
+                        <Layers className="w-4 h-4 text-slate-300" />
+                        <span>SECRETARIAT</span>
                       </div>
                       <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
                         GENERAL SECRETARY &amp; JOINT SECRETARIES
@@ -1033,7 +982,7 @@ export default function TeamPage() {
                     <ScrollReveal key={member.name} delay={i * 80}>
                       <MemberCard
                         member={member}
-                        echelonTag={member.role === 'General Secretary' ? 'SEC-01 // GEN SECRETARY' : 'SEC-02 // JOINT SECRETARY'}
+                        echelonTag={member.role === 'General Secretary' ? 'GENERAL SECRETARY' : 'JOINT SECRETARY'}
                       />
                     </ScrollReveal>
                   ))}
@@ -1041,15 +990,15 @@ export default function TeamPage() {
               </section>
             )}
 
-            {/* ECHELON 04: TREASURERS */}
+            {/* TREASURY */}
             {(filter === 'All' || filter === 'Treasurers') && (
               <section className="mb-24">
                 <ScrollReveal>
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-white/10 gap-4">
                     <div>
-                      <div className="flex items-center gap-2 font-mono text-xs text-emerald-400 font-bold tracking-widest uppercase mb-1">
-                        <Coins className="w-4 h-4 text-emerald-400" />
-                        <span>ECHELON 04 // FISCAL INTEGRITY &amp; LOGISTICS</span>
+                      <div className="flex items-center gap-2 font-mono text-xs text-slate-300 font-bold tracking-widest uppercase mb-1">
+                        <Coins className="w-4 h-4 text-slate-300" />
+                        <span>TREASURY</span>
                       </div>
                       <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
                         TREASURERS &amp; CAPITAL DIRECTORS
@@ -1061,22 +1010,22 @@ export default function TeamPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto gap-6 sm:gap-8">
                   {treasurers.map((member, i) => (
                     <ScrollReveal key={member.name} delay={i * 80}>
-                      <MemberCard member={member} echelonTag="FIN-01 // TREASURY" />
+                      <MemberCard member={member} echelonTag="TREASURER" />
                     </ScrollReveal>
                   ))}
                 </div>
               </section>
             )}
 
-            {/* ECHELON 05: TECHNICAL PODS */}
+            {/* TECHNICAL PODS */}
             {(filter === 'All' || filter === 'Domain Heads') && (
               <section className="mb-24">
                 <ScrollReveal>
                   <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-4 border-b border-white/10 gap-4">
                     <div>
-                      <div className="flex items-center gap-2 font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase mb-1">
-                        <Zap className="w-4 h-4 text-[#FF9FFC]" />
-                        <span>ECHELON 05 // MULTI-DISCIPLINARY TECHNICAL PODS</span>
+                      <div className="flex items-center gap-2 font-mono text-xs text-slate-300 font-bold tracking-widest uppercase mb-1">
+                        <Zap className="w-4 h-4 text-slate-300" />
+                        <span>TECHNICAL PODS</span>
                       </div>
                       <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
                         DOMAIN HEADS &amp; POD LEADS
@@ -1089,7 +1038,7 @@ export default function TeamPage() {
                 <div className="mb-14">
                   <ScrollReveal>
                     <div className="flex items-center gap-3 mb-6 p-4 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-md">
-                      <div className="p-2.5 rounded-xl bg-sky-500/10 border border-sky-400/20 text-sky-400">
+                      <div className="p-2.5 rounded-xl bg-white/5 border border-white/15 text-slate-300">
                         <Cpu className="w-5 h-5" />
                       </div>
                       <div>
@@ -1106,7 +1055,7 @@ export default function TeamPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     {embeddedHeads.map((member, i) => (
                       <ScrollReveal key={member.name} delay={i * 60}>
-                        <MemberCard member={member} echelonTag="EMB-01 // FIRMWARE" />
+                        <MemberCard member={member} echelonTag="EMBEDDED SYSTEMS" />
                       </ScrollReveal>
                     ))}
                   </div>
@@ -1116,7 +1065,7 @@ export default function TeamPage() {
                 <div className="mb-14">
                   <ScrollReveal>
                     <div className="flex items-center gap-3 mb-6 p-4 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-md">
-                      <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-400/20 text-amber-400">
+                      <div className="p-2.5 rounded-xl bg-white/5 border border-white/15 text-slate-300">
                         <Wrench className="w-5 h-5" />
                       </div>
                       <div>
@@ -1133,7 +1082,7 @@ export default function TeamPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     {mechanicalHeads.map((member, i) => (
                       <ScrollReveal key={member.name} delay={i * 60}>
-                        <MemberCard member={member} echelonTag="MECH-01 // FABRICATION" />
+                        <MemberCard member={member} echelonTag="MECHANICAL CAD" />
                       </ScrollReveal>
                     ))}
                   </div>
@@ -1143,7 +1092,7 @@ export default function TeamPage() {
                 <div className="mb-14">
                   <ScrollReveal>
                     <div className="flex items-center gap-3 mb-6 p-4 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-md">
-                      <div className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-400/20 text-purple-400">
+                      <div className="p-2.5 rounded-xl bg-white/5 border border-white/15 text-slate-300">
                         <Brain className="w-5 h-5" />
                       </div>
                       <div>
@@ -1160,7 +1109,7 @@ export default function TeamPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 max-w-3xl mx-auto gap-6">
                     {intelligenceHeads.map((member, i) => (
                       <ScrollReveal key={member.name} delay={i * 60}>
-                        <MemberCard member={member} echelonTag="AI-01 // PERCEPTION" />
+                        <MemberCard member={member} echelonTag="COMPUTER VISION" />
                       </ScrollReveal>
                     ))}
                   </div>
@@ -1170,7 +1119,7 @@ export default function TeamPage() {
                 <div className="mb-14">
                   <ScrollReveal>
                     <div className="flex items-center gap-3 mb-6 p-4 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-md">
-                      <div className="p-2.5 rounded-xl bg-pink-500/10 border border-pink-400/20 text-pink-400">
+                      <div className="p-2.5 rounded-xl bg-white/5 border border-white/15 text-slate-300">
                         <Globe className="w-5 h-5" />
                       </div>
                       <div>
@@ -1187,7 +1136,7 @@ export default function TeamPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                     {opsHeads.map((member, i) => (
                       <ScrollReveal key={member.name} delay={i * 60}>
-                        <MemberCard member={member} echelonTag="OPS-01 // OPERATIONS" />
+                        <MemberCard member={member} echelonTag="OPERATIONS" />
                       </ScrollReveal>
                     ))}
                   </div>
@@ -1236,7 +1185,7 @@ export default function TeamPage() {
               href="https://www.instagram.com/robolution.bitm/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors"
+              className="hover:text-white transition-colors"
             >
               @robolution.bitm
             </a>
@@ -1244,13 +1193,13 @@ export default function TeamPage() {
               href="https://www.linkedin.com/company/robolution-bit-mesra/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors"
+              className="hover:text-white transition-colors"
             >
               LinkedIn
             </a>
             <a
               href="mailto:pratyumnis@bitmesra.ac.in"
-              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-semibold"
+              className="hover:text-white transition-colors flex items-center gap-1.5 font-semibold"
             >
               <Mail className="w-3.5 h-3.5" />
               <span>pratyumnis@bitmesra.ac.in</span>
