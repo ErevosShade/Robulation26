@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
+import './holo-card.css';
 
 interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -12,7 +13,10 @@ interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
   chamfer?: boolean;
   glowOnHover?: boolean;
   transparent?: boolean;
+  tilt?: boolean;
 }
+
+const TILT_DIV = 3.5; // Lower = steeper tilt, Higher = subtler tilt
 
 export default function GlassCard({
   children,
@@ -24,33 +28,59 @@ export default function GlassCard({
   chamfer = false,
   glowOnHover = true,
   transparent = false,
+  tilt = true,
   ...props
 }: GlassCardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number>(0);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
+    const { clientX, clientY } = e;
+
+    if (tilt && e.pointerType === 'mouse' && !rafRef.current) {
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = 0;
+        const el = containerRef.current;
+        if (!el) return;
+
+        const rect = el.getBoundingClientRect();
+        const px = ((clientX - rect.left) / rect.width) * 100;
+        const py = ((clientY - rect.top) / rect.height) * 100;
+
+        el.style.setProperty('--card-hx', `${px.toFixed(1)}%`);
+        el.style.setProperty('--card-hy', `${py.toFixed(1)}%`);
+        el.style.setProperty('--card-rx', `${((py - 50) / TILT_DIV).toFixed(2)}deg`);
+        el.style.setProperty('--card-ry', `${(-(px - 50) / TILT_DIV).toFixed(2)}deg`);
+      });
+    }
+
     const rect = containerRef.current.getBoundingClientRect();
-    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  };
+    setPosition({ x: clientX - rect.left, y: clientY - rect.top });
+  }, [tilt]);
 
-  const handleMouseEnter = () => {
+  const handlePointerEnter = useCallback(() => {
     setOpacity(1);
-  };
+  }, []);
 
-  const handleMouseLeave = () => {
+  const handlePointerLeave = useCallback(() => {
     setOpacity(0);
-  };
+    const el = containerRef.current;
+    if (!el) return;
+    for (const prop of ['--card-hx', '--card-hy', '--card-rx', '--card-ry']) {
+      el.style.removeProperty(prop);
+    }
+  }, []);
 
   return (
     <div
       ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className={`relative group rounded-[1.75rem] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      onPointerMove={handlePointerMove}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
+      className={`${tilt ? 'holo-card' : ''} relative group rounded-[1.75rem] p-1.5 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         glowOnHover
           ? 'hover:shadow-[0_0_30px_rgba(255,255,255,0.06)]'
           : ''
@@ -62,6 +92,9 @@ export default function GlassCard({
       }}
       {...props}
     >
+      {/* Holographic foil shimmer layer */}
+      {tilt && <div className="holo-card__foil" aria-hidden="true" />}
+
       {/* Dynamic Cursor Spotlight Overlay */}
       <div
         className="pointer-events-none absolute inset-0 rounded-[1.75rem] transition-opacity duration-300 -z-0"

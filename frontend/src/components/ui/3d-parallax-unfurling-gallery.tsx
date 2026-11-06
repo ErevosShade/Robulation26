@@ -8,6 +8,7 @@ import React, {
   useCallback,
 } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import HoloCard from "@/components/HoloCard";
 
 const UNSPLASH_IMAGES = [
   "https://cdn.21st.dev/assets/mirror/a9/a9c2900d44fe6288b344f447cb12a05f7e64c439479a8ccb977d3b20eb371156.jpg",
@@ -33,15 +34,15 @@ interface ImageCardProps {
 
 const ImageCard = ({ src, onLoad }: ImageCardProps) => {
   return (
-    <div className="w-full h-[200px] sm:h-[300px] md:h-[400px] flex-shrink-0 bg-[#111] transition-transform duration-300 hover:scale-[1.02] cursor-pointer relative will-change-transform backface-hidden preserve-3d rounded-xl overflow-hidden border border-white/10 shadow-2xl">
+    <HoloCard className="w-full h-[200px] sm:h-[300px] md:h-[400px] flex-shrink-0 cursor-pointer">
       <img
         src={src}
         alt="Gallery Asset"
         loading="lazy"
         onLoad={onLoad}
-        className="w-full h-full object-cover opacity-85 hover:opacity-100 transition-opacity duration-300"
+        className="w-full h-full object-cover opacity-85 hover:opacity-100 transition-opacity duration-300 rounded-[15px]"
       />
-    </div>
+    </HoloCard>
   );
 };
 
