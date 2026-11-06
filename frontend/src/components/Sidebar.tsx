@@ -368,15 +368,6 @@ export default function Sidebar({ theme = 'dark' }: SidebarProps) {
                 );
               })}
             </nav>
-
-                    {/* Tooltip on Hover */}
-                    <div className="absolute left-full ml-3 px-3 py-1.5 rounded-lg bg-slate-950/95 text-white text-[11px] font-mono tracking-wider whitespace-nowrap opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none shadow-2xl z-50 border border-white/15 backdrop-blur-md">
-                      {item.label}
-                    </div>
-                  </div>
-                );
-              })}
-            </nav>
           </div>
         </div>
       </aside>
