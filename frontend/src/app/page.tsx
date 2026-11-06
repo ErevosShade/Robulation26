@@ -180,19 +180,14 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Bottom Smooth Trapezoid Dock with Action Buttons */}
+        {/* Bottom Smooth Trapezoid Dock with Action Buttons (Minimizes to Sticky Ball on Scroll) */}
         <BottomDock theme="dark" />
 
-        {/* Bottom Status Telemetry Bar */}
-        <div className="relative z-20 pb-4 px-4 sm:px-6 flex items-center justify-between pointer-events-none md:pl-20">
-          <div className="hidden sm:flex items-center gap-2 font-mono text-[10px] text-slate-400 bg-white/[0.03] px-3 py-1.5 rounded-lg border border-white/10 backdrop-blur-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-            <span>ROBOLUTION TELEMETRY // BIT MESRA // PRATYUMNIS LAB 01</span>
-          </div>
-
+        {/* Bottom Navigation Link */}
+        <div className="relative z-20 pb-4 px-4 sm:px-6 flex items-center justify-end pointer-events-none md:pl-20">
           <a
             href="#about"
-            className="flex items-center gap-1.5 font-mono text-[10px] text-slate-400 hover:text-white transition-colors pointer-events-auto ml-auto"
+            className="flex items-center gap-1.5 font-mono text-[10px] text-slate-400 hover:text-white transition-colors pointer-events-auto"
             aria-label="Navigate to About Us section"
           >
             <span>ABOUT US</span>
