@@ -82,12 +82,12 @@ export default function AboutHeroSection() {
             <ScrollReveal delay={150}>
               <div className="relative w-full h-[320px] sm:h-[400px] lg:h-[460px] xl:h-[500px] flex items-center justify-center">
                 <Image
-                  src="/combat-bot-transparent.png"
+                  src="/combat-bot-wireframe.jpg"
                   alt="Robolution Combat Drum Spinner Bot CAD Wireframe"
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 45vw, 40vw"
-                  className="object-contain filter contrast-125 brightness-110 drop-shadow-[0_0_28px_rgba(56,189,248,0.18)] transition-transform duration-700 ease-out hover:scale-105"
+                  className="object-contain filter contrast-125 brightness-110 mix-blend-screen drop-shadow-[0_0_28px_rgba(56,189,248,0.25)] transition-transform duration-700 ease-out hover:scale-105"
                 />
               </div>
             </ScrollReveal>
