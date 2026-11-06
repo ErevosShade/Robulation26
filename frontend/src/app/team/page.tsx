@@ -48,14 +48,14 @@ const teamMembers: TeamMember[] = [
     name: 'Ayush Kumar',
     role: 'President',
     category: 'Presidents',
-    image: '/team/AyushKumar_President.jpg',
+    image: '/team/AyushKumar_President.webp',
     email: 'pratyumnis@bitmesra.ac.in'
   },
   {
     name: 'Gaurav Kumar',
     role: 'Vice President',
     category: 'Presidents',
-    image: '/team/GauravKumar_VicePresident.jpg',
+    image: '/team/GauravKumar_VicePresident.webp',
     linkedin: 'https://www.linkedin.com/in/gaurav-kumar-818633201',
     instagram: 'https://www.instagram.com/gaurav_.grv',
     email: 'kumargauravk007@gmail.com'
@@ -64,7 +64,7 @@ const teamMembers: TeamMember[] = [
     name: 'Ashutosh Sahu',
     role: 'Vice President',
     category: 'Presidents',
-    image: '/team/AshutoshSahu_VicePresident.jpg',
+    image: '/team/AshutoshSahu_VicePresident.webp',
     email: 'pratyumnis@bitmesra.ac.in'
   },
 
@@ -73,7 +73,7 @@ const teamMembers: TeamMember[] = [
     name: 'Prince Raj',
     role: 'Captain',
     category: 'Captains',
-    image: '/team/PrinceRaj_Captain.jpg',
+    image: '/team/PrinceRaj_Captain.webp',
     linkedin: 'https://www.linkedin.com/in/prince-raj-598440336',
     instagram: 'https://www.instagram.com/_raj.prince_',
     email: 'princerajdgr@gmail.com'
@@ -82,7 +82,7 @@ const teamMembers: TeamMember[] = [
     name: 'Himanshu Prasad',
     role: 'Vice Captain',
     category: 'Captains',
-    image: '/team/HimanshuPrasad_ViceCaptain.jpg',
+    image: '/team/HimanshuPrasad_ViceCaptain.webp',
     linkedin: 'https://www.linkedin.com/in/himanshu-prasad-90a4b92b9',
     instagram: 'https://www.instagram.com/_himanshu_2831',
     email: '31hp28@gmail.com'
@@ -91,7 +91,7 @@ const teamMembers: TeamMember[] = [
     name: 'Shubham Kujur',
     role: 'Vice Captain',
     category: 'Captains',
-    image: '/team/ShubhamKujur_ViceCaptain.jpg',
+    image: '/team/ShubhamKujur_ViceCaptain.webp',
     linkedin: 'https://www.linkedin.com/in/shubham-satya-kujur-a97252330',
     instagram: 'https://www.instagram.com/it.z_shubham_',
     email: 'shubhamskujur@gmail.com'
@@ -102,7 +102,7 @@ const teamMembers: TeamMember[] = [
     name: 'Prasun Jha',
     role: 'General Secretary',
     category: 'Secretaries',
-    image: '/team/PrasunJha_GeneralSecretary.jpg',
+    image: '/team/PrasunJha_GeneralSecretary.webp',
     linkedin: 'https://www.linkedin.com/in/prasun-jha-703685216',
     instagram: 'https://www.instagram.com/prasun4812/',
     email: 'prasunjhaofficial@gmail.com'
@@ -111,7 +111,7 @@ const teamMembers: TeamMember[] = [
     name: 'Ishan Shukla',
     role: 'Joint Secretary',
     category: 'Secretaries',
-    image: '/team/IshanShukla_JointSecretary.jpg',
+    image: '/team/IshanShukla_JointSecretary.webp',
     linkedin: 'https://www.linkedin.com/in/ishan-shukla-4b56a0312',
     instagram: 'https://www.instagram.com/iamshuklaishan',
     email: 'shuklaishan077@gmail.com'
@@ -120,7 +120,7 @@ const teamMembers: TeamMember[] = [
     name: 'Vishal Kumar',
     role: 'Joint Secretary',
     category: 'Secretaries',
-    image: '/team/VishalKumar_JointSecretary.jpg',
+    image: '/team/VishalKumar_JointSecretary.webp',
     linkedin: 'https://www.linkedin.com/in/vishal-kumar-28042234a',
     instagram: 'https://www.instagram.com/_vishal_paswan07',
     email: 'vraj24411@gmail.com'
@@ -131,7 +131,7 @@ const teamMembers: TeamMember[] = [
     name: 'Disha Goel',
     role: 'Treasurer',
     category: 'Treasurers',
-    image: '/team/DishaGoel_Treasurer.jpg',
+    image: '/team/DishaGoel_Treasurer.webp',
     linkedin: 'https://linkedin.com/in/disha-goel-666397326',
     email: 'btech10634.24@bitmesra.ac.in'
   },
@@ -139,7 +139,7 @@ const teamMembers: TeamMember[] = [
     name: 'Garima Agarwal',
     role: 'Treasurer',
     category: 'Treasurers',
-    image: '/team/GarimaAgarwal_Treasurer.jpg',
+    image: '/team/GarimaAgarwal_Treasurer.webp',
     linkedin: 'https://www.linkedin.com/in/garima-agarwal-8298a5272',
     instagram: 'https://www.instagram.com/garima_.2210',
     email: 'garima.ag2210@gmail.com'
@@ -151,7 +151,7 @@ const teamMembers: TeamMember[] = [
     role: 'Embedded Head',
     category: 'Domain Heads',
     subCategory: 'Embedded Systems',
-    image: '/team/PariGautam_EmbeddedHead.jpg',
+    image: '/team/PariGautam_EmbeddedHead.webp',
     email: 'parigautam102001@gmail.com'
   },
   {
@@ -159,7 +159,7 @@ const teamMembers: TeamMember[] = [
     role: 'Embedded Head',
     category: 'Domain Heads',
     subCategory: 'Embedded Systems',
-    image: '/team/ApurboRoy_EmbeddedHead.jpg',
+    image: '/team/ApurboRoy_EmbeddedHead.webp',
     instagram: 'https://www.instagram.com/apurboroy33/',
     email: 'rapurbo938@gmail.com'
   },
@@ -168,7 +168,7 @@ const teamMembers: TeamMember[] = [
     role: 'Embedded Head',
     category: 'Domain Heads',
     subCategory: 'Embedded Systems',
-    image: '/team/VatsalyaBrahmatmaj_EmbeddedHead.jpg',
+    image: '/team/VatsalyaBrahmatmaj_EmbeddedHead.webp',
     email: 'pratyumnis@bitmesra.ac.in'
   },
 
@@ -178,7 +178,7 @@ const teamMembers: TeamMember[] = [
     role: 'Mechanical Head',
     category: 'Domain Heads',
     subCategory: 'Mechanical & Fabrication',
-    image: '/team/JalajBhatia_MechanicalHead.jpg',
+    image: '/team/JalajBhatia_MechanicalHead.webp',
     instagram: 'https://www.instagram.com/_palindrome.21',
     email: 'jalajbhatia2104@gmail.com'
   },
@@ -187,7 +187,7 @@ const teamMembers: TeamMember[] = [
     role: 'Mechanical Head',
     category: 'Domain Heads',
     subCategory: 'Mechanical & Fabrication',
-    image: '/team/AyushJaiswal_MechanicalHead.jpg',
+    image: '/team/AyushJaiswal_MechanicalHead.webp',
     email: 'rishujais50@gmail.com'
   },
   {
@@ -204,7 +204,7 @@ const teamMembers: TeamMember[] = [
     role: 'Intelligence Head',
     category: 'Domain Heads',
     subCategory: 'Autonomous Intelligence',
-    image: '/team/SomyadeepSaha_IntelligenceHead.jpg',
+    image: '/team/SomyadeepSaha_IntelligenceHead.webp',
     instagram: 'https://www.instagram.com/somo_man44/',
     email: 'somo14saha@gmail.com'
   },
@@ -213,7 +213,7 @@ const teamMembers: TeamMember[] = [
     role: 'Intelligence Head',
     category: 'Domain Heads',
     subCategory: 'Autonomous Intelligence',
-    image: '/team/PalashMendhe_IntelligenceHead.jpg',
+    image: '/team/PalashMendhe_IntelligenceHead.webp',
     instagram: 'https://www.instagram.com/palash.green',
     email: 'palashmendhe20@gmail.com'
   },
@@ -224,7 +224,7 @@ const teamMembers: TeamMember[] = [
     role: 'Public Relations Head',
     category: 'Domain Heads',
     subCategory: 'Public Relations',
-    image: '/team/PalakAgarwal_PublicRelationHead.jpg',
+    image: '/team/PalakAgarwal_PublicRelationHead.webp',
     instagram: 'https://www.instagram.com/palak.agarwala_',
     email: 'btech10956.24@bitmesra.ac.in'
   },
@@ -233,7 +233,7 @@ const teamMembers: TeamMember[] = [
     role: 'Management Lead',
     category: 'Domain Heads',
     subCategory: 'Management & Ops',
-    image: '/team/AyushmanGupta_ManagementLead.jpg',
+    image: '/team/AyushmanGupta_ManagementLead.webp',
     email: 'pratyumnis@bitmesra.ac.in'
   },
   {

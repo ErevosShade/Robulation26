@@ -10,22 +10,71 @@ import React, {
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import HoloCard from "@/components/HoloCard";
 
-const UNSPLASH_IMAGES = [
-  "https://cdn.21st.dev/assets/mirror/a9/a9c2900d44fe6288b344f447cb12a05f7e64c439479a8ccb977d3b20eb371156.jpg",
-  "https://cdn.21st.dev/assets/mirror/29/29cf6ad39eb198c05b8d915fca0becfd3d270d510d32eaec1b886c426c681c67.jpg",
-  "https://cdn.21st.dev/assets/mirror/61/6154958e9df110914005256ff2319d43a2c2e0fc8bb54e9f8bce7b91fdce5df1.jpg",
-  "https://cdn.21st.dev/assets/mirror/6d/6db92aff3c02cce69e2c672a6dd4e99cbf5c55d68fbf08c460527e6c7c5b64ba.jpg",
-  "https://cdn.21st.dev/assets/mirror/42/42ad2d0680dba697d578434e5af5620c7ab1c7c55bc36cec3b55eec8b7a79cbf.jpg",
-  "https://cdn.21st.dev/assets/mirror/cd/cd3dc09b1bbed97cfc879e2c5e62fdbc68dc4070b6105e476410d70e31d1e459.jpg",
-  "https://cdn.21st.dev/assets/mirror/02/0232d63e3e0cb8d3599a77e29f87f8ec4b9fadfd031592296b3f19a730a5348c.jpg",
-  "https://cdn.21st.dev/assets/mirror/56/562b212caa6ec06d8b0b313660dac6aa0bbfb729092cc4f16d04558a319af6b1.jpg",
-  "https://cdn.21st.dev/assets/mirror/02/02cbcd62720734d469f2ea8e5ed7a212e18cb05e73457445b4d755ad0ae1fcd8.jpg",
-  "https://images.unsplash.com/photo-1550614000-4b95d4ed798a?auto=format&fit=crop&w=600&q=80",
-  "https://cdn.21st.dev/assets/mirror/c4/c42df7c9c444a1189dad0570c0d01986454cd6a10eaf253a9ab40eb921a5bae5.jpg",
-  "https://cdn.21st.dev/assets/mirror/27/275fbf3f84c5258c7a8235a8a47022f847d0f408c950288c532aefa83d072a2c.jpg",
-  "https://cdn.21st.dev/assets/mirror/7e/7e2fb073870b2f578a37a693b1e0c9402a98201149509b54da2f86a2ee6abf5e.jpg",
-  "https://cdn.21st.dev/assets/mirror/3d/3d74651780292fb5a2ba23e525d9d09860bb83fbfafc7ede17b8e3662d7b1022.jpg",
+const ROBOTICS_GALLERY_IMAGES = [
+  "/combat-bot-wireframe.webp",
+  "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=900&q=80&fm=webp",
+  "/tracked-bot-clean.webp",
+  "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80&fm=webp",
+  "/tracked-bot-wireframe.webp",
+  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=80&fm=webp",
+  "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=900&q=80&fm=webp",
+  "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=900&q=80&fm=webp",
+  "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=900&q=80&fm=webp",
+  "https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=900&q=80&fm=webp",
+  "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=900&q=80&fm=webp",
+  "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=80&fm=webp",
+  "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=900&q=80&fm=webp",
+  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=900&q=80&fm=webp",
 ];
+
+// Background Web Worker image cache to decode off the main UI thread
+let imageWorker: Worker | null = null;
+const workerCallbacks = new Map<string, (url: string) => void>();
+
+function getImageWorker(): Worker | null {
+  if (typeof window === "undefined") return null;
+  if (!imageWorker && typeof Worker !== "undefined") {
+    try {
+      imageWorker = new Worker("/image-worker.js");
+      imageWorker.onmessage = (e: MessageEvent) => {
+        const { src, objectUrl } = e.data;
+        const cb = workerCallbacks.get(src);
+        if (cb) {
+          cb(objectUrl);
+          workerCallbacks.delete(src);
+        }
+      };
+    } catch {
+      imageWorker = null;
+    }
+  }
+  return imageWorker;
+}
+
+function useWorkerDecodedImage(src: string): string {
+  const [resolvedSrc, setResolvedSrc] = useState(src);
+
+  useEffect(() => {
+    if (src.startsWith("/")) {
+      setResolvedSrc(src);
+      return;
+    }
+
+    const worker = getImageWorker();
+    if (!worker) {
+      setResolvedSrc(src);
+      return;
+    }
+
+    workerCallbacks.set(src, (url: string) => {
+      setResolvedSrc(url);
+    });
+
+    worker.postMessage({ id: src, src });
+  }, [src]);
+
+  return resolvedSrc;
+}
 
 interface ImageCardProps {
   src: string;
@@ -33,12 +82,16 @@ interface ImageCardProps {
 }
 
 const ImageCard = ({ src, onLoad }: ImageCardProps) => {
+  const decodedSrc = useWorkerDecodedImage(src);
+
   return (
     <HoloCard className="w-full h-[200px] sm:h-[300px] md:h-[400px] flex-shrink-0 cursor-pointer">
       <img
-        src={src}
-        alt="Gallery Asset"
+        src={decodedSrc}
+        alt="Robolution Mechatronics Asset"
         loading="lazy"
+        decoding="async"
+        fetchPriority="low"
         onLoad={onLoad}
         className="w-full h-full object-cover opacity-85 hover:opacity-100 transition-opacity duration-300 rounded-[15px]"
       />
@@ -53,7 +106,7 @@ export interface UnfurlingGalleryProps {
 }
 
 export default function Component({
-  images = UNSPLASH_IMAGES,
+  images = ROBOTICS_GALLERY_IMAGES,
   embedded = false,
   className = "",
 }: UnfurlingGalleryProps) {
@@ -73,7 +126,7 @@ export default function Component({
   }, []);
 
   const colMedia = useMemo(() => {
-    const pool = images && images.length > 0 ? images : UNSPLASH_IMAGES;
+    const pool = images && images.length > 0 ? images : ROBOTICS_GALLERY_IMAGES;
     const col1Base = pool.filter((_, i) => i % 4 === 0);
     const col2Base = pool.filter((_, i) => i % 4 === 1);
     const col3Base = pool.filter((_, i) => i % 4 === 2);
