@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Sidebar from '@/components/Sidebar';
 import HudBox from '@/components/HudBox';
 import MoltenMetal from '@/components/MoltenMetal';
@@ -73,6 +74,7 @@ const milestones = [
     specs: 'ABU ROBOCON 2013 // NATIONAL STAGE',
     metric: 'BEST ROOKIE',
     status: 'LAUREL VALIDATED',
+    image: '/timeline/robocon-2013.jpg',
   },
   {
     year: '2015',
@@ -83,6 +85,7 @@ const milestones = [
     specs: 'ABU ROBOCON 2015 // ₹150,000 AWARD',
     metric: '₹150K MATHWORKS',
     status: 'PODIUM VALIDATED',
+    image: '/timeline/robocon-2015.jpg',
   },
   {
     year: '2015',
@@ -595,6 +598,28 @@ export default function AboutPage() {
                             <p className="font-modern text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
                               {m.detail}
                             </p>
+
+                            {/* Milestone Photo Showcase (if available) */}
+                            {m.image && (
+                              <div className="relative w-full h-44 sm:h-52 rounded-xl overflow-hidden mb-4 border border-white/15 bg-black/40 shadow-inner group/img">
+                                <Image
+                                  src={m.image}
+                                  alt={m.title}
+                                  fill
+                                  sizes="(max-width: 768px) 100vw, 500px"
+                                  className="object-contain p-2 group-hover/img:scale-105 transition-transform duration-500 ease-out"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                                <div className="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between font-mono text-[9px] text-slate-300 tracking-wider">
+                                  <span className="bg-black/60 backdrop-blur-md px-2 py-0.5 rounded border border-white/10 uppercase">
+                                    // ARCHIVE CAPTURE
+                                  </span>
+                                  <span className="text-cyan-400 font-bold">
+                                    {m.year}
+                                  </span>
+                                </div>
+                              </div>
+                            )}
 
                             {/* Specs Telemetry Tag */}
                             <div
