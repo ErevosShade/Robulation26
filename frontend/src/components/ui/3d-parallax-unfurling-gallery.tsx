@@ -11,22 +11,26 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import HoloCard from "@/components/HoloCard";
 
 const ROBOTICS_GALLERY_IMAGES = [
-  "/gallery/robocon-stage-victory.jpg",
+  "/gallery/kratos-combat-drum-bot.jpg",
   "/combat-bot-wireframe.webp",
   "/gallery/badminton-robot-chassis.jpg",
-  "/gallery/feeder-mechanism-robot.jpg",
-  "/gallery/pneumatic-arena-robot.jpg",
-  "/tracked-bot-wireframe.webp",
-  "/gallery/robocon-team-night.jpg",
-  "/rover-wireframe.png",
   "/gallery/pendulum-tower-robot.jpg",
-  "/gallery/badminton-robot-chassis.jpg",
-  "/rover-wireframe.png",
   "/gallery/robocon-stage-victory.jpg",
+  "/gallery/hexacopter-flight-sky.jpg",
+  "/gallery/spherical-rib-rover.jpg",
   "/gallery/feeder-mechanism-robot.jpg",
-  "/tracked-bot-clean.webp",
-  "/gallery/pendulum-tower-robot.jpg",
+  "/gallery/robosaga-hexapod-spider.jpg",
+  "/gallery/robocon-podium-team.jpg",
   "/gallery/robocon-team-night.jpg",
+  "/gallery/pneumatic-arena-robot.jpg",
+  "/gallery/spiked-tire-all-terrain-rover.jpg",
+  "/gallery/electric-balancing-skateboard.jpg",
+  "/gallery/drone-telemetry-controller.jpg",
+  "/rover-wireframe.png",
+  "/gallery/custom-pcb-line-follower.jpg",
+  "/tracked-bot-wireframe.webp",
+  "/gallery/arduino-bot-chassis.jpg",
+  "/tracked-bot-clean.webp",
 ];
 
 // Background Web Worker image cache to decode off the main UI thread
