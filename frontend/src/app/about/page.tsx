@@ -160,6 +160,7 @@ const milestones = [
     specs: 'NIT TRICHY & DTU // DUAL LAURELS',
     metric: '1ST & 2ND PODIUM',
     status: 'PODIUM VALIDATED',
+    image: '/timeline/pragyan-2022.jpg',
   },
   {
     year: '2023',
@@ -182,8 +183,19 @@ const milestones = [
     status: 'NATIONAL IMPACT',
   },
   {
-    year: '2026',
+    year: '2025',
     code: 'EXP-13',
+    tag: 'IIT BOMBAY TECHFEST',
+    title: 'Robowars 2025 – Quarter-finalist',
+    detail: 'A powerful heavyweight combat robot built for IIT Bombay Techfest, featuring a robust design, high-speed mobility, and an effective weapon system to compete in intense robot battles. Designed to withstand heavy impacts while delivering precise attacks and superior maneuverability in the arena.',
+    specs: 'IIT BOMBAY TECHFEST // HEAVYWEIGHT COMBAT',
+    metric: 'QUARTER-FINALIST',
+    status: 'ARENA TESTED',
+    image: '/timeline/robowars-2025.jpg',
+  },
+  {
+    year: '2026',
+    code: 'EXP-14',
     tag: 'FLAGSHIP ARENA FEST',
     title: 'RoboSaga & Autonomous Systems',
     detail: 'Launching RoboSaga 2026 flagship 3-day arena fest and transitioning into advanced autonomous planetary exploration mechatronics.',
@@ -231,6 +243,7 @@ const otherAchievements = [
     venue: 'PRAGYAN NIT TRICHY',
     title: '1st Place – Roborace',
     badge: 'HIGH-SPEED DRIVETRAIN',
+    image: '/timeline/pragyan-2022.jpg',
   },
   {
     year: '2022',
@@ -261,6 +274,13 @@ const otherAchievements = [
     venue: 'SMART INDIA HACKATHON ‘24',
     title: 'Grand Finale – Hardware Edition',
     badge: 'AGRIBOT PLATFORM',
+  },
+  {
+    year: '2025',
+    venue: 'IIT BOMBAY TECHFEST',
+    title: 'Robowars 2025 – Quarter-finalist',
+    badge: 'HEAVYWEIGHT COMBAT',
+    image: '/timeline/robowars-2025.jpg',
   },
 ];
 
@@ -309,8 +329,8 @@ export default function AboutPage() {
           <span className="text-slate-300">About Robolution</span>
         </div>
 
-        {/* Hero Title Section */}
-        <div className="mb-16">
+        {/* Hero Title & Cover Image Section */}
+        <div className="mb-20">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
             <span>// OFFICIAL ROBOTICS SOCIETY &bull; BIT MESRA &bull; EST. 2001</span>
@@ -328,6 +348,39 @@ export default function AboutPage() {
             We bring together passionate hardware builders, firmware engineers, and software architects to solve real technical challenges
             through collaborative making and national competitive campaigns.
           </p>
+
+          {/* Cover Hero Showcase: Robowars Combat Robot */}
+          <ScrollReveal delay={150}>
+            <div className="relative w-full h-[280px] xs:h-[340px] sm:h-[440px] md:h-[500px] lg:h-[560px] rounded-2xl overflow-hidden mt-10 border border-white/15 bg-black/40 shadow-2xl group">
+              <Image
+                src="/timeline/robowars-cover.jpg"
+                alt="Robolution Robowars Heavyweight Combat Robot"
+                fill
+                priority
+                sizes="(max-width: 1280px) 100vw, 1280px"
+                className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out filter contrast-110 brightness-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#020307] via-transparent to-black/30 pointer-events-none" />
+              <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center gap-2">
+                <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 font-mono text-[9px] sm:text-[10px] text-cyan-400 uppercase tracking-widest font-bold">
+                  // FLAGSHIP HARDWARE • ROBOWARS COMBAT
+                </span>
+              </div>
+              <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 right-4 sm:right-6 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                <div>
+                  <span className="font-mono text-[10px] sm:text-xs text-sky-400 font-bold uppercase tracking-widest block">
+                    IIT BOMBAY TECHFEST // HEAVYWEIGHT ARENA
+                  </span>
+                  <h3 className="font-modern font-black text-xl sm:text-3xl text-white uppercase tracking-tight">
+                    KRATOS COMBAT DRUM SPINNER
+                  </h3>
+                </div>
+                <div className="font-mono text-[10px] sm:text-xs text-slate-300 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/15 shrink-0 self-start sm:self-auto">
+                  HIGH-KINETIC IMPACT WEAPONRY
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
 
         {/* Metrics Grid with GlassCard */}
