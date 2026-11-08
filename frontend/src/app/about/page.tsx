@@ -171,6 +171,7 @@ const milestones = [
     specs: 'IIT GUWAHATI • IIT KGP • IIT BOMBAY',
     metric: 'DUAL GOLD & FINALISTS',
     status: 'TRIPLE CAMPAIGN',
+    image: '/timeline/rover-2023.jpg',
   },
   {
     year: '2024',
@@ -186,10 +187,10 @@ const milestones = [
     year: '2025',
     code: 'EXP-13',
     tag: 'IIT BOMBAY TECHFEST',
-    title: 'Robowars 2025 – Quarter-finalist',
-    detail: 'A powerful heavyweight combat robot built for IIT Bombay Techfest, featuring a robust design, high-speed mobility, and an effective weapon system to compete in intense robot battles. Designed to withstand heavy impacts while delivering precise attacks and superior maneuverability in the arena.',
-    specs: 'IIT BOMBAY TECHFEST // HEAVYWEIGHT COMBAT',
-    metric: 'QUARTER-FINALIST',
+    title: 'ROBO WARS 2025 – QUARTER-FINALIST (UNDER 15 KG)',
+    detail: 'Advanced to the Quarter-Finals at IIT Bombay Techfest 2025, showcasing a robust combat robot with powerful weapon integration, durability, and manoeuvrability.',
+    specs: 'IIT BOMBAY TECHFEST // ROBO WARS // 15 KG CATEGORY',
+    metric: 'QUARTER-FINALIST (U15KG)',
     status: 'ARENA TESTED',
     image: '/timeline/robowars-2025.jpg',
   },
@@ -262,6 +263,7 @@ const otherAchievements = [
     venue: 'KSHITIJ IIT KHARAGPUR',
     title: '2nd Place – Autonomous Navigation',
     badge: 'LIDAR & SLAM',
+    image: '/timeline/rover-2023.jpg',
   },
   {
     year: '2023',
@@ -278,8 +280,8 @@ const otherAchievements = [
   {
     year: '2025',
     venue: 'IIT BOMBAY TECHFEST',
-    title: 'Robowars 2025 – Quarter-finalist',
-    badge: 'HEAVYWEIGHT COMBAT',
+    title: 'ROBO WARS 2025 – QUARTER-FINALIST (UNDER 15 KG)',
+    badge: 'UNDER 15 KG COMBAT',
     image: '/timeline/robowars-2025.jpg',
   },
 ];
