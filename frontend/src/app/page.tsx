@@ -75,9 +75,17 @@ export default function Home() {
 
         {/* Top Header: Heavy Structural Architectural Title with TechText */}
         <header className="relative z-20 w-full pt-2 sm:pt-4 flex flex-col items-center pointer-events-none px-4 md:pl-20">
-          <div className="inline-flex items-center px-3.5 py-1 rounded-[2px] bg-white/[0.04] border border-white/20 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest uppercase mb-2 pointer-events-auto backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 sm:gap-2.5 px-3.5 py-1.5 rounded-[2px] bg-white/[0.04] border border-white/20 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest uppercase mb-2 pointer-events-auto backdrop-blur-md">
             <span className="bg-gradient-to-r from-zinc-300 via-white to-zinc-400 bg-clip-text text-transparent font-semibold">
-              OFFICIAL ROBOTICS SOCIETY // TEAM PRATYUMNIS // BIT MESRA
+              OFFICIAL ROBOTICS SOCIETY
+            </span>
+            <span className="inline-block w-1 h-1 rounded-full bg-white/80 shadow-[0_0_6px_rgba(255,255,255,0.6)] shrink-0" aria-hidden="true" />
+            <span className="bg-gradient-to-r from-zinc-300 via-white to-zinc-400 bg-clip-text text-transparent font-semibold">
+              TEAM PRATYUMNIS
+            </span>
+            <span className="inline-block w-1 h-1 rounded-full bg-white/80 shadow-[0_0_6px_rgba(255,255,255,0.6)] shrink-0" aria-hidden="true" />
+            <span className="bg-gradient-to-r from-zinc-300 via-white to-zinc-400 bg-clip-text text-transparent font-semibold">
+              BIT MESRA
             </span>
           </div>
 
@@ -129,7 +137,6 @@ export default function Home() {
                 variant="shape1"
                 theme="dark"
                 leaderSide="right"
-                badge="ARENA CONTINGENT"
                 title="TEAM PRATYUMNIS"
                 subtitle="ABU ROBOCON & NATIONALS"
                 description="ABU ROBOCON 100/100 CAD DESIGN SCORE & &#8377;1.5L MATHWORKS NATIONAL AWARD."
@@ -147,7 +154,6 @@ export default function Home() {
                 variant="shape2"
                 theme="dark"
                 leaderSide="left"
-                badge="FLAGSHIP FEST"
                 title="ROBOSAGA '27"
                 subtitle="TECHNO-MANAGEMENT ARENA"
                 description="3-DAY HARDWARE CARNIVAL: COMBAT BOTS, AUTONOMOUS MAZE SOLVERS & 1000+ PARTICIPANTS."
@@ -162,7 +168,6 @@ export default function Home() {
                 variant="shape1"
                 theme="dark"
                 leaderSide="right"
-                badge="ARENA CONTINGENT"
                 title="TEAM PRATYUMNIS"
                 subtitle="ABU ROBOCON & NATIONALS"
               />
@@ -172,7 +177,6 @@ export default function Home() {
                 variant="shape2"
                 theme="dark"
                 leaderSide="left"
-                badge="FLAGSHIP FEST"
                 title="ROBOSAGA '27"
                 subtitle="TECHNO-MANAGEMENT ARENA"
               />
@@ -414,7 +418,11 @@ export default function Home() {
                 height={24}
                 className="object-contain filter drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]"
               />
-              <span>ROBOLUTION // BIT MESRA</span>
+              <span className="inline-flex items-center gap-2">
+                <span>ROBOLUTION</span>
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-white/70 shadow-[0_0_5px_rgba(255,255,255,0.5)] shrink-0" aria-hidden="true" />
+                <span>BIT MESRA</span>
+              </span>
             </span>
             <span className="font-mono text-xs text-slate-400 mt-2">
               Birla Institute of Technology, Mesra, Ranchi, Jharkhand 835215
