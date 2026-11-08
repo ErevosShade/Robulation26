@@ -294,34 +294,34 @@ export default function AboutPage() {
             through collaborative making and national competitive campaigns.
           </p>
 
-          {/* Cover Hero Showcase: Robowars Combat Robot */}
+          {/* Cover Hero Showcase: Society Team */}
           <ScrollReveal delay={150}>
             <div className="relative w-full h-[280px] xs:h-[340px] sm:h-[440px] md:h-[500px] lg:h-[560px] rounded-2xl overflow-hidden mt-10 border border-white/15 bg-black/40 shadow-2xl group">
               <Image
-                src="/timeline/robowars-cover.jpg"
-                alt="Robolution Robowars Heavyweight Combat Robot"
+                src="/timeline/society-team-cover.jpg"
+                alt="Robolution Society Team BIT Mesra"
                 fill
                 priority
                 sizes="(max-width: 1280px) 100vw, 1280px"
-                className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out filter contrast-110 brightness-105"
+                className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out filter contrast-105 brightness-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#020307] via-transparent to-black/30 pointer-events-none" />
               <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center gap-2">
                 <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 font-mono text-[9px] sm:text-[10px] text-cyan-400 uppercase tracking-widest font-bold">
-                  // FLAGSHIP HARDWARE • ROBOWARS COMBAT
+                  // OFFICIAL ROBOTICS SOCIETY • TEAM PRATYUMNIS
                 </span>
               </div>
               <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 right-4 sm:right-6 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
                 <div>
                   <span className="font-mono text-[10px] sm:text-xs text-sky-400 font-bold uppercase tracking-widest block">
-                    IIT BOMBAY TECHFEST // HEAVYWEIGHT ARENA
+                    BIRLA INSTITUTE OF TECHNOLOGY, MESRA
                   </span>
                   <h3 className="font-modern font-black text-xl sm:text-3xl text-white uppercase tracking-tight">
-                    KRATOS COMBAT DRUM SPINNER
+                    ROBOLUTION SOCIETY CADRE
                   </h3>
                 </div>
                 <div className="font-mono text-[10px] sm:text-xs text-slate-300 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/15 shrink-0 self-start sm:self-auto">
-                  HIGH-KINETIC IMPACT WEAPONRY
+                  INNOVATION &bull; AUTONOMY &bull; BATTLE BOTS
                 </div>
               </div>
             </div>
