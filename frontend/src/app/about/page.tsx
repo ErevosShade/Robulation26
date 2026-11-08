@@ -298,10 +298,11 @@ export default function AboutPage() {
           <ScrollReveal delay={150}>
             <div className="relative w-full h-[280px] xs:h-[340px] sm:h-[440px] md:h-[500px] lg:h-[560px] rounded-2xl overflow-hidden mt-10 border border-white/15 bg-black/40 shadow-2xl group">
               <Image
-                src="/timeline/society-team-cover.jpg"
+                src="/timeline/society-team-cover-v3.jpg"
                 alt="Robolution Society Team BIT Mesra"
                 fill
                 priority
+                unoptimized
                 sizes="(max-width: 1280px) 100vw, 1280px"
                 className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out filter contrast-105 brightness-105"
               />
