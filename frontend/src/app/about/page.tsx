@@ -186,6 +186,75 @@ const milestones = [
   },
 ];
 
+const otherAchievements = [
+  {
+    year: '2016',
+    venue: 'SRIJAN JADAVPUR UNIVERSITY',
+    title: '1st Place – Multiple Events',
+    badge: 'MULTIPLE VICTORIES',
+  },
+  {
+    year: '2018',
+    venue: 'KSHITIJ IIT KHARAGPUR',
+    title: '2nd Place – Maze Solver',
+    badge: 'AUTONOMOUS NAVIGATION',
+  },
+  {
+    year: '2019',
+    venue: 'TECHNICHE IIT GUWAHATI',
+    title: '1st Place – RoboSoccer',
+    badge: 'TACTICAL MOBILITY',
+  },
+  {
+    year: '2021',
+    venue: 'BITS PILANI QUARK FEST',
+    title: '3rd Place – Robowar',
+    badge: 'COMBAT ROBOTICS',
+  },
+  {
+    year: '2021',
+    venue: 'ABU ROBOCON 2021 (VIRTUAL)',
+    title: 'National Finalists – Top 15',
+    badge: 'NATIONAL FINALISTS',
+  },
+  {
+    year: '2022',
+    venue: 'PRAGYAN NIT TRICHY',
+    title: '1st Place – Roborace',
+    badge: 'HIGH-SPEED DRIVETRAIN',
+  },
+  {
+    year: '2022',
+    venue: 'ROBOTRYST DTU',
+    title: '2nd Place – Autonomous Bot',
+    badge: 'AUTONOMOUS SENSING',
+  },
+  {
+    year: '2023',
+    venue: 'TECHNICHE IIT GUWAHATI',
+    title: '1st Place – Robowar & Line Follower',
+    badge: 'DUAL CHAMPIONSHIP',
+  },
+  {
+    year: '2023',
+    venue: 'KSHITIJ IIT KHARAGPUR',
+    title: '2nd Place – Autonomous Navigation',
+    badge: 'LIDAR & SLAM',
+  },
+  {
+    year: '2023',
+    venue: 'E-YANTRA IIT BOMBAY',
+    title: 'National Finalists – Theme Completion',
+    badge: 'SYSTEM INTEGRATION',
+  },
+  {
+    year: '2024',
+    venue: 'SMART INDIA HACKATHON ‘24',
+    title: 'Grand Finale – Hardware Edition',
+    badge: 'AGRIBOT PLATFORM',
+  },
+];
+
 export default function AboutPage() {
   return (
     <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
@@ -545,6 +614,69 @@ export default function AboutPage() {
                 );
               })}
             </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* OTHER ACHIEVEMENTS: Podium Archive Across IITs, NITs & National Hackathons */}
+        {/* ========================================================================= */}
+        <section className="mb-28 relative">
+          <ScrollReveal>
+            <div className="mb-12">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                <span>// ARENA PODIUM ARCHIVE &bull; NATIONAL MERIT</span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div>
+                  <h2 className="font-modern font-black text-3xl sm:text-5xl text-white uppercase tracking-tight">
+                    OTHER ACHIEVEMENTS
+                  </h2>
+                  <p className="font-modern text-sm sm:text-base text-slate-300 max-w-2xl mt-3 leading-relaxed">
+                    National competition records, robot combat podiums, and championship finishes across premier technology festivals in India.
+                  </p>
+                </div>
+                <div className="font-mono text-xs text-cyan-400 uppercase tracking-widest border border-cyan-400/30 px-3 py-1.5 rounded-lg bg-cyan-950/20 shrink-0 self-start sm:self-auto">
+                  11 // NATIONAL HONORS
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {otherAchievements.map((item, idx) => (
+              <ScrollReveal key={idx} delay={idx * 35}>
+                <GlassCard
+                  badge={item.badge}
+                  spotlightColor="rgba(255, 255, 255, 0.08)"
+                  className="p-5 sm:p-6 group hover:border-cyan-400/40 transition-all duration-300 flex flex-col justify-between h-full"
+                >
+                  <div>
+                    <div className="flex items-center justify-between font-mono text-[10px] text-slate-400 mb-2.5">
+                      <span className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/10 font-bold text-white">
+                        {item.year}
+                      </span>
+                      <span className="text-[9px] uppercase tracking-wider text-slate-400 font-mono">
+                        {item.badge}
+                      </span>
+                    </div>
+
+                    <h4 className="font-modern font-bold text-xs sm:text-sm text-slate-300 uppercase tracking-wider mb-2">
+                      {item.venue}
+                    </h4>
+
+                    <p className="font-modern font-black text-sm sm:text-base text-white uppercase tracking-tight group-hover:text-cyan-300 transition-colors">
+                      {item.title}
+                    </p>
+                  </div>
+
+                  <div className="mt-4 pt-2.5 border-t border-white/10 flex items-center justify-between font-mono text-[9px] text-slate-400">
+                    <span className="uppercase tracking-widest text-cyan-400/80">Podium Validated</span>
+                    <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
+                  </div>
+                </GlassCard>
+              </ScrollReveal>
+            ))}
           </div>
         </section>
 
