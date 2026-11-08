@@ -139,17 +139,9 @@ export default function GlassCard({
         {/* Micro Telemetry Eyebrow Badge (if provided) */}
         {badge && (
           <div className="flex items-center justify-between gap-2 mb-3">
-            <div className="inline-flex items-center gap-1.5 font-mono text-[9px] sm:text-[10px] uppercase tracking-widest text-slate-300 group-hover:text-white transition-colors">
-              <span className="w-1.5 h-1.5 rounded-full bg-white/80 animate-pulse shadow-[0_0_6px_rgba(255,255,255,0.8)]" />
-              <span className="tracking-widest">{badge}</span>
-            </div>
-            {/* Live Micro Signal Equalizer Bars */}
-            <div className="flex items-end gap-0.5 h-3 opacity-60 group-hover:opacity-100 transition-opacity">
-              <span className="w-[2px] bg-white/70 animate-equalizer-1 rounded-full" />
-              <span className="w-[2px] bg-sky-400 animate-equalizer-2 rounded-full" />
-              <span className="w-[2px] bg-white animate-equalizer-3 rounded-full" />
-              <span className="w-[2px] bg-white/50 animate-equalizer-4 rounded-full" />
-            </div>
+            <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-widest text-slate-300 group-hover:text-white transition-colors">
+              {badge}
+            </span>
           </div>
         )}
 

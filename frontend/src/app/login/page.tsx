@@ -63,7 +63,7 @@ export default function LoginPage() {
 
         {/* Telemetry Footer */}
         <footer className="border-t border-white/10 pt-4 flex flex-col sm:flex-row items-center justify-between text-zinc-500 font-mono text-[10px] gap-2">
-          <span>ROBOLUTION // TEAM PRATYUMNIS • BIT MESRA</span>
+          <span>ROBOLUTION &bull; TEAM PRATYUMNIS &bull; BIT MESRA</span>
           <span>SYSTEM PROTOCOL: OAUTH_ROSTER_V1</span>
         </footer>
       </main>

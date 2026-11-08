@@ -134,7 +134,7 @@ export default function AnnouncementsPage() {
 
       {/* Top Right Corner Tech Box */}
       <div className="hidden sm:block absolute top-0 right-0 z-30 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
-        <HudBox compact={true} theme="dark" title="EST. 2001 // BIT MESRA" />
+        <HudBox compact={true} theme="dark" title="EST. 2001 • BIT MESRA" />
       </div>
 
       {/* Main Content Area */}
@@ -150,7 +150,7 @@ export default function AnnouncementsPage() {
         <div className="mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-            <span>// COMMUNICATION FEED &bull; OFFICIAL TRANSMISSIONS &bull; BIT MESRA</span>
+            <span>COMMUNICATION FEED &bull; OFFICIAL TRANSMISSIONS &bull; BIT MESRA</span>
           </div>
 
           <h1 className="font-modern font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white uppercase leading-[1.05]">
@@ -240,7 +240,7 @@ export default function AnnouncementsPage() {
 
         {/* Subscribe Banner with GlassCard & IslandButton */}
         <GlassCard
-          badge="TELEMETRY FEED // DISPATCHES"
+          badge="TELEMETRY FEED • DISPATCHES"
           spotlightColor="rgba(255, 255, 255, 0.08)"
           className="p-8 sm:p-12 flex flex-col sm:flex-row items-center justify-between gap-6"
         >

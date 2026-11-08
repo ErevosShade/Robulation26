@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { X, Layers } from 'lucide-react';
+import { Layers } from 'lucide-react';
 
 interface BottomDockProps {
   theme?: 'light' | 'dark';
@@ -30,23 +30,34 @@ export default function BottomDock({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close popup when clicking outside
+  // Close popup when clicking outside or pressing Escape
   useEffect(() => {
     if (!isOpen) return;
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
       if (dockRef.current && !dockRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
     };
-    window.addEventListener('mousedown', handleClickOutside);
-    return () => window.removeEventListener('mousedown', handleClickOutside);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isOpen]);
 
   return (
     <div
       ref={dockRef}
       className={`fixed left-1/2 -translate-x-1/2 z-50 select-none pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-        isScrolled ? 'bottom-5 sm:bottom-6' : 'bottom-0'
+        isScrolled && !isOpen ? 'bottom-5 sm:bottom-6' : 'bottom-0'
       }`}
     >
       {/* Hidden SVG definition for trapezoid clip-path */}
@@ -59,15 +70,15 @@ export default function BottomDock({
       </svg>
 
       {/* =====================================================================
-          STATE 1: HERO DOCK (When at top of page, !isScrolled)
+          STATE 1 & 3: TRAPEZOID HERO DOCK (When !isScrolled OR when scrolled & opened)
       ===================================================================== */}
-      {!isScrolled && (
+      {(!isScrolled || isOpen) && (
         <div
           className={`relative w-[calc(100vw-1.5rem)] max-w-[460px] sm:max-w-[520px] md:max-w-[560px] h-[52px] sm:h-[62px] flex items-center justify-center filter transition-all duration-500 ${
             isLight
               ? 'drop-shadow-[0_-8px_25px_rgba(15,23,42,0.12)]'
               : 'drop-shadow-[0_-10px_30px_rgba(0,0,0,0.8)]'
-          }`}
+          } ${isOpen ? 'animate-in fade-in slide-in-from-bottom-2 duration-300' : ''}`}
         >
           {/* Glassmorphic Background with Smooth Rounded Trapezoid Shape */}
           <div
@@ -111,6 +122,7 @@ export default function BottomDock({
           <div className="relative z-10 flex items-center justify-center flex-nowrap whitespace-nowrap gap-1.5 xs:gap-2.5 sm:gap-3 md:gap-4 px-2 xs:px-4 sm:px-8 pt-0.5 sm:pt-1">
             <Link
               href="/about"
+              onClick={() => setIsOpen(false)}
               className="group relative px-2.5 xs:px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white text-black font-modern text-[9px] xs:text-[10px] sm:text-[11px] font-bold tracking-wider sm:tracking-widest uppercase transition-all duration-300 hover:bg-slate-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.7)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
             >
               About Us
@@ -118,6 +130,7 @@ export default function BottomDock({
 
             <Link
               href="/events"
+              onClick={() => setIsOpen(false)}
               className="group relative px-2.5 xs:px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[9px] xs:text-[10px] sm:text-[11px] font-semibold tracking-wider sm:tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
             >
               RoboSaga &apos;26
@@ -125,6 +138,7 @@ export default function BottomDock({
 
             <Link
               href="/contact"
+              onClick={() => setIsOpen(false)}
               className="group relative px-2.5 xs:px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[9px] xs:text-[10px] sm:text-[11px] font-semibold tracking-wider sm:tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
             >
               Contact
@@ -139,7 +153,10 @@ export default function BottomDock({
       {isScrolled && !isOpen && (
         <button
           type="button"
-          onClick={() => setIsOpen(true)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsOpen(true);
+          }}
           aria-label="Open Navigation Dock"
           className="group relative w-12 h-12 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-[#050914]/90 hover:bg-[#071026] border border-cyan-400/40 hover:border-cyan-300 shadow-[0_4px_24px_rgba(0,0,0,0.8),0_0_20px_rgba(56,189,248,0.35)] hover:shadow-[0_4px_30px_rgba(0,0,0,0.9),0_0_28px_rgba(56,189,248,0.6)] backdrop-blur-xl transition-all duration-300 active:scale-90 cursor-pointer animate-in fade-in zoom-in-75"
         >
@@ -159,47 +176,6 @@ export default function BottomDock({
             MENU
           </span>
         </button>
-      )}
-
-      {/* =====================================================================
-          STATE 3: EXPANDED FLOATING DOCK (When isScrolled && isOpen)
-      ===================================================================== */}
-      {isScrolled && isOpen && (
-        <div className="relative flex items-center gap-1.5 sm:gap-2 p-1 sm:p-2 rounded-2xl bg-[#070b18]/95 border border-cyan-400/40 shadow-[0_12px_45px_rgba(0,0,0,0.85),0_0_30px_rgba(56,189,248,0.3)] backdrop-blur-2xl transition-all duration-300 animate-in fade-in zoom-in-95 max-w-[calc(100vw-1.5rem)]">
-          <Link
-            href="/about"
-            onClick={() => setIsOpen(false)}
-            className="px-2.5 xs:px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-xl bg-white text-black font-modern text-[9px] xs:text-[10px] sm:text-xs font-bold tracking-wider uppercase hover:bg-slate-200 transition-all hover:shadow-[0_0_16px_rgba(255,255,255,0.6)] active:scale-95 cursor-pointer whitespace-nowrap"
-          >
-            About Us
-          </Link>
-
-          <Link
-            href="/events"
-            onClick={() => setIsOpen(false)}
-            className="px-2.5 xs:px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/10 border border-white/20 text-white font-modern text-[9px] xs:text-[10px] sm:text-xs font-semibold tracking-wider uppercase hover:bg-white/20 hover:border-cyan-400/50 hover:shadow-[0_0_16px_rgba(56,189,248,0.3)] transition-all active:scale-95 cursor-pointer whitespace-nowrap"
-          >
-            RoboSaga &apos;26
-          </Link>
-
-          <Link
-            href="/contact"
-            onClick={() => setIsOpen(false)}
-            className="px-2.5 xs:px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/10 border border-white/20 text-white font-modern text-[9px] xs:text-[10px] sm:text-xs font-semibold tracking-wider uppercase hover:bg-white/20 hover:border-cyan-400/50 hover:shadow-[0_0_16px_rgba(56,189,248,0.3)] transition-all active:scale-95 cursor-pointer whitespace-nowrap"
-          >
-            Contact
-          </Link>
-
-          {/* Close / Minimize Button */}
-          <button
-            type="button"
-            onClick={() => setIsOpen(false)}
-            aria-label="Close Navigation Dock"
-            className="p-1 sm:p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer ml-0.5 sm:ml-1"
-          >
-            <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </button>
-        </div>
       )}
     </div>
   );

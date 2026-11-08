@@ -45,7 +45,7 @@ const events: EventItem[] = [
     badge: 'FLAGSHIP FESTIVAL',
     status: 'Annual',
     date: 'Annual 3-Day Techno-Management Extravaganza',
-    venue: 'Main Arena Enclosure // BIT Mesra Campus',
+    venue: 'Main Arena Enclosure • BIT Mesra Campus',
     prizePool: '₹75,000 Total Arena Budget',
     description: 'Eastern India\'s premier annual techno-management festival organized on the BIT Mesra campus. Unites collegiate hardware hackers and makers across combat robot wars, autonomous line followers, maze solvers, and multi-disciplinary tech exhibitions.',
     highlights: ['Heavyweight Combat Wars', 'Autonomous Maze Solvers', 'High-Speed Line Trackers', '1,000+ Participants']
@@ -57,7 +57,7 @@ const events: EventItem[] = [
     badge: 'TEAM PRATYUMNIS',
     status: 'Upcoming',
     date: 'Annual Continental Robotics Championship',
-    venue: 'National Indoor Stadium // DD & ABU Robocon India',
+    venue: 'National Indoor Stadium • DD & ABU Robocon India',
     prizePool: '₹7,00,000 Season Allocation',
     description: 'Representing BIT Mesra in Asia\'s most prestigious collegiate robotics competition. Deploying 4-wheel holonomic omni-drive bases, pneumatic ballistic launchers, and synchronized autonomous multi-robot telemetry.',
     highlights: ['100/100 CAD Design Score', '₹1.5L MathWorks Laurels', 'Holonomic Omni-Drive', 'Cooperative Multi-Bot']
@@ -68,8 +68,8 @@ const events: EventItem[] = [
     category: 'Competitions',
     badge: 'HEAVYWEIGHT COMBAT',
     status: 'Upcoming',
-    date: 'Techfest 2026 // Asia\'s Largest Science Fest',
-    venue: 'Gymkhana Grounds // IIT Bombay',
+    date: 'Techfest 2026 • Asia\'s Largest Science Fest',
+    venue: 'Gymkhana Grounds • IIT Bombay',
     prizePool: '₹2,20,000 Season Allocation',
     description: 'Engineering a high-kinetic heavyweight combat bot designed to withstand heavy arena impacts while delivering devastating weapon attacks. Features hardened armor, custom weapon rotor machining, and high-traction drive systems.',
     highlights: ['Techfest Quarter-Finalist', 'Custom Hardox Armour', 'High-RPM Kinetic Weapon', 'Extreme Durability DFM']
@@ -93,7 +93,7 @@ const events: EventItem[] = [
     badge: 'AI & EMBEDDED AUTONOMY',
     status: 'Completed',
     date: 'SIH Hardware Grand Finale',
-    venue: 'National Nodal Center // Ministry of Education',
+    venue: 'National Nodal Center • Ministry of Education',
     prizePool: 'National Grand Finalist',
     description: 'Engineered AgriBot, an autonomous agricultural robotics system designed for automated precision seeding, mechanical weeding, and crop health monitoring using integrated computer vision and multi-spectrum soil sensors.',
     highlights: ['SIH Grand Finalist', 'Real-Time CV Seeding', 'Multi-Sensor Soil Matrix', 'Autonomous Field Navigation']
@@ -105,7 +105,7 @@ const events: EventItem[] = [
     badge: 'CAD & FABRICATION',
     status: 'Annual',
     date: 'Semester Technical Training Cycle',
-    venue: 'CAD Computer Lab // Production Dept, BIT Mesra',
+    venue: 'CAD Computer Lab • Production Dept, BIT Mesra',
     description: 'Practical training in 3D CAD modeling, generative design, kinematic motion simulation, and finite element stress analysis—grounded in Robolution\'s historic 100/100 3D CAD analysis benchmark.',
     highlights: ['100/100 CAD Benchmark', 'Kinematic Motion Studies', 'FEA Stress Simulation', 'Rapid 3D Print Slicing']
   },
@@ -116,7 +116,7 @@ const events: EventItem[] = [
     badge: 'FOUNDATIONAL LAB',
     status: 'Upcoming',
     date: 'Weekend Engineering Intensive',
-    venue: 'Robolution Workstation // BIT Mesra Campus',
+    venue: 'Robolution Workstation • BIT Mesra Campus',
     description: 'Intensive boot camp covering microcontroller firmware, sensor integration, FreeRTOS task scheduling, motor driver H-bridges, and custom multi-layer PCB layout using KiCad.',
     highlights: ['Microcontroller Architectures', 'Custom KiCad PCB Layout', 'FreeRTOS Multitasking', 'Hands-On Hardware Kits']
   }
@@ -163,7 +163,7 @@ export default function EventsPage() {
 
       {/* Top Right Corner Tech Box */}
       <div className="hidden sm:block absolute top-0 right-0 z-30 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
-        <HudBox compact={true} theme="dark" title="EST. 2001 // BIT MESRA" />
+        <HudBox compact={true} theme="dark" title="EST. 2001 • BIT MESRA" />
       </div>
 
       {/* Main Content Area */}
@@ -179,7 +179,7 @@ export default function EventsPage() {
         <div className="mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-            <span>// ROBOSAGA &bull; ABU ROBOCON &bull; BIT MESRA ARENAS</span>
+            <span>ROBOSAGA &bull; ABU ROBOCON &bull; BIT MESRA ARENAS</span>
           </div>
 
           <h1 className="font-modern font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white uppercase leading-[1.05]">
@@ -297,7 +297,7 @@ export default function EventsPage() {
 
         {/* RoboSaga Fest Banner with GlassCard & IslandButton */}
         <GlassCard
-          badge="ROBOSAGA 2026 // ARENA INTAKE"
+          badge="ROBOSAGA 2026 • ARENA INTAKE"
           spotlightColor="rgba(255, 255, 255, 0.08)"
           className="p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6"
         >
