@@ -8,6 +8,7 @@ import RoverWireframe3D from '@/components/RoverWireframe3D';
 import HudBox from '@/components/HudBox';
 import AboutHeroSection from '@/components/AboutHeroSection';
 import BottomDock from '@/components/BottomDock';
+import SponsorsMarquee from '@/components/SponsorsMarquee';
 import StarBorder from '@/components/StarBorder';
 import MoltenMetal from '@/components/MoltenMetal';
 import GlassCard from '@/components/GlassCard';
@@ -62,15 +63,20 @@ export default function Home() {
       <Sidebar theme="dark" />
 
       {/* =====================================================================
+          FIXED BOTTOM FLOATING DOCK (Hero Trapezoid Dock -> Sticky Floating Ball)
+      ===================================================================== */}
+      <BottomDock theme="dark" />
+
+      {/* =====================================================================
           2. HERO CENTERSTAGE: THE ELEVATED SPARK ARCHITECTURAL COMPOSITION
       ===================================================================== */}
       <section
         id="hero"
-        className="relative w-full h-[100dvh] min-h-[700px] flex flex-col justify-between overflow-hidden select-none z-10 group/hero"
+        className="relative w-full h-[100dvh] min-h-[700px] flex flex-col justify-between overflow-hidden select-none z-10 group/hero animate-in fade-in duration-700 ease-out"
       >
         {/* Top Right Corner Tech Box: EST. 2001 // BIT MESRA */}
         <div className="hidden sm:block absolute top-0 right-0 z-30 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
-          <HudBox compact={true} theme="dark" title="EST. 2001 // BIT MESRA" />
+          <HudBox compact={true} theme="dark" title="EST. 2001 • BIT MESRA" />
         </div>
 
         {/* Top Header: Heavy Structural Architectural Title with TechText */}
@@ -184,8 +190,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Bottom Smooth Trapezoid Dock with Action Buttons (Minimizes to Sticky Ball on Scroll) */}
-        <BottomDock theme="dark" />
+
 
         {/* Bottom Navigation Link */}
         <div className="relative z-20 pb-4 px-4 sm:px-6 flex items-center justify-end pointer-events-none md:pl-20">
@@ -216,7 +221,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
             <div>
               <span className="font-mono text-xs text-slate-400 font-bold tracking-widest uppercase block mb-1">
-                // INSTITUTIONAL DOMAINS
+                INSTITUTIONAL DOMAINS
               </span>
               <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
                 WHAT WE DO AT ROBOLUTION
@@ -231,8 +236,9 @@ export default function Home() {
         {/* 3 Pillars Bento Grid with Double-Bezel GlassCard */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Pillar 1: Workshops & Training */}
-          <GlassCard
-            badge="FOUNDATIONAL LAB // 01"
+          <ScrollReveal direction="up" delay={0}>
+            <GlassCard
+            badge="FOUNDATIONAL LAB • 01"
             spotlightColor="rgba(255, 255, 255, 0.08)"
           >
             <div className="flex flex-col justify-between h-full">
@@ -253,11 +259,13 @@ export default function Home() {
                 <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">PCB Design</span>
               </div>
             </div>
-          </GlassCard>
+            </GlassCard>
+          </ScrollReveal>
 
           {/* Pillar 2: RoboSaga Annual Fest */}
-          <GlassCard
-            badge="FLAGSHIP ARENA // 02"
+          <ScrollReveal direction="up" delay={120}>
+            <GlassCard
+            badge="FLAGSHIP ARENA • 02"
             spotlightColor="rgba(255, 255, 255, 0.08)"
           >
             <div className="flex flex-col justify-between h-full">
@@ -278,11 +286,13 @@ export default function Home() {
                 <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">Tech Carnival</span>
               </div>
             </div>
-          </GlassCard>
+            </GlassCard>
+          </ScrollReveal>
 
           {/* Pillar 3: Projects & Research (Team Pratyumnis) */}
-          <GlassCard
-            badge="COMPETITIVE WING // 03"
+          <ScrollReveal direction="up" delay={240}>
+            <GlassCard
+            badge="COMPETITIVE WING • 03"
             spotlightColor="rgba(255, 255, 255, 0.08)"
           >
             <div className="flex flex-col justify-between h-full">
@@ -303,7 +313,8 @@ export default function Home() {
                 <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10">ROS &bull; Vision</span>
               </div>
             </div>
-          </GlassCard>
+            </GlassCard>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -312,29 +323,33 @@ export default function Home() {
       ===================================================================== */}
       <section id="gallery-unfurl" className="relative z-20 w-full">
         {/* Aerospace HUD Section Header */}
-        <div className="pt-24 pb-8 px-6 sm:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <span className="font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase block mb-1">
-              <DecryptedText
-                text="// 3D MATRIX TELEMETRY • LIVE CAPTURES"
-                animateOn="view"
-                speed={30}
-                sequential={true}
-                characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
-                className="text-[#FF9FFC]"
-              />
-            </span>
-            <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
-              HARDWARE <span className="animate-text-shimmer">IN MOTION</span>
-            </h2>
+        <ScrollReveal direction="up">
+          <div className="pt-24 pb-8 px-6 sm:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <span className="font-mono text-xs text-sky-400 font-bold tracking-widest uppercase block mb-1">
+                <DecryptedText
+                  text="3D MATRIX TELEMETRY • LIVE CAPTURES"
+                  animateOn="view"
+                  speed={30}
+                  sequential={true}
+                  characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
+                  className="text-sky-400"
+                />
+              </span>
+              <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
+                HARDWARE <span className="animate-text-shimmer">IN MOTION</span>
+              </h2>
+            </div>
+            <p className="font-modern text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed font-mono">
+              SCROLL DOWN TO UNFURL: 3D UNROLLING HARDWARE FLIGHT-DECK &amp; ARENA COMBAT CAPTURES.
+            </p>
           </div>
-          <p className="font-modern text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed font-mono">
-            // SCROLL DOWN TO UNFURL: 3D UNROLLING HARDWARE FLIGHT-DECK &amp; ARENA COMBAT CAPTURES.
-          </p>
-        </div>
+        </ScrollReveal>
 
         {/* 3D Parallax Unfurling Matrix */}
-        <UnfurlingGallery embedded={true} />
+        <ScrollReveal direction="fade" delay={150}>
+          <UnfurlingGallery embedded={true} />
+        </ScrollReveal>
       </section>
 
       {/* =====================================================================
@@ -344,9 +359,10 @@ export default function Home() {
         id="robosaga"
         className="relative z-20 py-20 sm:py-32 px-4 sm:px-8 md:pl-20 max-w-7xl mx-auto"
       >
-        <GlassCard
-          badge="ANNUAL TECHNO-MECHATRONICS FESTIVAL // BIT MESRA"
-          spotlightColor="rgba(255, 159, 252, 0.2)"
+        <ScrollReveal direction="up">
+          <GlassCard
+          badge="ANNUAL TECHNO-MECHATRONICS FESTIVAL • BIT MESRA"
+          spotlightColor="rgba(56, 189, 248, 0.18)"
           className="p-8 sm:p-14"
         >
           <div className="relative z-10 max-w-3xl">
@@ -375,7 +391,8 @@ export default function Home() {
               </IslandButton>
             </div>
           </div>
-        </GlassCard>
+          </GlassCard>
+        </ScrollReveal>
       </section>
 
       {/* =====================================================================
@@ -385,9 +402,10 @@ export default function Home() {
         id="manifesto"
         className="relative z-20 py-20 sm:py-36 px-4 sm:px-8 md:pl-20 max-w-5xl mx-auto"
       >
-        <GlassCard
-          badge="OUR ENGINEERING CREED // HARDWARE PRIMACY"
-          spotlightColor="rgba(255, 159, 252, 0.25)"
+        <ScrollReveal direction="up">
+          <GlassCard
+          badge="OUR ENGINEERING CREED • HARDWARE PRIMACY"
+          spotlightColor="rgba(56, 189, 248, 0.22)"
           className="text-center p-6 sm:p-14"
         >
           <blockquote className="font-modern font-black text-2xl sm:text-5xl lg:text-6xl tracking-tight text-white uppercase leading-tight">
@@ -401,14 +419,21 @@ export default function Home() {
               Read Our Full Heritage &amp; Vision
             </IslandButton>
           </div>
-        </GlassCard>
+          </GlassCard>
+        </ScrollReveal>
       </section>
+
+      {/* =====================================================================
+          7B. OUR SPONSORS: CONTINUOUS HARDWARE & INDUSTRY ALLIANCE MARQUEE
+      ===================================================================== */}
+      <SponsorsMarquee />
 
       {/* =====================================================================
           8. INSTITUTIONAL FOOTER & AUTHENTIC CONTACT
       ===================================================================== */}
       <footer id="contact" className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl border-t border-white/5 py-14 px-4 sm:px-8 md:pl-20">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+        <ScrollReveal direction="up">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
           <div className="flex flex-col">
             <span className="font-modern font-black text-xl text-white uppercase tracking-tight flex items-center gap-2">
               <Image
@@ -437,7 +462,7 @@ export default function Home() {
               href="https://www.instagram.com/robolution.bitm/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-mono text-xs"
+              className="hover:text-sky-400 transition-colors flex items-center gap-1.5 font-mono text-xs"
               aria-label="Instagram"
             >
               <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -452,7 +477,7 @@ export default function Home() {
               href="https://www.linkedin.com/company/robolution-bit-mesra/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-mono text-xs"
+              className="hover:text-sky-400 transition-colors flex items-center gap-1.5 font-mono text-xs"
               aria-label="LinkedIn"
             >
               <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -467,7 +492,7 @@ export default function Home() {
               href="https://www.facebook.com/TeamRobolution"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-mono text-xs"
+              className="hover:text-sky-400 transition-colors flex items-center gap-1.5 font-mono text-xs"
               aria-label="Facebook"
             >
               <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -478,18 +503,21 @@ export default function Home() {
 
             <a
               href="mailto:pratyumnis@bitmesra.ac.in"
-              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-mono text-xs font-semibold"
+              className="hover:text-sky-400 transition-colors flex items-center gap-1.5 font-mono text-xs font-semibold"
             >
               <Mail className="w-4 h-4" />
               <span>pratyumnis@bitmesra.ac.in</span>
             </a>
           </div>
         </div>
+        </ScrollReveal>
 
+        <ScrollReveal direction="up" delay={120}>
         <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 font-mono text-[10px] text-slate-500">
           <span>&copy; {new Date().getFullYear()} ROBOLUTION &bull; TEAM PRATYUMNIS &bull; BIT MESRA</span>
           <span>AUTONOMOUS SYSTEMS &bull; MECHATRONICS LAB</span>
         </div>
+        </ScrollReveal>
       </footer>
     </div>
   );

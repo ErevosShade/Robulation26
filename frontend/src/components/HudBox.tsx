@@ -151,22 +151,27 @@ export default function HudBox({
             children
           ) : (
             <div className="flex items-center gap-2">
-              {(title || 'EST. 2001 // BIT MESRA').includes(' // ') ? (
-                (title || 'EST. 2001 // BIT MESRA').split(' // ').map((part, idx, arr) => (
-                  <React.Fragment key={idx}>
-                    <span className={`font-modern text-[9.5px] sm:text-[10.5px] font-bold tracking-widest ${isLight ? 'text-slate-800' : 'text-slate-100'} uppercase`}>
-                      {part}
-                    </span>
-                    {idx < arr.length - 1 && (
-                      <span className={`inline-block w-1 h-1 rounded-full ${isLight ? 'bg-slate-700' : 'bg-white/80 shadow-[0_0_6px_rgba(255,255,255,0.6)]'} shrink-0`} aria-hidden="true" />
-                    )}
-                  </React.Fragment>
-                ))
-              ) : (
-                <span className={`font-modern text-[9.5px] sm:text-[10.5px] font-bold tracking-widest ${isLight ? 'text-slate-800' : 'text-slate-100'} uppercase`}>
-                  {title || 'EST. 2001 // BIT MESRA'}
-                </span>
-              )}
+              {(() => {
+                const textVal = title || 'EST. 2001 • BIT MESRA';
+                const sep = textVal.includes(' // ') ? ' // ' : textVal.includes(' • ') ? ' • ' : null;
+                if (sep) {
+                  return textVal.split(sep).map((part, idx, arr) => (
+                    <React.Fragment key={idx}>
+                      <span className={`font-modern text-[9.5px] sm:text-[10.5px] font-bold tracking-widest ${isLight ? 'text-slate-800' : 'text-slate-100'} uppercase`}>
+                        {part}
+                      </span>
+                      {idx < arr.length - 1 && (
+                        <span className={`inline-block w-1 h-1 rounded-full ${isLight ? 'bg-slate-700' : 'bg-white/80 shadow-[0_0_6px_rgba(255,255,255,0.6)]'} shrink-0`} aria-hidden="true" />
+                      )}
+                    </React.Fragment>
+                  ));
+                }
+                return (
+                  <span className={`font-modern text-[9.5px] sm:text-[10.5px] font-bold tracking-widest ${isLight ? 'text-slate-800' : 'text-slate-100'} uppercase`}>
+                    {textVal}
+                  </span>
+                );
+              })()}
             </div>
           )}
         </div>

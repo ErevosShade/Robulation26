@@ -11,20 +11,22 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import HoloCard from "@/components/HoloCard";
 
 const ROBOTICS_GALLERY_IMAGES = [
+  "/gallery/robocon-stage-victory.jpg",
   "/combat-bot-wireframe.webp",
-  "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=900&q=80&fm=webp",
-  "/tracked-bot-clean.webp",
-  "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80&fm=webp",
+  "/gallery/badminton-robot-chassis.jpg",
+  "/gallery/feeder-mechanism-robot.jpg",
+  "/gallery/pneumatic-arena-robot.jpg",
   "/tracked-bot-wireframe.webp",
-  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=80&fm=webp",
-  "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=900&q=80&fm=webp",
-  "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=900&q=80&fm=webp",
-  "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=900&q=80&fm=webp",
-  "https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=900&q=80&fm=webp",
-  "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=900&q=80&fm=webp",
-  "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=80&fm=webp",
-  "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=900&q=80&fm=webp",
-  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=900&q=80&fm=webp",
+  "/gallery/robocon-team-night.jpg",
+  "/rover-wireframe.png",
+  "/gallery/pendulum-tower-robot.jpg",
+  "/gallery/badminton-robot-chassis.jpg",
+  "/rover-wireframe.png",
+  "/gallery/robocon-stage-victory.jpg",
+  "/gallery/feeder-mechanism-robot.jpg",
+  "/tracked-bot-clean.webp",
+  "/gallery/pendulum-tower-robot.jpg",
+  "/gallery/robocon-team-night.jpg",
 ];
 
 // Background Web Worker image cache to decode off the main UI thread
@@ -201,7 +203,7 @@ export default function Component({
               height: bannerHeight,
               borderRadius: bannerRadius,
               borderWidth: bannerBorderWidth,
-              borderColor: "#2c2738",
+              borderColor: "rgba(56, 189, 248, 0.2)",
             }}
             className="relative bg-black/85 backdrop-blur-sm overflow-hidden flex items-center justify-center max-w-[1920px] mx-auto will-change-transform backface-hidden preserve-3d"
           >

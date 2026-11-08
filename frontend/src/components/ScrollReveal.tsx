@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState, ReactNode } from 'react';
 interface ScrollRevealProps {
   children: ReactNode;
   /** 'up' (default) | 'left' | 'right' | 'scale' */
-  direction?: 'up' | 'left' | 'right' | 'scale';
+  direction?: 'up' | 'left' | 'right' | 'scale' | 'fade';
   /** Extra delay in ms on top of CSS stagger */
   delay?: number;
   /** IntersectionObserver threshold (0–1) */

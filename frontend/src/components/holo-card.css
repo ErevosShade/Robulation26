@@ -38,7 +38,7 @@
       rgba(255, 255, 255, 0.015) 38%,
       transparent 70%
     ),
-    #0c0a13;
+    #040814;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 8px 24px -12px rgba(0, 0, 0, 0.9);
   overflow: hidden;
   will-change: transform;
@@ -54,7 +54,7 @@
   background: linear-gradient(
     to right,
     transparent,
-    rgba(167, 139, 250, 0.9),
+    rgba(56, 189, 248, 0.9),
     transparent
   );
   opacity: 0.45;
@@ -77,12 +77,12 @@
   background: conic-gradient(
     from var(--card-angle),
     transparent 0%,
-    rgba(167, 139, 250, 0.55) 8%,
+    rgba(56, 189, 248, 0.55) 8%,
     rgba(255, 255, 255, 0.75) 13%,
-    rgba(124, 58, 237, 0.35) 19%,
+    rgba(2, 132, 199, 0.45) 19%,
     transparent 32%,
     transparent 62%,
-    rgba(167, 139, 250, 0.22) 74%,
+    rgba(56, 189, 248, 0.25) 74%,
     transparent 86%
   );
   -webkit-mask:
@@ -122,9 +122,9 @@
   background-image: repeating-linear-gradient(
     108deg,
     transparent 0%,
-    rgba(124, 58, 237, 0.08) 5%,
-    rgba(167, 139, 250, 0.16) 9%,
-    rgba(76, 29, 149, 0.06) 13%,
+    rgba(2, 132, 199, 0.08) 5%,
+    rgba(56, 189, 248, 0.16) 9%,
+    rgba(14, 165, 233, 0.06) 13%,
     transparent 19%
   );
   background-size: 220% 220%;
@@ -155,8 +155,8 @@
       --card-ry 0.12s linear,
       --card-hx 0.12s linear,
       --card-hy 0.12s linear;
-    border-color: rgba(167, 139, 250, 0.35);
-    box-shadow: 0 16px 38px -12px rgba(124, 58, 237, 0.25);
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: 0 16px 38px -12px rgba(2, 132, 199, 0.35), 0 0 24px rgba(56, 189, 248, 0.15);
     transform: perspective(600px) translate3d(0, -6px, 0)
       rotateX(var(--card-rx)) rotateY(var(--card-ry));
   }

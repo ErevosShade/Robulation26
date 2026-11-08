@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ROBOLUTION // Team Pratyumnis • BIT Mesra",
+  title: "ROBOLUTION • Team Pratyumnis • BIT Mesra",
   description: "Official Robotics Society of Birla Institute of Technology, Mesra. Est. 2001. ABU Robocon, Autonomous Systems, and RoboSaga Annual Techno-Hardware Fest.",
 };
 

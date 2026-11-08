@@ -60,7 +60,7 @@ const milestones = [
     tag: 'INSTITUTIONAL INITIATION',
     title: 'Genesis of Team Pratyumnis',
     detail: 'Founded at Birla Institute of Technology, Mesra under the Department of Production & Industrial Engineering to represent the institute in national robotics competitions.',
-    specs: 'DEPT. PIE // SOCIETY CHARTER #01',
+    specs: 'DEPT. PIE • SOCIETY CHARTER #01',
     metric: 'FOUNDING COHORT',
     status: 'LEGACY LOGGED',
   },
@@ -70,7 +70,7 @@ const milestones = [
     tag: 'NATIONAL LAURELS',
     title: 'MathWorks National Award',
     detail: 'Won the MathWorks National Award accompanied by an INR 50,000 cash prize at ABU Robocon India, earning the title of Best Non-Quarterfinalist Team.',
-    specs: 'ABU ROBOCON // INR 50K PRIZE',
+    specs: 'ABU ROBOCON • INR 50K PRIZE',
     metric: 'BEST NON-QF TEAM',
     status: 'PODIUM VALIDATED',
   },
@@ -80,7 +80,7 @@ const milestones = [
     tag: 'CAD PRECISION VICTORY',
     title: 'Perfect 100/100 CAD Score',
     detail: 'Achieved an unprecedented 100/100 score in 3D CAD design analysis by national and international judges for kinematic validation and structural optimization.',
-    specs: 'SOLIDWORKS FEA // KINEMATICS',
+    specs: 'SOLIDWORKS FEA • KINEMATICS',
     metric: '100/100 CAD SCORE',
     status: 'MAX CAD METRIC',
   },
@@ -90,7 +90,7 @@ const milestones = [
     tag: 'INFRASTRUCTURE LEAP',
     title: 'Build Culture Acceleration',
     detail: 'Conducted high-density campus workshops, onboarded custom multi-layer PCB fabrication pipelines, and deployed autonomous micro-rover testbeds.',
-    specs: 'MULTI-LAYER PCBS // ROVER RIGS',
+    specs: 'MULTI-LAYER PCBS • ROVER RIGS',
     metric: '200+ CADRE MENTORED',
     status: 'LAB EXPANSION',
   },
@@ -100,7 +100,7 @@ const milestones = [
     tag: 'AUTONOMOUS VISION FLEET',
     title: 'National Robocon Campaign',
     detail: 'Expanded external competition presence, engineered custom omni-directional drive bases, and deployed ROS 2 computer vision stacks with real-time ball tracking.',
-    specs: 'OMNI-DRIVE // ROS 2 PERCEPTION',
+    specs: 'OMNI-DRIVE • ROS 2 PERCEPTION',
     metric: 'ARENA MOBILITY',
     status: 'ACTIVE CAMPAIGN',
   },
@@ -110,7 +110,7 @@ const milestones = [
     tag: 'FLAGSHIP ARENA FEST',
     title: 'RoboSaga & Autonomous Systems',
     detail: 'Launching RoboSaga 2026 flagship 3-day arena fest and transitioning into advanced autonomous planetary exploration mechatronics.',
-    specs: '3-DAY COMBAT WARS // PLANETARY ROVER',
+    specs: '3-DAY COMBAT WARS • PLANETARY ROVER',
     metric: 'FLAGSHIP ARENA',
     status: 'NEXT GENERATION',
   },
@@ -149,7 +149,7 @@ export default function AboutPage() {
 
       {/* Top Right Corner Tech Box */}
       <div className="absolute top-0 right-0 z-30 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
-        <HudBox compact={true} theme="dark" title="EST. 2001 // BIT MESRA" />
+        <HudBox compact={true} theme="dark" title="EST. 2001 • BIT MESRA" />
       </div>
 
       {/* Main Content Area */}
@@ -165,7 +165,7 @@ export default function AboutPage() {
         <div className="mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-            <span>// OFFICIAL ROBOTICS SOCIETY &bull; BIT MESRA &bull; EST. 2001</span>
+            <span>OFFICIAL ROBOTICS SOCIETY &bull; BIT MESRA &bull; EST. 2001</span>
           </div>
 
           <h1 className="font-modern font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white uppercase leading-[1.05]">
@@ -186,7 +186,7 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-24">
           <ScrollReveal>
             <GlassCard
-              badge="LEGACY // 2001-2026"
+              badge="LEGACY • 2001-2026"
               spotlightColor="rgba(255, 255, 255, 0.08)"
               className="p-6"
             >
@@ -244,7 +244,7 @@ export default function AboutPage() {
         {/* Vision & Mission Cards with Double-Bezel GlassCard */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-24">
           <GlassCard
-            badge="INSTITUTIONAL HORIZON // VISION"
+            badge="INSTITUTIONAL HORIZON • VISION"
             spotlightColor="rgba(255, 255, 255, 0.08)"
             className="p-8 sm:p-10"
           >
@@ -262,7 +262,7 @@ export default function AboutPage() {
           </GlassCard>
 
           <GlassCard
-            badge="ACTIVE MANDATE // MISSION"
+            badge="ACTIVE MANDATE • MISSION"
             spotlightColor="rgba(255, 255, 255, 0.08)"
             className="p-8 sm:p-10"
           >
@@ -284,7 +284,7 @@ export default function AboutPage() {
         <div className="mb-24">
           <div className="mb-10">
             <span className="font-mono text-xs text-slate-400 font-bold tracking-widest uppercase block mb-2">
-              // GUIDING PRINCIPLES &bull; OPERATIONAL CODE
+              GUIDING PRINCIPLES &bull; OPERATIONAL CODE
             </span>
             <h2 className="font-modern font-black text-3xl sm:text-4xl text-white uppercase">
               OUR CORE VALUES
@@ -321,7 +321,7 @@ export default function AboutPage() {
             <div className="mb-14">
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                <span>// CHRONO BUS ARCHITECTURE &bull; EXPEDITION TIMELINE</span>
+                <span>CHRONO BUS ARCHITECTURE &bull; EXPEDITION TIMELINE</span>
               </div>
               <h2 className="font-modern font-black text-3xl sm:text-5xl text-white uppercase tracking-tight">
                 OUR EXPEDITION TIMELINE
@@ -480,7 +480,7 @@ export default function AboutPage() {
 
         {/* CTA Banner with GlassCard & IslandButton */}
         <GlassCard
-          badge="LAB COLLABORATION // DIRECT ENGAGEMENT"
+          badge="LAB COLLABORATION • DIRECT ENGAGEMENT"
           spotlightColor="rgba(255, 255, 255, 0.08)"
           className="p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6"
         >

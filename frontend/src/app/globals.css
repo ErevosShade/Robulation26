@@ -20,8 +20,8 @@
       110deg,
       #ffffff 0%,
       #ffffff 35%,
-      #FF9FFC 50%,
-      #5227FF 65%,
+      #38bdf8 50%,
+      #0284c7 65%,
       #ffffff 80%,
       #ffffff 100%
     );
@@ -51,6 +51,24 @@
     animation: eq-bounce 1.4s ease-in-out infinite alternate 0.1s;
   }
 
+  /* ─── Continuous Marquee (Right to Left) ─── */
+  @keyframes marquee-left {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee-left {
+    animation: marquee-left 34s linear infinite;
+  }
+
+  .animate-marquee-left:hover {
+    animation-play-state: paused;
+  }
+
   /* ─── Scroll-Reveal Entrance ─── */
   .reveal {
     opacity: 0;
@@ -61,6 +79,15 @@
   .reveal.revealed {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  /* Pure Fade-In */
+  .reveal-fade {
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-fade.revealed {
+    opacity: 1;
   }
 
   /* Stagger children offsets */

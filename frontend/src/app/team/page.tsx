@@ -522,7 +522,7 @@ export default function TeamPage() {
 
       {/* Top Right Corner Tech Box */}
       <div className="hidden sm:block absolute top-0 right-0 z-30 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
-        <HudBox compact={true} theme="dark" title="EST. 2001 // BIT MESRA" />
+        <HudBox compact={true} theme="dark" title="EST. 2001 • BIT MESRA" />
       </div>
 
       {/* Main Content Area */}
@@ -1149,8 +1149,8 @@ export default function TeamPage() {
         {/* Cadre Induction Banner */}
         <ScrollReveal>
           <GlassCard
-            badge="CADRE INDUCTION // 2026 INTAKE"
-            spotlightColor="rgba(82, 39, 255, 0.25)"
+            badge="CADRE INDUCTION • 2026 INTAKE"
+            spotlightColor="rgba(56, 189, 248, 0.2)"
             className="p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6"
           >
             <div>
