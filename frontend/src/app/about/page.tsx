@@ -56,18 +56,8 @@ const values = [
 
 const milestones = [
   {
-    year: '2001',
-    code: 'EXP-01',
-    tag: 'INSTITUTIONAL INITIATION',
-    title: 'Genesis of Team Pratyumnis',
-    detail: 'Founded at Birla Institute of Technology, Mesra under the Department of Production & Industrial Engineering to represent the institute in national robotics competitions.',
-    specs: 'DEPT. PIE // SOCIETY CHARTER #01',
-    metric: 'FOUNDING COHORT',
-    status: 'LEGACY LOGGED',
-  },
-  {
     year: '2013',
-    code: 'EXP-02',
+    code: 'EXP-01',
     tag: 'ROBOCON DEBUT',
     title: 'Best Rookie Team',
     detail: 'Recognised as the Best Newcomer Team during our inaugural participation in ABU Robocon, marking an exceptional debut and establishing our presence on an international platform.',
@@ -78,7 +68,7 @@ const milestones = [
   },
   {
     year: '2015',
-    code: 'EXP-03',
+    code: 'EXP-02',
     tag: 'ROBOCON DUAL PODIUM',
     title: 'Best Non-Quarterfinalist & ₹150,000 MathWorks Award',
     detail: 'Awarded Best Non-Quarterfinalist for exceptional innovation, and won the prestigious ₹150,000 MathWorks Award for best use of simulation tools in robot development.',
@@ -89,7 +79,7 @@ const milestones = [
   },
   {
     year: '2015',
-    code: 'EXP-04',
+    code: 'EXP-03',
     tag: 'IIT BOMBAY TECHFEST',
     title: '2nd Prize • Pixelate',
     detail: 'Secured Second Place in Pixelate at IIT Bombay Techfest, demonstrating exceptional technical expertise in image processing and computer vision challenges.',
@@ -99,18 +89,8 @@ const milestones = [
     image: '/timeline/pixelate-2015.jpg',
   },
   {
-    year: '2016',
-    code: 'EXP-05',
-    tag: 'SRIJAN JADAVPUR',
-    title: '1st Place – Multiple Events',
-    detail: 'Dominated the robotics arena at Srijan, Jadavpur University, clinching first place across multiple competitive technical events.',
-    specs: 'JADAVPUR UNIVERSITY // MULTIPLE EVENTS',
-    metric: '1ST PLACE',
-    status: 'ARENA VICTORY',
-  },
-  {
     year: '2018',
-    code: 'EXP-06',
+    code: 'EXP-04',
     tag: 'KSHITIJ IIT KHARAGPUR',
     title: '2nd Place – Maze Solver',
     detail: 'Constructed an agile autonomous maze solver robot to secure 2nd place at Kshitij, the annual techno-management fest of IIT Kharagpur.',
@@ -120,18 +100,8 @@ const milestones = [
     image: '/timeline/maze-solver-2018.jpg',
   },
   {
-    year: '2019',
-    code: 'EXP-07',
-    tag: 'TECHNICHE IIT GUWAHATI',
-    title: '1st Place – RoboSoccer',
-    detail: 'Secured 1st place in RoboSoccer at Techniche IIT Guwahati with a high-mobility omni-directional tactical platform.',
-    specs: 'IIT GUWAHATI // ROBOSOCCER',
-    metric: '1ST PLACE',
-    status: 'CHAMPIONS',
-  },
-  {
     year: '2021',
-    code: 'EXP-08',
+    code: 'EXP-05',
     tag: 'ABU ROBOCON HISTORY',
     title: 'Perfect Score 100/100 (3D Design Analysis)',
     detail: 'Made history by achieving a flawless 100/100 in 3D design and kinematic analysis on the global stage, while also ranking as National Finalists (Top 15).',
@@ -142,7 +112,7 @@ const milestones = [
   },
   {
     year: '2021',
-    code: 'EXP-09',
+    code: 'EXP-06',
     tag: 'BITS PILANI QUARK',
     title: '3rd Place – Robowar',
     detail: 'Engineered a resilient combat robot to claim 3rd place in Robowar at Quark, BITS Pilani.',
@@ -153,39 +123,29 @@ const milestones = [
   },
   {
     year: '2022',
-    code: 'EXP-10',
-    tag: 'PRAGYAN NIT TRICHY & DTU',
-    title: '1st Place Roborace & 2nd Place Autonomous Bot',
-    detail: 'Captured 1st Place in Roborace at Pragyan NIT Trichy, and 2nd Place in Autonomous Bot at Robotryst DTU.',
-    specs: 'NIT TRICHY & DTU // DUAL LAURELS',
-    metric: '1ST & 2ND PODIUM',
+    code: 'EXP-07',
+    tag: 'PRAGYAN NIT TRICHY',
+    title: '1st Place – Roborace',
+    detail: 'Captured 1st Place in Roborace at Pragyan NIT Trichy with a high-speed custom drivetrain and precision steering.',
+    specs: 'NIT TRICHY // HIGH-SPEED ROBORACE',
+    metric: '1ST PLACE',
     status: 'PODIUM VALIDATED',
     image: '/timeline/pragyan-2022.jpg',
   },
   {
     year: '2023',
-    code: 'EXP-11',
-    tag: 'IIT GUWAHATI, KGP & BOMBAY',
-    title: 'Techniche Double Gold, Kshitij 2nd, e-Yantra Finalists',
-    detail: 'Won 1st in Robowar & Line Follower at IIT Guwahati, 2nd in Autonomous Navigation at IIT Kharagpur, and reached National Finalists at e-Yantra IIT Bombay.',
-    specs: 'IIT GUWAHATI • IIT KGP • IIT BOMBAY',
-    metric: 'DUAL GOLD & FINALISTS',
-    status: 'TRIPLE CAMPAIGN',
+    code: 'EXP-08',
+    tag: 'KSHITIJ IIT KHARAGPUR',
+    title: '2nd Place – Autonomous Navigation',
+    detail: 'Designed an autonomous rover with multi-sensor obstacle detection and real-time path planning to claim 2nd place at Kshitij IIT Kharagpur.',
+    specs: 'IIT KHARAGPUR // AUTONOMOUS ROVER',
+    metric: '2ND PLACE',
+    status: 'PODIUM VALIDATED',
     image: '/timeline/rover-2023.jpg',
   },
   {
-    year: '2024',
-    code: 'EXP-12',
-    tag: 'SMART INDIA HACKATHON',
-    title: 'Grand Finale – Hardware Edition (AgriBot)',
-    detail: 'Advanced to the Grand Finale of Smart India Hackathon (Hardware Edition) with the AgriBot mechatronics system, while deploying ROS 2 autonomous vision stacks.',
-    specs: 'SIH 2024 // AGRIBOT HARDWARE // ROS 2',
-    metric: 'GRAND FINALE',
-    status: 'NATIONAL IMPACT',
-  },
-  {
     year: '2025',
-    code: 'EXP-13',
+    code: 'EXP-09',
     tag: 'IIT BOMBAY TECHFEST',
     title: 'ROBO WARS 2025 – QUARTER-FINALIST (UNDER 15 KG)',
     detail: 'Advanced to the Quarter-Finals at IIT Bombay Techfest 2025, showcasing a robust combat robot with powerful weapon integration, durability, and manoeuvrability.',
@@ -194,31 +154,22 @@ const milestones = [
     status: 'ARENA TESTED',
     image: '/timeline/robowars-2025.jpg',
   },
-  {
-    year: '2026',
-    code: 'EXP-14',
-    tag: 'FLAGSHIP ARENA FEST',
-    title: 'RoboSaga & Autonomous Systems',
-    detail: 'Launching RoboSaga 2026 flagship 3-day arena fest and transitioning into advanced autonomous planetary exploration mechatronics.',
-    specs: '3-DAY COMBAT WARS // PLANETARY ROVER',
-    metric: 'FLAGSHIP ARENA',
-    status: 'NEXT GENERATION',
-  },
 ];
 
-const otherAchievements = [
+interface AchievementItem {
+  year: string;
+  venue: string;
+  title: string;
+  badge: string;
+  image?: string;
+}
+
+const otherAchievements: AchievementItem[] = [
   {
     year: '2016',
     venue: 'SRIJAN JADAVPUR UNIVERSITY',
     title: '1st Place – Multiple Events',
     badge: 'MULTIPLE VICTORIES',
-  },
-  {
-    year: '2018',
-    venue: 'KSHITIJ IIT KHARAGPUR',
-    title: '2nd Place – Maze Solver',
-    badge: 'AUTONOMOUS NAVIGATION',
-    image: '/timeline/maze-solver-2018.jpg',
   },
   {
     year: '2019',
@@ -228,23 +179,9 @@ const otherAchievements = [
   },
   {
     year: '2021',
-    venue: 'BITS PILANI QUARK FEST',
-    title: '3rd Place – Robowar',
-    badge: 'COMBAT ROBOTICS',
-    image: '/timeline/robowars-bits-pilani-2021.jpg',
-  },
-  {
-    year: '2021',
     venue: 'ABU ROBOCON 2021 (VIRTUAL)',
     title: 'National Finalists – Top 15',
     badge: 'NATIONAL FINALISTS',
-  },
-  {
-    year: '2022',
-    venue: 'PRAGYAN NIT TRICHY',
-    title: '1st Place – Roborace',
-    badge: 'HIGH-SPEED DRIVETRAIN',
-    image: '/timeline/pragyan-2022.jpg',
   },
   {
     year: '2022',
@@ -260,13 +197,6 @@ const otherAchievements = [
   },
   {
     year: '2023',
-    venue: 'KSHITIJ IIT KHARAGPUR',
-    title: '2nd Place – Autonomous Navigation',
-    badge: 'LIDAR & SLAM',
-    image: '/timeline/rover-2023.jpg',
-  },
-  {
-    year: '2023',
     venue: 'E-YANTRA IIT BOMBAY',
     title: 'National Finalists – Theme Completion',
     badge: 'SYSTEM INTEGRATION',
@@ -276,13 +206,6 @@ const otherAchievements = [
     venue: 'SMART INDIA HACKATHON ‘24',
     title: 'Grand Finale – Hardware Edition',
     badge: 'AGRIBOT PLATFORM',
-  },
-  {
-    year: '2025',
-    venue: 'IIT BOMBAY TECHFEST',
-    title: 'ROBO WARS 2025 – QUARTER-FINALIST (UNDER 15 KG)',
-    badge: 'UNDER 15 KG COMBAT',
-    image: '/timeline/robowars-2025.jpg',
   },
 ];
 
@@ -542,7 +465,7 @@ export default function AboutPage() {
               {/* Top Bus Intake Reticle */}
               <div className="flex flex-col items-center mb-2">
                 <span className="font-mono text-[8px] text-slate-500 uppercase tracking-widest bg-[#020408] px-2 py-0.5 rounded border border-white/10 mb-1">
-                  BUS INTAKE // 2001
+                  BUS INTAKE // 2013
                 </span>
                 <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
               </div>
@@ -723,7 +646,7 @@ export default function AboutPage() {
                   </p>
                 </div>
                 <div className="font-mono text-xs text-cyan-400 uppercase tracking-widest border border-cyan-400/30 px-3 py-1.5 rounded-lg bg-cyan-950/20 shrink-0 self-start sm:self-auto">
-                  11 // NATIONAL HONORS
+                  {otherAchievements.length} // NATIONAL HONORS
                 </div>
               </div>
             </div>
