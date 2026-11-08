@@ -74,7 +74,7 @@ const milestones = [
     specs: 'ABU ROBOCON 2013 // NATIONAL STAGE',
     metric: 'BEST ROOKIE',
     status: 'LAUREL VALIDATED',
-    image: '/timeline/robocon-2013.jpg',
+    image: '/timeline/robocon-2013-team.jpg',
   },
   {
     year: '2015',
