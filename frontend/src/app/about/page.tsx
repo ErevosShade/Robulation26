@@ -56,8 +56,18 @@ const values = [
 
 const milestones = [
   {
-    year: '2013',
+    year: '2001',
     code: 'EXP-01',
+    tag: 'INSTITUTIONAL INITIATION',
+    title: 'Genesis of Team Pratyumnis',
+    detail: 'Founded at Birla Institute of Technology, Mesra under the Department of Production & Industrial Engineering to represent the institute in national robotics competitions.',
+    specs: 'DEPT. PIE // SOCIETY CHARTER #01',
+    metric: 'FOUNDING COHORT',
+    status: 'LEGACY LOGGED',
+  },
+  {
+    year: '2013',
+    code: 'EXP-02',
     tag: 'ROBOCON DEBUT',
     title: 'Best Rookie Team',
     detail: 'Recognised as the Best Newcomer Team during our inaugural participation in ABU Robocon, marking an exceptional debut and establishing our presence on an international platform.',
@@ -68,7 +78,7 @@ const milestones = [
   },
   {
     year: '2015',
-    code: 'EXP-02',
+    code: 'EXP-03',
     tag: 'ROBOCON DUAL PODIUM',
     title: 'Best Non-Quarterfinalist & ₹150,000 MathWorks Award',
     detail: 'Awarded Best Non-Quarterfinalist for exceptional innovation, and won the prestigious ₹150,000 MathWorks Award for best use of simulation tools in robot development.',
@@ -79,7 +89,7 @@ const milestones = [
   },
   {
     year: '2015',
-    code: 'EXP-03',
+    code: 'EXP-04',
     tag: 'IIT BOMBAY TECHFEST',
     title: '2nd Prize • Pixelate',
     detail: 'Secured Second Place in Pixelate at IIT Bombay Techfest, demonstrating exceptional technical expertise in image processing and computer vision challenges.',
@@ -90,7 +100,7 @@ const milestones = [
   },
   {
     year: '2018',
-    code: 'EXP-04',
+    code: 'EXP-05',
     tag: 'KSHITIJ IIT KHARAGPUR',
     title: '2nd Place – Maze Solver',
     detail: 'Constructed an agile autonomous maze solver robot to secure 2nd place at Kshitij, the annual techno-management fest of IIT Kharagpur.',
@@ -101,7 +111,7 @@ const milestones = [
   },
   {
     year: '2021',
-    code: 'EXP-05',
+    code: 'EXP-06',
     tag: 'ABU ROBOCON HISTORY',
     title: 'Perfect Score 100/100 (3D Design Analysis)',
     detail: 'Made history by achieving a flawless 100/100 in 3D design and kinematic analysis on the global stage, while also ranking as National Finalists (Top 15).',
@@ -112,7 +122,7 @@ const milestones = [
   },
   {
     year: '2021',
-    code: 'EXP-06',
+    code: 'EXP-07',
     tag: 'BITS PILANI QUARK',
     title: '3rd Place – Robowar',
     detail: 'Engineered a resilient combat robot to claim 3rd place in Robowar at Quark, BITS Pilani.',
@@ -123,7 +133,7 @@ const milestones = [
   },
   {
     year: '2022',
-    code: 'EXP-07',
+    code: 'EXP-08',
     tag: 'PRAGYAN NIT TRICHY',
     title: '1st Place – Roborace',
     detail: 'Captured 1st Place in Roborace at Pragyan NIT Trichy with a high-speed custom drivetrain and precision steering.',
@@ -134,7 +144,7 @@ const milestones = [
   },
   {
     year: '2023',
-    code: 'EXP-08',
+    code: 'EXP-09',
     tag: 'KSHITIJ IIT KHARAGPUR',
     title: '2nd Place – Autonomous Navigation',
     detail: 'Designed an autonomous rover with multi-sensor obstacle detection and real-time path planning to claim 2nd place at Kshitij IIT Kharagpur.',
@@ -145,7 +155,7 @@ const milestones = [
   },
   {
     year: '2025',
-    code: 'EXP-09',
+    code: 'EXP-10',
     tag: 'IIT BOMBAY TECHFEST',
     title: 'ROBO WARS 2025 – QUARTER-FINALIST (UNDER 15 KG)',
     detail: 'Advanced to the Quarter-Finals at IIT Bombay Techfest 2025, showcasing a robust combat robot with powerful weapon integration, durability, and manoeuvrability.',
@@ -153,6 +163,16 @@ const milestones = [
     metric: 'QUARTER-FINALIST (U15KG)',
     status: 'ARENA TESTED',
     image: '/timeline/robowars-2025.jpg',
+  },
+  {
+    year: '2026',
+    code: 'EXP-11',
+    tag: 'FLAGSHIP ARENA FEST',
+    title: 'RoboSaga & Autonomous Systems',
+    detail: 'Launching RoboSaga 2026 flagship 3-day arena fest and transitioning into advanced autonomous planetary exploration mechatronics.',
+    specs: '3-DAY COMBAT WARS // PLANETARY ROVER',
+    metric: 'FLAGSHIP ARENA',
+    status: 'NEXT GENERATION',
   },
 ];
 
@@ -465,7 +485,7 @@ export default function AboutPage() {
               {/* Top Bus Intake Reticle */}
               <div className="flex flex-col items-center mb-2">
                 <span className="font-mono text-[8px] text-slate-500 uppercase tracking-widest bg-[#020408] px-2 py-0.5 rounded border border-white/10 mb-1">
-                  BUS INTAKE // 2013
+                  BUS INTAKE // 2001
                 </span>
                 <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
               </div>
@@ -593,15 +613,7 @@ export default function AboutPage() {
                                   sizes="(max-width: 768px) 100vw, 500px"
                                   className="object-contain p-2 group-hover/img:scale-105 transition-transform duration-500 ease-out"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                                <div className="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between font-mono text-[9px] text-slate-300 tracking-wider">
-                                  <span className="bg-black/60 backdrop-blur-md px-2 py-0.5 rounded border border-white/10 uppercase">
-                                    // ARCHIVE CAPTURE
-                                  </span>
-                                  <span className="text-cyan-400 font-bold">
-                                    {m.year}
-                                  </span>
-                                </div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                               </div>
                             )}
 
@@ -645,61 +657,66 @@ export default function AboutPage() {
                     National competition records, robot combat podiums, and championship finishes across premier technology festivals in India.
                   </p>
                 </div>
-                <div className="font-mono text-xs text-cyan-400 uppercase tracking-widest border border-cyan-400/30 px-3 py-1.5 rounded-lg bg-cyan-950/20 shrink-0 self-start sm:self-auto">
-                  {otherAchievements.length} // NATIONAL HONORS
-                </div>
               </div>
             </div>
           </ScrollReveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {otherAchievements.map((item, idx) => (
-              <ScrollReveal key={idx} delay={idx * 35}>
-                <GlassCard
-                  badge={item.badge}
-                  spotlightColor="rgba(255, 255, 255, 0.08)"
-                  className="p-5 sm:p-6 group hover:border-cyan-400/40 transition-all duration-300 flex flex-col justify-between h-full"
+            {otherAchievements.map((item, idx) => {
+              const isLastOdd = idx === otherAchievements.length - 1 && otherAchievements.length % 3 === 1;
+
+              return (
+                <ScrollReveal
+                  key={idx}
+                  delay={idx * 35}
+                  className={isLastOdd ? 'sm:col-span-2 lg:col-span-1 lg:col-start-2' : ''}
                 >
-                  <div>
-                    <div className="flex items-center justify-between font-mono text-[10px] text-slate-400 mb-2.5">
-                      <span className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/10 font-bold text-white">
-                        {item.year}
-                      </span>
-                      <span className="text-[9px] uppercase tracking-wider text-slate-400 font-mono">
-                        {item.badge}
-                      </span>
+                  <GlassCard
+                    badge={item.badge}
+                    spotlightColor="rgba(255, 255, 255, 0.08)"
+                    className="p-5 sm:p-6 group hover:border-cyan-400/40 transition-all duration-300 flex flex-col justify-between h-full"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between font-mono text-[10px] text-slate-400 mb-2.5">
+                        <span className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/10 font-bold text-white">
+                          {item.year}
+                        </span>
+                        <span className="text-[9px] uppercase tracking-wider text-slate-400 font-mono">
+                          {item.badge}
+                        </span>
+                      </div>
+
+                      <h4 className="font-modern font-bold text-xs sm:text-sm text-slate-300 uppercase tracking-wider mb-2">
+                        {item.venue}
+                      </h4>
+
+                      <p className="font-modern font-black text-sm sm:text-base text-white uppercase tracking-tight group-hover:text-cyan-300 transition-colors">
+                        {item.title}
+                      </p>
+
+                      {/* Archive Photo if available */}
+                      {item.image && (
+                        <div className="relative w-full h-32 sm:h-36 rounded-lg overflow-hidden mt-3 border border-white/10 bg-black/40 shadow-inner group/img">
+                          <Image
+                            src={item.image}
+                            alt={item.title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 350px"
+                            className="object-cover group-hover/img:scale-105 transition-transform duration-500 ease-out"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                        </div>
+                      )}
                     </div>
 
-                    <h4 className="font-modern font-bold text-xs sm:text-sm text-slate-300 uppercase tracking-wider mb-2">
-                      {item.venue}
-                    </h4>
-
-                    <p className="font-modern font-black text-sm sm:text-base text-white uppercase tracking-tight group-hover:text-cyan-300 transition-colors">
-                      {item.title}
-                    </p>
-
-                    {/* Archive Photo if available */}
-                    {item.image && (
-                      <div className="relative w-full h-32 sm:h-36 rounded-lg overflow-hidden mt-3 border border-white/10 bg-black/40 shadow-inner group/img">
-                        <Image
-                          src={item.image}
-                          alt={item.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 350px"
-                          className="object-cover group-hover/img:scale-105 transition-transform duration-500 ease-out"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mt-4 pt-2.5 border-t border-white/10 flex items-center justify-between font-mono text-[9px] text-slate-400">
-                    <span className="uppercase tracking-widest text-cyan-400/80">Podium Validated</span>
-                    <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
-                  </div>
-                </GlassCard>
-              </ScrollReveal>
-            ))}
+                    <div className="mt-4 pt-2.5 border-t border-white/10 flex items-center justify-between font-mono text-[9px] text-slate-400">
+                      <span className="uppercase tracking-widest text-cyan-400/80">Podium Validated</span>
+                      <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
+                    </div>
+                  </GlassCard>
+                </ScrollReveal>
+              );
+            })}
           </div>
         </section>
 
