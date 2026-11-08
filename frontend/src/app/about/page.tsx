@@ -96,6 +96,7 @@ const milestones = [
     specs: 'IIT BOMBAY // PIXELATE CHALLENGE',
     metric: '2ND PRIZE',
     status: 'PODIUM VALIDATED',
+    image: '/timeline/pixelate-2015.jpg',
   },
   {
     year: '2016',
@@ -116,6 +117,7 @@ const milestones = [
     specs: 'IIT KHARAGPUR // MAZE SOLVER',
     metric: '2ND PLACE',
     status: 'PODIUM VALIDATED',
+    image: '/timeline/maze-solver-2018.jpg',
   },
   {
     year: '2019',
@@ -136,6 +138,7 @@ const milestones = [
     specs: 'ABU ROBOCON 2021 // 100/100 IN CAD',
     metric: '100/100 CAD SCORE',
     status: 'HISTORY BENCHMARK',
+    image: '/timeline/cad-100-2021.png',
   },
   {
     year: '2021',
@@ -146,6 +149,7 @@ const milestones = [
     specs: 'BITS PILANI // ROBOWAR COMBAT',
     metric: '3RD PLACE',
     status: 'PODIUM VALIDATED',
+    image: '/timeline/robowars-bits-pilani-2021.jpg',
   },
   {
     year: '2022',
@@ -201,6 +205,7 @@ const otherAchievements = [
     venue: 'KSHITIJ IIT KHARAGPUR',
     title: '2nd Place – Maze Solver',
     badge: 'AUTONOMOUS NAVIGATION',
+    image: '/timeline/maze-solver-2018.jpg',
   },
   {
     year: '2019',
@@ -213,6 +218,7 @@ const otherAchievements = [
     venue: 'BITS PILANI QUARK FEST',
     title: '3rd Place – Robowar',
     badge: 'COMBAT ROBOTICS',
+    image: '/timeline/robowars-bits-pilani-2021.jpg',
   },
   {
     year: '2021',
@@ -693,6 +699,20 @@ export default function AboutPage() {
                     <p className="font-modern font-black text-sm sm:text-base text-white uppercase tracking-tight group-hover:text-cyan-300 transition-colors">
                       {item.title}
                     </p>
+
+                    {/* Archive Photo if available */}
+                    {item.image && (
+                      <div className="relative w-full h-32 sm:h-36 rounded-lg overflow-hidden mt-3 border border-white/10 bg-black/40 shadow-inner group/img">
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 350px"
+                          className="object-cover group-hover/img:scale-105 transition-transform duration-500 ease-out"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                      </div>
+                    )}
                   </div>
 
                   <div className="mt-4 pt-2.5 border-t border-white/10 flex items-center justify-between font-mono text-[9px] text-slate-400">
