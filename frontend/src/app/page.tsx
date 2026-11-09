@@ -451,8 +451,8 @@ export default function Home() {
                       alt: 'Combat Drum Spinner Robot'
                     },
                     {
-                      src: '/gallery/kratos-combat-drum-bot.jpg',
-                      alt: 'Kratos Heavy Drum Robot'
+                      src: '/gallery/BOT.jpeg',
+                      alt: 'Robolution Combat Chassis Prototype'
                     },
                     {
                       src: '/timeline/robowars-2025-portfolio.jpg',
@@ -508,7 +508,7 @@ export default function Home() {
                       alt: 'ABU Robocon 2026 CAD Architecture'
                     },
                     {
-                      src: '/gallery/robocon-podium-team.jpg',
+                      src: '/gallery/ROBOCON 2015 AWARD.jpg',
                       alt: 'ABU Robocon Team on National Podium'
                     },
                     {

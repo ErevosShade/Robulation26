@@ -44,7 +44,7 @@ export default function SectionSlider({
           }`}
         >
           <Image
-            src={slide.src}
+            src={encodeURI(slide.src)}
             alt={slide.alt}
             fill
             sizes="(max-width: 1024px) 100vw, 600px"
