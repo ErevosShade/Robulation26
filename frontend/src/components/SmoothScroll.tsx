@@ -17,12 +17,12 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     <ReactLenis
       root
       options={{
-        lerp: 0.09,
-        duration: 1.2,
+        lerp: 0.055,           // Calibrated low lerp for heavy physical inertia & extended deceleration glide
+        wheelMultiplier: 0.68, // Controlled scroll travel per wheel notch so content is easily read
+        touchMultiplier: 0.95,
         smoothWheel: true,
-        wheelMultiplier: 0.95,
-        touchMultiplier: 1.2,
         infinite: false,
+        autoResize: true,
       }}
     >
       {children}
