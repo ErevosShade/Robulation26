@@ -157,27 +157,27 @@ export default function Component({
                   z: translateZ,
                   transformStyle: "preserve-3d",
                 }}
-                className="flex gap-4 md:gap-6 justify-center items-center w-[120vw] h-[150vh] origin-center opacity-100 will-change-transform backface-hidden"
+                className="flex gap-3 md:gap-6 justify-center items-center w-[98vw] md:w-[120vw] h-[120vh] md:h-[150vh] origin-center opacity-100 will-change-transform backface-hidden"
               >
-                <motion.div style={{ y: yCol1 }} className="flex flex-col gap-4 md:gap-6 w-[22vw] min-w-[200px] pointer-events-auto">
+                <motion.div style={{ y: yCol1 }} className="flex flex-col gap-3 md:gap-6 w-[44vw] md:w-[22vw] min-w-[140px] md:min-w-[200px] pointer-events-auto">
                   {colMedia.col1.map((src, index) => (
                     <ImageCard key={`col1-${index}`} src={src} />
                   ))}
                 </motion.div>
 
-                <motion.div style={{ y: yCol2 }} className="flex flex-col gap-4 md:gap-6 w-[22vw] min-w-[200px] pointer-events-auto">
+                <motion.div style={{ y: yCol2 }} className="flex flex-col gap-3 md:gap-6 w-[44vw] md:w-[22vw] min-w-[140px] md:min-w-[200px] pointer-events-auto">
                   {colMedia.col2.map((src, index) => (
                     <ImageCard key={`col2-${index}`} src={src} />
                   ))}
                 </motion.div>
 
-                <motion.div style={{ y: yCol3 }} className="flex flex-col gap-4 md:gap-6 w-[22vw] min-w-[200px] pointer-events-auto">
+                <motion.div style={{ y: yCol3 }} className="hidden md:flex flex-col gap-6 w-[22vw] min-w-[200px] pointer-events-auto">
                   {colMedia.col3.map((src, index) => (
                     <ImageCard key={`col3-${index}`} src={src} />
                   ))}
                 </motion.div>
 
-                <motion.div style={{ y: yCol4 }} className="flex flex-col gap-4 md:gap-6 w-[22vw] min-w-[200px] pointer-events-auto">
+                <motion.div style={{ y: yCol4 }} className="hidden md:flex flex-col gap-6 w-[22vw] min-w-[200px] pointer-events-auto">
                   {colMedia.col4.map((src, index) => (
                     <ImageCard key={`col4-${index}`} src={src} />
                   ))}

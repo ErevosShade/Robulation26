@@ -27,7 +27,8 @@ export default function RoverWireframe3D({
 
     const width = container.clientWidth || 800;
     const height = container.clientHeight || 500;
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const pixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.75);
 
     let isDisposed = false;
     let worker: Worker | null = null;

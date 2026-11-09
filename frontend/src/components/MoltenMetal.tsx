@@ -182,12 +182,13 @@ export default function MoltenMetal({
     const container = containerRef.current;
     if (!container) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     const renderer = new Renderer({
       webgl: 2,
       alpha: true,
       premultipliedAlpha: true,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 1.25)
+      dpr: isMobile ? 0.85 : Math.min(window.devicePixelRatio || 1, 1.25)
     });
 
     const gl = renderer.gl;

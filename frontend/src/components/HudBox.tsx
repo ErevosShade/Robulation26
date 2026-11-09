@@ -81,30 +81,6 @@ export default function HudBox({
             filter="url(#glowCompact)"
           />
 
-          {/* Dual Beams Streaming Through the Border */}
-          <path
-            d={compactPath}
-            stroke={isLight ? "rgba(2, 132, 199, 0.75)" : "rgba(255, 255, 255, 0.55)"}
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            fill="none"
-            strokeDasharray="60 220 60 220"
-          >
-            <animate
-              attributeName="stroke-dashoffset"
-              from="560"
-              to="0"
-              dur="3s"
-              repeatCount="indefinite"
-            />
-          </path>
-
-          {/* Interior Faint Laser Scanline */}
-          <line x1="16" y1="10" x2="270" y2="10" stroke="url(#scanlineCompact)" strokeWidth="1" opacity="0.45">
-            <animate attributeName="y1" values="8; 36; 8" dur="2.8s" repeatCount="indefinite" />
-            <animate attributeName="y2" values="8; 36; 8" dur="2.8s" repeatCount="indefinite" />
-          </line>
-
           {/* Raised Center Accent Plate */}
           <polygon
             points="78,0 84,4 170,4 176,0"
@@ -135,15 +111,9 @@ export default function HudBox({
           />
 
           {/* Micro Tech Dots */}
-          <circle cx="210" cy="36" r="1.6" fill={isLight ? "#0284c7" : "#ffffff"}>
-            <animate attributeName="opacity" values="0.3; 1; 0.3" dur="1.2s" begin="0s" repeatCount="indefinite" />
-          </circle>
-          <circle cx="220" cy="36" r="1.6" fill={isLight ? "#0284c7" : "#ffffff"}>
-            <animate attributeName="opacity" values="0.3; 1; 0.3" dur="1.2s" begin="0.25s" repeatCount="indefinite" />
-          </circle>
-          <circle cx="230" cy="36" r="1.6" fill={isLight ? "#0284c7" : "#ffffff"}>
-            <animate attributeName="opacity" values="0.3; 1; 0.3" dur="1.2s" begin="0.5s" repeatCount="indefinite" />
-          </circle>
+          <circle cx="210" cy="36" r="1.6" fill={isLight ? "#0284c7" : "#ffffff"} opacity="0.75" />
+          <circle cx="220" cy="36" r="1.6" fill={isLight ? "#0284c7" : "#ffffff"} opacity="0.75" />
+          <circle cx="230" cy="36" r="1.6" fill={isLight ? "#0284c7" : "#ffffff"} opacity="0.75" />
         </svg>
 
         <div className="relative z-10 w-full h-full flex items-center justify-center px-6 py-2">
@@ -244,30 +214,6 @@ export default function HudBox({
               filter="url(#hudGlowRef)"
             />
 
-            {/* Dual Laser Beams Streaming Continuously Through Border */}
-            <path
-              d={pathA}
-              stroke={isLight ? "rgba(2, 132, 199, 0.75)" : "rgba(255, 255, 255, 0.55)"}
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              fill="none"
-              strokeDasharray="90 350 90 350"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                from="880"
-                to="0"
-                dur="3.8s"
-                repeatCount="indefinite"
-              />
-            </path>
-
-            {/* Interior Laser Scanline */}
-            <line x1="20" y1="24" x2="340" y2="24" stroke="url(#scanlineGrad)" strokeWidth="1.2" opacity="0.45">
-              <animate attributeName="y1" values="24; 134; 24" dur="3.8s" repeatCount="indefinite" />
-              <animate attributeName="y2" values="24; 134; 24" dur="3.8s" repeatCount="indefinite" />
-            </line>
-
             {/* Floating Outer Accent Line on Top-Left Chamfer */}
             <path
               d="M 100 8 L 42 8 L 10 40 L 10 78"
@@ -303,23 +249,22 @@ export default function HudBox({
             />
 
             {/* Bottom-Left 3 Micro Tech Dots */}
-            <circle cx="26" cy="130" r="2" fill={accentColor} />
-            <circle cx="36" cy="130" r="2" fill={accentColor} />
-            <circle cx="46" cy="130" r="2" fill={accentColor} />
+            <circle cx="26" cy="130" r="2" fill={accentColor} opacity="0.8" />
+            <circle cx="36" cy="130" r="2" fill={accentColor} opacity="0.8" />
+            <circle cx="46" cy="130" r="2" fill={accentColor} opacity="0.8" />
 
-            {/* Leader Line (points right to Robot) */}
-            <path
-              d="M 344 84 L 372 84 L 406 118"
-              stroke={accentColor}
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              fill="none"
-            />
-            {/* Terminal Target Reticle */}
-            <circle cx="406" cy="118" r="5.5" stroke={accentColor} strokeWidth="1.4" fill="none" />
-            <circle cx="406" cy="118" r="2.2" fill={accentColor} filter="url(#hudGlowRef)">
-              <animate attributeName="r" values="2; 2.6; 2" dur="1.8s" repeatCount="indefinite" />
-            </circle>
+            {/* Leader Line (Desktop Only - points right to Robot) */}
+            <g className="hidden md:inline">
+              <path
+                d="M 344 84 L 372 84 L 406 118"
+                stroke={accentColor}
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                fill="none"
+              />
+              <circle cx="406" cy="118" r="5.5" stroke={accentColor} strokeWidth="1.4" fill="none" />
+              <circle cx="406" cy="118" r="2.2" fill={accentColor} filter="url(#hudGlowRef)" />
+            </g>
           </>
         ) : (
           /* ============================================================= */
@@ -337,30 +282,6 @@ export default function HudBox({
               fill="none"
               filter="url(#hudGlowRef)"
             />
-
-            {/* Dual Laser Beams Streaming Continuously Through Border */}
-            <path
-              d={pathB}
-              stroke={isLight ? "rgba(2, 132, 199, 0.75)" : "rgba(255, 255, 255, 0.55)"}
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              fill="none"
-              strokeDasharray="90 350 90 350"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                from="880"
-                to="0"
-                dur="3.8s"
-                repeatCount="indefinite"
-              />
-            </path>
-
-            {/* Interior Laser Scanline */}
-            <line x1="90" y1="24" x2="396" y2="24" stroke="url(#scanlineGrad)" strokeWidth="1.2" opacity="0.45">
-              <animate attributeName="y1" values="24; 134; 24" dur="3.8s" repeatCount="indefinite" />
-              <animate attributeName="y2" values="24; 134; 24" dur="3.8s" repeatCount="indefinite" />
-            </line>
 
             {/* Floating Outer Accent Line on Top-Left Slanted Chamfer */}
             <path
@@ -380,15 +301,9 @@ export default function HudBox({
             />
 
             {/* 3 Diagonal Hazard Stripes (///) */}
-            <polygon points="222,15 228,9 236,9 230,15" fill={accentColor}>
-              <animate attributeName="opacity" values="0.3; 1; 0.3" dur="1.6s" begin="0s" repeatCount="indefinite" />
-            </polygon>
-            <polygon points="238,15 244,9 252,9 246,15" fill={accentColor}>
-              <animate attributeName="opacity" values="0.3; 1; 0.3" dur="1.6s" begin="0.3s" repeatCount="indefinite" />
-            </polygon>
-            <polygon points="254,15 260,9 268,9 262,15" fill={accentColor}>
-              <animate attributeName="opacity" values="0.3; 1; 0.3" dur="1.6s" begin="0.6s" repeatCount="indefinite" />
-            </polygon>
+            <polygon points="222,15 228,9 236,9 230,15" fill={accentColor} opacity="0.85" />
+            <polygon points="238,15 244,9 252,9 246,15" fill={accentColor} opacity="0.85" />
+            <polygon points="254,15 260,9 268,9 262,15" fill={accentColor} opacity="0.85" />
 
             {/* Inset Bracket Notch Pip on Left Edge */}
             <rect x="84" y="81" width="4" height="6" fill={accentColor} filter="url(#hudGlowRef)" />
@@ -401,33 +316,32 @@ export default function HudBox({
             />
 
             {/* Bottom-Right 3 Micro Tech Dots */}
-            <circle cx="348" cy="130" r="2" fill={accentColor} />
-            <circle cx="358" cy="130" r="2" fill={accentColor} />
-            <circle cx="368" cy="130" r="2" fill={accentColor} />
+            <circle cx="348" cy="130" r="2" fill={accentColor} opacity="0.8" />
+            <circle cx="358" cy="130" r="2" fill={accentColor} opacity="0.8" />
+            <circle cx="368" cy="130" r="2" fill={accentColor} opacity="0.8" />
 
-            {/* Leader Line (points left to Robot) */}
-            <path
-              d="M 82 84 L 54 84 L 20 118"
-              stroke={accentColor}
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              fill="none"
-            />
-            {/* Terminal Target Reticle */}
-            <circle cx="20" cy="118" r="5.5" stroke={accentColor} strokeWidth="1.4" fill="none" />
-            <circle cx="20" cy="118" r="2.2" fill={accentColor} filter="url(#hudGlowRef)">
-              <animate attributeName="r" values="2; 2.6; 2" dur="1.8s" repeatCount="indefinite" />
-            </circle>
+            {/* Leader Line (Desktop Only - points left to Robot) */}
+            <g className="hidden md:inline">
+              <path
+                d="M 82 84 L 54 84 L 20 118"
+                stroke={accentColor}
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                fill="none"
+              />
+              <circle cx="20" cy="118" r="5.5" stroke={accentColor} strokeWidth="1.4" fill="none" />
+              <circle cx="20" cy="118" r="2.2" fill={accentColor} filter="url(#hudGlowRef)" />
+            </g>
           </>
         )}
       </svg>
 
       {/* Content Area Inside HUD Box */}
       <div
-        className={`absolute top-[22px] bottom-[18px] flex flex-col justify-center pointer-events-auto overflow-visible text-left ${
+        className={`absolute top-[16px] sm:top-[22px] bottom-[14px] sm:bottom-[18px] flex flex-col justify-center pointer-events-auto overflow-visible text-left ${
           !isVariationB
-            ? 'left-[36px] sm:left-[42px] right-[76px] sm:right-[88px]'
-            : 'left-[102px] sm:left-[114px] xl:left-[120px] right-[16px] sm:right-[22px]'
+            ? 'left-[22px] sm:left-[36px] md:left-[42px] right-[22px] sm:right-[76px] md:right-[88px]'
+            : 'left-[22px] sm:left-[36px] md:left-[114px] xl:left-[120px] right-[22px] sm:right-[22px]'
         }`}
       >
         {badge && (

@@ -72,7 +72,7 @@ export default function Home() {
       ===================================================================== */}
       <section
         id="hero"
-        className="relative w-full h-[100dvh] min-h-[700px] flex flex-col justify-between overflow-hidden select-none z-10 group/hero animate-in fade-in duration-700 ease-out"
+        className="relative w-full min-h-[100dvh] md:h-[100dvh] md:min-h-[700px] flex flex-col justify-between overflow-hidden select-none z-10 group/hero animate-in fade-in duration-700 ease-out pt-16 md:pt-0 pb-16 md:pb-0"
       >
         {/* Top Right Corner Tech Box: EST. 2001 // BIT MESRA */}
         <div className="hidden sm:block absolute top-0 right-0 z-30 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
@@ -150,7 +150,7 @@ export default function Home() {
             </div>
 
             {/* Center 3D NASA Curiosity Rover Wireframe with Smooth Cursor Tracking */}
-            <div className="relative z-10 w-full max-w-4xl sm:max-w-5xl h-[380px] sm:h-[440px] lg:h-[490px] flex items-center justify-center pointer-events-none -translate-y-6 sm:-translate-y-8">
+            <div className="relative z-10 w-full max-w-4xl sm:max-w-5xl h-[260px] xs:h-[310px] sm:h-[440px] lg:h-[490px] flex items-center justify-center pointer-events-none -translate-y-2 sm:-translate-y-8">
               <RoverWireframe3D modelPath="/curiosity.glb" />
             </div>
 
@@ -160,7 +160,7 @@ export default function Home() {
                 variant="shape2"
                 theme="dark"
                 leaderSide="left"
-                title="ROBOSAGA '27"
+                title="ROBOSAGA '26"
                 subtitle="TECHNO-MANAGEMENT ARENA"
                 description="3-DAY HARDWARE CARNIVAL: COMBAT BOTS, AUTONOMOUS MAZE SOLVERS & 1000+ PARTICIPANTS."
               />
@@ -168,23 +168,25 @@ export default function Home() {
           </div>
 
           {/* Mobile / Tablet HUD Boxes (< md) */}
-          <div className="md:hidden w-full max-w-md flex flex-col sm:flex-row gap-3 pointer-events-auto mt-[-10px] mb-2 px-2 z-20">
-            <div className="w-full sm:w-1/2 h-[120px]">
+          <div className="md:hidden w-full max-w-md flex flex-col sm:flex-row gap-2.5 pointer-events-auto mt-[-4px] mb-2 px-3 z-20">
+            <div className="w-full sm:w-1/2 h-[110px] sm:h-[120px]">
               <HudBox
                 variant="shape1"
                 theme="dark"
                 leaderSide="right"
                 title="TEAM PRATYUMNIS"
                 subtitle="ABU ROBOCON & NATIONALS"
+                description="ABU ROBOCON 100/100 CAD SCORE & ₹1.5L MATHWORKS AWARD."
               />
             </div>
-            <div className="w-full sm:w-1/2 h-[120px]">
+            <div className="w-full sm:w-1/2 h-[110px] sm:h-[120px]">
               <HudBox
                 variant="shape2"
                 theme="dark"
                 leaderSide="left"
-                title="ROBOSAGA '27"
+                title="ROBOSAGA '26"
                 subtitle="TECHNO-MANAGEMENT ARENA"
+                description="3-DAY HARDWARE CARNIVAL: COMBAT BOTS & MAZE SOLVERS."
               />
             </div>
           </div>
@@ -215,7 +217,7 @@ export default function Home() {
       ===================================================================== */}
       <section
         id="disciplines"
-        className="relative z-20 py-24 sm:py-32 px-6 sm:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto"
+        className="relative z-20 py-20 sm:py-32 px-4 sm:px-8 md:pl-20 md:pr-12 max-w-7xl mx-auto"
       >
         <ScrollReveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
@@ -324,7 +326,7 @@ export default function Home() {
       <section id="gallery-unfurl" className="relative z-20 w-full">
         {/* Aerospace HUD Section Header */}
         <ScrollReveal direction="up">
-          <div className="pt-24 pb-8 px-6 sm:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div className="pt-20 sm:pt-24 pb-8 px-4 sm:px-8 md:pl-20 md:pr-12 max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <span className="font-mono text-xs text-sky-400 font-bold tracking-widest uppercase block mb-1">
                 <DecryptedText
