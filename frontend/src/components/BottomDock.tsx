@@ -2,11 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-<<<<<<< Updated upstream
-import { X, Layers } from 'lucide-react';
-=======
 import Image from 'next/image';
->>>>>>> Stashed changes
+import { X } from 'lucide-react';
 
 interface BottomDockProps {
   theme?: 'light' | 'dark';

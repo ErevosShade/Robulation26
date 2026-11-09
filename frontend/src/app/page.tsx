@@ -350,20 +350,6 @@ export default function Home() {
         id="robosaga"
         className="relative z-20 py-20 sm:py-32 px-4 sm:px-8 md:pl-24 md:pr-12 max-w-7xl mx-auto"
       >
-<<<<<<< Updated upstream
-        <GlassCard
-          badge="ANNUAL TECHNO-MECHATRONICS FESTIVAL // BIT MESRA"
-          spotlightColor="rgba(255, 159, 252, 0.2)"
-          className="p-8 sm:p-14"
-        >
-          <div className="relative z-10 max-w-3xl">
-            <h2 className="font-modern font-black text-4xl sm:text-6xl text-white uppercase tracking-tight">
-              ROBOSAGA &apos;26
-            </h2>
-            <p className="font-modern text-sm sm:text-base text-slate-200 mt-4 leading-relaxed">
-              Eastern India&apos;s premier collegiate robotics arena. 3 days of heavy-armor combat wars, autonomous maze navigators, high-speed line followers, and CAD fabrication hackathons hosted at Birla Institute of Technology, Mesra.
-            </p>
-=======
         {/* Section Header: RoboSaga */}
         <ScrollReveal direction="up">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-white/10 mb-8 sm:mb-10">
@@ -400,7 +386,6 @@ export default function Home() {
                 <p className="font-modern text-sm sm:text-base text-slate-300 mt-4 leading-relaxed">
                   Eastern India&apos;s premier collegiate robotics arena. An intense multi-day showcase of heavy-armor combat battles, autonomous maze navigators, precision line followers, drone agility, and keynote guest symposiums hosted at Birla Institute of Technology, Mesra.
                 </p>
->>>>>>> Stashed changes
 
                 <div className="mt-8 flex flex-wrap gap-3 items-center">
                   <IslandButton
@@ -423,11 +408,6 @@ export default function Home() {
                 <RoboSagaSlider />
               </div>
             </div>
-<<<<<<< Updated upstream
-          </div>
-        </GlassCard>
-      </section>
-=======
           </GlassCard>
         </ScrollReveal>
 
@@ -576,7 +556,6 @@ export default function Home() {
         </div>
       </div>
     </section>
->>>>>>> Stashed changes
 
       {/* =====================================================================
           7. HARDWARE MANIFESTO: NO AI SLOP, JUST REAL HARDWARE
@@ -585,25 +564,6 @@ export default function Home() {
         id="manifesto"
         className="relative z-20 py-16 sm:py-24 px-6 sm:px-12 md:pl-28 md:pr-14 max-w-7xl mx-auto"
       >
-<<<<<<< Updated upstream
-        <GlassCard
-          badge="OUR ENGINEERING CREED // HARDWARE PRIMACY"
-          spotlightColor="rgba(255, 159, 252, 0.25)"
-          className="text-center p-6 sm:p-14"
-        >
-          <blockquote className="font-modern font-black text-2xl sm:text-5xl lg:text-6xl tracking-tight text-white uppercase leading-tight">
-            &ldquo;Software is easy until it has to push <span className="animate-text-shimmer">30 kilograms of steel at 40 kilometers an hour</span>.&rdquo;
-          </blockquote>
-          <p className="mt-6 sm:mt-8 font-modern text-xs sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            At Robolution, we do not build mockups. We mill structural aluminum, design custom multi-layer circuit boards, debug interrupt routines at 3 AM, and torture-test every robot until it survives the arena.
-          </p>
-          <div className="mt-8 flex justify-center">
-            <IslandButton href="/about" variant="glass">
-              Read Our Full Heritage &amp; Vision
-            </IslandButton>
-          </div>
-        </GlassCard>
-=======
         <ScrollReveal direction="up">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Col: Badge, Quote & CTA */}
@@ -673,7 +633,6 @@ export default function Home() {
             </div>
           </div>
         </ScrollReveal>
->>>>>>> Stashed changes
       </section>
 
       {/* =====================================================================
