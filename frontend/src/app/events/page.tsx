@@ -9,6 +9,7 @@ import MoltenMetal from '@/components/MoltenMetal';
 import GlassCard from '@/components/GlassCard';
 import IslandButton from '@/components/IslandButton';
 import ScrollReveal from '@/components/ScrollReveal';
+import RoboconTimeline, { RoboconAchievement } from '@/components/RoboconTimeline';
 import {
   Trophy,
   Flame,
@@ -215,14 +216,15 @@ const hackawayWinners: HackawayWinner[] = [
 ];
 
 // -----------------------------------------------------------------------------
-// 2. ROBOCON CAMPAIGNS (TEAM PRATYUMNIS) - 6 BALANCED CARDS (3 PER ROW)
+// 2. ROBOCON CAMPAIGNS (TEAM PRATYUMNIS) - CHRONOLOGICAL HISTORICAL RECORDS
 // -----------------------------------------------------------------------------
-const roboconFeaturedCards: EventCardItem[] = [
+const roboconFeaturedCards: (EventCardItem & { yearNumber: number })[] = [
   {
     id: 'robocon-2026-campaign',
     section: 'robocon',
-    title: 'ABU Robocon 2026: Kung Fu Quest (89/100 Stage 1)',
+    title: 'ABU Robocon 2026: Kung Fu Quest',
     yearOrCycle: '2026 Campaign',
+    yearNumber: 2026,
     badge: 'STAGE 1 BENCHMARK // 89/100 CAD SCORE',
     status: 'Campaign Active',
     venue: 'National Finals // ABU Robocon India',
@@ -240,6 +242,7 @@ const roboconFeaturedCards: EventCardItem[] = [
     section: 'robocon',
     title: 'ABU Robocon 2021: Perfect 100/100 CAD Score',
     yearOrCycle: '2021 Campaign',
+    yearNumber: 2021,
     badge: 'GLOBAL BENCHMARK // 100/100 CAD SCORE',
     status: 'Historical Milestone',
     venue: 'National Finals (Virtual)',
@@ -257,13 +260,14 @@ const roboconFeaturedCards: EventCardItem[] = [
     section: 'robocon',
     title: 'Robocon 2018: Throwing Arrow into Pot',
     yearOrCycle: '2018 Campaign',
+    yearNumber: 2018,
     badge: 'NATIONAL REPRESENTATION // ABU ROBOCON',
     status: 'Historical Milestone',
     venue: 'Balewadi Sports Complex, Pune',
     specs: 'THEME: THROWING ARROW INTO POT',
     metric: 'NATIONAL FINALS',
     allocationOrPrize: 'National Representation',
-    image: '/timeline/robocon-2018-bot-black.jpg',
+    image: '/timeline/robocon-2018-raw.png',
     description: 'Robots had to collect and accurately throw arrows into pots placed at different heights and distances in the arena.',
     problem: 'Robots had to collect and accurately throw arrows into pots placed at different heights and distances.',
     teamPov: 'Success depended on precise aiming, stable launching mechanisms, and repeatable shooting accuracy rather than just speed.',
@@ -274,13 +278,14 @@ const roboconFeaturedCards: EventCardItem[] = [
     section: 'robocon',
     title: 'Robocon 2016: Clean Energy Recharging',
     yearOrCycle: '2016 Campaign',
+    yearNumber: 2016,
     badge: 'DUAL-ROBOT KINEMATIC INTERACTION',
     status: 'Historical Milestone',
     venue: 'Balewadi Sports Complex, Pune',
     specs: 'THEME: CLEAN ENERGY TRANSFER',
     metric: 'DUAL ROBOT PLATFORM',
     allocationOrPrize: 'National Representation',
-    image: '/timeline/robocon-2016-bot-black.jpg',
+    image: '/timeline/robocon-2016-raw.png',
     description: 'A powered robot had to assist and guide a non-powered robot through various arena tasks inspired by clean energy transfer.',
     problem: 'A powered robot had to assist and guide a non-powered robot through various arena tasks inspired by clean energy transfer.',
     teamPov: 'The biggest challenge was coordination between two robots, requiring reliable communication, synchronization, and innovative mechanical interaction.',
@@ -291,13 +296,14 @@ const roboconFeaturedCards: EventCardItem[] = [
     section: 'robocon',
     title: 'Robocon 2015: Best Non-Quarterfinalist & ₹1.5L',
     yearOrCycle: '2015 Campaign',
+    yearNumber: 2015,
     badge: 'THEME: ROBOMINTON // LAUREL PODIUM',
     status: 'Historical Milestone',
     venue: 'Balewadi Sports Complex, Pune',
     specs: '₹150,000 MATHWORKS AWARD',
     metric: 'DOUBLE HONORS',
     allocationOrPrize: '₹150,000 MathWorks Award & Trophy',
-    image: '/timeline/robocon-2015-bot-black.jpg',
+    image: '/timeline/robocon-2015-raw.png',
     description: 'Robots had to play a badminton-inspired game by launching shuttlecocks into target areas across the net.',
     problem: 'Robots had to play a badminton-inspired game by launching shuttlecocks into target areas.',
     teamPov: 'Focus was on designing an accurate launcher, controlling shot trajectory, and ensuring consistent performance under match conditions.',
@@ -308,13 +314,14 @@ const roboconFeaturedCards: EventCardItem[] = [
     section: 'robocon',
     title: 'Robocon 2013: Best Rookie Team Debut',
     yearOrCycle: '2013 Campaign',
+    yearNumber: 2013,
     badge: 'INAUGURAL DEBUT // BEST ROOKIE TEAM',
     status: 'Historical Milestone',
     venue: 'MIT Academy of Engineering, Pune',
     specs: 'THEME: THROWING ARROW INTO POT',
     metric: 'BEST ROOKIE',
     allocationOrPrize: 'Best Rookie Team Award',
-    image: '/timeline/robocon-2013-bot-black.jpg',
+    image: '/timeline/robocon-2013-raw.png',
     description: 'Inaugural participation in ABU Robocon. Recognized as Best Newcomer Team nationwide, marking an exceptional national debut.',
     problem: 'Robots had to collect and accurately throw arrows into pots placed at different heights and distances.',
     teamPov: 'Success depended on precise aiming, stable launching mechanisms, and repeatable shooting accuracy rather than just speed.',
@@ -329,28 +336,30 @@ const robowarsVisualCards: EventCardItem[] = [
   {
     id: 'robowars-techfest-2025',
     section: 'robowars',
-    title: 'ROBO WARS 2025 – Quarter-Finalist (U-15 KG)',
+    title: 'RoboWars 2025: National Quarter-Finalist',
     yearOrCycle: '2025',
-    badge: 'IIT BOMBAY TECHFEST',
+    badge: 'IIT Bombay Techfest • Under 15 kg',
     status: 'Completed',
-    venue: 'IIT BOMBAY TECHFEST // ROBO WARS // 15 KG CATEGORY',
-    specs: 'IIT BOMBAY TECHFEST // 15 KG CATEGORY',
-    metric: 'QUARTER-FINALIST',
+    venue: 'IIT Bombay • National Combat Arena',
+    specs: 'Featherweight Division • 15 kg Class',
+    metric: 'Quarter-Finalist',
     allocationOrPrize: 'Quarter-Finalist (Under 15 kg)',
     image: '/timeline/robowars-2025.jpg',
-    description: 'Advanced to the Quarter-Finals at IIT Bombay Techfest 2025, showcasing a robust combat robot with powerful weapon integration, durability, and manoeuvrability.',
-    highlights: ['Under 15 kg Quarter-Finalist', 'Kinetic Drum Spinner Weapon', 'Hardened Armor Plating', 'High-Speed Arena Mobility']
+    description: 'Robolution represented BIT Mesra in the 15 kg featherweight combat division at IIT Bombay Techfest 2025, fighting through intense tournament rounds with a high-torque inverted drivetrain and kinetic drum spinner.',
+    problem: 'Enduring high-impact kinetic impacts while maintaining aggressive weapon spin and maneuverability against veteran national combat entries.',
+    teamPov: 'Custom CNC-machined weapon hubs, Hardox-500 armor plating, and quick-response differential steering allowed the bot to withstand multiple impacts and advance to the quarter-finals.',
+    highlights: ['Quarter-Finalist Finish', 'Kinetic Drum Spinner', 'Hardox-500 Armor', 'Invertible Chassis']
   },
   {
     id: 'robowar-quark-2021',
     section: 'robowars',
-    title: '3rd Place – Robowar',
+    title: '3rd Place – RoboWar (BITS Pilani Quark)',
     yearOrCycle: '2021',
-    badge: 'BITS PILANI QUARK',
+    badge: 'BITS Pilani Quark',
     status: 'Historical Milestone',
-    venue: 'BITS PILANI // ROBOWAR COMBAT',
-    specs: 'BITS PILANI // ROBOWAR COMBAT',
-    metric: '3RD PLACE PODIUM',
+    venue: 'BITS Pilani • Quark Combat Arena',
+    specs: 'Combat Robotics Division',
+    metric: '3rd Place Podium',
     allocationOrPrize: '3rd Place – Robowar',
     image: '/timeline/robowars-bits-pilani-2021.jpg',
     description: 'Engineered a resilient combat robot to claim 3rd place in Robowar at Quark, BITS Pilani.',
@@ -361,11 +370,11 @@ const robowarsVisualCards: EventCardItem[] = [
     section: 'robowars',
     title: '2nd Place – Autonomous Navigation',
     yearOrCycle: '2023',
-    badge: 'KSHITIJ IIT KHARAGPUR',
+    badge: 'Kshitij IIT Kharagpur',
     status: 'Historical Milestone',
-    venue: 'IIT KHARAGPUR // AUTONOMOUS ROVER',
-    specs: 'IIT KHARAGPUR // AUTONOMOUS ROVER',
-    metric: '2ND PLACE',
+    venue: 'IIT Kharagpur • Autonomous Arena',
+    specs: 'Autonomous Rover Testbed',
+    metric: '2nd Place',
     allocationOrPrize: '2nd Place – Autonomous Navigation',
     image: '/timeline/rover-2023.jpg',
     description: 'Designed an autonomous rover with multi-sensor obstacle detection and real-time path planning to claim 2nd place at Kshitij IIT Kharagpur.',
@@ -376,11 +385,11 @@ const robowarsVisualCards: EventCardItem[] = [
     section: 'robowars',
     title: '1st Place – Roborace',
     yearOrCycle: '2022',
-    badge: 'PRAGYAN NIT TRICHY',
+    badge: 'Pragyan NIT Trichy',
     status: 'Historical Milestone',
-    venue: 'NIT TRICHY // HIGH-SPEED ROBORACE',
-    specs: 'NIT TRICHY // HIGH-SPEED ROBORACE',
-    metric: '1ST PLACE PODIUM',
+    venue: 'NIT Trichy • High-Speed Roborace Track',
+    specs: 'High-Speed Sprint Bot',
+    metric: '1st Place Podium',
     allocationOrPrize: '1st Place – Roborace',
     image: '/timeline/pragyan-2022.jpg',
     description: 'Captured 1st Place in Roborace at Pragyan NIT Trichy with a high-speed custom drivetrain and precision steering.',
@@ -391,11 +400,11 @@ const robowarsVisualCards: EventCardItem[] = [
     section: 'robowars',
     title: '2nd Place – Maze Solver',
     yearOrCycle: '2018',
-    badge: 'KSHITIJ IIT KHARAGPUR',
+    badge: 'Kshitij IIT Kharagpur',
     status: 'Historical Milestone',
-    venue: 'IIT KHARAGPUR // MAZE SOLVER',
-    specs: 'IIT KHARAGPUR // MAZE SOLVER',
-    metric: '2ND PLACE',
+    venue: 'IIT Kharagpur • Maze Arena',
+    specs: 'Autonomous Micromouse',
+    metric: '2nd Place',
     allocationOrPrize: '2nd Place – Maze Solver',
     image: '/timeline/maze-solver-2018.jpg',
     description: 'Constructed an agile autonomous maze solver robot to secure 2nd place at Kshitij, the annual techno-management fest of IIT Kharagpur.',
@@ -404,13 +413,13 @@ const robowarsVisualCards: EventCardItem[] = [
   {
     id: 'techfest-pixelate-2015',
     section: 'robowars',
-    title: '2nd Prize • Pixelate',
+    title: '2nd Prize • Pixelate Vision Challenge',
     yearOrCycle: '2015',
-    badge: 'IIT BOMBAY TECHFEST',
+    badge: 'IIT Bombay Techfest',
     status: 'Historical Milestone',
-    venue: 'IIT BOMBAY // PIXELATE CHALLENGE',
-    specs: 'IIT BOMBAY // PIXELATE CHALLENGE',
-    metric: '2ND PRIZE',
+    venue: 'IIT Bombay • Pixelate Arena',
+    specs: 'Computer Vision & AI',
+    metric: '2nd Prize',
     allocationOrPrize: '2nd Prize • Pixelate',
     image: '/timeline/pixelate-2015.jpg',
     description: 'Secured Second Place in Pixelate at IIT Bombay Techfest, demonstrating exceptional technical expertise in image processing and computer vision challenges.',
@@ -966,7 +975,7 @@ export default function EventsPage() {
         )}
 
         {/* ========================================================================= */}
-        {/* SECTION 2: ROBOCON CAMPAIGNS (TEAM PRATYUMNIS) - 6 BALANCED CARDS (3x2) */}
+        {/* SECTION 2: ROBOCON CAMPAIGNS (TEAM PRATYUMNIS) - INTERACTIVE CURVED TIMELINE */}
         {/* ========================================================================= */}
         {(activeTab === 'all' || activeTab === 'robocon') && (
           <section className="mb-20 relative" id="robocon">
@@ -976,19 +985,13 @@ export default function EventsPage() {
                   ABU ROBOCON // NATIONAL CAMPAIGNS
                 </h2>
                 <span className="font-sans text-xs tracking-normal text-sky-400 font-normal">
-                  TEAM PRATYUMNIS &bull; 6 RECORDED CAMPAIGNS &bull; 2026 KUNG FU QUEST (89/100) TO 2013 ROOKIE
+                  TEAM PRATYUMNIS &bull; 6 RECORDED CAMPAIGNS &bull; 2013 INAUGURAL ROOKIE TO 2026 KUNG FU QUEST
                 </span>
               </div>
             </div>
 
-            {/* Clean 3-Column Grid for All 6 Robocon Cards (Perfect 3x2 Matrix) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
-              {roboconFeaturedCards.map(card => (
-                <ScrollReveal key={card.id}>
-                  <UniformEventCard card={card} accentColor="sky" />
-                </ScrollReveal>
-              ))}
-            </div>
+            {/* Immersive Chronological Curved SVG Timeline */}
+            <RoboconTimeline records={roboconFeaturedCards as RoboconAchievement[]} activeTab={activeTab} />
           </section>
         )}
 
@@ -1012,7 +1015,7 @@ export default function EventsPage() {
             <div className="mb-12">
               <div className="flex items-center gap-2 mb-4 font-mono text-xs text-slate-400 uppercase tracking-widest">
                 <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
-                <span>// COMPETITION CAMPAIGNS &amp; COMBAT PLATFORMS</span>
+                <span>Competition Campaigns &amp; Combat Platforms</span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -1029,10 +1032,10 @@ export default function EventsPage() {
               <div className="flex items-center justify-between mb-5 font-mono text-xs text-slate-400 uppercase tracking-widest border-b border-white/10 pb-3">
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-                  <span>// OTHER DOCUMENTED ACHIEVEMENTS</span>
+                  <span>Other Documented Achievements</span>
                 </div>
                 <span className="text-[10px] text-slate-500 font-mono">
-                  {otherHeritageAchievements.length} // NATIONAL HONORS
+                  {otherHeritageAchievements.length} &bull; National Honors
                 </span>
               </div>
 
@@ -1089,7 +1092,7 @@ export default function EventsPage() {
             <div className="flex items-center justify-between mb-6 pb-2.5 border-b border-white/10">
               <div className="flex flex-col gap-1">
                 <h2 className="font-modern font-black text-xl sm:text-2xl text-white uppercase tracking-tight">
-                  TECHNICAL WORKSHOPS // CLINICS &amp; BOOTCAMPS
+                  TECHNICAL WORKSHOPS &amp; CLINICS
                 </h2>
                 <span className="font-sans text-xs tracking-normal text-emerald-400 font-normal">
                   GATEWAY TO ROBOTICS 2026 &bull; SOLIDWORKS CAD &bull; EMBEDDED ESP32 &bull; PNEUMATICS &bull; OPENCV &amp; NLP
