@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { X } from 'lucide-react';
 
 interface BottomDockProps {
   theme?: 'light' | 'dark';
@@ -135,18 +134,6 @@ export default function BottomDock({
             >
               Contact
             </Link>
-
-            {/* Close / Minimize Button when expanded while scrolled */}
-            {isScrolled && (
-              <button
-                type="button"
-                onClick={() => setIsOpen(false)}
-                aria-label="Close Navigation Dock"
-                className="group relative p-1.5 sm:p-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/25 text-slate-300 hover:text-white transition-all active:scale-95 cursor-pointer flex-shrink-0 flex items-center justify-center"
-              >
-                <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              </button>
-            )}
           </div>
         </div>
       )}
