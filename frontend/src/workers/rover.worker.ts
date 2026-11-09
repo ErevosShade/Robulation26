@@ -22,11 +22,19 @@ interface ResizeMessage {
   height: number;
 }
 
+interface PauseMessage {
+  type: 'pause';
+}
+
+interface ResumeMessage {
+  type: 'resume';
+}
+
 interface DisposeMessage {
   type: 'dispose';
 }
 
-type WorkerMessage = InitMessage | PointerMoveMessage | ResizeMessage | DisposeMessage;
+type WorkerMessage = InitMessage | PointerMoveMessage | ResizeMessage | PauseMessage | ResumeMessage | DisposeMessage;
 
 let renderer: THREE.WebGLRenderer | null = null;
 let scene: THREE.Scene | null = null;
@@ -180,11 +188,21 @@ function handleResize(data: ResizeMessage) {
   renderer.setSize(width, height, false);
 }
 
-function dispose() {
+function pause() {
   if (animationId !== null) {
     cancelAnimationFrame(animationId);
     animationId = null;
   }
+}
+
+function resume() {
+  if (animationId === null && renderer && scene && camera && modelGroup) {
+    animate();
+  }
+}
+
+function dispose() {
+  pause();
   if (renderer) {
     renderer.dispose();
     renderer = null;
@@ -205,6 +223,12 @@ self.onmessage = (e: MessageEvent<WorkerMessage>) => {
       break;
     case 'resize':
       handleResize(data);
+      break;
+    case 'pause':
+      pause();
+      break;
+    case 'resume':
+      resume();
       break;
     case 'dispose':
       dispose();

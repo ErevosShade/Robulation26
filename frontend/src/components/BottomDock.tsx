@@ -17,11 +17,21 @@ export default function BottomDock({
   const dockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const scrolled = window.scrollY > 120;
-      setIsScrolled(scrolled);
-      if (!scrolled) {
-        setIsOpen(false);
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          const scrolled = window.scrollY > 120;
+          setIsScrolled((prev) => {
+            if (prev !== scrolled) {
+              if (!scrolled) setIsOpen(false);
+              return scrolled;
+            }
+            return prev;
+          });
+        });
       }
     };
 

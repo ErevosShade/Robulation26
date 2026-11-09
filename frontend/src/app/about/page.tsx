@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Sidebar from '@/components/Sidebar';
 import HudBox from '@/components/HudBox';
 import MoltenMetal from '@/components/MoltenMetal';
@@ -65,54 +66,166 @@ const milestones = [
     status: 'LEGACY LOGGED',
   },
   {
-    year: '2015',
+    year: '2013',
     code: 'EXP-02',
-    tag: 'NATIONAL LAURELS',
-    title: 'MathWorks National Award',
-    detail: 'Won the MathWorks National Award accompanied by an INR 50,000 cash prize at ABU Robocon India, earning the title of Best Non-Quarterfinalist Team.',
-    specs: 'ABU ROBOCON • INR 50K PRIZE',
-    metric: 'BEST NON-QF TEAM',
+    tag: 'ROBOCON DEBUT',
+    title: 'Best Rookie Team',
+    detail: 'Recognised as the Best Newcomer Team during our inaugural participation in ABU Robocon, marking an exceptional debut and establishing our presence on an international platform.',
+    specs: 'ABU ROBOCON 2013 // NATIONAL STAGE',
+    metric: 'BEST ROOKIE',
+    status: 'LAUREL VALIDATED',
+    image: '/timeline/robocon-2013-team.jpg',
+  },
+  {
+    year: '2015',
+    code: 'EXP-03',
+    tag: 'ROBOCON DUAL PODIUM',
+    title: 'Best Non-Quarterfinalist & ₹150,000 MathWorks Award',
+    detail: 'Awarded Best Non-Quarterfinalist for exceptional innovation, and won the prestigious ₹150,000 MathWorks Award for best use of simulation tools in robot development.',
+    specs: 'ABU ROBOCON 2015 // ₹150,000 AWARD',
+    metric: '₹150K MATHWORKS',
     status: 'PODIUM VALIDATED',
+    image: '/timeline/robocon-2015.jpg',
+  },
+  {
+    year: '2015',
+    code: 'EXP-04',
+    tag: 'IIT BOMBAY TECHFEST',
+    title: '2nd Prize • Pixelate',
+    detail: 'Secured Second Place in Pixelate at IIT Bombay Techfest, demonstrating exceptional technical expertise in image processing and computer vision challenges.',
+    specs: 'IIT BOMBAY // PIXELATE CHALLENGE',
+    metric: '2ND PRIZE',
+    status: 'PODIUM VALIDATED',
+    image: '/timeline/pixelate-2015.jpg',
+  },
+  {
+    year: '2018',
+    code: 'EXP-05',
+    tag: 'KSHITIJ IIT KHARAGPUR',
+    title: '2nd Place – Maze Solver',
+    detail: 'Constructed an agile autonomous maze solver robot to secure 2nd place at Kshitij, the annual techno-management fest of IIT Kharagpur.',
+    specs: 'IIT KHARAGPUR // MAZE SOLVER',
+    metric: '2ND PLACE',
+    status: 'PODIUM VALIDATED',
+    image: '/timeline/maze-solver-2018.jpg',
   },
   {
     year: '2021',
-    code: 'EXP-03',
-    tag: 'CAD PRECISION VICTORY',
-    title: 'Perfect 100/100 CAD Score',
-    detail: 'Achieved an unprecedented 100/100 score in 3D CAD design analysis by national and international judges for kinematic validation and structural optimization.',
-    specs: 'SOLIDWORKS FEA • KINEMATICS',
+    code: 'EXP-06',
+    tag: 'ABU ROBOCON HISTORY',
+    title: 'Perfect Score 100/100 (3D Design Analysis)',
+    detail: 'Made history by achieving a flawless 100/100 in 3D design and kinematic analysis on the global stage, while also ranking as National Finalists (Top 15).',
+    specs: 'ABU ROBOCON 2021 // 100/100 IN CAD',
     metric: '100/100 CAD SCORE',
-    status: 'MAX CAD METRIC',
+    status: 'HISTORY BENCHMARK',
+    image: '/timeline/cad-100-2021.png',
+  },
+  {
+    year: '2021',
+    code: 'EXP-07',
+    tag: 'BITS PILANI QUARK',
+    title: '3rd Place – Robowar',
+    detail: 'Engineered a resilient combat robot to claim 3rd place in Robowar at Quark, BITS Pilani.',
+    specs: 'BITS PILANI // ROBOWAR COMBAT',
+    metric: '3RD PLACE',
+    status: 'PODIUM VALIDATED',
+    image: '/timeline/robowars-bits-pilani-2021.jpg',
+  },
+  {
+    year: '2022',
+    code: 'EXP-08',
+    tag: 'PRAGYAN NIT TRICHY',
+    title: '1st Place – Roborace',
+    detail: 'Captured 1st Place in Roborace at Pragyan NIT Trichy with a high-speed custom drivetrain and precision steering.',
+    specs: 'NIT TRICHY // HIGH-SPEED ROBORACE',
+    metric: '1ST PLACE',
+    status: 'PODIUM VALIDATED',
+    image: '/timeline/pragyan-2022.jpg',
   },
   {
     year: '2023',
-    code: 'EXP-04',
-    tag: 'INFRASTRUCTURE LEAP',
-    title: 'Build Culture Acceleration',
-    detail: 'Conducted high-density campus workshops, onboarded custom multi-layer PCB fabrication pipelines, and deployed autonomous micro-rover testbeds.',
-    specs: 'MULTI-LAYER PCBS • ROVER RIGS',
-    metric: '200+ CADRE MENTORED',
-    status: 'LAB EXPANSION',
+    code: 'EXP-09',
+    tag: 'KSHITIJ IIT KHARAGPUR',
+    title: '2nd Place – Autonomous Navigation',
+    detail: 'Designed an autonomous rover with multi-sensor obstacle detection and real-time path planning to claim 2nd place at Kshitij IIT Kharagpur.',
+    specs: 'IIT KHARAGPUR // AUTONOMOUS ROVER',
+    metric: '2ND PLACE',
+    status: 'PODIUM VALIDATED',
+    image: '/timeline/rover-2023.jpg',
   },
   {
-    year: '2024',
-    code: 'EXP-05',
-    tag: 'AUTONOMOUS VISION FLEET',
-    title: 'National Robocon Campaign',
-    detail: 'Expanded external competition presence, engineered custom omni-directional drive bases, and deployed ROS 2 computer vision stacks with real-time ball tracking.',
-    specs: 'OMNI-DRIVE • ROS 2 PERCEPTION',
-    metric: 'ARENA MOBILITY',
-    status: 'ACTIVE CAMPAIGN',
+    year: '2025',
+    code: 'EXP-10',
+    tag: 'IIT BOMBAY TECHFEST',
+    title: 'ROBO WARS 2025 – QUARTER-FINALIST (UNDER 15 KG)',
+    detail: 'Advanced to the Quarter-Finals at IIT Bombay Techfest 2025, showcasing a robust combat robot with powerful weapon integration, durability, and manoeuvrability.',
+    specs: 'IIT BOMBAY TECHFEST // ROBO WARS // 15 KG CATEGORY',
+    metric: 'QUARTER-FINALIST (U15KG)',
+    status: 'ARENA TESTED',
+    image: '/timeline/robowars-2025.jpg',
   },
   {
     year: '2026',
-    code: 'EXP-06',
+    code: 'EXP-11',
     tag: 'FLAGSHIP ARENA FEST',
     title: 'RoboSaga & Autonomous Systems',
     detail: 'Launching RoboSaga 2026 flagship 3-day arena fest and transitioning into advanced autonomous planetary exploration mechatronics.',
     specs: '3-DAY COMBAT WARS • PLANETARY ROVER',
     metric: 'FLAGSHIP ARENA',
     status: 'NEXT GENERATION',
+  },
+];
+
+interface AchievementItem {
+  year: string;
+  venue: string;
+  title: string;
+  badge: string;
+  image?: string;
+}
+
+const otherAchievements: AchievementItem[] = [
+  {
+    year: '2016',
+    venue: 'SRIJAN JADAVPUR UNIVERSITY',
+    title: '1st Place – Multiple Events',
+    badge: 'MULTIPLE VICTORIES',
+  },
+  {
+    year: '2019',
+    venue: 'TECHNICHE IIT GUWAHATI',
+    title: '1st Place – RoboSoccer',
+    badge: 'TACTICAL MOBILITY',
+  },
+  {
+    year: '2021',
+    venue: 'ABU ROBOCON 2021 (VIRTUAL)',
+    title: 'National Finalists – Top 15',
+    badge: 'NATIONAL FINALISTS',
+  },
+  {
+    year: '2022',
+    venue: 'ROBOTRYST DTU',
+    title: '2nd Place – Autonomous Bot',
+    badge: 'AUTONOMOUS SENSING',
+  },
+  {
+    year: '2023',
+    venue: 'TECHNICHE IIT GUWAHATI',
+    title: '1st Place – Robowar & Line Follower',
+    badge: 'DUAL CHAMPIONSHIP',
+  },
+  {
+    year: '2023',
+    venue: 'E-YANTRA IIT BOMBAY',
+    title: 'National Finalists – Theme Completion',
+    badge: 'SYSTEM INTEGRATION',
+  },
+  {
+    year: '2024',
+    venue: 'SMART INDIA HACKATHON ‘24',
+    title: 'Grand Finale – Hardware Edition',
+    badge: 'AGRIBOT PLATFORM',
   },
 ];
 
@@ -161,8 +274,8 @@ export default function AboutPage() {
           <span className="text-slate-300">About Robolution</span>
         </div>
 
-        {/* Hero Title Section */}
-        <div className="mb-16">
+        {/* Hero Title & Cover Image Section */}
+        <div className="mb-20">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
             <span>OFFICIAL ROBOTICS SOCIETY &bull; BIT MESRA &bull; EST. 2001</span>
@@ -180,6 +293,40 @@ export default function AboutPage() {
             We bring together passionate hardware builders, firmware engineers, and software architects to solve real technical challenges
             through collaborative making and national competitive campaigns.
           </p>
+
+          {/* Cover Hero Showcase: Society Team */}
+          <ScrollReveal delay={150}>
+            <div className="relative w-full h-[280px] xs:h-[340px] sm:h-[440px] md:h-[500px] lg:h-[560px] rounded-2xl overflow-hidden mt-10 border border-white/15 bg-black/40 shadow-2xl group">
+              <Image
+                src="/timeline/society-team-cover-v3.jpg"
+                alt="Robolution Society Team BIT Mesra"
+                fill
+                priority
+                unoptimized
+                sizes="(max-width: 1280px) 100vw, 1280px"
+                className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out filter contrast-105 brightness-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#020307] via-transparent to-black/30 pointer-events-none" />
+              <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center gap-2">
+                <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 font-mono text-[9px] sm:text-[10px] text-cyan-400 uppercase tracking-widest font-bold">
+                  // OFFICIAL ROBOTICS SOCIETY • TEAM PRATYUMNIS
+                </span>
+              </div>
+              <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 right-4 sm:right-6 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                <div>
+                  <span className="font-mono text-[10px] sm:text-xs text-sky-400 font-bold uppercase tracking-widest block">
+                    BIRLA INSTITUTE OF TECHNOLOGY, MESRA
+                  </span>
+                  <h3 className="font-modern font-black text-xl sm:text-3xl text-white uppercase tracking-tight">
+                    ROBOLUTION SOCIETY CADRE
+                  </h3>
+                </div>
+                <div className="font-mono text-[10px] sm:text-xs text-slate-300 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/15 shrink-0 self-start sm:self-auto">
+                  INNOVATION &bull; AUTONOMY &bull; BATTLE BOTS
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
 
         {/* Metrics Grid with GlassCard */}
@@ -377,7 +524,7 @@ export default function AboutPage() {
 
                 return (
                   <div
-                    key={m.year}
+                    key={m.code}
                     className={`relative flex flex-col md:flex-row items-center ${
                       isLeft ? 'md:flex-row' : 'md:flex-row-reverse'
                     }`}
@@ -457,6 +604,20 @@ export default function AboutPage() {
                               {m.detail}
                             </p>
 
+                            {/* Milestone Photo Showcase (if available) */}
+                            {m.image && (
+                              <div className="relative w-full h-44 sm:h-52 rounded-xl overflow-hidden mb-4 border border-white/15 bg-black/40 shadow-inner group/img">
+                                <Image
+                                  src={m.image}
+                                  alt={m.title}
+                                  fill
+                                  sizes="(max-width: 768px) 100vw, 500px"
+                                  className="object-contain p-2 group-hover/img:scale-105 transition-transform duration-500 ease-out"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                              </div>
+                            )}
+
                             {/* Specs Telemetry Tag */}
                             <div
                               className={`pt-3 border-t border-white/10 flex items-center font-mono text-[10px] text-slate-400 ${
@@ -475,6 +636,88 @@ export default function AboutPage() {
                 );
               })}
             </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* OTHER ACHIEVEMENTS: Podium Archive Across IITs, NITs & National Hackathons */}
+        {/* ========================================================================= */}
+        <section className="mb-28 relative">
+          <ScrollReveal>
+            <div className="mb-12">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 shadow-xs font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-4 backdrop-blur-md">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                <span>// ARENA PODIUM ARCHIVE &bull; NATIONAL MERIT</span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div>
+                  <h2 className="font-modern font-black text-3xl sm:text-5xl text-white uppercase tracking-tight">
+                    OTHER ACHIEVEMENTS
+                  </h2>
+                  <p className="font-modern text-sm sm:text-base text-slate-300 max-w-2xl mt-3 leading-relaxed">
+                    National competition records, robot combat podiums, and championship finishes across premier technology festivals in India.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {otherAchievements.map((item, idx) => {
+              const isLastOdd = idx === otherAchievements.length - 1 && otherAchievements.length % 3 === 1;
+
+              return (
+                <ScrollReveal
+                  key={idx}
+                  delay={idx * 35}
+                  className={isLastOdd ? 'sm:col-span-2 lg:col-span-1 lg:col-start-2' : ''}
+                >
+                  <GlassCard
+                    badge={item.badge}
+                    spotlightColor="rgba(255, 255, 255, 0.08)"
+                    className="p-5 sm:p-6 group hover:border-cyan-400/40 transition-all duration-300 flex flex-col justify-between h-full"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between font-mono text-[10px] text-slate-400 mb-2.5">
+                        <span className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/10 font-bold text-white">
+                          {item.year}
+                        </span>
+                        <span className="text-[9px] uppercase tracking-wider text-slate-400 font-mono">
+                          {item.badge}
+                        </span>
+                      </div>
+
+                      <h4 className="font-modern font-bold text-xs sm:text-sm text-slate-300 uppercase tracking-wider mb-2">
+                        {item.venue}
+                      </h4>
+
+                      <p className="font-modern font-black text-sm sm:text-base text-white uppercase tracking-tight group-hover:text-cyan-300 transition-colors">
+                        {item.title}
+                      </p>
+
+                      {/* Archive Photo if available */}
+                      {item.image && (
+                        <div className="relative w-full h-32 sm:h-36 rounded-lg overflow-hidden mt-3 border border-white/10 bg-black/40 shadow-inner group/img">
+                          <Image
+                            src={item.image}
+                            alt={item.title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 350px"
+                            className="object-cover group-hover/img:scale-105 transition-transform duration-500 ease-out"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="mt-4 pt-2.5 border-t border-white/10 flex items-center justify-between font-mono text-[9px] text-slate-400">
+                      <span className="uppercase tracking-widest text-cyan-400/80">Podium Validated</span>
+                      <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
+                    </div>
+                  </GlassCard>
+                </ScrollReveal>
+              );
+            })}
           </div>
         </section>
 

@@ -32,23 +32,40 @@ export default function GlassCard({
   ...props
 }: GlassCardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const spotlightRef = useRef<HTMLDivElement>(null);
+  const rectRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null);
   const rafRef = useRef<number>(0);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [opacity, setOpacity] = useState(0);
+
+  const handlePointerEnter = useCallback(() => {
+    const el = containerRef.current;
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      rectRef.current = { left: rect.left, top: rect.top, width: rect.width || 1, height: rect.height || 1 };
+    }
+    if (spotlightRef.current) {
+      spotlightRef.current.style.opacity = '1';
+    }
+  }, []);
 
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
+    if (!rectRef.current) return;
     const { clientX, clientY } = e;
+    const rect = rectRef.current;
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+
+    if (spotlightRef.current) {
+      spotlightRef.current.style.background = `radial-gradient(400px circle at ${x}px ${y}px, ${spotlightColor}, transparent 70%)`;
+    }
 
     if (tilt && e.pointerType === 'mouse' && !rafRef.current) {
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = 0;
         const el = containerRef.current;
-        if (!el) return;
+        if (!el || !rectRef.current) return;
 
-        const rect = el.getBoundingClientRect();
-        const px = ((clientX - rect.left) / rect.width) * 100;
-        const py = ((clientY - rect.top) / rect.height) * 100;
+        const px = (x / rect.width) * 100;
+        const py = (y / rect.height) * 100;
 
         el.style.setProperty('--card-hx', `${px.toFixed(1)}%`);
         el.style.setProperty('--card-hy', `${py.toFixed(1)}%`);
@@ -56,17 +73,13 @@ export default function GlassCard({
         el.style.setProperty('--card-ry', `${(-(px - 50) / TILT_DIV).toFixed(2)}deg`);
       });
     }
-
-    const rect = containerRef.current.getBoundingClientRect();
-    setPosition({ x: clientX - rect.left, y: clientY - rect.top });
-  }, [tilt]);
-
-  const handlePointerEnter = useCallback(() => {
-    setOpacity(1);
-  }, []);
+  }, [tilt, spotlightColor]);
 
   const handlePointerLeave = useCallback(() => {
-    setOpacity(0);
+    rectRef.current = null;
+    if (spotlightRef.current) {
+      spotlightRef.current.style.opacity = '0';
+    }
     const el = containerRef.current;
     if (!el) return;
     for (const prop of ['--card-hx', '--card-hy', '--card-rx', '--card-ry']) {
@@ -97,11 +110,8 @@ export default function GlassCard({
 
       {/* Dynamic Cursor Spotlight Overlay */}
       <div
-        className="pointer-events-none absolute inset-0 rounded-[1.75rem] transition-opacity duration-300 -z-0"
-        style={{
-          opacity,
-          background: `radial-gradient(400px circle at ${position.x}px ${position.y}px, ${spotlightColor}, transparent 70%)`,
-        }}
+        ref={spotlightRef}
+        className="pointer-events-none absolute inset-0 rounded-[1.75rem] opacity-0 transition-opacity duration-300 -z-0"
       />
 
       {/* Outer Hairline Border */}

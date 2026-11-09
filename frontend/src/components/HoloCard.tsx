@@ -13,19 +13,28 @@ const TILT_DIV = 3.5; // Lower = steeper tilt, Higher = subtler tilt
 
 export default function HoloCard({ children, className = "", onClick }: HoloCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const rectRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null);
   const rafRef = useRef<number>(0);
+
+  const handlePointerEnter = useCallback(() => {
+    const el = cardRef.current;
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      rectRef.current = { left: rect.left, top: rect.top, width: rect.width || 1, height: rect.height || 1 };
+    }
+  }, []);
 
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     // Only animate for fine mouse pointers
-    if (e.pointerType !== "mouse" || rafRef.current) return;
+    if (e.pointerType !== "mouse" || rafRef.current || !rectRef.current) return;
 
     const { clientX, clientY } = e;
     rafRef.current = requestAnimationFrame(() => {
       rafRef.current = 0;
       const el = cardRef.current;
-      if (!el) return;
+      const rect = rectRef.current;
+      if (!el || !rect) return;
 
-      const rect = el.getBoundingClientRect();
       const px = ((clientX - rect.left) / rect.width) * 100;
       const py = ((clientY - rect.top) / rect.height) * 100;
 
@@ -37,6 +46,7 @@ export default function HoloCard({ children, className = "", onClick }: HoloCard
   }, []);
 
   const handlePointerLeave = useCallback(() => {
+    rectRef.current = null;
     const el = cardRef.current;
     if (!el) return;
     for (const prop of ["--card-hx", "--card-hy", "--card-rx", "--card-ry"]) {
@@ -48,6 +58,7 @@ export default function HoloCard({ children, className = "", onClick }: HoloCard
     <div
       ref={cardRef}
       onClick={onClick}
+      onPointerEnter={handlePointerEnter}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       className={`holo-card group ${className}`}

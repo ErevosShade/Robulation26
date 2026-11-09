@@ -105,11 +105,21 @@ export default function RoverWireframe3D({
           worker.postMessage({ type: 'resize', width: w, height: h });
         };
 
+        const io = new IntersectionObserver(
+          ([entry]) => {
+            if (isDisposed || !worker) return;
+            worker.postMessage({ type: entry.isIntersecting ? 'resume' : 'pause' });
+          },
+          { threshold: 0.05 }
+        );
+        io.observe(container);
+
         window.addEventListener('mousemove', onPointerMove, { passive: true });
         window.addEventListener('resize', handleResize, { passive: true });
 
         return () => {
           isDisposed = true;
+          io.disconnect();
           window.removeEventListener('mousemove', onPointerMove);
           window.removeEventListener('resize', handleResize);
           if (worker) {
@@ -229,7 +239,12 @@ export default function RoverWireframe3D({
 
       window.addEventListener('mousemove', onPointerMove, { passive: true });
 
+      let isVisible = true;
       const animate = () => {
+        if (!isVisible) {
+          mainAnimationId = null;
+          return;
+        }
         mainAnimationId = requestAnimationFrame(animate);
         const elapsed = clock.getElapsedTime();
 
@@ -246,6 +261,18 @@ export default function RoverWireframe3D({
 
       animate();
 
+      const ioFallback = new IntersectionObserver(
+        ([entry]) => {
+          if (isDisposed) return;
+          isVisible = entry.isIntersecting;
+          if (isVisible && mainAnimationId === null) {
+            animate();
+          }
+        },
+        { threshold: 0.05 }
+      );
+      ioFallback.observe(container);
+
       const handleResize = () => {
         if (!container || isDisposed) return;
         const w = container.clientWidth || 800;
@@ -259,6 +286,7 @@ export default function RoverWireframe3D({
 
       return () => {
         isDisposed = true;
+        ioFallback.disconnect();
         if (mainAnimationId !== null) {
           cancelAnimationFrame(mainAnimationId);
         }
