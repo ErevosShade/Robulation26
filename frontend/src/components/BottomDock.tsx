@@ -2,7 +2,11 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+<<<<<<< Updated upstream
 import { X, Layers } from 'lucide-react';
+=======
+import Image from 'next/image';
+>>>>>>> Stashed changes
 
 interface BottomDockProps {
   theme?: 'light' | 'dark';
@@ -141,17 +145,23 @@ export default function BottomDock({
           type="button"
           onClick={() => setIsOpen(true)}
           aria-label="Open Navigation Dock"
-          className="group relative w-12 h-12 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-[#050914]/90 hover:bg-[#071026] border border-cyan-400/40 hover:border-cyan-300 shadow-[0_4px_24px_rgba(0,0,0,0.8),0_0_20px_rgba(56,189,248,0.35)] hover:shadow-[0_4px_30px_rgba(0,0,0,0.9),0_0_28px_rgba(56,189,248,0.6)] backdrop-blur-xl transition-all duration-300 active:scale-90 cursor-pointer animate-in fade-in zoom-in-75"
+          className="group relative w-12 h-12 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-[#050811]/90 hover:bg-[#070b18] border border-white/20 hover:border-white/40 shadow-[0_4px_24px_rgba(0,0,0,0.8),0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_4px_30px_rgba(0,0,0,0.9),0_0_28px_rgba(255,255,255,0.3)] backdrop-blur-xl transition-all duration-300 active:scale-90 cursor-pointer animate-in fade-in zoom-in-75"
         >
           {/* Subtle Ambient Pulse Ring */}
-          <span className="absolute -inset-1 rounded-full bg-cyan-400/20 blur-sm animate-pulse pointer-events-none" />
+          <span className="absolute -inset-1 rounded-full bg-white/10 blur-sm animate-pulse pointer-events-none" />
 
           {/* Rotating Glowing Pip Ring */}
-          <span className="absolute inset-[2px] rounded-full border border-dashed border-cyan-400/30 group-hover:border-cyan-300/60 transition-colors pointer-events-none" />
+          <span className="absolute inset-[2px] rounded-full border border-dashed border-white/20 group-hover:border-white/50 transition-colors pointer-events-none" />
 
-          {/* Center Mechatronics Icon */}
-          <div className="relative z-10 flex flex-col items-center justify-center text-cyan-300 group-hover:text-white transition-colors">
-            <Layers className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+          {/* Center Robolution Logo */}
+          <div className="relative z-10 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 transition-transform duration-300 group-hover:scale-110">
+            <Image
+              src="/robolution-icon-bright.png"
+              alt="Robolution Logo"
+              width={32}
+              height={32}
+              className="object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]"
+            />
           </div>
 
           {/* Tooltip / Micro-Label */}

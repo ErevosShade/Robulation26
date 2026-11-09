@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import Sidebar from '@/components/Sidebar';
 import TechText from '@/components/TechText';
@@ -16,6 +17,9 @@ import ScrollReveal from '@/components/ScrollReveal';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import DecryptedText from '@/components/DecryptedText';
 import UnfurlingGallery from '@/components/ui/3d-parallax-unfurling-gallery';
+import SponsorModal from '@/components/SponsorModal';
+import RoboSagaSlider from '@/components/RoboSagaSlider';
+import SectionSlider from '@/components/SectionSlider';
 import {
   Wrench,
   Cpu,
@@ -23,6 +27,9 @@ import {
   ChevronDown,
   Mail,
   Crosshair,
+  Shield,
+  Trophy,
+  ArrowRight
 } from 'lucide-react';
 
 export default function Home() {
@@ -68,6 +75,9 @@ export default function Home() {
         id="hero"
         className="relative w-full h-[100dvh] min-h-[700px] flex flex-col justify-between overflow-hidden select-none z-10 group/hero"
       >
+        {/* Top Left Corner: SPONSOR US Trigger Button & Dialogue Box */}
+        <SponsorModal className="absolute top-16 left-3 sm:left-4 md:top-0 md:left-14 lg:left-16 z-30 pointer-events-auto" />
+
         {/* Top Right Corner Tech Box: EST. 2001 // BIT MESRA */}
         <div className="hidden sm:block absolute top-0 right-0 z-30 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
           <HudBox compact={true} theme="dark" title="EST. 2001 // BIT MESRA" />
@@ -334,12 +344,13 @@ export default function Home() {
       </section>
 
       {/* =====================================================================
-          4. ROBOSAGA '26 FEATURE BANNER WITH GLASSMORPHISM & ISLAND BUTTONS
+          4. ROBOSAGA & ARENA SECTIONS (ROBOSAGA SLIDER + ROBOWARS & ROBOCON)
       ===================================================================== */}
       <section
         id="robosaga"
-        className="relative z-20 py-20 sm:py-32 px-4 sm:px-8 md:pl-20 max-w-7xl mx-auto"
+        className="relative z-20 py-20 sm:py-32 px-4 sm:px-8 md:pl-24 md:pr-12 max-w-7xl mx-auto"
       >
+<<<<<<< Updated upstream
         <GlassCard
           badge="ANNUAL TECHNO-MECHATRONICS FESTIVAL // BIT MESRA"
           spotlightColor="rgba(255, 159, 252, 0.2)"
@@ -352,35 +363,229 @@ export default function Home() {
             <p className="font-modern text-sm sm:text-base text-slate-200 mt-4 leading-relaxed">
               Eastern India&apos;s premier collegiate robotics arena. 3 days of heavy-armor combat wars, autonomous maze navigators, high-speed line followers, and CAD fabrication hackathons hosted at Birla Institute of Technology, Mesra.
             </p>
-
-            <div className="mt-8 flex flex-wrap gap-4 items-center">
-              <IslandButton
-                href="https://www.facebook.com/TeamRobolution"
-                external={true}
-                variant="primary"
-              >
-                Register for RoboSaga
-              </IslandButton>
-
-              <IslandButton
-                href="https://www.instagram.com/robolution.bitm/"
-                external={true}
-                variant="glass"
-              >
-                Follow @robolution.bitm
-              </IslandButton>
+=======
+        {/* Section Header: RoboSaga */}
+        <ScrollReveal direction="up">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-white/10 mb-8 sm:mb-10">
+            <div>
+              <div className="font-mono text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-widest mb-1.5">
+                ANNUAL TECHNO-MANAGEMENT FESTIVAL &bull; BIT MESRA
+              </div>
+              <h2 className="font-modern font-black text-3xl sm:text-5xl lg:text-6xl text-white uppercase tracking-tight">
+                ROBOSAGA
+              </h2>
             </div>
+            <span className="font-mono text-xs text-slate-500 uppercase tracking-wider">
+              FLAGSHIP CARNIVAL &bull; EST. ARENA
+            </span>
+          </div>
+        </ScrollReveal>
+
+        {/* 1. RoboSaga Section with Auto-Changing Gallery Carousel */}
+        <ScrollReveal direction="up">
+          <GlassCard
+            badge="ANNUAL TECHNO-MECHATRONICS FESTIVAL • BIT MESRA"
+            spotlightColor="rgba(244, 63, 94, 0.16)"
+            className="p-6 sm:p-10 lg:p-12"
+          >
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+              {/* Left Editorial Info */}
+              <div className="w-full lg:w-1/2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-slate-300 font-mono text-[10px] uppercase tracking-wider mb-4">
+                  <span>FLAGSHIP CARNIVAL</span>
+                </div>
+                <h3 className="font-modern font-black text-2xl sm:text-4xl text-white uppercase tracking-tight">
+                  EASTERN INDIA&apos;S PREMIER ARENA
+                </h3>
+                <p className="font-modern text-sm sm:text-base text-slate-300 mt-4 leading-relaxed">
+                  Eastern India&apos;s premier collegiate robotics arena. An intense multi-day showcase of heavy-armor combat battles, autonomous maze navigators, precision line followers, drone agility, and keynote guest symposiums hosted at Birla Institute of Technology, Mesra.
+                </p>
+>>>>>>> Stashed changes
+
+                <div className="mt-8 flex flex-wrap gap-3 items-center">
+                  <IslandButton
+                    href="/events#robosaga"
+                    variant="primary"
+                  >
+                    Explore RoboSaga
+                  </IslandButton>
+                  <IslandButton
+                    href="/gallery"
+                    variant="glass"
+                  >
+                    View Festival Gallery
+                  </IslandButton>
+                </div>
+              </div>
+
+              {/* Right Auto-Changing Live Gallery Slider */}
+              <div className="w-full lg:w-1/2">
+                <RoboSagaSlider />
+              </div>
+            </div>
+<<<<<<< Updated upstream
           </div>
         </GlassCard>
       </section>
+=======
+          </GlassCard>
+        </ScrollReveal>
+
+        {/* Generous Section Separation */}
+        <div className="pt-24 sm:pt-32">
+          {/* 2. Sub-Header: Featured Participation */}
+          <ScrollReveal direction="up">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b border-white/10 mb-4 sm:mb-5">
+              <div>
+                <div className="font-mono text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-widest mb-1">
+                  COMPETITIVE DIVISIONS &bull; NATIONAL ARENAS
+                </div>
+                <h2 className="font-modern font-black text-3xl sm:text-5xl lg:text-6xl text-white uppercase tracking-tight">
+                  FEATURED PARTICIPATION
+                </h2>
+              </div>
+              <span className="font-mono text-xs text-slate-500 uppercase tracking-wider">
+                IIT BOMBAY TECHFEST &bull; ABU ROBOCON &bull; BITS QUARK
+              </span>
+            </div>
+          </ScrollReveal>
+
+          {/* 2 Dedicated Sections: RoboWars & Robocon */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          {/* Section 1: RoboWars Arena */}
+          <ScrollReveal direction="left" className="h-full">
+            <GlassCard
+              badge="HEAVYWEIGHT COMBAT MECHATRONICS • DIVISION"
+              spotlightColor="rgba(239, 68, 68, 0.18)"
+              className="p-6 sm:p-7 flex flex-col justify-between h-full group"
+              outerClassName="h-full"
+            >
+              <div className="flex-1 flex flex-col">
+                <SectionSlider
+                  slides={[
+                    {
+                      src: '/gallery/ROBOWARS 2025 IITB TECHFEST.jpg',
+                      alt: 'RoboWars 2025 IIT Bombay Techfest Squad'
+                    },
+                    {
+                      src: '/timeline/robowars-2025.jpg',
+                      alt: 'Combat Drum Spinner Robot'
+                    },
+                    {
+                      src: '/gallery/kratos-combat-drum-bot.jpg',
+                      alt: 'Kratos Heavy Drum Robot'
+                    },
+                    {
+                      src: '/timeline/robowars-2025-portfolio.jpg',
+                      alt: 'RoboWars 2025 Engineering Blueprint'
+                    },
+                    {
+                      src: '/timeline/robowars-bits-pilani-2021.jpg',
+                      alt: 'RoboWars BITS Pilani Podium'
+                    }
+                  ]}
+                  tagColor="red"
+                  intervalMs={3600}
+                />
+
+                <div className="flex items-center gap-2 text-slate-400 font-mono text-xs font-semibold uppercase tracking-wider mb-2">
+                  <Shield className="w-4 h-4 text-slate-300" />
+                  <span>NATIONAL COMBAT ARENAS</span>
+                </div>
+                <h3 className="font-modern font-black text-xl sm:text-2xl text-white uppercase tracking-tight">
+                  ROBO WARS
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-slate-300 mt-2.5 leading-relaxed flex-1">
+                  Engineering high-energy combat robots equipped with 6,000 RPM hardened tool-steel drum spinners, Hardox-500 armored wedges, and dual high-torque invertible drivetrains to survive high-G impact clashes at IIT Bombay Techfest, BITS Pilani Quark, and national arenas.
+                </p>
+              </div>
+
+              <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-between">
+                <Link
+                  href="/events#robowars"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-red-400 hover:text-white uppercase tracking-wider transition-colors"
+                >
+                  <span>VIEW ROBOWARS PODIUMS</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+                <span className="font-mono text-[10px] text-slate-500">QUARTER-FINALIST TECHFEST &apos;25</span>
+              </div>
+            </GlassCard>
+          </ScrollReveal>
+
+          {/* Section 2: ABU Robocon */}
+          <ScrollReveal direction="right" className="h-full">
+            <GlassCard
+              badge="AUTONOMOUS NATIONAL CAMPAIGNS • TEAM PRATYUMNIS"
+              spotlightColor="rgba(56, 189, 248, 0.18)"
+              className="p-6 sm:p-7 flex flex-col justify-between h-full group"
+              outerClassName="h-full"
+            >
+              <div className="flex-1 flex flex-col">
+                <SectionSlider
+                  slides={[
+                    {
+                      src: '/timeline/robocon-2026-cad-black.jpg',
+                      alt: 'ABU Robocon 2026 CAD Architecture'
+                    },
+                    {
+                      src: '/gallery/robocon-podium-team.jpg',
+                      alt: 'ABU Robocon Team on National Podium'
+                    },
+                    {
+                      src: '/gallery/Robocon 2016 (Arena).jpeg',
+                      alt: 'Robocon 2016 Arena Match'
+                    },
+                    {
+                      src: '/gallery/ROBOCON 2015 BEST NON QUATERFINALIST.jpg',
+                      alt: 'Robocon Best Non Quarterfinalist Award'
+                    },
+                    {
+                      src: '/gallery/ROBOCON 2015 (WITH OUR VICE CHANCELLOR).jpg',
+                      alt: 'Robocon Team with Vice Chancellor'
+                    }
+                  ]}
+                  tagColor="cyan"
+                  intervalMs={4100}
+                />
+
+                <div className="flex items-center gap-2 text-slate-400 font-mono text-xs font-semibold uppercase tracking-wider mb-2">
+                  <Trophy className="w-4 h-4 text-slate-300" />
+                  <span>ASIA-PACIFIC ROBOT BROADCASTING</span>
+                </div>
+                <h3 className="font-modern font-black text-xl sm:text-2xl text-white uppercase tracking-tight">
+                  ROBOCON
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-slate-300 mt-2.5 leading-relaxed flex-1">
+                  Flagship autonomous campaign of Team Pratyumnis representing BIT Mesra. Developing 4-wheel holonomic omni-drive bases, pneumatic projectile launchers, robotic arm linkages, and real-time computer vision guidance — holding a historic 100/100 CAD score benchmark and ₹1.5L MathWorks national honors.
+                </p>
+              </div>
+
+              <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-between">
+                <Link
+                  href="/events#robocon"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-cyan-400 hover:text-white uppercase tracking-wider transition-colors"
+                >
+                  <span>VIEW ROBOCON EXPEDITIONS</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+                <span className="font-mono text-[10px] text-slate-500">2013 &ndash; 2026 CAMPAIGNS</span>
+              </div>
+            </GlassCard>
+          </ScrollReveal>
+        </div>
+      </div>
+    </section>
+>>>>>>> Stashed changes
 
       {/* =====================================================================
           7. HARDWARE MANIFESTO: NO AI SLOP, JUST REAL HARDWARE
       ===================================================================== */}
       <section
         id="manifesto"
-        className="relative z-20 py-20 sm:py-36 px-4 sm:px-8 md:pl-20 max-w-5xl mx-auto"
+        className="relative z-20 py-16 sm:py-24 px-6 sm:px-12 md:pl-28 md:pr-14 max-w-7xl mx-auto"
       >
+<<<<<<< Updated upstream
         <GlassCard
           badge="OUR ENGINEERING CREED // HARDWARE PRIMACY"
           spotlightColor="rgba(255, 159, 252, 0.25)"
@@ -398,6 +603,77 @@ export default function Home() {
             </IslandButton>
           </div>
         </GlassCard>
+=======
+        <ScrollReveal direction="up">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Col: Badge, Quote & CTA */}
+            <div className="lg:col-span-7 flex flex-col items-start text-left">
+              {/* Minimal Header Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 mb-6 backdrop-blur-md">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                <span className="font-mono text-[10px] sm:text-[10.5px] uppercase tracking-[0.2em] text-slate-400">
+                  OUR ENGINEERING CREED &bull; HARDWARE PRIMACY
+                </span>
+              </div>
+
+              {/* Natural Clean Left-Aligned Typography */}
+              <blockquote className="font-modern font-black text-2xl sm:text-4xl md:text-5xl tracking-tight text-white uppercase leading-tight">
+                &ldquo;Software is easy until it has to push{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-cyan-300 to-indigo-400">
+                  30 kilograms of steel at 40 kilometers an hour
+                </span>
+                .&rdquo;
+              </blockquote>
+
+              <p className="mt-5 font-sans text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
+                At Robolution, we do not build mockups. We mill structural aluminum, design custom multi-layer circuit boards, debug interrupt routines at 3 AM, and torture-test every robot until it survives the arena.
+              </p>
+
+              <div className="mt-7">
+                <IslandButton href="/about" variant="glass">
+                  Read Our Full Heritage &amp; Vision
+                </IslandButton>
+              </div>
+            </div>
+
+            {/* Right Col: Authentic Society Metrics & Engineering Records */}
+            <div className="lg:col-span-5 flex flex-col gap-3.5 font-mono">
+              <div className="p-4 sm:p-5 rounded-2xl border border-white/10 bg-[#060a12]/80 backdrop-blur-md shadow-lg flex items-center justify-between gap-4">
+                <div>
+                  <div className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">FOUNDED AT BIT MESRA</div>
+                  <div className="text-white font-black text-2xl sm:text-3xl font-mono mt-0.5">24+ YEARS</div>
+                  <div className="text-slate-400 font-sans text-xs mt-0.5">Pioneering collegiate robotics since 2001.</div>
+                </div>
+                <div className="px-3 py-1 rounded bg-white/[0.04] border border-white/10 text-[10px] text-slate-400 shrink-0">
+                  EST. 2001
+                </div>
+              </div>
+
+              <div className="p-4 sm:p-5 rounded-2xl border border-white/10 bg-[#060a12]/80 backdrop-blur-md shadow-lg flex items-center justify-between gap-4">
+                <div>
+                  <div className="text-[10px] text-rose-400 font-bold uppercase tracking-widest">ACTIVE ENGINEERING CADRE</div>
+                  <div className="text-white font-black text-2xl sm:text-3xl font-mono mt-0.5">80+ MEMBERS</div>
+                  <div className="text-slate-400 font-sans text-xs mt-0.5">Undergrads across Mechanical, ECE, and CS wings.</div>
+                </div>
+                <div className="px-3 py-1 rounded bg-white/[0.04] border border-white/10 text-[10px] text-slate-400 shrink-0">
+                  TEAM ROSTER
+                </div>
+              </div>
+
+              <div className="p-4 sm:p-5 rounded-2xl border border-white/10 bg-[#060a12]/80 backdrop-blur-md shadow-lg flex items-center justify-between gap-4">
+                <div>
+                  <div className="text-[10px] text-amber-400 font-bold uppercase tracking-widest">ARENA PODIUMS &amp; CITATIONS</div>
+                  <div className="text-white font-black text-2xl sm:text-3xl font-mono mt-0.5">15+ NATIONAL WINS</div>
+                  <div className="text-slate-400 font-sans text-xs mt-0.5">Techfest, Robocon, BITS Quark, and SIH hardware.</div>
+                </div>
+                <div className="px-3 py-1 rounded bg-white/[0.04] border border-white/10 text-[10px] text-slate-400 shrink-0">
+                  RECORD
+                </div>
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
+>>>>>>> Stashed changes
       </section>
 
       {/* =====================================================================
