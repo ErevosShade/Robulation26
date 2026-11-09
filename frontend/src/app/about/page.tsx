@@ -426,7 +426,7 @@ export default function AboutPage() {
                             >
                               <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
                                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                                {m.code} // {m.tag}
+                                {m.code} {'//'} {m.tag}
                               </span>
                               <span className="text-slate-300 font-mono text-[8.5px] px-2 py-0.5 rounded bg-white/[0.04] border border-white/10">
                                 {m.status}

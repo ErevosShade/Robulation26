@@ -60,11 +60,11 @@ export function RosterHeader({ adminEmail, adminName }: RosterHeaderProps) {
 
         {/* Hazard ticks aesthetic */}
         <div className="hidden lg:flex items-center gap-1 text-zinc-700 font-mono text-xs select-none">
-          <span>///</span>
+          <span>{'///'}</span>
           <span className="tracking-widest uppercase text-[10px] text-zinc-500">
             SYS_TELEMETRY: ACTIVE
           </span>
-          <span>///</span>
+          <span>{'///'}</span>
         </div>
       </div>
     </header>

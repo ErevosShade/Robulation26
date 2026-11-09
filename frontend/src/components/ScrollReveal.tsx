@@ -54,19 +54,21 @@ export default function ScrollReveal({
     return () => observer.disconnect();
   }, [threshold]);
 
-  const revealClass = {
+  const revealClass: Record<'up' | 'left' | 'right' | 'scale' | 'fade', string> = {
     up: 'reveal',
     left: 'reveal-left',
     right: 'reveal-right',
     scale: 'reveal-scale',
-  }[direction];
+    fade: 'reveal-fade',
+  };
+  const activeRevealClass = revealClass[direction] ?? 'reveal';
 
   const staggerClass = stagger ? 'reveal-stagger' : '';
 
   return (
     <Tag
       ref={ref as any}
-      className={`${revealClass} ${visible ? 'revealed' : ''} ${staggerClass} ${className}`}
+      className={`${activeRevealClass} ${visible ? 'revealed' : ''} ${staggerClass} ${className}`}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}

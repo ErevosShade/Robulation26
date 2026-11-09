@@ -879,7 +879,7 @@ export function InventoryBulkImportTerminal({ user }: Props) {
               </div>
 
               <div className="p-3 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-300 text-[11px] leading-relaxed">
-                Existing inventory balances will strictly NOT be overwritten. Initial stock will be recorded with transactionType <span className="text-white font-bold">'initial_stock'</span> referencing your admin email ({user.email}).
+                Existing inventory balances will strictly NOT be overwritten. Initial stock will be recorded with transactionType <span className="text-white font-bold">&apos;initial_stock&apos;</span> referencing your admin email ({user.email}).
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
