@@ -18,6 +18,7 @@ import AnimatedCounter from '@/components/AnimatedCounter';
 import DecryptedText from '@/components/DecryptedText';
 import UnfurlingGallery from '@/components/ui/3d-parallax-unfurling-gallery';
 import SponsorModal from '@/components/SponsorModal';
+import SponsorsMarquee from '@/components/SponsorsMarquee';
 import RoboSagaSlider from '@/components/RoboSagaSlider';
 import SectionSlider from '@/components/SectionSlider';
 import {
@@ -63,10 +64,11 @@ export default function Home() {
         <div className="absolute inset-0 bg-radial-[circle_at_center,transparent_35%,#020307_92%] opacity-60" />
       </div>
 
-      {/* =====================================================================
-          1. LEFT SMOOTH TRAPEZOID GLASSMORPHIC SIDEBAR (From spark Branch)
-      ===================================================================== */}
+      {/* Left Smooth Sidebar */}
       <Sidebar theme="dark" />
+
+      {/* Fixed Bottom Floating Dock (Global across Home Page) */}
+      <BottomDock theme="dark" />
 
       {/* =====================================================================
           2. HERO CENTERSTAGE: THE ELEVATED SPARK ARCHITECTURAL COMPOSITION
@@ -189,9 +191,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        {/* Bottom Smooth Trapezoid Dock with Action Buttons (Minimizes to Sticky Ball on Scroll) */}
-        <BottomDock theme="dark" />
 
         {/* Bottom Navigation Link */}
         <div className="relative z-20 pb-4 px-4 sm:px-6 flex items-center justify-end pointer-events-none md:pl-20">
@@ -634,6 +633,11 @@ export default function Home() {
           </div>
         </ScrollReveal>
       </section>
+
+      {/* =====================================================================
+          7B. OUR SPONSORS: CONTINUOUS HARDWARE & INDUSTRY ALLIANCE MARQUEE
+      ===================================================================== */}
+      <SponsorsMarquee />
 
       {/* =====================================================================
           8. INSTITUTIONAL FOOTER & AUTHENTIC CONTACT
