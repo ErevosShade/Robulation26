@@ -5,133 +5,59 @@ import ScrollReveal from '@/components/ScrollReveal';
 
 interface Sponsor {
   name: string;
-  category: string;
-  icon: React.ReactNode;
+  logo: string;
+  width: number;
+  height: number;
 }
 
 const sponsors: Sponsor[] = [
   {
-    name: 'MathWorks',
-    category: 'MATLAB & Simulink',
-    icon: (
-      <svg className="w-7 h-7 text-sky-400 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M3 17.5L7.5 7L12 15L16.5 9.5L21 16.5H18.5L16.5 12.5L12 18.5L7.5 10.5L4.5 17.5H3Z" />
-        <circle cx="12" cy="6" r="2" fill="currentColor" opacity="0.6" />
-      </svg>
-    ),
-  },
-  {
-    name: 'SolidWorks',
-    category: 'CAD & FEA Kinematics',
-    icon: (
-      <svg className="w-7 h-7 text-red-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <path d="M12 2L3 7L12 12L21 7L12 2Z" strokeLinejoin="round" />
-        <path d="M3 7V17L12 22V12" strokeLinejoin="round" />
-        <path d="M21 7V17L12 22" strokeLinejoin="round" />
-        <circle cx="12" cy="12" r="1.5" fill="currentColor" />
-      </svg>
-    ),
+    name: 'BITOSA Global',
+    logo: '/sponsors/bitosa-global-dark.png',
+    width: 157,
+    height: 80,
   },
   {
     name: 'Texas Instruments',
-    category: 'Cortex MCUs & Power',
-    icon: (
-      <svg className="w-7 h-7 text-rose-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <rect x="3" y="3" width="18" height="18" rx="3" strokeLinecap="round" />
-        <path d="M8 8H16V10H13V16H11V10H8V8Z" fill="currentColor" />
-        <circle cx="15.5" cy="15.5" r="1" fill="currentColor" />
-      </svg>
-    ),
+    logo: '/sponsors/texas-instruments-dark.png',
+    width: 248,
+    height: 65,
   },
   {
-    name: 'STMicroelectronics',
-    category: 'STM32 Microcontrollers',
-    icon: (
-      <svg className="w-7 h-7 text-blue-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <path d="M4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20" strokeLinecap="round" />
-        <path d="M8 12C8 9.79 9.79 8 12 8C14.21 8 16 9.79 16 12C16 14.21 14.21 16 12 16" strokeLinecap="round" />
-        <circle cx="12" cy="12" r="2" fill="currentColor" />
-      </svg>
-    ),
+    name: 'SolidWorks',
+    logo: '/sponsors/solidworks-dark.png',
+    width: 296,
+    height: 67,
+  },
+  {
+    name: 'BITOSA Alumni Association',
+    logo: '/sponsors/bitosa-seal-dark.png',
+    width: 132,
+    height: 132,
   },
   {
     name: 'NVIDIA',
-    category: 'Jetson Autonomous AI',
-    icon: (
-      <svg className="w-7 h-7 text-emerald-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <path d="M12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C15.31 20 18.15 17.98 19.34 15.1" strokeLinecap="round" />
-        <path d="M12 7.5C9.51 7.5 7.5 9.51 7.5 12C7.5 14.49 9.51 16.5 12 16.5C13.86 16.5 15.46 15.36 16.13 13.74" strokeLinecap="round" />
-        <circle cx="12" cy="12" r="2" fill="currentColor" />
-      </svg>
-    ),
+    logo: '/sponsors/nvidia-dark.png',
+    width: 152,
+    height: 120,
   },
   {
-    name: 'Ansys',
-    category: 'FEA Stress & Fluidics',
-    icon: (
-      <svg className="w-7 h-7 text-amber-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <path d="M5 19L12 4L19 19L14 19L12 14L10 19H5Z" strokeLinejoin="round" fill="currentColor" fillOpacity="0.25" />
-        <line x1="8" y1="15" x2="16" y2="15" strokeLinecap="round" />
-      </svg>
-    ),
+    name: 'Gilbert',
+    logo: '/sponsors/gilbert-dark.png',
+    width: 159,
+    height: 107,
   },
   {
-    name: 'Autodesk',
-    category: 'Fusion 360 Fabrication',
-    icon: (
-      <svg className="w-7 h-7 text-cyan-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <path d="M3 17L12 3L21 17L17 21L12 16L7 21L3 17Z" strokeLinejoin="round" />
-        <circle cx="12" cy="11" r="1.5" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    name: 'PCBWay',
-    category: 'Rapid Hardware Fab',
-    icon: (
-      <svg className="w-7 h-7 text-sky-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <rect x="3" y="4" width="18" height="16" rx="2" strokeLinecap="round" />
-        <circle cx="8" cy="9" r="1.5" fill="currentColor" />
-        <circle cx="16" cy="9" r="1.5" fill="currentColor" />
-        <circle cx="12" cy="15" r="1.5" fill="currentColor" />
-        <path d="M8 9H16V15" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Arduino',
-    category: 'Sensor Telemetry & ESCs',
-    icon: (
-      <svg className="w-7 h-7 text-teal-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <circle cx="8" cy="12" r="5" strokeLinecap="round" />
-        <circle cx="16" cy="12" r="5" strokeLinecap="round" />
-        <path d="M6.5 12H9.5" strokeLinecap="round" />
-        <path d="M14.5 12H17.5M16 10.5V13.5" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    name: 'ROS 2',
-    category: 'Robotics Middleware',
-    icon: (
-      <svg className="w-7 h-7 text-sky-300 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-        <circle cx="6" cy="6" r="2" />
-        <circle cx="12" cy="6" r="2" />
-        <circle cx="18" cy="6" r="2" />
-        <circle cx="6" cy="12" r="2" />
-        <circle cx="12" cy="12" r="2.5" fill="#38bdf8" />
-        <circle cx="18" cy="12" r="2" />
-        <circle cx="6" cy="18" r="2" />
-        <circle cx="12" cy="18" r="2" />
-        <circle cx="18" cy="18" r="2" />
-      </svg>
-    ),
+    name: 'HRS Quality Sporting Goods',
+    logo: '/sponsors/hrs-dark.png',
+    width: 215,
+    height: 113,
   },
 ];
 
 export default function SponsorsMarquee() {
-  // Duplicate list to create a seamless infinite scrolling loop
-  const marqueeItems = [...sponsors, ...sponsors];
+  // Quadruple the 7 items for a seamless, continuous infinite scroll loop
+  const marqueeItems = [...sponsors, ...sponsors, ...sponsors, ...sponsors];
 
   return (
     <section
@@ -144,58 +70,40 @@ export default function SponsorsMarquee() {
       <ScrollReveal direction="up">
         {/* Section Header */}
         <div className="max-w-7xl mx-auto px-6 sm:px-12 pl-14 sm:pl-20 mb-10 sm:mb-14">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[2px] bg-white/[0.03] border border-white/10 font-mono text-[9px] sm:text-[10px] tracking-widest text-slate-300 uppercase mb-3 backdrop-blur-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.8)] animate-pulse" />
-              <span>INDUSTRIAL ALLIANCES • SPONSOR TELEMETRY</span>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <span className="font-mono text-xs text-sky-400 font-bold tracking-widest uppercase block mb-1">
+                INDUSTRIAL ALLIANCES • SPONSORS
+              </span>
+              <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
+                OUR SPONSORS
+              </h2>
             </div>
-            <h2 className="font-modern font-black text-3xl sm:text-5xl tracking-tight text-white uppercase mt-1">
-              OUR SPONSORS
-            </h2>
+            <p className="font-modern text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed font-mono">
+              Backed by alumni networks, industry leaders, and mechatronics patrons.
+            </p>
           </div>
-          <p className="font-modern text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed font-mono">
-            Backed by global engineering leaders, computational hardware manufacturers, and collegiate mechatronics patrons.
-          </p>
         </div>
-      </div>
-
       </ScrollReveal>
 
       {/* Marquee Track Container with Edge Gradient Fade */}
       <ScrollReveal direction="up" delay={120}>
-        <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-        <div className="flex w-max animate-marquee-left gap-4 sm:gap-6 py-2 select-none">
-          {marqueeItems.map((sponsor, index) => (
-            <div
-              key={`${sponsor.name}-${index}`}
-              className="relative group shrink-0 w-[230px] sm:w-[260px] h-[72px] sm:h-[80px] rounded-xl bg-[#040814]/80 hover:bg-[#071126]/90 border border-white/10 hover:border-sky-400/50 backdrop-blur-xl px-4 sm:px-5 flex items-center gap-3.5 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_24px_rgba(56,189,248,0.22)] cursor-default"
-            >
-              {/* Corner targeting reticles */}
-              <span className="pointer-events-none absolute top-2 right-2 font-mono text-[8px] text-white/20 select-none tracking-tighter">
-                +
-              </span>
-              <span className="pointer-events-none absolute bottom-2 left-2 font-mono text-[8px] text-white/20 select-none tracking-tighter">
-                +
-              </span>
-
-              {/* Sponsor Icon with glow effect */}
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0 group-hover:border-sky-400/40 group-hover:bg-sky-500/[0.08] transition-all duration-300">
-                {sponsor.icon}
+        <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="flex w-max animate-marquee-left items-center gap-12 sm:gap-18 py-4 select-none">
+            {marqueeItems.map((sponsor, index) => (
+              <div
+                key={`${sponsor.name}-${index}`}
+                className="shrink-0 flex items-center justify-center h-14 sm:h-18 px-4 opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-pointer"
+                title={sponsor.name}
+              >
+                <img
+                  src={sponsor.logo}
+                  alt={sponsor.name}
+                  className="h-9 sm:h-12 w-auto max-w-[180px] sm:max-w-[220px] object-contain drop-shadow-[0_2px_12px_rgba(56,189,248,0.15)] filter brightness-105 contrast-105"
+                />
               </div>
-
-              {/* Sponsor Info */}
-              <div className="flex flex-col min-w-0">
-                <span className="font-modern font-bold text-sm sm:text-base text-white group-hover:text-sky-300 transition-colors uppercase tracking-wider truncate">
-                  {sponsor.name}
-                </span>
-                <span className="font-mono text-[9px] sm:text-[10px] text-slate-400 group-hover:text-slate-300 uppercase tracking-widest truncate mt-0.5">
-                  {sponsor.category}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
         </div>
       </ScrollReveal>
     </section>

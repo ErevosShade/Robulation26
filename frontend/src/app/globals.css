@@ -51,6 +51,24 @@
     animation: eq-bounce 1.4s ease-in-out infinite alternate 0.1s;
   }
 
+  /* ─── Continuous Marquee (Right to Left) ─── */
+  @keyframes marquee-left {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee-left {
+    animation: marquee-left 34s linear infinite;
+  }
+
+  .animate-marquee-left:hover {
+    animation-play-state: paused;
+  }
+
   /* ─── Scroll-Reveal Entrance ─── */
   .reveal {
     opacity: 0;
