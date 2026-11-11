@@ -1,14 +1,7 @@
 "use client";
 
-import React, {
-  useRef,
-  useEffect,
-  useMemo,
-  useState,
-  useCallback,
-} from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import HoloCard from "@/components/HoloCard";
+import React, { useRef, useMemo } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const ROBOTICS_GALLERY_IMAGES = [
   "/combat-bot-wireframe.webp",
@@ -31,23 +24,31 @@ const ROBOTICS_GALLERY_IMAGES = [
 
 interface ImageCardProps {
   src: string;
-  onLoad?: () => void;
 }
 
-const ImageCard = ({ src, onLoad }: ImageCardProps) => {
+const ImageCard = React.memo(({ src }: ImageCardProps) => {
   return (
-    <HoloCard className="w-full h-[200px] sm:h-[300px] md:h-[400px] flex-shrink-0 cursor-pointer">
+    <div className="group relative w-full h-[220px] sm:h-[300px] md:h-[380px] flex-shrink-0 cursor-pointer overflow-hidden rounded-xl border border-white/10 hover:border-sky-400/50 bg-[#040814]/90 transition-all duration-300 hover:scale-[1.02] shadow-lg">
+      {/* Precision telemetry corner ticks */}
+      <div className="absolute top-1.5 left-1.5 w-2 h-2 border-t border-l border-sky-400/40 pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="absolute top-1.5 right-1.5 w-2 h-2 border-t border-r border-sky-400/40 pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="absolute bottom-1.5 left-1.5 w-2 h-2 border-b border-l border-sky-400/40 pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="absolute bottom-1.5 right-1.5 w-2 h-2 border-b border-r border-sky-400/40 pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+      {/* Subtle telemetry overlay vignette */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-sky-400/[0.04] opacity-40 group-hover:opacity-20 transition-opacity pointer-events-none z-10" />
+
       <img
         src={encodeURI(src)}
         alt="Robolution Mechatronics Asset"
         loading="lazy"
         decoding="async"
-        onLoad={onLoad}
-        className="w-full h-full object-cover opacity-85 hover:opacity-100 transition-opacity duration-300 rounded-[15px]"
+        className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity duration-300 rounded-[11px]"
       />
-    </HoloCard>
+    </div>
   );
-};
+});
+ImageCard.displayName = "ImageCard";
 
 export interface UnfurlingGalleryProps {
   images?: string[];
@@ -62,18 +63,6 @@ export default function Component({
 }: UnfurlingGalleryProps) {
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isReady, setIsReady] = useState(false);
-  const loadedCountRef = useRef(0);
-
-  const handleItemLoad = useCallback(() => {
-    loadedCountRef.current += 1;
-    if (!isReady && loadedCountRef.current >= 1) setIsReady(true);
-  }, [isReady]);
-
-  useEffect(() => {
-    const t = setTimeout(() => setIsReady(true), 1200);
-    return () => clearTimeout(t);
-  }, []);
 
   const colMedia = useMemo(() => {
     const pool = images && images.length > 0 ? images : ROBOTICS_GALLERY_IMAGES;
@@ -90,8 +79,7 @@ export default function Component({
     };
   }, [images]);
 
-  // LINKED SCROLL: In embedded mode, track window scroll relative to containerRef;
-  // In standalone mode, track scrollWrapperRef container.
+  // Track window scroll relative to containerRef (smoothly handled by Lenis)
   const { scrollYProgress } = useScroll(
     embedded
       ? {
@@ -105,29 +93,21 @@ export default function Component({
         }
   );
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 140,
-    damping: 24,
-    mass: 0.2,
-  });
+  // Fast GPU compositor transforms (scale & opacity) - zero layout reflow!
+  const bannerScale = useTransform(scrollYProgress, [0, 0.15], [0.94, 1]);
+  const bannerOpacity = useTransform(scrollYProgress, [0, 0.08], [0.5, 1]);
 
-  // Banner animations
-  const bannerWidth = useTransform(smoothProgress, [0, 0.15], ["90vw", "100vw"]);
-  const bannerHeight = useTransform(smoothProgress, [0, 0.15], ["80vh", "100vh"]);
-  const bannerRadius = useTransform(smoothProgress, [0, 0.15], ["48px", "0px"]);
-  const bannerBorderWidth = useTransform(smoothProgress, [0, 0.15], ["4px", "0px"]);
-
-  // 3D Matrix animations
-  const rotateY = useTransform(smoothProgress, [0.15, 1], [-45, -8]);
-  const rotateX = useTransform(smoothProgress, [0.15, 1], [25, 4]);
-  const rotateZ = useTransform(smoothProgress, [0.15, 1], [15, 2]);
-  const translateZ = useTransform(smoothProgress, [0.15, 1], [-800, 0]);
+  // 3D Matrix animations directly linked to scroll - no double spring delay
+  const rotateY = useTransform(scrollYProgress, [0.12, 1], [-45, -8]);
+  const rotateX = useTransform(scrollYProgress, [0.12, 1], [25, 4]);
+  const rotateZ = useTransform(scrollYProgress, [0.12, 1], [15, 2]);
+  const translateZ = useTransform(scrollYProgress, [0.12, 1], [-700, 0]);
 
   // Track columns parallax animations
-  const yCol1 = useTransform(smoothProgress, [0.15, 1], ["0%", "-40%"]);
-  const yCol2 = useTransform(smoothProgress, [0.15, 1], ["-40%", "10%"]);
-  const yCol3 = useTransform(smoothProgress, [0.15, 1], ["0%", "-40%"]);
-  const yCol4 = useTransform(smoothProgress, [0.15, 1], ["-30%", "20%"]);
+  const yCol1 = useTransform(scrollYProgress, [0.12, 1], ["0%", "-40%"]);
+  const yCol2 = useTransform(scrollYProgress, [0.12, 1], ["-40%", "10%"]);
+  const yCol3 = useTransform(scrollYProgress, [0.12, 1], ["0%", "-40%"]);
+  const yCol4 = useTransform(scrollYProgress, [0.12, 1], ["-30%", "20%"]);
 
   const wrapperClasses = embedded
     ? `relative w-full ${className}`
@@ -144,26 +124,23 @@ export default function Component({
           embedded ? "h-[250vh] sm:h-[300vh]" : "h-[600vh]"
         } bg-transparent text-white font-sans selection:bg-white selection:text-black`}
       >
-        <div className="sticky top-0 h-screen w-full flex justify-center items-center overflow-hidden">
+        <div className="sticky top-0 h-screen w-full flex justify-center items-center overflow-hidden p-2 sm:p-4">
           <motion.div
             style={{
-              width: bannerWidth,
-              height: bannerHeight,
-              borderRadius: bannerRadius,
-              borderWidth: bannerBorderWidth,
-              borderColor: "#2c2738",
+              scale: bannerScale,
+              opacity: bannerOpacity,
             }}
-            className="relative bg-black/85 backdrop-blur-sm overflow-hidden flex items-center justify-center max-w-[1920px] mx-auto will-change-transform backface-hidden preserve-3d"
+            className="relative w-full h-[88vh] sm:h-[94vh] max-w-[1920px] mx-auto bg-[#04060c] rounded-2xl sm:rounded-3xl border border-sky-400/20 overflow-hidden flex items-center justify-center will-change-transform backface-hidden"
           >
             <div
               className="absolute inset-0 flex justify-center items-center pointer-events-none"
               style={{ perspective: "1000px" }}
             >
-              {/* Ambient Shadow Box Masking */}
-              <div className="absolute inset-0 z-20 shadow-[inset_0_100px_150px_-50px_rgba(0,0,0,1),inset_0_-100px_150px_-50px_rgba(0,0,0,1)] pointer-events-none" />
-              <div className="absolute inset-0 z-20 shadow-[inset_150px_0_150px_-50px_rgba(0,0,0,1),inset_-150px_0_150px_-50px_rgba(0,0,0,1)] pointer-events-none" />
+              {/* Subtle Edge Masking Shadows */}
+              <div className="absolute inset-0 z-20 shadow-[inset_0_80px_100px_-40px_rgba(0,0,0,0.9),inset_0_-80px_100px_-40px_rgba(0,0,0,0.9)] pointer-events-none" />
+              <div className="absolute inset-0 z-20 shadow-[inset_100px_0_100px_-40px_rgba(0,0,0,0.9),inset_-100px_0_100px_-40px_rgba(0,0,0,0.9)] pointer-events-none" />
 
-              {/* Parallax Image Grid Matrix */}
+              {/* 3D Parallax Image Matrix */}
               <motion.div
                 style={{
                   rotateX,
@@ -172,29 +149,29 @@ export default function Component({
                   z: translateZ,
                   transformStyle: "preserve-3d",
                 }}
-                className="flex gap-4 md:gap-6 justify-center items-center w-[120vw] h-[150vh] origin-center opacity-100 will-change-transform backface-hidden"
+                className="flex gap-3 md:gap-6 justify-center items-center w-[98vw] md:w-[120vw] h-[120vh] md:h-[150vh] origin-center opacity-100 will-change-transform backface-hidden"
               >
-                <motion.div style={{ y: yCol1 }} className="flex flex-col gap-4 md:gap-6 w-[22vw] min-w-[200px] pointer-events-auto">
+                <motion.div style={{ y: yCol1 }} className="flex flex-col gap-3 md:gap-6 w-[44vw] md:w-[22vw] min-w-[140px] md:min-w-[200px] pointer-events-auto">
                   {colMedia.col1.map((src, index) => (
-                    <ImageCard key={`col1-${index}`} src={src} onLoad={handleItemLoad} />
+                    <ImageCard key={`col1-${index}`} src={src} />
                   ))}
                 </motion.div>
 
-                <motion.div style={{ y: yCol2 }} className="flex flex-col gap-4 md:gap-6 w-[22vw] min-w-[200px] pointer-events-auto">
+                <motion.div style={{ y: yCol2 }} className="flex flex-col gap-3 md:gap-6 w-[44vw] md:w-[22vw] min-w-[140px] md:min-w-[200px] pointer-events-auto">
                   {colMedia.col2.map((src, index) => (
-                    <ImageCard key={`col2-${index}`} src={src} onLoad={handleItemLoad} />
+                    <ImageCard key={`col2-${index}`} src={src} />
                   ))}
                 </motion.div>
 
-                <motion.div style={{ y: yCol3 }} className="flex flex-col gap-4 md:gap-6 w-[22vw] min-w-[200px] pointer-events-auto">
+                <motion.div style={{ y: yCol3 }} className="hidden md:flex flex-col gap-6 w-[22vw] min-w-[200px] pointer-events-auto">
                   {colMedia.col3.map((src, index) => (
-                    <ImageCard key={`col3-${index}`} src={src} onLoad={handleItemLoad} />
+                    <ImageCard key={`col3-${index}`} src={src} />
                   ))}
                 </motion.div>
 
-                <motion.div style={{ y: yCol4 }} className="flex flex-col gap-4 md:gap-6 w-[22vw] min-w-[200px] pointer-events-auto">
+                <motion.div style={{ y: yCol4 }} className="hidden md:flex flex-col gap-6 w-[22vw] min-w-[200px] pointer-events-auto">
                   {colMedia.col4.map((src, index) => (
-                    <ImageCard key={`col4-${index}`} src={src} onLoad={handleItemLoad} />
+                    <ImageCard key={`col4-${index}`} src={src} />
                   ))}
                 </motion.div>
               </motion.div>

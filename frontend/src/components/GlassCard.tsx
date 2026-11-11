@@ -50,27 +50,30 @@ export default function GlassCard({
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (!rectRef.current) return;
     const { clientX, clientY } = e;
-    const rect = rectRef.current;
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
 
-    if (spotlightRef.current) {
-      spotlightRef.current.style.background = `radial-gradient(400px circle at ${x}px ${y}px, ${spotlightColor}, transparent 70%)`;
-    }
-
-    if (tilt && e.pointerType === 'mouse' && !rafRef.current) {
+    if (!rafRef.current) {
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = 0;
+        const rect = rectRef.current;
         const el = containerRef.current;
-        if (!el || !rectRef.current) return;
+        if (!rect || !el) return;
 
-        const px = (x / rect.width) * 100;
-        const py = (y / rect.height) * 100;
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
 
-        el.style.setProperty('--card-hx', `${px.toFixed(1)}%`);
-        el.style.setProperty('--card-hy', `${py.toFixed(1)}%`);
-        el.style.setProperty('--card-rx', `${((py - 50) / TILT_DIV).toFixed(2)}deg`);
-        el.style.setProperty('--card-ry', `${(-(px - 50) / TILT_DIV).toFixed(2)}deg`);
+        if (spotlightRef.current) {
+          spotlightRef.current.style.background = `radial-gradient(400px circle at ${x}px ${y}px, ${spotlightColor}, transparent 70%)`;
+        }
+
+        if (tilt && e.pointerType === 'mouse') {
+          const px = (x / rect.width) * 100;
+          const py = (y / rect.height) * 100;
+
+          el.style.setProperty('--card-hx', `${px.toFixed(1)}%`);
+          el.style.setProperty('--card-hy', `${py.toFixed(1)}%`);
+          el.style.setProperty('--card-rx', `${((py - 50) / TILT_DIV).toFixed(2)}deg`);
+          el.style.setProperty('--card-ry', `${(-(px - 50) / TILT_DIV).toFixed(2)}deg`);
+        }
       });
     }
   }, [tilt, spotlightColor]);

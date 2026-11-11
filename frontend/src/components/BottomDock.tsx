@@ -17,11 +17,15 @@ export default function BottomDock({
   const dockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let lastScrolled = false;
     const handleScroll = () => {
       const scrolled = window.scrollY > 120;
-      setIsScrolled(scrolled);
-      if (!scrolled) {
-        setIsOpen(false);
+      if (scrolled !== lastScrolled) {
+        lastScrolled = scrolled;
+        setIsScrolled(scrolled);
+        if (!scrolled) {
+          setIsOpen(false);
+        }
       }
     };
 

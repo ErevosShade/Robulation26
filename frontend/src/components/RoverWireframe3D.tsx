@@ -92,11 +92,20 @@ export default function RoverWireframe3D({
           [offscreen]
         );
 
+        let isVisible = true;
+        let pointerRaf: number | null = null;
         const onPointerMove = (e: MouseEvent) => {
-          if (!worker || isDisposed) return;
-          const nx = (e.clientX / window.innerWidth) * 2 - 1;
-          const ny = (e.clientY / window.innerHeight) * 2 - 1;
-          worker.postMessage({ type: 'pointermove', x: nx, y: ny });
+          if (!worker || isDisposed || !isVisible) return;
+          if (pointerRaf !== null) return;
+          const clientX = e.clientX;
+          const clientY = e.clientY;
+          pointerRaf = requestAnimationFrame(() => {
+            pointerRaf = null;
+            if (!worker || isDisposed || !isVisible) return;
+            const nx = (clientX / window.innerWidth) * 2 - 1;
+            const ny = (clientY / window.innerHeight) * 2 - 1;
+            worker.postMessage({ type: 'pointermove', x: nx, y: ny });
+          });
         };
 
         const handleResize = () => {
@@ -109,7 +118,8 @@ export default function RoverWireframe3D({
         const io = new IntersectionObserver(
           ([entry]) => {
             if (isDisposed || !worker) return;
-            worker.postMessage({ type: entry.isIntersecting ? 'resume' : 'pause' });
+            isVisible = entry.isIntersecting;
+            worker.postMessage({ type: isVisible ? 'resume' : 'pause' });
           },
           { threshold: 0.05 }
         );
@@ -121,6 +131,7 @@ export default function RoverWireframe3D({
         return () => {
           isDisposed = true;
           io.disconnect();
+          if (pointerRaf !== null) cancelAnimationFrame(pointerRaf);
           window.removeEventListener('mousemove', onPointerMove);
           window.removeEventListener('resize', handleResize);
           if (worker) {
@@ -231,16 +242,23 @@ export default function RoverWireframe3D({
       const mouseOffset = { x: 0, y: 0 };
       const targetMouseOffset = { x: 0, y: 0 };
 
+      let isVisible = true;
+      let fallbackPointerRaf: number | null = null;
       const onPointerMove = (e: MouseEvent) => {
-        const nx = (e.clientX / window.innerWidth) * 2 - 1;
-        const ny = (e.clientY / window.innerHeight) * 2 - 1;
-        targetMouseOffset.x = nx * 0.55;
-        targetMouseOffset.y = -ny * 0.28;
+        if (!isVisible || fallbackPointerRaf !== null) return;
+        const clientX = e.clientX;
+        const clientY = e.clientY;
+        fallbackPointerRaf = requestAnimationFrame(() => {
+          fallbackPointerRaf = null;
+          if (!isVisible) return;
+          const nx = (clientX / window.innerWidth) * 2 - 1;
+          const ny = (clientY / window.innerHeight) * 2 - 1;
+          targetMouseOffset.x = nx * 0.55;
+          targetMouseOffset.y = -ny * 0.28;
+        });
       };
 
       window.addEventListener('mousemove', onPointerMove, { passive: true });
-
-      let isVisible = true;
       const animate = () => {
         if (!isVisible) {
           mainAnimationId = null;

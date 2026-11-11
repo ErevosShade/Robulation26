@@ -323,7 +323,7 @@ export default function Home() {
               <DecryptedText
                 text="// 3D MATRIX TELEMETRY • LIVE CAPTURES"
                 animateOn="view"
-                speed={30}
+                speed={45}
                 sequential={true}
                 characters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*"
                 className="text-[#FF9FFC]"

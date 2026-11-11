@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 const robosagaImages = [
@@ -42,17 +42,36 @@ interface RoboSagaSliderProps {
 
 export default function RoboSagaSlider({ className = '' }: RoboSagaSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isInView, setIsInView] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isInView) return;
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % robosagaImages.length);
     }, 3800);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [isInView]);
 
   return (
-    <div className={`relative w-full h-[320px] sm:h-[400px] lg:h-[460px] rounded-2xl overflow-hidden border border-white/10 bg-black/60 shadow-2xl group ${className}`}>
+    <div
+      ref={containerRef}
+      className={`relative w-full h-[320px] sm:h-[400px] lg:h-[460px] rounded-2xl overflow-hidden border border-white/10 bg-black/60 shadow-2xl group ${className}`}
+    >
       {robosagaImages.map((img, idx) => (
         <div
           key={img.src}

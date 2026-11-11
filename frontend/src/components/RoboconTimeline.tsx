@@ -242,12 +242,14 @@ export default function RoboconTimeline({ records, activeTab }: RoboconTimelineP
     };
   }, []);
 
-  // Continuous RequestAnimationFrame loop for silky-smooth particle flow and stroke animation
+  // RequestAnimationFrame loop for silky-smooth particle flow, active only when visible
   useEffect(() => {
-    let animId: number;
+    let animId: number = 0;
     let particleOffset = 0;
+    let isVisible = false;
 
     const tick = () => {
+      if (!isVisible) return;
       if (!basePathRef.current || !activePathRef.current) {
         animId = requestAnimationFrame(tick);
         return;
@@ -326,10 +328,27 @@ export default function RoboconTimeline({ records, activeTab }: RoboconTimelineP
       animId = requestAnimationFrame(tick);
     };
 
-    animId = requestAnimationFrame(tick);
+    const container = containerRef.current;
+    let observer: IntersectionObserver | null = null;
+    if (container) {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          isVisible = entry.isIntersecting;
+          if (isVisible) {
+            cancelAnimationFrame(animId);
+            animId = requestAnimationFrame(tick);
+          } else {
+            cancelAnimationFrame(animId);
+          }
+        },
+        { threshold: 0.05 }
+      );
+      observer.observe(container);
+    }
 
     return () => {
       cancelAnimationFrame(animId);
+      observer?.disconnect();
     };
   }, [particleCount]);
 

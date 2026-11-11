@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 export interface SectionSliderProps {
@@ -20,21 +20,39 @@ export default function SectionSlider({
   intervalMs = 4000
 }: SectionSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isInView, setIsInView] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!slides || slides.length <= 1) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isInView || !slides || slides.length <= 1) return;
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % slides.length);
     }, intervalMs);
 
     return () => clearInterval(timer);
-  }, [slides, intervalMs]);
+  }, [isInView, slides, intervalMs]);
 
   const dotActiveClass =
     tagColor === 'red' ? 'bg-red-500 w-5' : 'bg-cyan-400 w-5';
 
   return (
-    <div className="relative w-full aspect-[16/10] sm:h-52 rounded-xl overflow-hidden mb-5 border border-white/10 bg-black/60 shadow-lg group/slider">
+    <div
+      ref={containerRef}
+      className="relative w-full aspect-[16/10] sm:h-52 rounded-xl overflow-hidden mb-5 border border-white/10 bg-black/60 shadow-lg group/slider"
+    >
       {/* Slides with cross-fade */}
       {slides.map((slide, idx) => (
         <div

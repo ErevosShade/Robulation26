@@ -188,7 +188,7 @@ export default function MoltenMetal({
       alpha: true,
       premultipliedAlpha: true,
       antialias: false,
-      dpr: isMobile ? 0.85 : Math.min(window.devicePixelRatio || 1, 1.25)
+      dpr: isMobile ? 0.75 : Math.min(window.devicePixelRatio || 1, 1.0)
     });
 
     const gl = renderer.gl;
@@ -288,14 +288,18 @@ export default function MoltenMetal({
       }
     };
 
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        isVisible = entry.isIntersecting;
+    // Pause WebGL rendering when scrolled deep into the page or into the 3D gallery
+    // to keep 100% of GPU compute available for 3D elements and interactive components.
+    const handleScroll = () => {
+      const galleryEl = document.getElementById('gallery-unfurl');
+      const galleryTop = galleryEl ? galleryEl.offsetTop : 1800;
+      const shouldBeActive = window.scrollY < galleryTop + 200;
+      if (shouldBeActive !== isVisible) {
+        isVisible = shouldBeActive;
         isVisible ? tryStart() : tryStop();
-      },
-      { threshold: 0 }
-    );
-    io.observe(container);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     const onVisibility = () => {
       isPageVisible = !document.hidden;
@@ -308,7 +312,7 @@ export default function MoltenMetal({
     return () => {
       tryStop();
       ro.disconnect();
-      io.disconnect();
+      window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('visibilitychange', onVisibility);
       canvas.removeEventListener('mousemove', handleMouseMove);
       canvas.removeEventListener('mouseleave', handleMouseLeave);
