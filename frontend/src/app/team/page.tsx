@@ -13,6 +13,7 @@ import {
   Users,
   ChevronRight,
   Mail,
+  Phone,
   ExternalLink,
   Shield,
   Cpu,
@@ -49,7 +50,7 @@ const teamMembers: TeamMember[] = [
     role: 'President',
     category: 'Presidents',
     image: '/team/AyushKumar_President.webp',
-    email: 'pratyumnis@bitmesra.ac.in'
+    email: 'pratyunmis@bitmesra.ac.in'
   },
   {
     name: 'Gaurav Kumar',
@@ -65,7 +66,7 @@ const teamMembers: TeamMember[] = [
     role: 'Vice President',
     category: 'Presidents',
     image: '/team/AshutoshSahu_VicePresident.webp',
-    email: 'pratyumnis@bitmesra.ac.in'
+    email: 'pratyunmis@bitmesra.ac.in'
   },
 
   // Captains
@@ -169,7 +170,7 @@ const teamMembers: TeamMember[] = [
     category: 'Domain Heads',
     subCategory: 'Embedded Systems',
     image: '/team/VatsalyaBrahmatmaj_EmbeddedHead.webp',
-    email: 'pratyumnis@bitmesra.ac.in'
+    email: 'pratyunmis@bitmesra.ac.in'
   },
 
   // Domain Heads - Mechanical
@@ -234,7 +235,7 @@ const teamMembers: TeamMember[] = [
     category: 'Domain Heads',
     subCategory: 'Management & Ops',
     image: '/team/AyushmanGupta_ManagementLead.webp',
-    email: 'pratyumnis@bitmesra.ac.in'
+    email: 'pratyunmis@bitmesra.ac.in'
   },
   {
     name: 'Aditi Shankar',
@@ -1180,7 +1181,7 @@ export default function TeamPage() {
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-6 text-slate-400 font-mono text-xs">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-slate-400 font-mono text-xs">
             <a
               href="https://www.instagram.com/robolution.bitm/"
               target="_blank"
@@ -1198,11 +1199,18 @@ export default function TeamPage() {
               LinkedIn
             </a>
             <a
-              href="mailto:pratyumnis@bitmesra.ac.in"
-              className="hover:text-white transition-colors flex items-center gap-1.5 font-semibold"
+              href="tel:+918235494988"
+              className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 font-semibold"
             >
-              <Mail className="w-3.5 h-3.5" />
-              <span>pratyumnis@bitmesra.ac.in</span>
+              <Phone className="w-3.5 h-3.5 text-cyan-400" />
+              <span>+91 8235494988</span>
+            </a>
+            <a
+              href="mailto:pratyunmis@bitmesra.ac.in"
+              className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 font-semibold"
+            >
+              <Mail className="w-3.5 h-3.5 text-cyan-400" />
+              <span>pratyunmis@bitmesra.ac.in</span>
             </a>
           </div>
         </div>

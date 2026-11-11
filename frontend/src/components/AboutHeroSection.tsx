@@ -30,7 +30,7 @@ export default function AboutHeroSection() {
         ================================================================= */}
         <ScrollReveal>
           <div className="mb-6 sm:mb-8 lg:mb-10">
-            <h2 className="font-modern font-black text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-[10rem] xl:text-[11.5rem] 2xl:text-[13rem] tracking-tight [word-spacing:0.15em] sm:[word-spacing:0.25em] text-white uppercase leading-[0.88] sm:leading-[0.85] select-none">
+            <h2 className="font-modern font-black text-4xl xs:text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] xl:text-[11.5rem] 2xl:text-[13rem] tracking-tight [word-spacing:0.12em] sm:[word-spacing:0.25em] text-white uppercase leading-[0.88] sm:leading-[0.85] select-none">
               ABOUT US
             </h2>
           </div>

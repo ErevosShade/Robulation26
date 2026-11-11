@@ -21,6 +21,7 @@ import {
   Users,
   ChevronRight,
   Mail,
+  Phone,
   ArrowUpRight,
   Flame,
   CheckCircle2,
@@ -266,7 +267,7 @@ export default function AboutPage() {
       </div>
 
       {/* Main Content Area */}
-      <main className="relative z-10 pt-20 sm:pt-28 pb-24 px-6 sm:px-12 pl-16 sm:pl-24 max-w-7xl mx-auto">
+      <main className="relative z-10 pt-20 sm:pt-28 pb-24 px-4 sm:px-8 md:pl-24 max-w-7xl mx-auto">
         {/* Breadcrumb Header */}
         <div className="flex items-center gap-2 font-mono text-[10px] sm:text-xs text-slate-400 mb-6 uppercase tracking-widest">
           <Link href="/" className="hover:text-white transition-colors">Mission Control</Link>
@@ -753,7 +754,7 @@ export default function AboutPage() {
       </main>
 
       {/* Institutional Footer */}
-      <footer className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl py-14 px-6 sm:px-12 pl-16 sm:pl-24">
+      <footer className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl py-14 px-4 sm:px-8 md:pl-24">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <h4 className="font-modern font-black text-lg text-white uppercase tracking-wider">
@@ -764,7 +765,7 @@ export default function AboutPage() {
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-6 text-slate-400 font-mono text-xs">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-slate-400 font-mono text-xs">
             <a
               href="https://www.instagram.com/robolution.bitm/"
               target="_blank"
@@ -782,11 +783,18 @@ export default function AboutPage() {
               LinkedIn
             </a>
             <a
-              href="mailto:pratyumnis@bitmesra.ac.in"
-              className="hover:text-white transition-colors flex items-center gap-1.5 font-semibold"
+              href="tel:+918235494988"
+              className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 font-semibold"
             >
-              <Mail className="w-3.5 h-3.5" />
-              <span>pratyumnis@bitmesra.ac.in</span>
+              <Phone className="w-3.5 h-3.5 text-cyan-400" />
+              <span>+91 8235494988</span>
+            </a>
+            <a
+              href="mailto:pratyunmis@bitmesra.ac.in"
+              className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 font-semibold"
+            >
+              <Mail className="w-3.5 h-3.5 text-cyan-400" />
+              <span>pratyunmis@bitmesra.ac.in</span>
             </a>
           </div>
         </div>

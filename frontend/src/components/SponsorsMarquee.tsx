@@ -69,7 +69,7 @@ export default function SponsorsMarquee() {
 
       <ScrollReveal direction="up">
         {/* Section Header */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 pl-14 sm:pl-20 mb-10 sm:mb-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:pl-24 mb-10 sm:mb-14">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <span className="font-mono text-xs text-sky-400 font-bold tracking-widest uppercase block mb-1">

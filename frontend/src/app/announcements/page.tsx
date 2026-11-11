@@ -13,7 +13,8 @@ import {
   ChevronRight,
   CheckCircle2,
   Bell,
-  Mail
+  Mail,
+  Phone
 } from 'lucide-react';
 
 interface Announcement {
@@ -236,6 +237,53 @@ export default function AnnouncementsPage() {
           </div>
         </GlassCard>
       </main>
+
+      {/* Institutional Footer */}
+      <footer className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl py-14 px-4 sm:px-8 md:pl-24 border-t border-white/5">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <h4 className="font-modern font-black text-lg text-white uppercase tracking-wider">
+              ROBOLUTION &bull; BIT MESRA
+            </h4>
+            <span className="font-mono text-xs text-slate-400 block mt-1">
+              Official Robotics Society &bull; Department of Production &amp; Industrial Engg.
+            </span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-slate-400 font-mono text-xs">
+            <a
+              href="https://www.instagram.com/robolution.bitm/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors"
+            >
+              @robolution.bitm
+            </a>
+            <a
+              href="https://www.linkedin.com/company/robolution-bit-mesra/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="tel:+918235494988"
+              className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 font-semibold"
+            >
+              <Phone className="w-3.5 h-3.5 text-cyan-400" />
+              <span>+91 8235494988</span>
+            </a>
+            <a
+              href="mailto:pratyunmis@bitmesra.ac.in"
+              className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 font-semibold"
+            >
+              <Mail className="w-3.5 h-3.5 text-cyan-400" />
+              <span>pratyunmis@bitmesra.ac.in</span>
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

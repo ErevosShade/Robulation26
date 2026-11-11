@@ -137,10 +137,10 @@ export default function ContactPage() {
                       Official Society Dispatch
                     </span>
                     <a
-                      href="mailto:pratyumnis@bitmesra.ac.in"
+                      href="mailto:pratyunmis@bitmesra.ac.in"
                       className="font-bold text-white text-base mt-0.5 hover:text-cyan-400 transition-colors block"
                     >
-                      pratyumnis@bitmesra.ac.in
+                      pratyunmis@bitmesra.ac.in
                     </a>
                     <span className="text-xs text-slate-400">Response turnaround: 24&ndash;48 hrs</span>
                   </div>
@@ -155,10 +155,10 @@ export default function ContactPage() {
                       Telephone Helpline
                     </span>
                     <a
-                      href="tel:+917632910105"
+                      href="tel:+918235494988"
                       className="font-bold text-white text-base mt-0.5 hover:text-cyan-400 transition-colors block"
                     >
-                      +91 7632910105
+                      +91 8235494988
                     </a>
                     <span className="text-xs text-slate-400">Mon&ndash;Sat &bull; 10:00 to 18:00 IST</span>
                   </div>
@@ -364,7 +364,7 @@ export default function ContactPage() {
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-6 text-slate-400 font-mono text-xs">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-slate-400 font-mono text-xs">
             <a
               href="https://www.instagram.com/robolution.bitm/"
               target="_blank"
@@ -382,11 +382,18 @@ export default function ContactPage() {
               LinkedIn
             </a>
             <a
-              href="mailto:pratyumnis@bitmesra.ac.in"
-              className="hover:text-white transition-colors flex items-center gap-1.5 font-semibold"
+              href="tel:+918235494988"
+              className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 font-semibold"
             >
-              <Mail className="w-3.5 h-3.5" />
-              <span>pratyumnis@bitmesra.ac.in</span>
+              <Phone className="w-3.5 h-3.5 text-cyan-400" />
+              <span>+91 8235494988</span>
+            </a>
+            <a
+              href="mailto:pratyunmis@bitmesra.ac.in"
+              className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 font-semibold"
+            >
+              <Mail className="w-3.5 h-3.5 text-cyan-400" />
+              <span>pratyunmis@bitmesra.ac.in</span>
             </a>
           </div>
         </div>

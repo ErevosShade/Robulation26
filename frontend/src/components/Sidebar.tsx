@@ -13,6 +13,7 @@ import {
   Image as ImageIcon,
   Bell,
   Mail,
+  Phone,
   Package,
   Menu,
   X,
@@ -231,6 +232,23 @@ export default function Sidebar({ theme = 'dark' }: SidebarProps) {
                   <Shield className="w-4 h-4" />
                   <span>SESSION</span>
                 </Link>
+              </div>
+
+              <div className="p-3 rounded-xl bg-white/[0.03] border border-white/10 flex flex-col gap-2 font-mono text-[11px]">
+                <a
+                  href="tel:+918235494988"
+                  className="flex items-center gap-2 text-slate-300 hover:text-cyan-400 transition-colors"
+                >
+                  <Phone className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                  <span>+91 8235494988</span>
+                </a>
+                <a
+                  href="mailto:pratyunmis@bitmesra.ac.in"
+                  className="flex items-center gap-2 text-slate-300 hover:text-cyan-400 transition-colors"
+                >
+                  <Mail className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                  <span className="truncate">pratyunmis@bitmesra.ac.in</span>
+                </a>
               </div>
 
               <div className="text-center pt-1 text-[9px] text-zinc-500 tracking-widest uppercase">

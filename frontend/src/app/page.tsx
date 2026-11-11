@@ -27,6 +27,7 @@ import {
   Flame,
   ChevronDown,
   Mail,
+  Phone,
   Crosshair,
   Shield,
   Trophy,
@@ -75,7 +76,7 @@ export default function Home() {
       ===================================================================== */}
       <section
         id="hero"
-        className="relative w-full h-[100dvh] min-h-[700px] flex flex-col justify-between overflow-hidden select-none z-10 group/hero"
+        className="relative w-full min-h-[100dvh] md:h-[100dvh] md:min-h-[700px] flex flex-col justify-between overflow-hidden select-none z-10 group/hero pt-16 md:pt-0 pb-16 md:pb-0"
       >
         {/* Top Left Corner: SPONSOR US Trigger Button & Dialogue Box */}
         <SponsorModal className="absolute top-16 left-3 sm:left-4 md:top-0 md:left-14 lg:left-16 z-30 pointer-events-auto" />
@@ -149,7 +150,7 @@ export default function Home() {
             </div>
 
             {/* Center 3D NASA Curiosity Rover Wireframe with Smooth Cursor Tracking */}
-            <div className="relative z-10 w-full max-w-4xl sm:max-w-5xl h-[380px] sm:h-[440px] lg:h-[490px] flex items-center justify-center pointer-events-none -translate-y-6 sm:-translate-y-8">
+            <div className="relative z-10 w-full max-w-4xl sm:max-w-5xl h-[260px] xs:h-[300px] sm:h-[400px] lg:h-[490px] flex items-center justify-center pointer-events-none -translate-y-4 sm:-translate-y-8">
               <RoverWireframe3D modelPath="/curiosity.glb" />
             </div>
 
@@ -215,7 +216,7 @@ export default function Home() {
       ===================================================================== */}
       <section
         id="disciplines"
-        className="relative z-20 py-24 sm:py-32 px-6 sm:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto"
+        className="relative z-20 py-20 sm:py-28 md:py-32 px-4 sm:px-8 md:pl-24 max-w-7xl mx-auto"
       >
         <ScrollReveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
@@ -317,7 +318,7 @@ export default function Home() {
       ===================================================================== */}
       <section id="gallery-unfurl" className="relative z-20 w-full">
         {/* Aerospace HUD Section Header */}
-        <div className="pt-24 pb-8 px-6 sm:px-12 pl-14 sm:pl-20 max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div className="pt-20 sm:pt-24 pb-8 px-4 sm:px-8 md:pl-24 max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <span className="font-mono text-xs text-[#FF9FFC] font-bold tracking-widest uppercase block mb-1">
               <DecryptedText
@@ -561,7 +562,7 @@ export default function Home() {
       ===================================================================== */}
       <section
         id="manifesto"
-        className="relative z-20 py-16 sm:py-24 px-6 sm:px-12 md:pl-28 md:pr-14 max-w-7xl mx-auto"
+        className="relative z-20 py-16 sm:py-24 px-4 sm:px-8 md:pl-24 md:pr-12 max-w-7xl mx-auto"
       >
         <ScrollReveal direction="up">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -642,7 +643,7 @@ export default function Home() {
       {/* =====================================================================
           8. INSTITUTIONAL FOOTER & AUTHENTIC CONTACT
       ===================================================================== */}
-      <footer id="contact" className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl border-t border-white/5 py-14 px-4 sm:px-8 md:pl-20">
+      <footer id="contact" className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl border-t border-white/5 py-14 px-4 sm:px-8 md:pl-24">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
           <div className="flex flex-col">
             <span className="font-modern font-black text-xl text-white uppercase tracking-tight flex items-center gap-2">
@@ -663,7 +664,7 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-6 text-slate-400">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-slate-400">
             <a
               href="https://www.instagram.com/robolution.bitm/"
               target="_blank"
@@ -708,11 +709,19 @@ export default function Home() {
             </a>
 
             <a
-              href="mailto:pratyumnis@bitmesra.ac.in"
+              href="tel:+918235494988"
               className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-mono text-xs font-semibold"
             >
-              <Mail className="w-4 h-4" />
-              <span>pratyumnis@bitmesra.ac.in</span>
+              <Phone className="w-4 h-4 text-cyan-400" />
+              <span>+91 8235494988</span>
+            </a>
+
+            <a
+              href="mailto:pratyunmis@bitmesra.ac.in"
+              className="hover:text-[#FF9FFC] transition-colors flex items-center gap-1.5 font-mono text-xs font-semibold"
+            >
+              <Mail className="w-4 h-4 text-cyan-400" />
+              <span>pratyunmis@bitmesra.ac.in</span>
             </a>
           </div>
         </div>

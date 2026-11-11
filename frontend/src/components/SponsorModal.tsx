@@ -6,6 +6,7 @@ import {
   FileText,
   Award,
   Mail,
+  Phone,
   ChevronDown,
   ArrowUpRight
 } from 'lucide-react';
@@ -185,6 +186,24 @@ export default function SponsorModal({ className = '' }: SponsorModalProps) {
             </div>
             <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
+
+          {/* Quick Direct Telemetry: Phone & Mail */}
+          <div className="pt-2 mt-1 border-t border-white/10 flex flex-col gap-1.5 px-2 text-[10px] font-mono text-slate-400">
+            <a
+              href="tel:+918235494988"
+              className="flex items-center gap-1.5 hover:text-cyan-400 transition-colors"
+            >
+              <Phone className="w-3 h-3 text-cyan-400 shrink-0" />
+              <span>+91 8235494988</span>
+            </a>
+            <a
+              href="mailto:pratyunmis@bitmesra.ac.in"
+              className="flex items-center gap-1.5 hover:text-cyan-400 transition-colors truncate"
+            >
+              <Mail className="w-3 h-3 text-cyan-400 shrink-0" />
+              <span className="truncate">pratyunmis@bitmesra.ac.in</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
