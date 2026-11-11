@@ -56,8 +56,8 @@ const sponsors: Sponsor[] = [
 ];
 
 export default function SponsorsMarquee() {
-  // Triple the 7 items for a seamless, continuous infinite scroll loop
-  const marqueeItems = [...sponsors, ...sponsors, ...sponsors];
+  // Quadruple the 7 items for a seamless, continuous infinite scroll loop
+  const marqueeItems = [...sponsors, ...sponsors, ...sponsors, ...sponsors];
 
   return (
     <section

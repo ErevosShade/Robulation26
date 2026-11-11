@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { Layers } from 'lucide-react';
+import Image from 'next/image';
 
 interface BottomDockProps {
   theme?: 'light' | 'dark';
@@ -17,21 +17,11 @@ export default function BottomDock({
   const dockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let ticking = false;
     const handleScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(() => {
-          ticking = false;
-          const scrolled = window.scrollY > 120;
-          setIsScrolled((prev) => {
-            if (prev !== scrolled) {
-              if (!scrolled) setIsOpen(false);
-              return scrolled;
-            }
-            return prev;
-          });
-        });
+      const scrolled = window.scrollY > 120;
+      setIsScrolled(scrolled);
+      if (!scrolled) {
+        setIsOpen(false);
       }
     };
 
@@ -40,27 +30,16 @@ export default function BottomDock({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close popup when clicking outside or pressing Escape
+  // Close popup when clicking outside
   useEffect(() => {
     if (!isOpen) return;
-    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+    const handleClickOutside = (e: MouseEvent) => {
       if (dockRef.current && !dockRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
     };
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('touchstart', handleClickOutside);
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
-      window.removeEventListener('keydown', handleKeyDown);
-    };
+    window.addEventListener('mousedown', handleClickOutside);
+    return () => window.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
   return (
@@ -80,15 +59,17 @@ export default function BottomDock({
       </svg>
 
       {/* =====================================================================
-          STATE 1 & 3: TRAPEZOID HERO DOCK (When !isScrolled OR when scrolled & opened)
+          STATE 1 & 3: TRAPEZOID DOCK (Hero state OR when expanded on scroll)
       ===================================================================== */}
       {(!isScrolled || isOpen) && (
         <div
           className={`relative w-[calc(100vw-1.5rem)] max-w-[460px] sm:max-w-[520px] md:max-w-[560px] h-[52px] sm:h-[62px] flex items-center justify-center filter transition-all duration-500 ${
+            isScrolled ? 'animate-in fade-in slide-in-from-bottom-5 duration-300' : ''
+          } ${
             isLight
               ? 'drop-shadow-[0_-8px_25px_rgba(15,23,42,0.12)]'
               : 'drop-shadow-[0_-10px_30px_rgba(0,0,0,0.8)]'
-          } ${isOpen ? 'animate-in fade-in slide-in-from-bottom-2 duration-300' : ''}`}
+          }`}
         >
           {/* Glassmorphic Background with Smooth Rounded Trapezoid Shape */}
           <div
@@ -132,7 +113,7 @@ export default function BottomDock({
           <div className="relative z-10 flex items-center justify-center flex-nowrap whitespace-nowrap gap-1.5 xs:gap-2.5 sm:gap-3 md:gap-4 px-2 xs:px-4 sm:px-8 pt-0.5 sm:pt-1">
             <Link
               href="/about"
-              onClick={() => setIsOpen(false)}
+              onClick={() => isScrolled && setIsOpen(false)}
               className="group relative px-2.5 xs:px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white text-black font-modern text-[9px] xs:text-[10px] sm:text-[11px] font-bold tracking-wider sm:tracking-widest uppercase transition-all duration-300 hover:bg-slate-200 hover:shadow-[0_0_20px_rgba(255,255,255,0.7)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
             >
               About Us
@@ -140,7 +121,7 @@ export default function BottomDock({
 
             <Link
               href="/events"
-              onClick={() => setIsOpen(false)}
+              onClick={() => isScrolled && setIsOpen(false)}
               className="group relative px-2.5 xs:px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[9px] xs:text-[10px] sm:text-[11px] font-semibold tracking-wider sm:tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
             >
               RoboSaga &apos;26
@@ -148,7 +129,7 @@ export default function BottomDock({
 
             <Link
               href="/contact"
-              onClick={() => setIsOpen(false)}
+              onClick={() => isScrolled && setIsOpen(false)}
               className="group relative px-2.5 xs:px-3.5 sm:px-6 py-1.5 sm:py-2 rounded-lg bg-white/10 border border-white/25 text-white font-modern text-[9px] xs:text-[10px] sm:text-[11px] font-semibold tracking-wider sm:tracking-widest uppercase backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/50 hover:shadow-[0_0_18px_rgba(255,255,255,0.3)] active:scale-95 cursor-pointer whitespace-nowrap flex-shrink-0"
             >
               Contact
@@ -163,22 +144,25 @@ export default function BottomDock({
       {isScrolled && !isOpen && (
         <button
           type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsOpen(true);
-          }}
+          onClick={() => setIsOpen(true)}
           aria-label="Open Navigation Dock"
-          className="group relative w-12 h-12 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-[#050914]/90 hover:bg-[#071026] border border-cyan-400/40 hover:border-cyan-300 shadow-[0_4px_24px_rgba(0,0,0,0.8),0_0_20px_rgba(56,189,248,0.35)] hover:shadow-[0_4px_30px_rgba(0,0,0,0.9),0_0_28px_rgba(56,189,248,0.6)] backdrop-blur-xl transition-all duration-300 active:scale-90 cursor-pointer animate-in fade-in zoom-in-75"
+          className="group relative w-12 h-12 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-[#050811]/90 hover:bg-[#070b18] border border-white/20 hover:border-white/40 shadow-[0_4px_24px_rgba(0,0,0,0.8),0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_4px_30px_rgba(0,0,0,0.9),0_0_28px_rgba(255,255,255,0.3)] backdrop-blur-xl transition-all duration-300 active:scale-90 cursor-pointer animate-in fade-in zoom-in-75"
         >
           {/* Subtle Ambient Pulse Ring */}
-          <span className="absolute -inset-1 rounded-full bg-cyan-400/20 blur-sm animate-pulse pointer-events-none" />
+          <span className="absolute -inset-1 rounded-full bg-white/10 blur-sm animate-pulse pointer-events-none" />
 
           {/* Rotating Glowing Pip Ring */}
-          <span className="absolute inset-[2px] rounded-full border border-dashed border-cyan-400/30 group-hover:border-cyan-300/60 transition-colors pointer-events-none" />
+          <span className="absolute inset-[2px] rounded-full border border-dashed border-white/20 group-hover:border-white/50 transition-colors pointer-events-none" />
 
-          {/* Center Mechatronics Icon */}
-          <div className="relative z-10 flex flex-col items-center justify-center text-cyan-300 group-hover:text-white transition-colors">
-            <Layers className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+          {/* Center Robolution Logo */}
+          <div className="relative z-10 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 transition-transform duration-300 group-hover:scale-110">
+            <Image
+              src="/robolution-icon-bright.png"
+              alt="Robolution Logo"
+              width={32}
+              height={32}
+              className="object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]"
+            />
           </div>
 
           {/* Tooltip / Micro-Label */}
