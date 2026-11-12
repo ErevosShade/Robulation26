@@ -338,29 +338,29 @@ export default function HudBox({
 
       {/* Content Area Inside HUD Box */}
       <div
-        className={`absolute top-[16px] sm:top-[22px] bottom-[14px] sm:bottom-[18px] flex flex-col justify-center pointer-events-auto overflow-visible text-left ${
+        className={`absolute top-[18px] sm:top-[22px] bottom-[22px] sm:bottom-[24px] flex flex-col justify-center pointer-events-auto overflow-hidden text-left ${
           !isVariationB
-            ? 'left-[22px] sm:left-[36px] md:left-[42px] right-[22px] sm:right-[76px] md:right-[88px]'
-            : 'left-[22px] sm:left-[36px] md:left-[114px] xl:left-[120px] right-[22px] sm:right-[22px]'
+            ? 'left-[26px] sm:left-[36px] md:left-[42px] right-[24px] sm:right-[76px] md:right-[88px]'
+            : 'left-[32px] sm:left-[40px] md:left-[114px] xl:left-[120px] right-[24px] sm:right-[28px]'
         }`}
       >
         {badge && (
-          <div className="flex items-center gap-2 mb-1">
-            <span className={`w-1.5 h-1.5 rounded-full ${isLight ? 'bg-cyan-600 shadow-[0_0_6px_rgba(2,132,199,0.7)]' : 'bg-white shadow-[0_0_6px_rgba(255,255,255,0.9)]'} animate-pulse`} />
-            <span className={`font-modern text-[8px] sm:text-[9px] font-bold tracking-widest uppercase ${isLight ? 'text-cyan-700' : 'text-slate-300'}`}>
+          <div className="flex items-center gap-1.5 mb-1 shrink-0">
+            <span className={`w-1.5 h-1.5 rounded-full ${isLight ? 'bg-cyan-600 shadow-[0_0_6px_rgba(2,132,199,0.7)]' : 'bg-white shadow-[0_0_6px_rgba(255,255,255,0.9)]'} animate-pulse shrink-0`} />
+            <span className={`font-modern text-[8px] sm:text-[9px] font-bold tracking-widest uppercase ${isLight ? 'text-cyan-700' : 'text-slate-300'} truncate`}>
               {badge}
             </span>
           </div>
         )}
 
         {title && (
-          <h3 className={`font-modern text-[12px] sm:text-[13.5px] font-extrabold tracking-wider uppercase ${isLight ? 'text-slate-950' : 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.45)]'} leading-snug`}>
+          <h3 className={`font-modern text-[12px] sm:text-[13.5px] font-extrabold tracking-wider uppercase ${isLight ? 'text-slate-950' : 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.45)]'} leading-tight shrink-0`}>
             {title}
           </h3>
         )}
 
         {subtitle && (
-          <p className={`font-modern text-[9px] sm:text-[10px] font-bold tracking-wider ${isLight ? 'text-cyan-600' : 'text-slate-300'} uppercase mt-0.5 leading-snug`}>
+          <p className={`font-modern text-[8.5px] sm:text-[9.5px] font-bold tracking-wider ${isLight ? 'text-cyan-600' : 'text-slate-300'} uppercase mt-0.5 leading-tight truncate shrink-0`}>
             {subtitle}
           </p>
         )}

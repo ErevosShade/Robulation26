@@ -76,10 +76,12 @@ export default function Home() {
       ===================================================================== */}
       <section
         id="hero"
-        className="relative w-full min-h-[100dvh] md:h-[100dvh] md:min-h-[700px] flex flex-col justify-between overflow-hidden select-none z-10 group/hero pt-16 md:pt-0 pb-16 md:pb-0"
+        className="relative w-full min-h-[100dvh] md:h-[100dvh] md:min-h-[700px] flex flex-col justify-between overflow-x-clip md:overflow-hidden select-none z-10 group/hero pt-16 md:pt-0 pb-20 md:pb-0"
       >
-        {/* Top Left Corner: SPONSOR US Trigger Button & Dialogue Box */}
-        <SponsorModal className="absolute top-16 left-3 sm:left-4 md:top-0 md:left-14 lg:left-16 z-30 pointer-events-auto" />
+        {/* Desktop Top Left Corner: SPONSOR US Trigger Button & Dialogue Box */}
+        <div className="hidden md:block absolute top-0 left-14 lg:left-16 z-30 pointer-events-auto">
+          <SponsorModal />
+        </div>
 
         {/* Top Right Corner Tech Box: EST. 2001 // BIT MESRA */}
         <div className="hidden sm:block absolute top-0 right-0 z-30 w-[240px] sm:w-[270px] xl:w-[290px] h-[44px] sm:h-[48px] opacity-95 hover:opacity-100 transition-opacity pointer-events-auto">
@@ -88,7 +90,7 @@ export default function Home() {
 
         {/* Top Header: Heavy Structural Architectural Title with TechText */}
         <header className="relative z-20 w-full pt-2 sm:pt-4 flex flex-col items-center pointer-events-none px-4 md:pl-20">
-          <div className="w-full max-w-4xl h-[76px] sm:h-[94px] md:h-[106px] px-4 pointer-events-auto flex items-center justify-center">
+          <div className="w-full max-w-4xl h-[68px] xs:h-[80px] sm:h-[94px] md:h-[106px] px-4 pointer-events-auto flex items-center justify-center">
             <TechText
               text="ROBOLUTION"
               fontFamily="'Space Grotesk', 'Arial Black', sans-serif"
@@ -103,7 +105,7 @@ export default function Home() {
             />
           </div>
 
-          <p className="relative font-mono text-[9px] xs:text-[10px] sm:text-[11.5px] font-bold tracking-[0.16em] sm:tracking-[0.25em] uppercase mt-1 px-2">
+          <p className="relative font-mono text-[9px] xs:text-[10px] sm:text-[11.5px] font-bold tracking-[0.16em] sm:tracking-[0.25em] uppercase mt-1 px-2 text-center">
             <span className="text-slate-400 transition-opacity duration-700 ease-out group-hover/hero:opacity-0">
               AUTONOMOUS MECHATRONICS &bull; ABU ROBOCON &bull; ROBOSAGA FEST
             </span>
@@ -114,6 +116,11 @@ export default function Home() {
               AUTONOMOUS MECHATRONICS &bull; ABU ROBOCON &bull; ROBOSAGA FEST
             </span>
           </p>
+
+          {/* Mobile Dedicated Sponsor Us Control (Centered without colliding with logo) */}
+          <div className="md:hidden mt-3 pointer-events-auto flex justify-center w-full">
+            <SponsorModal />
+          </div>
         </header>
 
         {/* 3D CAD Wireframe Rover Flanked by Sci-Fi HUD Callout Boxes */}
@@ -144,7 +151,7 @@ export default function Home() {
             </div>
 
             {/* Center 3D NASA Curiosity Rover Wireframe with Smooth Cursor Tracking */}
-            <div className="relative z-10 w-full max-w-4xl sm:max-w-5xl h-[260px] xs:h-[300px] sm:h-[400px] lg:h-[490px] flex items-center justify-center pointer-events-none -translate-y-4 sm:-translate-y-8">
+            <div className="relative z-10 w-full max-w-4xl sm:max-w-5xl h-[240px] xs:h-[280px] sm:h-[380px] lg:h-[490px] flex items-center justify-center pointer-events-none my-1 sm:my-0 sm:-translate-y-8">
               <RoverWireframe3D modelPath="/curiosity.glb" />
             </div>
 
@@ -163,8 +170,8 @@ export default function Home() {
           </div>
 
           {/* Mobile / Tablet HUD Boxes (< md) */}
-          <div className="md:hidden w-full max-w-md flex flex-col sm:flex-row gap-3 pointer-events-auto mt-[-10px] mb-2 px-2 z-20">
-            <div className="w-full sm:w-1/2 h-[120px]">
+          <div className="md:hidden w-full max-w-md flex flex-col sm:flex-row gap-3 pointer-events-auto mt-1 mb-4 px-3 z-20">
+            <div className="w-full sm:w-1/2 h-[126px] xs:h-[130px]">
               <HudBox
                 variant="shape1"
                 theme="dark"
@@ -174,7 +181,7 @@ export default function Home() {
                 subtitle="ABU ROBOCON & NATIONALS"
               />
             </div>
-            <div className="w-full sm:w-1/2 h-[120px]">
+            <div className="w-full sm:w-1/2 h-[126px] xs:h-[130px]">
               <HudBox
                 variant="shape2"
                 theme="dark"

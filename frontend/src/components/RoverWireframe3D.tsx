@@ -10,6 +10,13 @@ interface RoverWireframe3DProps {
   onLoaded?: () => void;
 }
 
+function getRoverCameraPosition(w: number, h: number): [number, number, number] {
+  const aspect = w / h;
+  // Responsive camera scaling for mobile / narrow portrait displays
+  const zoomFactor = aspect < 1.6 ? Math.min(1.35, 1.55 / Math.max(aspect, 0.75)) : 1;
+  return [3.8 * zoomFactor, 2.2 * zoomFactor, 4.4 * zoomFactor];
+}
+
 export default function RoverWireframe3D({
   modelPath = '/curiosity.glb',
   onProgress,
@@ -27,8 +34,8 @@ export default function RoverWireframe3D({
 
     const width = container.clientWidth || 800;
     const height = container.clientHeight || 500;
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const pixelRatio = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.75);
+    // Set 2x DPR limit for mobile retina displays to ensure razor-sharp edges without pixelation ("pixel phate nhi")
+    const pixelRatio = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1, 2);
 
     let isDisposed = false;
     let worker: Worker | null = null;
@@ -168,7 +175,8 @@ export default function RoverWireframe3D({
       scene.background = null;
 
       const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-      camera.position.set(3.8, 2.2, 4.4);
+      const [initCx, initCy, initCz] = getRoverCameraPosition(width, height);
+      camera.position.set(initCx, initCy, initCz);
       camera.lookAt(0, 0, 0);
 
       const renderer = new THREE.WebGLRenderer({
@@ -297,6 +305,9 @@ export default function RoverWireframe3D({
         const w = container.clientWidth || 800;
         const h = container.clientHeight || 500;
         camera.aspect = w / h;
+        const [cx, cy, cz] = getRoverCameraPosition(w, h);
+        camera.position.set(cx, cy, cz);
+        camera.lookAt(0, 0, 0);
         camera.updateProjectionMatrix();
         renderer.setSize(w, h);
       };

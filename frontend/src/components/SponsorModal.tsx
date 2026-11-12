@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import {
   FileText,
@@ -17,6 +17,23 @@ interface SponsorModalProps {
 
 export default function SponsorModal({ className = '' }: SponsorModalProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click/tap on mobile
+  useEffect(() => {
+    if (!isHovered) return;
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setIsHovered(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('touchstart', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('touchstart', handleOutsideClick);
+    };
+  }, [isHovered]);
 
   const clubProfilePdf = encodeURI('/sponsors/Sponsorship deck/club_profile.pdf');
   const sponsorshipTiersPdf = encodeURI('/sponsors/Sponsorship deck/Partnership Proposal.pdf');
@@ -26,6 +43,7 @@ export default function SponsorModal({ className = '' }: SponsorModalProps) {
 
   return (
     <div
+      ref={containerRef}
       className={`relative select-none ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -128,7 +146,7 @@ export default function SponsorModal({ className = '' }: SponsorModalProps) {
 
       {/* ── Hover Dropdown Panel ── */}
       <div
-        className={`absolute left-0 top-full pt-2 z-50 w-[240px] sm:w-[260px] transition-all duration-200 ${
+        className={`absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 top-full pt-2 z-50 w-[240px] sm:w-[260px] transition-all duration-200 ${
           isHovered
             ? 'opacity-100 translate-y-0 pointer-events-auto'
             : 'opacity-0 -translate-y-1 pointer-events-none'

@@ -48,6 +48,13 @@ const clock = new THREE.Clock();
 
 const FIXED_SCALE = 3.6;
 
+function getRoverCameraPosition(w: number, h: number): [number, number, number] {
+  const aspect = w / h;
+  // Responsive camera scaling for mobile / narrow portrait displays
+  const zoomFactor = aspect < 1.6 ? Math.min(1.35, 1.55 / Math.max(aspect, 0.75)) : 1;
+  return [3.8 * zoomFactor, 2.2 * zoomFactor, 4.4 * zoomFactor];
+}
+
 function init(data: InitMessage) {
   const { canvas, width, height, pixelRatio, modelPath } = data;
 
@@ -55,7 +62,8 @@ function init(data: InitMessage) {
   scene.background = null;
 
   camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-  camera.position.set(3.8, 2.2, 4.4);
+  const [initX, initY, initZ] = getRoverCameraPosition(width, height);
+  camera.position.set(initX, initY, initZ);
   camera.lookAt(0, 0, 0);
 
   renderer = new THREE.WebGLRenderer({
@@ -184,6 +192,9 @@ function handleResize(data: ResizeMessage) {
   if (!renderer || !camera) return;
   const { width, height } = data;
   camera.aspect = width / height;
+  const [cx, cy, cz] = getRoverCameraPosition(width, height);
+  camera.position.set(cx, cy, cz);
+  camera.lookAt(0, 0, 0);
   camera.updateProjectionMatrix();
   renderer.setSize(width, height, false);
 }
