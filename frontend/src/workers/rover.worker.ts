@@ -50,8 +50,8 @@ const FIXED_SCALE = 3.6;
 
 function getRoverCameraPosition(w: number, h: number): [number, number, number] {
   const aspect = w / h;
-  // Responsive camera scaling for mobile / narrow portrait displays
-  const zoomFactor = aspect < 1.6 ? Math.min(1.35, 1.55 / Math.max(aspect, 0.75)) : 1;
+  // Scaled up for mobile viewports so the rover feels prominent and heroic, not tiny
+  const zoomFactor = aspect < 1.6 ? Math.min(1.02, Math.max(0.90, 1.08 / Math.max(aspect, 0.95))) : 1;
   return [3.8 * zoomFactor, 2.2 * zoomFactor, 4.4 * zoomFactor];
 }
 

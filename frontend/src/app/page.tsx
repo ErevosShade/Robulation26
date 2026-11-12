@@ -151,7 +151,7 @@ export default function Home() {
             </div>
 
             {/* Center 3D NASA Curiosity Rover Wireframe with Smooth Cursor Tracking */}
-            <div className="relative z-10 w-full max-w-4xl sm:max-w-5xl h-[240px] xs:h-[280px] sm:h-[380px] lg:h-[490px] flex items-center justify-center pointer-events-none my-1 sm:my-0 sm:-translate-y-8">
+            <div className="relative z-10 w-full max-w-4xl sm:max-w-5xl h-[270px] xs:h-[310px] sm:h-[400px] lg:h-[490px] flex items-center justify-center pointer-events-none my-1 sm:my-0 sm:-translate-y-8">
               <RoverWireframe3D modelPath="/curiosity.glb" />
             </div>
 
@@ -183,9 +183,8 @@ export default function Home() {
             </div>
             <div className="w-full sm:w-1/2 h-[126px] xs:h-[130px]">
               <HudBox
-                variant="shape2"
+                variant="shape1"
                 theme="dark"
-                leaderSide="left"
                 badge="FLAGSHIP FEST"
                 title="ROBOSAGA '27"
                 subtitle="TECHNO-MANAGEMENT ARENA"

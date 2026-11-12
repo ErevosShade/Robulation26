@@ -341,7 +341,7 @@ export default function HudBox({
         className={`absolute top-[18px] sm:top-[22px] bottom-[22px] sm:bottom-[24px] flex flex-col justify-center pointer-events-auto overflow-hidden text-left ${
           !isVariationB
             ? 'left-[26px] sm:left-[36px] md:left-[42px] right-[24px] sm:right-[76px] md:right-[88px]'
-            : 'left-[32px] sm:left-[40px] md:left-[114px] xl:left-[120px] right-[24px] sm:right-[28px]'
+            : 'left-[24%] sm:left-[26%] md:left-[114px] xl:left-[120px] right-[24px] sm:right-[28px]'
         }`}
       >
         {badge && (
