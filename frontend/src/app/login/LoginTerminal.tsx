@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Shield,
@@ -206,14 +207,26 @@ export default function LoginTerminal() {
             </span>
           </div>
 
-          <h1 className="text-xl sm:text-2xl font-extrabold uppercase tracking-tight text-white flex items-center gap-2.5">
-            <Shield className="w-6 h-6 text-sky-400 shrink-0" />
-            <span>Robolution Access Terminal</span>
-          </h1>
-
-          <p className="text-xs text-zinc-400 font-mono leading-relaxed">
-            Mechatronics Hardware Catalog &amp; Lab Component Checkout Authentication
-          </p>
+          <div className="flex items-start sm:items-center gap-3.5">
+            <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
+              <Image
+                src="/robolution-icon-bright.png"
+                alt="Robolution Logo"
+                width={38}
+                height={38}
+                className="object-contain filter drop-shadow-[0_0_10px_rgba(56,189,248,0.5)]"
+                priority
+              />
+            </div>
+            <div>
+              <h1 className="text-xl sm:text-2xl font-extrabold uppercase tracking-tight text-white flex items-center gap-2">
+                <span>Robolution Access Terminal</span>
+              </h1>
+              <p className="text-xs text-zinc-400 font-mono leading-relaxed mt-0.5">
+                Mechatronics Hardware Catalog &amp; Lab Component Checkout Authentication
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Global Error Banner (if any) */}

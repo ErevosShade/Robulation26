@@ -1169,8 +1169,15 @@ export default function EventsPage() {
       <footer className="relative z-20 bg-[#04060a]/70 backdrop-blur-xl py-12 px-4 sm:px-8 md:pl-24">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <h4 className="font-modern font-black text-base text-white uppercase tracking-wider">
-              ROBOLUTION &bull; BIT MESRA
+            <h4 className="font-modern font-black text-base text-white uppercase tracking-wider flex items-center gap-2.5">
+              <Image
+                src="/robolution-icon-bright.png"
+                alt="Robolution Logo"
+                width={20}
+                height={20}
+                className="object-contain filter drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]"
+              />
+              <span>ROBOLUTION &bull; BIT MESRA</span>
             </h4>
             <span className="font-mono text-[11px] text-slate-400 block mt-0.5">
               Official Robotics Society &bull; Department of Production &amp; Industrial Engg.
