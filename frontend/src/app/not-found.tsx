@@ -107,7 +107,16 @@ export default function NotFound() {
 
       {/* Footer */}
       <footer className="relative z-10 flex flex-col sm:flex-row items-center justify-between text-zinc-600 font-mono text-[10px] uppercase tracking-widest border-t border-white/5 pt-4 gap-2">
-        <span>ROBOLUTION &bull; TEAM PRATYUMNIS &bull; BIT MESRA</span>
+        <span className="flex items-center gap-2">
+          <Image
+            src="/robolution-icon-bright.png"
+            alt="Robolution Logo"
+            width={16}
+            height={16}
+            className="object-contain filter drop-shadow-[0_0_6px_rgba(56,189,248,0.5)]"
+          />
+          <span>ROBOLUTION &bull; TEAM PRATYUMNIS &bull; BIT MESRA</span>
+        </span>
         <span>SYS.AUTO_RECOVERY // PROTOCOL ACTIVE</span>
       </footer>
     </div>
