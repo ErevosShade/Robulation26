@@ -16,16 +16,14 @@ import {
   ArrowLeft,
   ArrowRight,
   X,
-  Search,
-  Copy,
-  Check
+  Search
 } from 'lucide-react';
 
 export default function K26ResultsPage() {
   const [selectedPodId, setSelectedPodId] = useState<string | null>(null);
   const [podSearch, setPodSearch] = useState('');
-  const [copiedId, setCopiedId] = useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Lock body scroll when expanded pod view is active and prevent Lenis interception
   useEffect(() => {
@@ -54,16 +52,33 @@ export default function K26ResultsPage() {
     };
   }, [selectedPodId]);
 
-  // Handle ESC key to dismiss expanded pod
+  // Keyboard shortcuts: ESC to close pod / clear search, Ctrl+K or / to focus search
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && selectedPodId) {
-        closePod();
+      // Search shortcut: Ctrl+K, Cmd+K, or /
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+        if (selectedPodId) {
+          e.preventDefault();
+          searchInputRef.current?.focus();
+          searchInputRef.current?.select();
+        }
+      } else if (e.key === '/' && document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'TEXTAREA') {
+        if (selectedPodId) {
+          e.preventDefault();
+          searchInputRef.current?.focus();
+        }
+      } else if (e.key === 'Escape') {
+        if (podSearch) {
+          e.preventDefault();
+          setPodSearch('');
+        } else if (selectedPodId) {
+          closePod();
+        }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedPodId]);
+  }, [selectedPodId, podSearch]);
 
   // Native View Transition Helper
   const openPod = (podId: string) => {
@@ -84,13 +99,6 @@ export default function K26ResultsPage() {
     } else {
       setSelectedPodId(null);
     }
-  };
-
-  const handleCopyRoll = (e: React.MouseEvent, text: string, id: string) => {
-    e.stopPropagation();
-    navigator.clipboard.writeText(text);
-    setCopiedId(id);
-    setTimeout(() => setCopiedId(null), 2000);
   };
 
   // Group cadets by sub-team
@@ -157,30 +165,22 @@ export default function K26ResultsPage() {
             </h1>
           </div>
 
-          {/* Metrics on Horizontal Label Row */}
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-3 px-4 py-2.5 rounded-2xl border border-white/15 bg-white/[0.03] backdrop-blur-xl shadow-lg hover:border-white/25 transition-all">
-              <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_10px_rgba(52,211,153,0.9)] animate-pulse" />
-              <div className="flex flex-col">
-                <span className="font-mono text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-wider font-semibold">
-                  SELECTED CANDIDATES
-                </span>
-                <span className="font-modern font-black text-xl sm:text-2xl text-white leading-tight">
-                  {K26_CADETS.length}
-                </span>
-              </div>
+          {/* Metrics on Horizontal Label */}
+          <div className="inline-flex items-center gap-3.5 sm:gap-4 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-xl shadow-[0_8px_24px_rgba(0,0,0,0.5)]">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)] animate-pulse shrink-0" />
+              <span className="font-mono text-xs sm:text-sm text-slate-200 whitespace-nowrap">
+                <span className="font-bold text-white tracking-tight">{K26_CADETS.length}</span> Selected Cadets
+              </span>
             </div>
 
-            <div className="flex items-center gap-3 px-4 py-2.5 rounded-2xl border border-white/15 bg-white/[0.03] backdrop-blur-xl shadow-lg hover:border-white/25 transition-all">
-              <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 shrink-0 shadow-[0_0_10px_rgba(34,211,238,0.9)]" />
-              <div className="flex flex-col">
-                <span className="font-mono text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-wider font-semibold">
-                  ACTIVE PODS
-                </span>
-                <span className="font-modern font-black text-xl sm:text-2xl text-white leading-tight">
-                  {PODS_METADATA.length}
-                </span>
-              </div>
+            <span className="w-1 h-1 rounded-full bg-white/25 shrink-0" />
+
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.9)] shrink-0" />
+              <span className="font-mono text-xs sm:text-sm text-slate-200 whitespace-nowrap">
+                <span className="font-bold text-white tracking-tight">{PODS_METADATA.length}</span> Sub Teams
+              </span>
             </div>
           </div>
         </div>
@@ -221,8 +221,12 @@ export default function K26ResultsPage() {
                     fade="edges"
                     interactive={true}
                     animateOnHover={true}
-                    cursorSize={50}
-                    cursorStrength={0.6}
+                    spacing={7}
+                    markSize={0.92}
+                    depth={1.2}
+                    cursorSize={38}
+                    cursorStrength={0.85}
+                    intro={false}
                     style={{ width: '100%', height: '100%' }}
                   />
                 </div>
@@ -359,41 +363,55 @@ export default function K26ResultsPage() {
               </div>
             </div>
 
-            {/* Search within Pod */}
+            {/* Search within Pod with Keyboard Shortcut */}
             <div className="mb-6">
               <div className="relative">
-                <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400" />
+                <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 pointer-events-none" />
                 <input
+                  ref={searchInputRef}
                   type="text"
                   value={podSearch}
                   onChange={e => setPodSearch(e.target.value)}
                   placeholder="Filter by name, roll no, or branch..."
-                  className="w-full pl-10 pr-10 py-3 bg-white/[0.03] border border-white/15 rounded-xl text-sm font-mono text-white placeholder-slate-400 focus:outline-none focus:border-white/40 transition-colors"
+                  className="w-full pl-10 pr-24 py-3 bg-white/[0.03] border border-white/15 rounded-xl text-xs sm:text-sm font-mono text-white placeholder-slate-400 focus:outline-none focus:border-cyan-400/60 focus:bg-white/[0.06] transition-colors"
                 />
-                {podSearch && (
+                {podSearch ? (
                   <button
                     type="button"
-                    onClick={() => setPodSearch('')}
-                    className="absolute right-3.5 top-3.5 text-slate-400 hover:text-white"
+                    onClick={() => {
+                      setPodSearch('');
+                      searchInputRef.current?.focus();
+                    }}
+                    className="absolute right-3.5 top-3.5 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                    title="Clear search (Esc)"
                   >
                     <X className="w-4 h-4" />
                   </button>
+                ) : (
+                  <div className="absolute right-3.5 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-1.5 pointer-events-none select-none">
+                    <kbd className="px-1.5 py-0.5 text-[10px] font-mono font-medium text-slate-400 bg-white/[0.08] border border-white/15 rounded shadow-sm">
+                      Ctrl K
+                    </kbd>
+                    <kbd className="px-1.5 py-0.5 text-[10px] font-mono font-medium text-slate-400 bg-white/[0.08] border border-white/15 rounded shadow-sm">
+                      /
+                    </kbd>
+                  </div>
                 )}
               </div>
             </div>
 
-            {/* Tabular View with Name, Roll No, Branch */}
+            {/* Dynamic Responsive Tabular View with Name, Roll No, Branch (Fits all screen types dynamically) */}
             <div
-              className="w-full overflow-x-auto rounded-xl border border-white/15 bg-white/[0.02] shadow-2xl mb-10"
+              className="w-full rounded-xl border border-white/15 bg-white/[0.02] shadow-2xl mb-10 overflow-hidden"
               style={{ touchAction: 'pan-y' }}
             >
-              <table className="w-full text-left border-collapse min-w-[560px]">
+              <table className="w-full text-left border-collapse table-auto sm:table-fixed">
                 <thead>
-                  <tr className="border-b border-white/15 bg-white/[0.04] text-[11px] font-mono uppercase tracking-wider text-slate-400">
-                    <th className="py-3.5 px-4 w-14 text-center font-semibold">#</th>
-                    <th className="py-3.5 px-6 font-semibold">CANDIDATE NAME</th>
-                    <th className="py-3.5 px-6 font-semibold">ROLL NUMBER</th>
-                    <th className="py-3.5 px-6 text-right font-semibold">BRANCH</th>
+                  <tr className="border-b border-white/15 bg-white/[0.04] text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-400">
+                    <th className="py-2.5 sm:py-3.5 px-2 sm:px-4 w-7 sm:w-14 text-center font-semibold">#</th>
+                    <th className="py-2.5 sm:py-3.5 px-2.5 sm:px-6 font-semibold sm:w-2/5">CANDIDATE</th>
+                    <th className="hidden sm:table-cell py-2.5 sm:py-3.5 px-6 font-semibold sm:w-1/4">ROLL NUMBER</th>
+                    <th className="py-2.5 sm:py-3.5 px-2 sm:px-6 text-right font-semibold sm:w-1/3">BRANCH</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/[0.08] text-sm font-sans">
@@ -410,42 +428,36 @@ export default function K26ResultsPage() {
                         className="hover:bg-white/[0.04] transition-colors group"
                       >
                         {/* Serial Number */}
-                        <td className="py-3.5 px-4 text-center font-mono text-xs text-slate-400">
+                        <td className="py-2.5 sm:py-3.5 px-2 sm:px-4 text-center font-mono text-[10px] sm:text-xs text-slate-400 align-top sm:align-middle">
                           {String(idx + 1).padStart(2, '0')}
                         </td>
 
-                        {/* Candidate Name */}
-                        <td className="py-3.5 px-6">
-                          <div className="flex items-center gap-3">
-                            <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
-                            <span className="font-semibold text-white tracking-wide text-base">
-                              {cadet.name}
-                            </span>
+                        {/* Candidate Name & Mobile Roll No */}
+                        <td className="py-2.5 sm:py-3.5 px-2.5 sm:px-6 min-w-0">
+                          <div className="flex items-start sm:items-center gap-2 sm:gap-3">
+                            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-cyan-400 shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.8)] mt-1.5 sm:mt-0" />
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 min-w-0">
+                              <span className="font-semibold text-white tracking-wide text-xs sm:text-base leading-tight">
+                                {cadet.name}
+                              </span>
+                              {/* Roll number badge visible on mobile */}
+                              <span className="sm:hidden inline-block font-mono text-[9px] text-cyan-300 bg-cyan-950/40 px-1.5 py-0.5 rounded border border-cyan-800/40 tracking-wider font-medium w-fit">
+                                {cadet.rollNo}
+                              </span>
+                            </div>
                           </div>
                         </td>
 
-                        {/* Roll Number with Copy */}
-                        <td className="py-3.5 px-6">
-                          <div className="inline-flex items-center gap-2 font-mono text-xs text-cyan-300 bg-cyan-950/30 px-2.5 py-1 rounded border border-cyan-800/40">
-                            <span className="tracking-wider">{cadet.rollNo}</span>
-                            <button
-                              type="button"
-                              onClick={(e) => handleCopyRoll(e, cadet.rollNo, cadet.id)}
-                              className="p-1 rounded hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
-                              title="Copy Roll Number"
-                            >
-                              {copiedId === cadet.id ? (
-                                <Check className="w-3.5 h-3.5 text-emerald-400" />
-                              ) : (
-                                <Copy className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100" />
-                              )}
-                            </button>
-                          </div>
+                        {/* Roll Number (Desktop / Tablet) */}
+                        <td className="hidden sm:table-cell py-2.5 sm:py-3.5 px-6">
+                          <span className="inline-block font-mono text-xs text-cyan-300 bg-cyan-950/40 px-2.5 py-1 rounded border border-cyan-800/40 tracking-wider font-medium whitespace-nowrap">
+                            {cadet.rollNo}
+                          </span>
                         </td>
 
                         {/* Branch */}
-                        <td className="py-3.5 px-6 text-right">
-                          <span className="inline-block px-3 py-1 rounded-md border border-white/15 bg-white/[0.05] font-mono text-xs text-slate-200">
+                        <td className="py-2.5 sm:py-3.5 px-2 sm:px-6 text-right align-top sm:align-middle">
+                          <span className="inline-block px-1.5 sm:px-3 py-0.5 sm:py-1 rounded border border-white/15 bg-white/[0.05] font-mono text-[9px] sm:text-xs text-slate-200 leading-tight">
                             {cadet.branch}
                           </span>
                         </td>

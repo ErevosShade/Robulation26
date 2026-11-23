@@ -152,7 +152,7 @@ const DEFAULT_CHARACTERS = '.:-=+*#%@';
 const GLYPH_FONT = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
 const ATLAS_TILE = 128;
 const WAVE_UNIT = 520;
-const RIPPLE_CELL = 8;
+const RIPPLE_CELL = 4;
 const RIPPLE_RATE = 60;
 const PIXEL_BUDGET = 4.5e6;
 const INTRO_SECONDS = 2;
@@ -694,6 +694,9 @@ const PatternWaves = ({
     let rippleClock = 0;
     let atlasKey = '';
     let hoverVelocity = 0;
+    let hoverExitStart = 0;
+    let hoverExitVelocity = 0;
+    const DECAY_DURATION = 0.8;
     const pointer = { x: 0, y: 0, inside: false, placed: false, lastX: 0, lastY: 0, burst: 0 };
 
     const buildRipple = () => {
@@ -747,7 +750,7 @@ const PatternWaves = ({
       rippleClock = Math.min(rippleClock + dt * RIPPLE_RATE, 4);
       const strength = clamp(s.cursorStrength, 0, 1);
       const moved = Math.hypot(pointer.x - pointer.lastX, pointer.y - pointer.lastY);
-      let impulse = (pointer.inside ? Math.min(moved / 14, 1) * 0.35 * strength : 0) + pointer.burst * strength;
+      let impulse = (pointer.inside ? Math.min(moved / 10, 1) * 0.55 * strength : 0) + pointer.burst * strength;
       pointer.burst = 0;
       rippleUniforms.uTexel.value = [1 / field.width, 1 / field.height];
       rippleUniforms.uSize.value = [width, height];
@@ -780,15 +783,29 @@ const PatternWaves = ({
       last = now;
       if (!s) return;
 
-      // Natural physical inertia & momentum decay
+      // Natural physical inertia & zero-jerk momentum decay
       if (s.animateOnHover) {
         if (pointer.inside) {
-          // Rapid acceleration into fluid motion on hover
-          hoverVelocity = Math.min(1, hoverVelocity + dt * 4.5);
+          hoverExitStart = 0;
+          // Responsive fluid acceleration on hover (0 -> 1 in ~0.25s)
+          hoverVelocity = Math.min(1, hoverVelocity + dt * 4.0);
         } else {
-          // Smooth exponential friction damping down to natural rest
-          hoverVelocity = Math.max(0, hoverVelocity * Math.pow(0.15, dt));
-          if (hoverVelocity < 0.003) hoverVelocity = 0;
+          if (hoverVelocity > 0) {
+            if (hoverExitStart === 0) {
+              hoverExitStart = now;
+              hoverExitVelocity = hoverVelocity;
+            }
+            const elapsed = (now - hoverExitStart) / 1000;
+            const progress = clamp(elapsed / DECAY_DURATION, 0, 1);
+            // Smooth quintic ease-out: f(0)=1, f(1)=0, f'(1)=0
+            // Mathematical derivative reaches zero cleanly: NO abrupt cutoff, NO jerk
+            const ease = Math.pow(1 - progress, 3);
+            hoverVelocity = hoverExitVelocity * ease;
+            if (progress >= 1 || hoverVelocity < 0.0001) {
+              hoverVelocity = 0;
+              hoverExitStart = 0;
+            }
+          }
         }
       } else {
         hoverVelocity = 1;
@@ -810,15 +827,13 @@ const PatternWaves = ({
         pointer.placed = true;
       }
       if (rippling && (pointer.inside || pointer.burst > 0)) {
-        rippleUntil = s.animateOnHover ? now + 1200 : now + 5000;
+        rippleUntil = s.animateOnHover ? now + 1000 : now + 5000;
       }
-      const rippleActive = rippling && (s.animateOnHover ? velocity > 0 || now < rippleUntil : now < rippleUntil);
+      const rippleActive = rippling && (s.animateOnHover ? hoverVelocity > 0 : now < rippleUntil);
       if (rippleActive && ripple) {
+        // Natural dissipation: increase damping when cursor leaves so ripples dissolve seamlessly
+        rippleUniforms.uDamping.value = pointer.inside ? 0.975 : 0.93;
         stepRipple(ripple, s, dt);
-        rippleLive = true;
-      } else if (rippleLive) {
-        clearRipple();
-        rippleLive = false;
       }
 
       const patternIndex = PATTERNS[s.pattern] ?? 0;
@@ -860,8 +875,10 @@ const PatternWaves = ({
       fieldUniforms.uFade.value = FADES[s.fade] ?? 0;
       fieldUniforms.uFadeSize.value = clamp(s.fadeSize, 0.05, 1);
       fieldUniforms.uAppear.value = appear;
-      fieldUniforms.tRipple.value = ripple && rippleLive ? ripple.read.texture : blank;
-      fieldUniforms.uRipple.value = rippleLive ? 0.32 : 0;
+      const maxRipple = 0.52;
+      const rippleMultiplier = s.animateOnHover ? hoverVelocity : (now < rippleUntil ? 1 : 0);
+      fieldUniforms.tRipple.value = ripple ? ripple.read.texture : blank;
+      fieldUniforms.uRipple.value = clamp(rippleMultiplier * maxRipple, 0.0, maxRipple);
       renderer.render({ scene: fieldMesh, target: fieldTarget });
 
       markUniforms.uOrigin.value = origin;
@@ -898,9 +915,10 @@ const PatternWaves = ({
       const spot = locate(e);
       pointer.x = spot.x;
       pointer.y = spot.y;
-      if (spot.inside !== pointer.inside) pointer.placed = false;
+      const stateChanged = spot.inside !== pointer.inside;
+      if (stateChanged) pointer.placed = false;
       pointer.inside = spot.inside;
-      if (spot.inside) {
+      if (spot.inside || stateChanged) {
         start();
       }
     };
@@ -919,8 +937,18 @@ const PatternWaves = ({
     };
 
     const onPointerLeave = () => {
-      pointer.inside = false;
-      pointer.placed = false;
+      if (pointer.inside) {
+        pointer.inside = false;
+        pointer.placed = false;
+        start();
+      }
+    };
+
+    const onPointerEnter = (e: PointerEvent) => {
+      const spot = locate(e);
+      pointer.x = spot.x;
+      pointer.y = spot.y;
+      pointer.inside = true;
       start();
     };
 
@@ -936,6 +964,8 @@ const PatternWaves = ({
       if (!document.hidden) start();
     };
 
+    container.addEventListener('pointerenter', onPointerEnter);
+    container.addEventListener('pointerleave', onPointerLeave);
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     window.addEventListener('pointerdown', onPointerDown, { passive: true });
     window.addEventListener('pointerout', onPointerOut, { passive: true });
@@ -963,6 +993,8 @@ const PatternWaves = ({
       cancelAnimationFrame(raf);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
+      container.removeEventListener('pointerenter', onPointerEnter);
+      container.removeEventListener('pointerleave', onPointerLeave);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointerout', onPointerOut);
