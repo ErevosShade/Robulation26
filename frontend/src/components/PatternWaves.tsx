@@ -37,6 +37,7 @@ export interface PatternWavesProps extends Partial<PresetValues> {
   cursorStrength?: number;
   intro?: boolean;
   paused?: boolean;
+  animateOnHover?: boolean;
   className?: string;
   style?: CSSProperties;
 }
@@ -53,6 +54,7 @@ interface Settings extends PresetValues {
   cursorStrength: number;
   intro: boolean;
   paused: boolean;
+  animateOnHover: boolean;
 }
 
 interface RippleField {
@@ -497,6 +499,7 @@ const PatternWaves = ({
   cursorStrength = 0.6,
   intro = true,
   paused = false,
+  animateOnHover = false,
   className = '',
   style
 }: PatternWavesProps) => {
@@ -538,7 +541,8 @@ const PatternWaves = ({
       cursorSize,
       cursorStrength,
       intro,
-      paused
+      paused,
+      animateOnHover
     };
     wakeRef.current?.();
   });
@@ -775,7 +779,8 @@ const PatternWaves = ({
       last = now;
       if (!s) return;
 
-      const moving = !s.paused && !reducedMotion && s.speed !== 0;
+      const shouldMove = s.animateOnHover ? pointer.inside : true;
+      const moving = !s.paused && !reducedMotion && s.speed !== 0 && shouldMove;
       if (moving) time += dt * s.speed;
       introClock = s.intro && !reducedMotion ? Math.min(1, introClock + dt / INTRO_SECONDS) : 1;
       const appear = 1 - Math.pow(1 - clamp(introClock / 0.75, 0, 1), 3);

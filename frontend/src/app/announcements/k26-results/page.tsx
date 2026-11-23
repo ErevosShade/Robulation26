@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Sidebar from '@/components/Sidebar';
 import HudBox from '@/components/HudBox';
-import GlassCard from '@/components/GlassCard';
+import PatternWaves from '@/components/PatternWaves';
 import {
   K26_CADETS,
   PODS_METADATA,
@@ -185,7 +185,7 @@ export default function K26ResultsPage() {
           </div>
         </div>
 
-        {/* Sub-Team Glassmorphism Cards */}
+        {/* Sub-Team Frosted Glassmorphism Cards with PatternWaves Background (No Floating/Tilt Effect) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 max-w-5xl mx-auto">
           {PODS_METADATA.map((pod, idx) => {
             const cadets = cadetsByPod[pod.name] || [];
@@ -202,75 +202,97 @@ export default function K26ResultsPage() {
                 : 'POD 04 // CORPORATE ALLIANCE';
 
             return (
-              <GlassCard
+              <div
                 key={pod.id}
-                tilt={true}
-                glowOnHover={true}
-                reticle={true}
-                chamfer={false}
-                outerClassName="w-full flex justify-center"
-                className="h-[500px] flex flex-col justify-between group"
+                className="group relative rounded-[24px] border border-white/20 hover:border-white/40 bg-gradient-to-b from-white/[0.08] via-white/[0.03] to-white/[0.01] backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),0_16px_45px_rgba(0,0,0,0.7)] hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),0_20px_55px_rgba(56,189,248,0.12)] overflow-hidden transition-all duration-300 flex flex-col justify-between h-[510px]"
               >
-                <div>
-                  {/* Header: Sub Team Name & Pod Tag */}
-                  <div className="pb-4 border-b border-white/15 flex items-center justify-between">
-                    <div>
-                      <div className="font-mono text-[9px] sm:text-[10px] text-cyan-400 uppercase tracking-widest font-bold mb-1">
-                        {podTag}
+                {/* Frosted Glass Specular Top Highlight Edge */}
+                <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/60 to-transparent pointer-events-none z-20" />
+
+                {/* Diagonal Specular Refraction Sheen */}
+                <div className="absolute inset-0 z-10 bg-gradient-to-br from-white/[0.08] via-transparent to-transparent pointer-events-none" />
+
+                {/* Subteam Background: Interactive Silk PatternWaves (Visible at rest, animates on hover only) */}
+                <div className="absolute inset-0 z-0 opacity-40 group-hover:opacity-65 transition-opacity duration-500 pointer-events-auto">
+                  <PatternWaves
+                    preset="silk"
+                    color="#ffffff"
+                    backgroundColor="#000000"
+                    fade="edges"
+                    interactive={true}
+                    animateOnHover={true}
+                    cursorSize={50}
+                    cursorStrength={0.6}
+                    style={{ width: '100%', height: '100%' }}
+                  />
+                </div>
+
+                {/* Frosted Vignette for Deep Content Contrast */}
+                <div className="absolute inset-0 z-[5] bg-gradient-to-b from-black/45 via-black/25 to-black/80 pointer-events-none" />
+
+                {/* Card Foreground Content */}
+                <div className="relative z-10 p-6 sm:p-8 flex flex-col justify-between h-full pointer-events-none">
+                  <div>
+                    {/* Header: Sub Team Name & Pod Tag */}
+                    <div className="pb-4 border-b border-white/15 flex items-center justify-between">
+                      <div>
+                        <div className="font-mono text-[9px] sm:text-[10px] text-cyan-400 uppercase tracking-widest font-bold mb-1">
+                          {podTag}
+                        </div>
+                        <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
+                          {pod.name}
+                        </h2>
                       </div>
-                      <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
-                        {pod.name}
-                      </h2>
+                      <div className="w-8 h-8 rounded-full border border-white/15 bg-white/[0.04] flex items-center justify-center font-mono text-xs text-slate-400 font-bold shrink-0">
+                        0{idx + 1}
+                      </div>
                     </div>
-                    <div className="w-8 h-8 rounded-full border border-white/15 bg-white/[0.04] flex items-center justify-center font-mono text-xs text-slate-400 font-bold shrink-0">
-                      0{idx + 1}
-                    </div>
+
+                    {/* 5 - 6 names and branch on bracket */}
+                    <ul className="mt-5 space-y-2.5">
+                      {previewCadets.map(cadet => (
+                        <li
+                          key={cadet.id}
+                          className="group/item flex items-center justify-between text-sm sm:text-base font-medium text-white py-1 px-2 -mx-2 rounded-lg hover:bg-white/[0.06] transition-colors"
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
+                            <span className="font-semibold text-white tracking-wide group-hover/item:text-cyan-300 transition-colors truncate">
+                              {cadet.name}
+                            </span>
+                          </div>
+                          <span className="text-[11px] font-mono text-slate-300 px-2 py-0.5 rounded border border-white/10 bg-white/[0.05] shrink-0 ml-2">
+                            {cadet.branch}
+                          </span>
+                        </li>
+                      ))}
+
+                      {/* Dot Dot Dot Indicator for remaining members */}
+                      {remainingCount > 0 && (
+                        <li className="flex items-center gap-2 text-slate-400 font-medium pt-2 px-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/40 shrink-0" />
+                          <span className="tracking-widest text-slate-300 text-base font-bold leading-none">. . .</span>
+                          <span className="text-xs font-mono text-cyan-400/80 font-semibold">
+                            (+{remainingCount} more cadets)
+                          </span>
+                        </li>
+                      )}
+                    </ul>
                   </div>
 
-                  {/* 5 - 6 names and branch on bracket */}
-                  <ul className="mt-5 space-y-2.5">
-                    {previewCadets.map(cadet => (
-                      <li
-                        key={cadet.id}
-                        className="group/item flex items-center justify-between text-sm sm:text-base font-medium text-white py-1 px-2 -mx-2 rounded-lg hover:bg-white/[0.04] transition-colors"
-                      >
-                        <div className="flex items-center gap-2.5 min-w-0">
-                          <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
-                          <span className="font-semibold text-white tracking-wide group-hover/item:text-cyan-300 transition-colors truncate">
-                            {cadet.name}
-                          </span>
-                        </div>
-                        <span className="text-[11px] font-mono text-slate-300 px-2 py-0.5 rounded border border-white/10 bg-white/[0.04] shrink-0 ml-2">
-                          {cadet.branch}
-                        </span>
-                      </li>
-                    ))}
-
-                    {/* Dot Dot Dot Indicator for remaining members */}
-                    {remainingCount > 0 && (
-                      <li className="flex items-center gap-2 text-slate-400 font-medium pt-2 px-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/40 shrink-0" />
-                        <span className="tracking-widest text-slate-300 text-base font-bold leading-none">. . .</span>
-                        <span className="text-xs font-mono text-cyan-400/80 font-semibold">
-                          (+{remainingCount} more cadets)
-                        </span>
-                      </li>
-                    )}
-                  </ul>
+                  {/* View More Button */}
+                  <div className="mt-6 pt-4 border-t border-white/15 pointer-events-auto">
+                    <button
+                      type="button"
+                      onClick={() => openPod(pod.id)}
+                      className="group/btn w-full py-3 px-6 rounded-full bg-white text-black font-mono text-xs font-bold uppercase tracking-wider hover:bg-cyan-300 hover:shadow-[0_0_20px_rgba(56,189,248,0.4)] active:scale-[0.99] transition-all cursor-pointer text-center shadow-[0_4px_16px_rgba(255,255,255,0.15)] flex items-center justify-center gap-2"
+                    >
+                      <span>VIEW MORE</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
+                    </button>
+                  </div>
                 </div>
-
-                {/* View More Button */}
-                <div className="mt-6 pt-4 border-t border-white/15">
-                  <button
-                    type="button"
-                    onClick={() => openPod(pod.id)}
-                    className="group/btn w-full py-3 px-6 rounded-full bg-white text-black font-mono text-xs font-bold uppercase tracking-wider hover:bg-cyan-300 hover:shadow-[0_0_20px_rgba(56,189,248,0.4)] active:scale-[0.99] transition-all cursor-pointer text-center shadow-[0_4px_16px_rgba(255,255,255,0.15)] flex items-center justify-center gap-2"
-                  >
-                    <span>VIEW MORE</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </GlassCard>
+              </div>
             );
           })}
         </div>
