@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Sidebar from '@/components/Sidebar';
@@ -31,12 +31,64 @@ import {
   Crosshair,
   Shield,
   Trophy,
-  ArrowRight
+  ArrowRight,
+  X
 } from 'lucide-react';
 
 export default function Home() {
+  const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
+    const dismissed = sessionStorage.getItem('k26_results_notif_dismissed');
+    if (!dismissed) {
+      setShowNotification(true);
+    }
+  }, []);
+
+  const handleDismissNotification = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowNotification(false);
+    sessionStorage.setItem('k26_results_notif_dismissed', 'true');
+  };
+
   return (
     <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-cyan-500/30 selection:text-white overflow-x-clip">
+      {/* Floating K26 Result Notification Pill */}
+      {showNotification && (
+        <aside
+          role="status"
+          aria-live="polite"
+          className="fixed top-18 sm:top-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-3.5 sm:px-4 py-2 rounded-full border border-white/20 hover:border-cyan-400/50 bg-[#060a14]/90 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.7),0_0_20px_rgba(56,189,248,0.25)] pointer-events-auto transition-all animate-notif-slide-down"
+        >
+          <Link
+            href="/announcements/k26-results"
+            className="flex items-center gap-2.5 text-xs sm:text-sm font-mono tracking-wide text-white hover:text-cyan-300 transition-colors group cursor-pointer"
+          >
+            <span className="relative flex h-2 w-2 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400" />
+            </span>
+            <span className="font-semibold text-slate-100 group-hover:text-cyan-300 transition-colors whitespace-nowrap">
+              K26 Batch result out
+            </span>
+            <span className="text-[11px] text-cyan-400 font-bold group-hover:translate-x-0.5 transition-transform">
+              →
+            </span>
+          </Link>
+
+          <div className="w-[1px] h-3.5 bg-white/20 shrink-0" />
+
+          <button
+            type="button"
+            onClick={handleDismissNotification}
+            aria-label="Close notification"
+            className="p-1 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </aside>
+      )}
       {/* =====================================================================
           FULL-PAGE BACKGROUND: <MoltenMetal /> REACT BITS WEBGL CAUSTICS
       ===================================================================== */}
@@ -731,6 +783,23 @@ export default function Home() {
           <span>AUTONOMOUS SYSTEMS &bull; MECHATRONICS LAB</span>
         </div>
       </footer>
+
+      {/* Slide-down keyframes for top notification pill */}
+      <style jsx global>{`
+        @keyframes notifSlideDown {
+          from {
+            opacity: 0;
+            transform: translate(-50%, -14px);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+          }
+        }
+        .animate-notif-slide-down {
+          animation: notifSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+      `}</style>
     </div>
   );
 }
