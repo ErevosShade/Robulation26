@@ -105,7 +105,7 @@ export const K26_CADETS: CadetResult[] = [
     "id": "k26-01",
     "rank": 1,
     "name": "Ankit Raj",
-    "rollNo": "BTECH/10912/26",
+    "rollNo": "BTECH/10091/26",
     "branch": "CSE",
     "primarySubTeam": "Technical",
     "assignedSubTeams": [
@@ -1058,7 +1058,7 @@ export const K26_CADETS: CadetResult[] = [
     "id": "k26-64",
     "rank": 64,
     "name": "Vedant Mishra",
-    "rollNo": "BTech/10919/26",
+    "rollNo": "BTECH/10612/26",
     "branch": "Mechanical",
     "primarySubTeam": "Technical",
     "assignedSubTeams": [
@@ -1068,5 +1068,33 @@ export const K26_CADETS: CadetResult[] = [
     "domain": "Technical",
     "marks": null,
     "remarks": "good with mechanical knowledge"
+  },
+  {
+    "id": "k26-65",
+    "rank": 65,
+    "name": "Ronit Kumar Deo",
+    "rollNo": "BTECH/10876/26",
+    "branch": "ECE",
+    "primarySubTeam": "Technical",
+    "assignedSubTeams": [
+      "Technical"
+    ],
+    "specialization": "Embedded Firmware & Circuitry",
+    "domain": "Technical",
+    "marks": null
+  },
+  {
+    "id": "k26-66",
+    "rank": 66,
+    "name": "Akshat Goyal",
+    "rollNo": "BTECH/10539/26",
+    "branch": "ECE",
+    "primarySubTeam": "Technical",
+    "assignedSubTeams": [
+      "Technical"
+    ],
+    "specialization": "Embedded Firmware & Circuitry",
+    "domain": "Technical",
+    "marks": null
   }
 ];
