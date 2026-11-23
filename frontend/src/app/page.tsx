@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Sidebar from '@/components/Sidebar';
@@ -31,10 +31,27 @@ import {
   Crosshair,
   Shield,
   Trophy,
-  ArrowRight
+  ArrowRight,
+  X
 } from 'lucide-react';
 
 export default function Home() {
+  const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
+    const dismissed = sessionStorage.getItem('k26_results_notif_dismissed');
+    if (!dismissed) {
+      setShowNotification(true);
+    }
+  }, []);
+
+  const handleDismissNotification = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowNotification(false);
+    sessionStorage.setItem('k26_results_notif_dismissed', 'true');
+  };
+
   return (
     <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans selection:bg-cyan-500/30 selection:text-white overflow-x-clip">
       {/* =====================================================================
@@ -78,9 +95,31 @@ export default function Home() {
         id="hero"
         className="relative w-full min-h-[100dvh] md:h-[100dvh] md:min-h-[700px] flex flex-col justify-between overflow-x-clip md:overflow-hidden select-none z-10 group/hero pt-16 md:pt-0 pb-20 md:pb-0"
       >
-        {/* Desktop Top Left Corner: SPONSOR US Trigger Button & Dialogue Box */}
-        <div className="hidden md:block absolute top-0 left-14 lg:left-16 z-30 pointer-events-auto">
+        {/* Desktop Top Left Corner: SPONSOR US Trigger Button & Notification Pill Underneath */}
+        <div className="hidden md:flex flex-col items-start gap-2.5 absolute top-0 left-14 lg:left-16 z-30 pointer-events-auto">
           <SponsorModal />
+          {showNotification && (
+            <aside
+              role="status"
+              aria-live="polite"
+              className="flex items-center gap-2.5 p-1.5 pl-3 pr-2 rounded-full border border-white/20 hover:border-cyan-400/50 bg-[#060a14]/92 backdrop-blur-2xl shadow-[0_8px_25px_rgba(0,0,0,0.7),0_0_15px_rgba(56,189,248,0.2)] transition-all animate-notif-slide-up"
+            >
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400" />
+              </span>
+              <span className="text-xs font-mono font-medium text-slate-200 whitespace-nowrap">
+                K26 Batch result out
+              </span>
+              <Link
+                href="/announcements/k26-results"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white text-black font-mono text-[10px] font-bold uppercase tracking-wider hover:bg-cyan-300 transition-colors shadow cursor-pointer active:scale-95"
+              >
+                <span>SEE RESULTS</span>
+                <ArrowRight className="w-3 h-3" />
+              </Link>
+            </aside>
+          )}
         </div>
 
         {/* Top Right Corner Tech Box: EST. 2001 // BIT MESRA */}
@@ -117,9 +156,35 @@ export default function Home() {
             </span>
           </p>
 
-          {/* Mobile Dedicated Sponsor Us Control (Centered without colliding with logo) */}
-          <div className="md:hidden mt-3 pointer-events-auto flex justify-center w-full">
+          {/* Mobile Dedicated Sponsor Us Control & Notification Pill */}
+          <div className="md:hidden mt-3 pointer-events-auto flex flex-col items-center gap-2.5 w-full">
             <SponsorModal />
+            {showNotification && (
+              <aside
+                role="status"
+                aria-live="polite"
+                className="flex items-center justify-between gap-2.5 p-1.5 pl-3 pr-2 rounded-full border border-white/20 hover:border-cyan-400/50 bg-[#060a14]/92 backdrop-blur-2xl shadow-[0_8px_25px_rgba(0,0,0,0.7),0_0_15px_rgba(56,189,248,0.2)] transition-all max-w-[94vw]"
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400" />
+                  </span>
+                  <span className="text-[11px] font-mono font-medium text-slate-200 truncate">
+                    K26 Batch result out
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <Link
+                    href="/announcements/k26-results"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white text-black font-mono text-[10px] font-bold uppercase tracking-wider hover:bg-cyan-300 transition-colors shadow cursor-pointer active:scale-95"
+                  >
+                    <span>SEE RESULTS</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
+              </aside>
+            )}
           </div>
         </header>
 
@@ -731,6 +796,23 @@ export default function Home() {
           <span>AUTONOMOUS SYSTEMS &bull; MECHATRONICS LAB</span>
         </div>
       </footer>
+
+      {/* Slide-up keyframes for bottom notification banner */}
+      <style jsx global>{`
+        @keyframes notifSlideUp {
+          from {
+            opacity: 0;
+            transform: translateY(18px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-notif-slide-up {
+          animation: notifSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+      `}</style>
     </div>
   );
 }
