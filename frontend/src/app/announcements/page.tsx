@@ -35,15 +35,15 @@ const announcements: Announcement[] = [
     title: 'Spring K26 Induction Results',
     type: 'Recruitment',
     date: 'Spring 2026',
-    status: 'In Progress • Awaiting Publication',
-    description: 'Technical task submissions, lab hardware interviews, and domain evaluations for the Spring K26 induction drive are currently under active evaluation. Results are not yet published and the selection process is still ongoing.',
+    status: 'OFFICIAL RESULTS DECLARED • VERIFIED CADRE',
+    description: 'Official selection merit list for the Spring K26 induction drive has been officially published across all 4 specialized sub-teams (Technical, Sponsorship, Video Editing, and Graphic Design).',
     bulletPoints: [
-      'Evaluation of Mechanical CAD/FEA, Embedded Firmware, and Autonomous Navigation tasks is in progress.',
-      'Candidate shortlists and interview scores are being compiled by pod leads and faculty advisors.',
-      'Results are NOT yet released — official roll lists will be published once the review process concludes.'
+      '64 cadets successfully inducted across Technical, Sponsorship, Video Editing, and Graphic Design.',
+      'Explore sub-team breakdowns, candidate roll numbers, branches, and specialized domains with full-screen pod expansion.',
+      'Selected inductees must review mandatory lab reporting and document verification protocols.'
     ],
-    actionLabel: 'Contact For Inquiries',
-    actionHref: '/contact'
+    actionLabel: 'View Inducted Cadre (64 Cadets)',
+    actionHref: '/announcements/k26-results'
   },
   {
     id: 'ann-gateway-certificates',
@@ -152,22 +152,25 @@ export default function AnnouncementsPage() {
           ))}
         </div>
 
-        {/* Announcements Stack with Double-Bezel GlassCards */}
+        {/* Announcements Stack with Clean Cards (No Effects) */}
         <div className="space-y-6 mb-24">
           {filtered.length > 0 ? (
             filtered.map(item => (
-              <GlassCard
+              <div
                 key={item.id}
-                spotlightColor="rgba(255, 255, 255, 0.08)"
-                className="p-8 sm:p-10"
+                className="p-8 sm:p-10 rounded-2xl border border-white/10 bg-white/[0.02]"
               >
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                   <div className="flex items-center gap-3">
                     <span className="font-mono text-[9px] text-slate-200 tracking-widest uppercase font-bold px-2.5 py-0.5 rounded-full bg-white/[0.06] border border-white/15">
                       {item.type}
                     </span>
-                    <span className="font-mono text-[10px] text-amber-300 flex items-center gap-1.5 font-bold uppercase tracking-wider">
-                      <Radio className="w-3 h-3 text-amber-400 animate-pulse" />
+                    <span className={`font-mono text-[10px] flex items-center gap-1.5 font-bold uppercase tracking-wider ${
+                      item.status.includes('DECLARED') ? 'text-emerald-300' : 'text-amber-300'
+                    }`}>
+                      <Radio className={`w-3 h-3 ${
+                        item.status.includes('DECLARED') ? 'text-emerald-400 animate-pulse' : 'text-amber-400 animate-pulse'
+                      }`} />
                       <span>{item.status}</span>
                     </span>
                   </div>
@@ -204,7 +207,7 @@ export default function AnnouncementsPage() {
                     </IslandButton>
                   </div>
                 )}
-              </GlassCard>
+              </div>
             ))
           ) : (
             <div className="text-center py-16 text-slate-500 font-mono text-sm border border-white/5 rounded-2xl bg-white/[0.01]">
@@ -213,12 +216,8 @@ export default function AnnouncementsPage() {
           )}
         </div>
 
-        {/* Subscribe Banner with GlassCard & IslandButton */}
-        <GlassCard
-          badge="TELEMETRY FEED • DISPATCHES"
-          spotlightColor="rgba(255, 255, 255, 0.08)"
-          className="p-8 sm:p-12 flex flex-col sm:flex-row items-center justify-between gap-6"
-        >
+        {/* Subscribe Banner */}
+        <div className="p-8 sm:p-12 rounded-2xl border border-white/10 bg-white/[0.02] flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
             <h3 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
               SUBSCRIBE TO OFFICIAL LAB DISPATCHES
@@ -235,7 +234,7 @@ export default function AnnouncementsPage() {
               </span>
             </IslandButton>
           </div>
-        </GlassCard>
+        </div>
       </main>
 
       {/* Institutional Footer */}
