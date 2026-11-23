@@ -118,14 +118,6 @@ export default function Home() {
                 <span>SEE RESULTS</span>
                 <ArrowRight className="w-3 h-3" />
               </Link>
-              <button
-                type="button"
-                onClick={handleDismissNotification}
-                aria-label="Close notification"
-                className="p-1 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-              >
-                <X className="w-3 h-3" />
-              </button>
             </aside>
           )}
         </div>
@@ -190,14 +182,6 @@ export default function Home() {
                     <span>SEE RESULTS</span>
                     <ArrowRight className="w-3 h-3" />
                   </Link>
-                  <button
-                    type="button"
-                    onClick={handleDismissNotification}
-                    aria-label="Close notification"
-                    className="p-1 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-                  >
-                    <X className="w-3 h-3" />
-                  </button>
                 </div>
               </aside>
             )}

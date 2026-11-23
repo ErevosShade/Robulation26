@@ -693,6 +693,7 @@ const PatternWaves = ({
     let rippleLive = false;
     let rippleClock = 0;
     let atlasKey = '';
+    let hoverVelocity = 0;
     const pointer = { x: 0, y: 0, inside: false, placed: false, lastX: 0, lastY: 0, burst: 0 };
 
     const buildRipple = () => {
@@ -779,9 +780,24 @@ const PatternWaves = ({
       last = now;
       if (!s) return;
 
-      const shouldMove = s.animateOnHover ? pointer.inside : true;
-      const moving = !s.paused && !reducedMotion && s.speed !== 0 && shouldMove;
-      if (moving) time += dt * s.speed;
+      // Natural physical inertia & momentum decay
+      if (s.animateOnHover) {
+        if (pointer.inside) {
+          // Rapid acceleration into fluid motion on hover
+          hoverVelocity = Math.min(1, hoverVelocity + dt * 4.5);
+        } else {
+          // Smooth exponential friction damping down to natural rest
+          hoverVelocity = Math.max(0, hoverVelocity * Math.pow(0.15, dt));
+          if (hoverVelocity < 0.003) hoverVelocity = 0;
+        }
+      } else {
+        hoverVelocity = 1;
+      }
+
+      const velocity = s.animateOnHover ? hoverVelocity : 1;
+      const moving = !s.paused && !reducedMotion && s.speed !== 0 && velocity > 0;
+      if (moving) time += dt * s.speed * velocity;
+
       introClock = s.intro && !reducedMotion ? Math.min(1, introClock + dt / INTRO_SECONDS) : 1;
       const appear = 1 - Math.pow(1 - clamp(introClock / 0.75, 0, 1), 3);
       const rise = clamp((introClock - 0.1) / 0.9, 0, 1);
@@ -793,8 +809,10 @@ const PatternWaves = ({
         pointer.lastY = pointer.y;
         pointer.placed = true;
       }
-      if (rippling && (pointer.inside || pointer.burst > 0)) rippleUntil = now + 5000;
-      const rippleActive = rippling && now < rippleUntil;
+      if (rippling && (pointer.inside || pointer.burst > 0)) {
+        rippleUntil = s.animateOnHover ? now + 1200 : now + 5000;
+      }
+      const rippleActive = rippling && (s.animateOnHover ? velocity > 0 || now < rippleUntil : now < rippleUntil);
       if (rippleActive && ripple) {
         stepRipple(ripple, s, dt);
         rippleLive = true;
@@ -860,7 +878,7 @@ const PatternWaves = ({
       renderer.render({ scene: markMesh });
       dirty = false;
 
-      if (visible && (moving || introClock < 1 || rippleActive || dirty)) raf = requestAnimationFrame(frame);
+      if (visible && (moving || introClock < 1 || rippleActive || velocity > 0 || dirty)) raf = requestAnimationFrame(frame);
     };
 
     const start = () => {
@@ -882,7 +900,9 @@ const PatternWaves = ({
       pointer.y = spot.y;
       if (spot.inside !== pointer.inside) pointer.placed = false;
       pointer.inside = spot.inside;
-      if (spot.inside) start();
+      if (spot.inside) {
+        start();
+      }
     };
 
     const onPointerDown = (e: PointerEvent) => {
