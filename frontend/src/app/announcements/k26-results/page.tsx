@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Sidebar from '@/components/Sidebar';
 import HudBox from '@/components/HudBox';
-import PatternWaves from '@/components/PatternWaves';
+import GlassCard from '@/components/GlassCard';
 import {
   K26_CADETS,
   PODS_METADATA,
@@ -14,6 +14,7 @@ import {
 } from '@/data/inductionResultsK26';
 import {
   ArrowLeft,
+  ArrowRight,
   X,
   Search,
   Copy,
@@ -22,7 +23,6 @@ import {
 
 export default function K26ResultsPage() {
   const [selectedPodId, setSelectedPodId] = useState<string | null>(null);
-  const [hoveredPodId, setHoveredPodId] = useState<string | null>(null);
   const [podSearch, setPodSearch] = useState('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -120,7 +120,12 @@ export default function K26ResultsPage() {
   }, [activePod, cadetsByPod, podSearch]);
 
   return (
-    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans overflow-x-hidden">
+    <div className="relative w-full min-h-screen bg-[#020307] text-white font-sans overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
+      {/* Subtle Cosmic Ambient Glow Depth */}
+      <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-15%,rgba(56,189,248,0.12),transparent_70%),radial-gradient(ellipse_60%_40%_at_80%_80%,rgba(14,165,233,0.04),transparent_60%)]" />
+      {/* Precision Aerospace Grid Dots */}
+      <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:32px_32px] opacity-[0.035]" />
+
       {/* Sidebar */}
       <Sidebar theme="dark" />
 
@@ -134,30 +139,30 @@ export default function K26ResultsPage() {
         {/* Back Link */}
         <Link
           href="/announcements"
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 text-xs font-mono text-slate-300 hover:text-white transition-all mb-8"
+          className="group inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/15 bg-white/[0.03] text-xs font-mono text-slate-300 hover:text-white hover:border-cyan-400/50 hover:bg-white/[0.06] transition-all mb-8 shadow-sm backdrop-blur-md"
         >
-          <ArrowLeft className="w-3.5 h-3.5" />
+          <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform text-cyan-400" />
           <span>RETURN TO TRANSMISSIONS</span>
         </Link>
 
         {/* Title and Horizontal Metrics Row */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12 sm:mb-16">
           <div>
-            <div className="font-mono text-[11px] sm:text-xs text-cyan-400 uppercase tracking-widest mb-2 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-              <span>OFFICIAL SELECTION ROSTER</span>
+            <div className="font-mono text-[10px] sm:text-xs text-cyan-400 uppercase tracking-widest mb-2 flex items-center gap-2 font-bold">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.9)]" />
+              <span>OFFICIAL SELECTION ROSTER // BATCH K26</span>
             </div>
-            <h1 className="font-modern font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight text-white uppercase">
+            <h1 className="font-modern font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight text-white uppercase bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent drop-shadow-[0_4px_16px_rgba(0,0,0,0.5)]">
               SPRING K26 INDUCTION
             </h1>
           </div>
 
           {/* Metrics on Horizontal Label Row */}
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-white/15 bg-white/[0.03] backdrop-blur-md">
-              <div className="w-2 h-2 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+            <div className="flex items-center gap-3 px-4 py-2.5 rounded-2xl border border-white/15 bg-white/[0.03] backdrop-blur-xl shadow-lg hover:border-white/25 transition-all">
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_10px_rgba(52,211,153,0.9)] animate-pulse" />
               <div className="flex flex-col">
-                <span className="font-mono text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-wider">
+                <span className="font-mono text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-wider font-semibold">
                   SELECTED CANDIDATES
                 </span>
                 <span className="font-modern font-black text-xl sm:text-2xl text-white leading-tight">
@@ -166,10 +171,10 @@ export default function K26ResultsPage() {
               </div>
             </div>
 
-            <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-white/15 bg-white/[0.03] backdrop-blur-md">
-              <div className="w-2 h-2 rounded-full bg-cyan-400 shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
+            <div className="flex items-center gap-3 px-4 py-2.5 rounded-2xl border border-white/15 bg-white/[0.03] backdrop-blur-xl shadow-lg hover:border-white/25 transition-all">
+              <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 shrink-0 shadow-[0_0_10px_rgba(34,211,238,0.9)]" />
               <div className="flex flex-col">
-                <span className="font-mono text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-wider">
+                <span className="font-mono text-[10px] sm:text-[11px] text-slate-400 uppercase tracking-wider font-semibold">
                   ACTIVE PODS
                 </span>
                 <span className="font-modern font-black text-xl sm:text-2xl text-white leading-tight">
@@ -180,96 +185,92 @@ export default function K26ResultsPage() {
           </div>
         </div>
 
-        {/* Sub-Team Cards */}
+        {/* Sub-Team Glassmorphism Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 max-w-5xl mx-auto">
-          {PODS_METADATA.map(pod => {
+          {PODS_METADATA.map((pod, idx) => {
             const cadets = cadetsByPod[pod.name] || [];
             const previewCadets = cadets.slice(0, 6);
             const remainingCount = Math.max(0, cadets.length - previewCadets.length);
-            const isHovered = hoveredPodId === pod.id;
+
+            const podTag =
+              pod.name === 'Technical'
+                ? 'POD 01 // MECHATRONICS'
+                : pod.name === 'Graphic Design'
+                ? 'POD 02 // VISUAL IDENTITY'
+                : pod.name === 'Video Editing'
+                ? 'POD 03 // CINEMATICS'
+                : 'POD 04 // CORPORATE ALLIANCE';
 
             return (
-              <div
+              <GlassCard
                 key={pod.id}
-                onMouseEnter={() => setHoveredPodId(pod.id)}
-                onMouseLeave={() => setHoveredPodId(null)}
-                className="group relative rounded-[24px] border border-white/20 hover:border-white/40 bg-gradient-to-b from-white/[0.08] via-white/[0.03] to-white/[0.01] backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),0_16px_45px_rgba(0,0,0,0.7)] hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),0_20px_55px_rgba(255,255,255,0.06)] overflow-hidden transition-all duration-300 flex flex-col justify-between h-[510px]"
+                tilt={true}
+                glowOnHover={true}
+                reticle={true}
+                chamfer={false}
+                outerClassName="w-full flex justify-center"
+                className="h-[500px] flex flex-col justify-between group"
               >
-                {/* Silver / White Specular Top Edge */}
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/60 to-transparent pointer-events-none z-10" />
-
-                {/* Frosted Glass Diagonal Specular Refraction */}
-                <div className="absolute inset-0 z-[1] bg-gradient-to-br from-white/[0.08] via-transparent to-transparent pointer-events-none" />
-
-                {/* Subtle Ambient Glass Glow */}
-                <div className="absolute -top-20 -left-20 w-44 h-44 rounded-full bg-white/5 blur-3xl pointer-events-none z-0" />
-
-                {/* PatternWaves Interactive Background - Only active and visible on hover */}
-                <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-40 transition-opacity duration-500 pointer-events-auto">
-                  <PatternWaves
-                    preset="silk"
-                    color="#ffffff"
-                    backgroundColor="#000000"
-                    fade="edges"
-                    interactive={true}
-                    paused={!isHovered}
-                    cursorSize={50}
-                    cursorStrength={0.6}
-                    style={{ width: '100%', height: '100%' }}
-                  />
-                </div>
-
-                {/* Frosted Vignette for Deep Contrast */}
-                <div className="absolute inset-0 z-[2] bg-gradient-to-b from-black/40 via-black/20 to-black/75 pointer-events-none" />
-
-                {/* Card Foreground Content */}
-                <div className="relative z-10 p-6 sm:p-8 flex flex-col justify-between h-full pointer-events-none">
-                  <div>
-                    {/* Header: Sub Team Name ONLY (no cadet count badge) */}
-                    <div className="pb-4 border-b border-white/15">
+                <div>
+                  {/* Header: Sub Team Name & Pod Tag */}
+                  <div className="pb-4 border-b border-white/15 flex items-center justify-between">
+                    <div>
+                      <div className="font-mono text-[9px] sm:text-[10px] text-cyan-400 uppercase tracking-widest font-bold mb-1">
+                        {podTag}
+                      </div>
                       <h2 className="font-modern font-black text-2xl sm:text-3xl text-white uppercase tracking-tight">
                         {pod.name}
                       </h2>
                     </div>
+                    <div className="w-8 h-8 rounded-full border border-white/15 bg-white/[0.04] flex items-center justify-center font-mono text-xs text-slate-400 font-bold shrink-0">
+                      0{idx + 1}
+                    </div>
+                  </div>
 
-                    {/* 5 - 6 names and branch on bracket */}
-                    <ul className="mt-5 space-y-3.5">
-                      {previewCadets.map(cadet => (
-                        <li
-                          key={cadet.id}
-                          className="flex items-center gap-2.5 text-base sm:text-lg font-medium text-white"
-                        >
-                          <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0 shadow-[0_0_6px_rgba(34,211,238,0.8)]" />
-                          <span className="font-semibold text-white tracking-wide">{cadet.name}</span>
-                          <span className="text-xs font-mono text-slate-300">({cadet.branch})</span>
-                        </li>
-                      ))}
-
-                      {/* Dot Dot Dot Indicator for remaining members */}
-                      {remainingCount > 0 && (
-                        <li className="flex items-center gap-2.5 text-slate-400 font-medium pt-1">
-                          <span className="w-2 h-2 rounded-full bg-cyan-400/40 shrink-0" />
-                          <span className="tracking-widest text-slate-300 text-lg font-bold leading-none">. . .</span>
-                          <span className="text-xs font-mono text-slate-400">
-                            (+{remainingCount} more)
+                  {/* 5 - 6 names and branch on bracket */}
+                  <ul className="mt-5 space-y-2.5">
+                    {previewCadets.map(cadet => (
+                      <li
+                        key={cadet.id}
+                        className="group/item flex items-center justify-between text-sm sm:text-base font-medium text-white py-1 px-2 -mx-2 rounded-lg hover:bg-white/[0.04] transition-colors"
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
+                          <span className="font-semibold text-white tracking-wide group-hover/item:text-cyan-300 transition-colors truncate">
+                            {cadet.name}
                           </span>
-                        </li>
-                      )}
-                    </ul>
-                  </div>
+                        </div>
+                        <span className="text-[11px] font-mono text-slate-300 px-2 py-0.5 rounded border border-white/10 bg-white/[0.04] shrink-0 ml-2">
+                          {cadet.branch}
+                        </span>
+                      </li>
+                    ))}
 
-                  {/* View More Button */}
-                  <div className="mt-6 pt-4 border-t border-white/15 pointer-events-auto">
-                    <button
-                      type="button"
-                      onClick={() => openPod(pod.id)}
-                      className="w-full py-3 px-6 rounded-full bg-white text-black font-mono text-xs font-bold uppercase tracking-wider hover:bg-slate-200 active:scale-[0.99] transition-all cursor-pointer text-center shadow-[0_4px_16px_rgba(255,255,255,0.15)]"
-                    >
-                      VIEW MORE
-                    </button>
-                  </div>
+                    {/* Dot Dot Dot Indicator for remaining members */}
+                    {remainingCount > 0 && (
+                      <li className="flex items-center gap-2 text-slate-400 font-medium pt-2 px-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/40 shrink-0" />
+                        <span className="tracking-widest text-slate-300 text-base font-bold leading-none">. . .</span>
+                        <span className="text-xs font-mono text-cyan-400/80 font-semibold">
+                          (+{remainingCount} more cadets)
+                        </span>
+                      </li>
+                    )}
+                  </ul>
                 </div>
-              </div>
+
+                {/* View More Button */}
+                <div className="mt-6 pt-4 border-t border-white/15">
+                  <button
+                    type="button"
+                    onClick={() => openPod(pod.id)}
+                    className="group/btn w-full py-3 px-6 rounded-full bg-white text-black font-mono text-xs font-bold uppercase tracking-wider hover:bg-cyan-300 hover:shadow-[0_0_20px_rgba(56,189,248,0.4)] active:scale-[0.99] transition-all cursor-pointer text-center shadow-[0_4px_16px_rgba(255,255,255,0.15)] flex items-center justify-center gap-2"
+                  >
+                    <span>VIEW MORE</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              </GlassCard>
             );
           })}
         </div>
